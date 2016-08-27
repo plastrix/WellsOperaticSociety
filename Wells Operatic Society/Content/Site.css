@@ -8,6 +8,42 @@
     background-position: center center;
 }
 
+.parallax .parallax-image {
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+}
+
+.parallax .parallax-image img {
+    width: 100%;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .parallax .parallax-image {
+        width: 100%;
+        height: 640px;
+        overflow: hidden;
+    }
+
+    .parallax .parallax-image img {
+        height: 100%;
+        width: auto;
+    }
+    /*wont be used*/
+    .parallax .motivation {
+        text-shadow: 0 0 10px rgba(0, 0, 0, 1);
+        padding: 5px;
+        font-size: 20px !important;
+    }
+}
+
+footer {
+    position: relative;
+}
+
+
+/*Wont be used*/
 .parallax .motto {
     color: #FFFFFF;
     font-size: 64px;
@@ -56,34 +92,4 @@
 
 .parallax .motto .no-right-border {
     border-right: none;
-}
-
-.parallax .parallax-image {
-    width: 100%;
-    overflow: hidden;
-    position: absolute;
-}
-
-.parallax .parallax-image img {
-    width: 100%;
-    position: relative;
-}
-
-@media (max-width: 768px) {
-    .parallax .parallax-image {
-        width: 100%;
-        height: 640px;
-        overflow: hidden;
-    }
-
-    .parallax .parallax-image img {
-        height: 100%;
-        width: auto;
-    }
-
-    .parallax .motivation {
-        text-shadow: 0 0 10px rgba(0, 0, 0, 1);
-        padding: 5px;
-        font-size: 20px !important;
-    }
 }
