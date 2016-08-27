@@ -1,9 +1,9 @@
 ﻿@using System.Globalization
-@inherits Umbraco.Web.Mvc.UmbracoViewPage<List<WellsOperaticSociety.Models.Function>>
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.PreviousProductionsViewModel>
 
-@if (Model.Count > 0)
+@if (Model.Functions.Count > 0)
 {
-    foreach (var func in Model)
+    foreach (var func in Model.Functions)
     {
         <div class="col-md-12">
             <div class="card card-horizontal">
@@ -36,6 +36,8 @@
             </div> <!-- end card -->
         </div>
     }
+
+    @Pagination()
 }
 else
 {
@@ -43,3 +45,49 @@ else
     <p>There are no previous functions!</p>
 }
 
+@helper Pagination()
+{
+    if (Model.TotalItemCount > Model.PageSize)
+    {
+        var totalNumberOfPages = Model.TotalItemCount / Model.PageSize;
+
+        <ul class="pagination pagination-blue">
+            @if (Model.Row - 1 < 0)
+            {
+                <li class="disabled"><a href="#">&laquo;</a></li>
+            }
+            else
+            {
+                <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + (Model.Row - 1))">&laquo;</a></li>
+            }
+            @for (int i = 0; i < totalNumberOfPages; i++)
+            {
+                if (i == Model.Row)
+                {
+                    <li class="active"><a href="#">@(i + 1)</a></li>
+                }
+                else
+                {
+                    <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + i)">@(i + 1)</a></li>
+                }
+            }
+            @if (Model.Row + 1 >= totalNumberOfPages)
+            {
+                <li class="disabled"><a href="#">&raquo;</a></li>
+
+            }
+            else
+            {
+                <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + (Model.Row + 1))">&raquo;</a></li>
+            }
+
+        </ul>
+
+        <script type="text/javascript">
+            $(document)
+                .ready(function() {
+                    $("li.disabled a,li.active a ").on("click", function (event) { event.preventDefault() });
+                });
+        </script>
+    }
+}

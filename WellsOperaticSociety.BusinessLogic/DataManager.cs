@@ -45,6 +45,12 @@ namespace WellsOperaticSociety.BusinessLogic
             return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate < DateTime.Now).Skip(rowIndex).Take(pageSize).OrderByDescending(n => n.EndDate).ToList();
         }
 
+        public int GetCountOfExpiredFunctions()
+        {
+            var funcListNode = GetFunctionListNode();
+            return funcListNode.Children.Count(n => n.GetPropertyValue<DateTime>("endDate") < DateTime.Now);
+        }
+
         #region Robot and siitemap fuinctions
         public void PublishRobots()
         {

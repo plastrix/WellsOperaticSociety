@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using log4net;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
+using WellsOperaticSociety.Web.Models;
 
 namespace WellsOperaticSociety.Web.Controllers
 {
@@ -41,7 +42,13 @@ namespace WellsOperaticSociety.Web.Controllers
 
             DataManager manager = new DataManager();
 
-            var model = manager.GetListOfExpiredFunctions((int)pageSize, (int)row);
+            var model = new PreviousProductionsViewModel()
+            {
+                Functions = manager.GetListOfExpiredFunctions((int) pageSize, (int) row),
+                PageSize = (int) pageSize,
+                Row = (int) row,
+                TotalItemCount = manager.GetCountOfExpiredFunctions()
+            };
 
             return PartialView("PreviousProductions", model);
         }
