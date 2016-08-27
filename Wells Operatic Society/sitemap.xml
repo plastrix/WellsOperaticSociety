@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://localhost:50753/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/whats-on/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/previous-productions/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/function-list/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/jack-and-the-beanstalk/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/12th-knight/</loc>
+  </url>
+</urlset>

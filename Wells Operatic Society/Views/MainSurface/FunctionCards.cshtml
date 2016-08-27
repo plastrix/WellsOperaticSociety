@@ -1,0 +1,53 @@
+﻿@using System.Globalization
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<List<WellsOperaticSociety.Models.Function>>
+@functions
+{
+
+    private string GetColumnCount()
+    {
+        switch (Model.Count)
+        {
+            case 1:
+                return "12";
+            case 2:
+                return "6";
+            default:
+                return "3";
+        }
+    }
+
+}
+@if (Model.Count > 0)
+{
+    foreach (var func in Model)
+    {
+        <div class="col-md-@GetColumnCount()">
+            <div class="card">
+                <div style="background-image: url('@Umbraco.TypedMedia(func.Image).Url'); background-position: center center; background-size: cover;" class="image">
+                    <img style="display: none;" src="@Umbraco.TypedMedia(func.Image).Url" alt="...">
+                    <div class="filter">
+                        <button class="btn btn-neutral btn-round" type="button">
+                            <i class="fa fa-heart"></i>Read more
+                        </button>
+                    </div>
+                </div>
+                <div class="content">
+                        <h4 class="title">@func.Name</h4>
+                        <a class="card-link" href="@func.Url">
+                            <p class="description">@Html.Raw(func.ShortDescription)</p>
+                        </a>
+                        <div class="footer">
+                            <div class="author">
+                                <i class="pe-7s-date"></i>Show runs from @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()
+                            </div>
+                        </div>
+
+                </div>
+            </div> <!-- end card -->
+        </div>
+    }
+}
+else
+{
+    
+}

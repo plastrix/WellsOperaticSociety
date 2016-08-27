@@ -1,5 +1,5 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
-@using System.Web.Optimization    @using ContentModels = Umbraco.Web.PublishedContentModels;
+﻿@using System.Web.Optimization
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Models.Function>
 @{
     Layout = null;
 }
@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>@Model.Content.Name</title>
+    <title>@Model.Name</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
@@ -27,27 +27,20 @@
     @Html.Partial("TopNavigation")
     <!-- end navbar -->
     <div class="wrapper">
-        @if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue("heroImage") != null)
-        {
-            <div class="parallax">
-                <div class="parallax-image">
-                    <img src="@Umbraco.TypedMedia(Model.Content.GetPropertyValue<int>("heroImage")).Url()">
-                </div>
-                <div class="motto">
-                    <div>Get</div>
-                    <div class="border no-right-border">Sh</div>
-                    <div class="border">it</div>
-                    <div>Done</div>
-                    <label class="pro square">PRO</label>
-                </div>
-
-                <h3 class="motivation">Start designing and developing faster</h3>
-
+        <div class="parallax">
+            <div class="parallax-image">
+                <img src="@Umbraco.TypedMedia(Model.Image).Url">
             </div>
-        }
-
-        @RenderBody()
-
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <h1>@Model.Name</h1>
+                    @Html.Raw(Model.Description)
+                    <p>@Model.StartDate - @Model.EndDate</p>
+                </div>
+            </div>
+        </div>
         <footer class="footer footer-big footer-black">
             <div class="container">
                 <div class="copyright">&copy; 2016 Wells Operatic Society Ltd</div>
@@ -86,3 +79,6 @@
 
 </body>
 </html>
+
+
+

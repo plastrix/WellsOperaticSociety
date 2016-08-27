@@ -42,6 +42,10 @@ footer {
     position: relative;
 }
 
+.card .description p {
+    font-size: 14px;
+}
+
 
 /*Wont be used*/
 .parallax .motto {
