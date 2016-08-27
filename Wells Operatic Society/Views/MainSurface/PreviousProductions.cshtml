@@ -1,0 +1,93 @@
+﻿@using System.Globalization
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.PreviousProductionsViewModel>
+
+@if (Model.Functions.Count > 0)
+{
+    foreach (var func in Model.Functions)
+    {
+        <div class="col-md-12">
+            <div class="card card-horizontal">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div style="background-image: url('@Umbraco.TypedMedia(func.Image).Url'); background-position: center center; background-size: cover;" class="image">
+                            <img style="display: none;" src="@Umbraco.TypedMedia(func.Image).Url" alt="...">
+                            <div class="filter">
+                                <button class="btn btn-neutral btn-round" type="button">
+                                    <i class="fa fa-heart"></i>Read more
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="content">
+                            <h4 class="title">@func.Name</h4>
+                            <a class="card-link" href="@func.Url">
+                                <div class="description">@Html.Raw(func.ShortDescription)</div>
+                            </a>
+                            <div class="footer">
+                                <div class="stats">
+                                    <i class="pe-7s-date"></i>Show runs from @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end card -->
+        </div>
+    }
+
+    @Pagination()
+}
+else
+{
+    //TODO:Come up with and style no previous function page
+    <p>There are no previous functions!</p>
+}
+
+@helper Pagination()
+{
+    if (Model.TotalItemCount > Model.PageSize)
+    {
+        var totalNumberOfPages = Model.TotalItemCount / Model.PageSize;
+
+        <ul class="pagination pagination-blue">
+            @if (Model.Row - 1 < 0)
+            {
+                <li class="disabled"><a href="#">&laquo;</a></li>
+            }
+            else
+            {
+                <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + (Model.Row - 1))">&laquo;</a></li>
+            }
+            @for (int i = 0; i < totalNumberOfPages; i++)
+            {
+                if (i == Model.Row)
+                {
+                    <li class="active"><a href="#">@(i + 1)</a></li>
+                }
+                else
+                {
+                    <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + i)">@(i + 1)</a></li>
+                }
+            }
+            @if (Model.Row + 1 >= totalNumberOfPages)
+            {
+                <li class="disabled"><a href="#">&raquo;</a></li>
+
+            }
+            else
+            {
+                <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + (Model.Row + 1))">&raquo;</a></li>
+            }
+
+        </ul>
+
+        <script type="text/javascript">
+            $(document)
+                .ready(function() {
+                    $("li.disabled a,li.active a ").on("click", function (event) { event.preventDefault() });
+                });
+        </script>
+    }
+}

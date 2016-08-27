@@ -8,7 +8,7 @@ using  Umbraco.Web;
 using  Umbraco.ModelsBuilder;
 using  Umbraco.ModelsBuilder.Umbraco;
 [assembly: PureLiveAssembly]
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "bac5c2e30e1de565")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "14b694b976c91c87")]
 [assembly:System.Reflection.AssemblyVersion("0.0.0.1")]
 
 
@@ -113,9 +113,18 @@ namespace Umbraco.Web.PublishedContentModels
 		/// Image
 		///</summary>
 		[ImplementPropertyType("image")]
-		public Umbraco.Web.Models.ImageCropDataSet Image
+		public string Image
 		{
-			get { return this.GetPropertyValue<Umbraco.Web.Models.ImageCropDataSet>("image"); }
+			get { return this.GetPropertyValue<string>("image"); }
+		}
+
+		///<summary>
+		/// Short Description: Used for the home page and anywhere where a short description should be used
+		///</summary>
+		[ImplementPropertyType("shortDescription")]
+		public IHtmlString ShortDescription
+		{
+			get { return this.GetPropertyValue<IHtmlString>("shortDescription"); }
 		}
 
 		///<summary>

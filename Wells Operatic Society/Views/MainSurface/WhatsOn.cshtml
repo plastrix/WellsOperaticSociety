@@ -1,0 +1,44 @@
+﻿@using System.Globalization
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<List<WellsOperaticSociety.Models.Function>>
+
+@if (Model.Count > 0)
+{
+    foreach (var func in Model)
+    {
+        <div class="col-md-12">
+            <div class="card card-horizontal">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div style="background-image: url('@Umbraco.TypedMedia(func.Image).Url'); background-position: center center; background-size: cover;" class="image">
+                            <img style="display: none;" src="@Umbraco.TypedMedia(func.Image).Url" alt="...">
+                            <div class="filter">
+                                <button class="btn btn-neutral btn-round" type="button">
+                                    <i class="fa fa-heart"></i>Read more
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="content">
+                            <h4 class="title">@func.Name</h4>
+                            <a class="card-link" href="@func.Url">
+                                <div class="description">@Html.Raw(func.ShortDescription)</div>
+                            </a>
+                            <div class="footer">
+                                <div class="stats">
+                                    <i class="pe-7s-date"></i>Show runs from @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end card -->
+        </div>
+    }
+}
+else
+{
+    //TODO:Come upwith and style no upcoming function page
+    <p>There are no upcomming functions!</p>
+}
