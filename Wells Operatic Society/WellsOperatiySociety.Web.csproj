@@ -414,6 +414,7 @@
     <Content Include="fonts\Pe-icon-7-stroke.eot" />
     <Content Include="fonts\Pe-icon-7-stroke.ttf" />
     <Content Include="fonts\Pe-icon-7-stroke.woff" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="scripts\bootstrap-datepicker.js" />
     <Content Include="scripts\bootstrap-select.js" />
@@ -432,6 +433,11 @@
     <Content Include="scripts\jquery-ui-1.12.0.js" />
     <Content Include="scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="scripts\jquery.tagsinput.js" />
+    <None Include="scripts\jquery.validate-vsdoc.js" />
+    <Content Include="scripts\jquery.validate.js" />
+    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="Umbraco\Actions\delete.aspx" />
     <Content Include="Umbraco\Actions\editContent.aspx" />
@@ -3052,6 +3058,8 @@
     <Content Include="Views\FunctionPage.cshtml" />
     <Content Include="Views\MainSurface\PreviousProductions.cshtml" />
     <Content Include="Views\MacroPartials\PreviousProductions.cshtml" />
+    <Content Include="Views\MainSurface\ContactUsForm.cshtml" />
+    <Content Include="Views\MacroPartials\ContactUsForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3096,6 +3104,7 @@
     <Compile Include="Controllers\MainSurfaceController.cs" />
     <Compile Include="Models\PreviousProductionsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SensativeInformation\ReCaptchKeys.cs" />
     <Compile Include="UmbracoStartup.cs" />
   </ItemGroup>
   <ItemGroup>

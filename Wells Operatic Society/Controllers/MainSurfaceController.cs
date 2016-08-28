@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using log4net;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
+using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Web.Models;
 
 namespace WellsOperaticSociety.Web.Controllers
@@ -51,6 +52,32 @@ namespace WellsOperaticSociety.Web.Controllers
             };
 
             return PartialView("PreviousProductions", model);
+        }
+
+        public ActionResult ContactUsForm()
+        {
+            var model = new ContactUs();
+            
+            return PartialView("ContactUsForm",model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitContactUsForm(ContactUs model)
+        {
+            if (ModelState.IsValid)
+            {
+                string encodedResponse = Request.Form["g-Recaptcha-Response"];
+                bool isCaptchaValid = ReCaptcha.Validate(encodedResponse, SensativeInformation.ReCaptchKeys.reCaptchaSecretKey) == "True" ? true : false;
+                if (!isCaptchaValid)
+                {
+                    ModelState.AddModelError("", "Please verify you are not a robot");
+                    return CurrentUmbracoPage();
+                }
+                //TODO:send email
+                return RedirectToCurrentUmbracoPage();
+            }
+            return CurrentUmbracoPage();
         }
 
     }

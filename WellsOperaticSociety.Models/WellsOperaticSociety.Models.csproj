@@ -110,6 +110,7 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
@@ -159,6 +160,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.5.2\lib\System.Data.SqlServerCe.dll</HintPath>
@@ -256,8 +258,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContactUs.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReCaptcha.cs" />
     <Compile Include="StandardPage.cs" />
   </ItemGroup>
   <ItemGroup>

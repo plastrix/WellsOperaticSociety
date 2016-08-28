@@ -268,3 +268,6 @@ paket-files/
 
 # ImageProcessor DiskCache 
 **/App_Data/cache/
+
+#Private information
+[Ss]ensative[Ii]nformation/

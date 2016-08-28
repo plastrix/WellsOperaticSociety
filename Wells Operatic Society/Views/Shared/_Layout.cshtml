@@ -24,6 +24,8 @@
 
     <!--  jQuery and Bootstrap core files    -->
     @Scripts.Render("~/jqueryAndBootstrapScripts")
+    @RenderSection("scriptsHead", false)
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
     <!-- Navbar will come here -->

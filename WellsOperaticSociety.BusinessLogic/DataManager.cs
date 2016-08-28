@@ -70,10 +70,8 @@ namespace WellsOperaticSociety.BusinessLogic
                 builder.Add($"Disallow: {content.Url.EnsureEndsWith('/')}");
             }
 
-            builder.Add(string.Format("Disallow: /umbraco/"));
-            builder.Add(string.Format("Disallow: /search/"));
-            builder.Add(string.Format("Disallow: /truths/"));
-            builder.Add(string.Format("Disallow: /polls/"));
+            builder.Add("Disallow: /umbraco/");
+            builder.Add("Disallow: /search/");
 
             builder.Add($"Sitemap: {HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/sitemap.xml");
 
@@ -130,7 +128,7 @@ namespace WellsOperaticSociety.BusinessLogic
         }
         public static List<string> GetSitemapExcludedDocumentTypes()
         {
-            return new List<string> { "Truth", "Poll", "PollItem", "PollFolder" };
+            return new List<string> {};//"Truth", "Poll", "PollItem", "PollFolder" };
         }
         #endregion
     }

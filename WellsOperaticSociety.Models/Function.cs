@@ -16,6 +16,9 @@ namespace WellsOperaticSociety.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int Image { get; set; }
+        public string ButtonText { get; set; }
+        public string ButtonLink { get; set; }
+        public bool OpenLinkInNewWindow { get; set; }
 
         public Function(IPublishedContent content) : base(content)
         {

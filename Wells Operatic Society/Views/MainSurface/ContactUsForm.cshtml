@@ -1,0 +1,26 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Models.ContactUs>
+
+@using (Html.BeginUmbracoForm("SubmitContactUsForm", "MainSurface"))
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Name) })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Email), type="Email" })
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Message, new { @class = "sr-only" })
+        @Html.TextAreaFor(m => m.Message, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Message), rows = "3" })
+        @Html.ValidationMessageFor(m => m.Message)
+    </div>
+    <div class="form-group">
+        <div class="g-recaptcha" data-sitekey="@WellsOperaticSociety.Web.SensativeInformation.ReCaptchKeys.reCaptchaSiteKey"></div>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+}
