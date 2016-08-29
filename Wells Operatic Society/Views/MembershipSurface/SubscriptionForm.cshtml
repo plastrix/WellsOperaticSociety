@@ -1,0 +1,16 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Models.StripeCheckout>
+<div style="margin-top: 100px;"></div>
+@using (Html.BeginUmbracoForm("SubmitStripeSubscriptionForm", "MembershipSurface"))
+{
+    @Html.HiddenFor(m => m.PlanId)
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="@WellsOperaticSociety.Web.SensativeInformation.StripeKeys.PublishableKey"
+            data-amount="999"
+            data-name="Demo Site"
+            data-description="Widget"
+            data-image="/img/documentation/checkout/marketplace.png"
+            data-locale="auto"
+            data-zip-code="true"
+            data-currency="gbp">
+    </script>
+}

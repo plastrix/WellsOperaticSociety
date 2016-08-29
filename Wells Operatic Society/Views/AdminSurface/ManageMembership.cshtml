@@ -1,0 +1,29 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageMembershipViewModel>
+<div>
+    <div>
+        @if (Model.Members != null && Model.Members.Any())
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr><th>Member Id</th><th>Member Name</th><th>Member Email</th><th></th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var member in Model.Members)
+                {
+                        <tr>
+                            <td>@member.Id</td>
+                            <td>@member.Name</td>
+                            <td>@member.Email</td>
+                            @*//TODO:change this away from being a hard coded value*@
+                            <td><a href="@Umbraco.TypedContent(1103).Url?id=@member.Id" class="btn btn-default">Manage</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No Results</p>
+        }
+    </div>
+</div>

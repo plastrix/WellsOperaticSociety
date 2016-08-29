@@ -1,0 +1,19 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.Models.LoginModel>
+
+@using (Html.BeginUmbracoForm("SubmitLoginForm", "MembershipSurface"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="form-group">
+        @Html.LabelFor(m => Model.Username, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => Model.Username, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Username) })
+        @Html.ValidationMessageFor(m => Model.Username)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.Password, new { @class = "sr-only" })
+        @Html.PasswordFor(m => Model.Password, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Password) })
+        @Html.ValidationMessageFor(m => Model.Password)
+    </div>
+
+    <button type="submit" class="btn btn-default">Login</button>
+}

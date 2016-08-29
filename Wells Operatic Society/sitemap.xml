@@ -30,4 +30,34 @@
   <url>
     <loc>http://localhost:50753/contact-us/</loc>
   </url>
+  <url>
+    <loc>http://localhost:50753/test-subscriptions/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/login/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/test-page/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/#err-1103/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/membership-list/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/members/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/manage-account/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/manage-membership/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/manage-members/</loc>
+  </url>
+  <url>
+    <loc>http://localhost:50753/manage-member/</loc>
+  </url>
 </urlset>

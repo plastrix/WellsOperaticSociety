@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
+﻿using System.Reflection;
 using System.Web.Mvc;
 using log4net;
 using Umbraco.Web.Mvc;
@@ -17,7 +13,7 @@ namespace WellsOperaticSociety.Web.Controllers
 
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public ActionResult FunctionCards(int quantity =3)
+        public ActionResult FunctionCards(int quantity = 3)
         {
             DataManager manager = new DataManager();
 
@@ -57,8 +53,8 @@ namespace WellsOperaticSociety.Web.Controllers
         public ActionResult ContactUsForm()
         {
             var model = new ContactUs();
-            
-            return PartialView("ContactUsForm",model);
+
+            return PartialView("ContactUsForm", model);
         }
 
         [HttpPost]
@@ -68,7 +64,10 @@ namespace WellsOperaticSociety.Web.Controllers
             if (ModelState.IsValid)
             {
                 string encodedResponse = Request.Form["g-Recaptcha-Response"];
-                bool isCaptchaValid = ReCaptcha.Validate(encodedResponse, SensativeInformation.ReCaptchKeys.reCaptchaSecretKey) == "True" ? true : false;
+                bool isCaptchaValid =
+                    ReCaptcha.Validate(encodedResponse, SensativeInformation.ReCaptchKeys.ReCaptchaSecretKey) == "True"
+                        ? true
+                        : false;
                 if (!isCaptchaValid)
                 {
                     ModelState.AddModelError("", "Please verify you are not a robot");
@@ -79,6 +78,5 @@ namespace WellsOperaticSociety.Web.Controllers
             }
             return CurrentUmbracoPage();
         }
-
     }
 }

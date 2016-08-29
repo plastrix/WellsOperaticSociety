@@ -46,6 +46,10 @@ footer {
     font-size: 14px;
 }
 
+.space {
+    height: 100px;
+}
+
 
 /*Wont be used*/
 .parallax .motto {

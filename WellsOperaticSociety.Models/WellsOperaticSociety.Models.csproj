@@ -143,8 +143,8 @@
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -157,6 +157,10 @@
     </Reference>
     <Reference Include="SQLCE4Umbraco, Version=1.0.6079.16194, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.5.2\lib\SQLCE4Umbraco.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Stripe.net, Version=6.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.6.4.0\lib\net45\Stripe.net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -260,9 +264,12 @@
   <ItemGroup>
     <Compile Include="ContactUs.cs" />
     <Compile Include="Function.cs" />
+    <Compile Include="MemberModels\Member.cs" />
+    <Compile Include="MemberModels\Membership.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReCaptcha.cs" />
     <Compile Include="StandardPage.cs" />
+    <Compile Include="StripeCheckout.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
