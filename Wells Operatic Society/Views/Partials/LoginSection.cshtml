@@ -1,0 +1,11 @@
+﻿@if (HttpContext.Current.User.Identity.IsAuthenticated)
+{
+
+}
+else
+{
+    using (Html.BeginUmbracoForm("SubmitLoginForm", "MembershipSurface"))
+    {
+        
+    }
+}

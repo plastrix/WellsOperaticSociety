@@ -1,0 +1,85 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageMemberViewModel>
+
+<h2>Update Member Information</h2>
+@using (Html.BeginUmbracoForm("UpdateMember", "AdminSurface"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.Member.Id)
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.Name, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Member.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.Name) })
+        @Html.ValidationMessageFor(m => m.Member.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.Email, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Member.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.Email) })
+        @Html.ValidationMessageFor(m => m.Member.Email)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.TelephoneNumber, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Member.TelephoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.TelephoneNumber) })
+        @Html.ValidationMessageFor(m => m.Member.TelephoneNumber)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.MobileNumber, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Member.MobileNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.MobileNumber) })
+        @Html.ValidationMessageFor(m => m.Member.MobileNumber)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.DateOfBirth, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Member.DateOfBirth, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateOfBirth) })
+        @Html.ValidationMessageFor(m => m.Member.DateOfBirth)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.DateApprovedForMembership, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Member.DateApprovedForMembership, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateApprovedForMembership) })
+        @Html.ValidationMessageFor(m => m.Member.DateApprovedForMembership)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.DateLifeMembershipGranted, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Member.DateLifeMembershipGranted, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateLifeMembershipGranted) })
+        @Html.ValidationMessageFor(m => m.Member.DateLifeMembershipGranted)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.DateDeclinedForMembership, new { @class = "sr-only" })
+        @Html.TextBoxFor(m => m.Member.DateDeclinedForMembership, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateDeclinedForMembership) })
+        @Html.ValidationMessageFor(m => m.Member.DateDeclinedForMembership)
+    </div>
+    <div class="form-group">
+        <label>
+            Dissable the user
+            @Html.CheckBoxFor(m => m.Member.Disabled, new {@class = "form-control"})
+        </label>
+        @Html.ValidationMessageFor(m => m.Member.Disabled)
+    </div>
+
+    <button type="submit" class="btn btn-default">Update Information</button>
+}
+
+<h2>Manage Membership</h2>
+@if (Model.Memberships != null && Model.Memberships.Any())
+{
+    <table class="table table-hover">
+        <thead>
+            <tr><th>Membership Id</th><th>Start</th><th>End</th><th>Membership Type</th><th></th></tr>
+        </thead>
+        <tbody>
+            @foreach (var membership in Model.Memberships)
+                {
+                <tr>
+                    <td>@membership.Id</td>
+                    <td>@membership.StartDate</td>
+                    <td>@membership.EndDate</td>
+                    <td>@membership.MembershipType</td>
+                    <td><a href="#" class="btn btn-default">Manage Membership</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="alert alert-info">There are no memberships related to this member</p>
+}

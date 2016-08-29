@@ -43,6 +43,15 @@
                     @Html.Raw(Model.Description)
                     <p>@Model.StartDate - @Model.EndDate</p>
                 </div>
+                @if (Model.ButtonLink.IsNotNullOrEmpty())
+                {
+                    {
+                        var target = Model.OpenLinkInNewWindow ? " target='_blank" : string.Empty;
+                        var text = Model.ButtonText.IsNullOrEmpty() ? "Book here" : Model.ButtonText;
+
+                        <a class="btn btn-primary btn-round" href="@Model.ButtonLink"@target>@text</a>
+                    }
+                }
             </div>
         </div>
         <footer class="footer footer-big footer-black">

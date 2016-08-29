@@ -1,5 +1,6 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
-@using System.Web.Optimization    @using ContentModels = Umbraco.Web.PublishedContentModels;
+@using System.Web.Optimization 
+@using ContentModels = Umbraco.Web.PublishedContentModels;
 @{
     Layout = null;
 }
@@ -20,11 +21,10 @@
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Grand+Hotel|Open+Sans:400,300' rel='stylesheet' type='text/css'>
-    <link href="~/Content/pe-icon-7-stroke.css" rel="stylesheet"/>
+    <link href="~/Content/pe-icon-7-stroke.css" rel="stylesheet" />
 
     <!--  jQuery and Bootstrap core files    -->
     @Scripts.Render("~/jqueryAndBootstrapScripts")
-    @RenderSection("scriptsHead", false)
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
@@ -32,26 +32,7 @@
     @Html.Partial("TopNavigation")
     <!-- end navbar -->
     <div class="wrapper">
-        @if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
-        {
-            <div class="parallax">
-                <div class="parallax-image">
-                    <img src="@Umbraco.TypedMedia(Model.Content.GetPropertyValue<int>("heroImage")).Url()">
-                </div>
-                <div class="motto">
-                    <div>Get</div>
-                    <div class="border no-right-border">Sh</div>
-                    <div class="border">it</div>
-                    <div>Done</div>
-                    <label class="pro square">PRO</label>
-                </div>
-
-                <h3 class="motivation">Start designing and developing faster</h3>
-
-            </div>
-        }
-
-        @RenderBody()
+        @CurrentPage.GetGridHtml(Html, "gridContent")
 
         <footer class="footer footer-big footer-black">
             <div class="container">

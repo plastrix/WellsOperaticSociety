@@ -1,6 +1,5 @@
 User-agent: *
+Disallow: /admin/
 Disallow: /umbraco/
 Disallow: /search/
-Disallow: /truths/
-Disallow: /polls/
 Sitemap: http://localhost:50753/sitemap.xml

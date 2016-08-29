@@ -10,6 +10,7 @@ using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 using WellsOperaticSociety.Models;
+using WellsOperaticSociety.Models.MemberModels;
 
 namespace WellsOperaticSociety.BusinessLogic
 {
@@ -33,6 +34,18 @@ namespace WellsOperaticSociety.BusinessLogic
             return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "functions");
         }
 
+        public IPublishedContent GetLoginNode()
+        {
+            UmbracoHelper helper = new UmbracoHelper(Umbraco);
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "login");
+        }
+
+        public IPublishedContent GetMembershipsNode()
+        {
+            UmbracoHelper helper = new UmbracoHelper(Umbraco);
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "memberships");
+        }
+
         public List<Function> GetListOfUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
@@ -49,6 +62,12 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             var funcListNode = GetFunctionListNode();
             return funcListNode.Children.Count(n => n.GetPropertyValue<DateTime>("endDate") < DateTime.Now);
+        }
+
+        public List<Membership> GetMembershipsForUser(int userId)
+        {
+            var membershipsNode = GetMembershipsNode();
+            return membershipsNode.Children().Where(m => m.GetPropertyValue<int>("member") == userId).Select(m => new Membership(m)).ToList();
         }
 
         #region Robot and siitemap fuinctions
@@ -70,10 +89,8 @@ namespace WellsOperaticSociety.BusinessLogic
                 builder.Add($"Disallow: {content.Url.EnsureEndsWith('/')}");
             }
 
-            builder.Add(string.Format("Disallow: /umbraco/"));
-            builder.Add(string.Format("Disallow: /search/"));
-            builder.Add(string.Format("Disallow: /truths/"));
-            builder.Add(string.Format("Disallow: /polls/"));
+            builder.Add("Disallow: /umbraco/");
+            builder.Add("Disallow: /search/");
 
             builder.Add($"Sitemap: {HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/sitemap.xml");
 
@@ -130,7 +147,7 @@ namespace WellsOperaticSociety.BusinessLogic
         }
         public static List<string> GetSitemapExcludedDocumentTypes()
         {
-            return new List<string> { "Truth", "Poll", "PollItem", "PollFolder" };
+            return new List<string> {};//"Truth", "Poll", "PollItem", "PollFolder" };
         }
         #endregion
     }
