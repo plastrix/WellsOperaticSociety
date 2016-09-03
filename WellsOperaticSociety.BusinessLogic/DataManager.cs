@@ -41,16 +41,22 @@ namespace WellsOperaticSociety.BusinessLogic
             return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "login");
         }
 
-        public IPublishedContent GetMembershipsNode()
+        public IPublishedContent GetMembersNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);
-            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "memberships");
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "memberSection");
         }
 
         public IPublishedContent GetEditMemberAdminNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);
             return helper.TypedContent(1103);
+        }
+
+        public IPublishedContent GetManualsNode()
+        {
+            var membersNode = GetMembersNode();
+            return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == "manuals");
         }
 
         public List<Function> GetListOfUpcomingFunctions(int pageSize, int rowIndex)
@@ -71,6 +77,11 @@ namespace WellsOperaticSociety.BusinessLogic
             return funcListNode.Children.Count(n => n.GetPropertyValue<DateTime>("endDate") < DateTime.Now);
         }
 
+        public List<Manual> GetListOfManuals()
+        {
+            return GetManualsNode().Children().Select(m => new Manual(m)).ToList();
+        }
+        #region DataContext
         public List<Membership> GetMembershipsForUser(int memberId)
         {
             using(var db = new DataContext())
@@ -99,6 +110,7 @@ namespace WellsOperaticSociety.BusinessLogic
                 db.SaveChanges();
             }
         }
+        #endregion
 
         #region Robot and siitemap fuinctions
         public void PublishRobots()
