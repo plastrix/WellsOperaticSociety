@@ -36,6 +36,10 @@ namespace WellsOperaticSociety.Models.MemberModels
         public string Email { get; set; }
         [DisplayName("Deactivate the user")]
         public bool Deactivated { get; set; }
+        [DisplayName("vehicle reg 1")]
+        public string VehicleRegistration1 { get; set; }
+        [DisplayName("Vehicle reg 2")]
+        public string VehicleRegistration2 { get; set; }
 
         public Member(IPublishedContent content)
         {

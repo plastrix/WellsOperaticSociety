@@ -45,8 +45,18 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.DateDeclinedForMembership)
-        @Html.TextBoxFor(m => m.Member.DateDeclinedForMembership, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateDeclinedForMembership) })
+        @Html.TextBoxFor(m => m.Member.DateDeclinedForMembership, "{0:d}", new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateDeclinedForMembership)})
         @Html.ValidationMessageFor(m => m.Member.DateDeclinedForMembership)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.VehicleRegistration1)
+        @Html.TextBoxFor(m => m.Member.VehicleRegistration1, new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.VehicleRegistration1) })
+        @Html.ValidationMessageFor(m => m.Member.VehicleRegistration1)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.VehicleRegistration2)
+        @Html.TextBoxFor(m => m.Member.VehicleRegistration2, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.VehicleRegistration2) })
+        @Html.ValidationMessageFor(m => m.Member.VehicleRegistration2)
     </div>
     <div class="form-group">
         <label>
