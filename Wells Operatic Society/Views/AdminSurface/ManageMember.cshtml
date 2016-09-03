@@ -81,7 +81,7 @@
                     <td>@membership.EndDate.ToShortDateString()</td>
                     <td>@membership.MembershipTypeName</td>
                     <td>@membership.IsSubscription</td>
-                    <td><a href="#" class="btn btn-default">Edit</a>
+                    <td>
                     @using (Html.BeginUmbracoForm("DeleteMembership", "AdminSurface"))
                     {
                         @Html.HiddenFor(m=>membership.MembershipId)
