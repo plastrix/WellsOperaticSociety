@@ -11,6 +11,7 @@ using Umbraco.Core.Models;
 using Umbraco.Web;
 using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Models.MemberModels;
+using WellsOperaticSociety.DAL;
 
 namespace WellsOperaticSociety.BusinessLogic
 {
@@ -66,8 +67,19 @@ namespace WellsOperaticSociety.BusinessLogic
 
         public List<Membership> GetMembershipsForUser(int userId)
         {
-            var membershipsNode = GetMembershipsNode();
-            return membershipsNode.Children().Where(m => m.GetPropertyValue<int>("member") == userId).Select(m => new Membership(m)).ToList();
+            using(var db = new DataContext())
+            {
+                return db.Memberships.Where(m => m.Member == userId).ToList();
+            }
+        }
+
+        public void CreateMembership(Membership membership)
+        {
+            using (var db = new DataContext())
+            { 
+                db.Memberships.Add(membership);
+                db.SaveChanges();
+            }
         }
 
         #region Robot and siitemap fuinctions

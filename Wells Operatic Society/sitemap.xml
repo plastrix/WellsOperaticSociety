@@ -1,63 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://localhost:50753/</loc>
+    <loc>https://localhost:44300/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/whats-on/</loc>
+    <loc>https://localhost:44300/whats-on/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/previous-productions/</loc>
+    <loc>https://localhost:44300/previous-productions/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/function-list/</loc>
+    <loc>https://localhost:44300/function-list/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/jack-and-the-beanstalk/</loc>
+    <loc>https://localhost:44300/jack-and-the-beanstalk/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/12th-knight/</loc>
+    <loc>https://localhost:44300/12th-knight/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/george-and-the-dragon/</loc>
+    <loc>https://localhost:44300/george-and-the-dragon/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/george-and-the-dragon-1/</loc>
+    <loc>https://localhost:44300/george-and-the-dragon-1/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/george-and-the-dragon-1-1/</loc>
+    <loc>https://localhost:44300/george-and-the-dragon-1-1/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/contact-us/</loc>
+    <loc>https://localhost:44300/contact-us/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/test-subscriptions/</loc>
+    <loc>https://localhost:44300/login/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/login/</loc>
+    <loc>https://localhost:44300/members/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/test-page/</loc>
+    <loc>https://localhost:44300/manage-account/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/#err-1103/</loc>
+    <loc>https://localhost:44300/manage-membership/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/membership-list/</loc>
+    <loc>https://localhost:44300/manage-members/</loc>
   </url>
   <url>
-    <loc>http://localhost:50753/members/</loc>
-  </url>
-  <url>
-    <loc>http://localhost:50753/manage-account/</loc>
-  </url>
-  <url>
-    <loc>http://localhost:50753/manage-membership/</loc>
-  </url>
-  <url>
-    <loc>http://localhost:50753/manage-members/</loc>
-  </url>
-  <url>
-    <loc>http://localhost:50753/manage-member/</loc>
+    <loc>https://localhost:44300/manage-member/</loc>
   </url>
 </urlset>

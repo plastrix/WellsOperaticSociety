@@ -34,8 +34,8 @@ namespace WellsOperaticSociety.Models.MemberModels
         [Required(ErrorMessage = "Please enter a valid email")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Please enter a valid email address")]
         public string Email { get; set; }
-        [DisplayName("Disable the user")]
-        public bool Disabled { get; set; }
+        [DisplayName("Deactivate the user")]
+        public bool Deactivated { get; set; }
 
         public Member(IPublishedContent content)
         {

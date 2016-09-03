@@ -13,7 +13,7 @@ namespace WellsOperaticSociety.Web.Controllers
 {
     public class AdminSurfaceController : SurfaceController
     {
-        public ActionResult ManageMembership()
+        public ActionResult ManageMembers()
         {
             var model = new ManageMembershipViewModel();
             model.Members = Services.MemberService.GetAllMembers();
@@ -83,12 +83,25 @@ namespace WellsOperaticSociety.Web.Controllers
                 member.SetValue("dateDeclinedForMembership", model.Member.DateDeclinedForMembership);
                 member.SetValue("dateLifeMembershipGranted", model.Member.DateLifeMembershipGranted);
                 member.SetValue("stripeUserId", model.Member.StripeUserId);
-                member.SetValue("disabled", model.Member.Disabled);
+                member.SetValue("deactivated", model.Member.Deactivated);
                 memberService.Save(member);
                 //TODO: Display success message
                 return RedirectToCurrentUmbracoPage("?id=" +model.Member.Id);
             }
             return CurrentUmbracoPage();
+        }
+
+        public ActionResult AddMembership()
+        {
+            throw new NotImplementedException();
+            //return PartialView("", model);
+        }
+
+        public ActionResult AddMemberToShow()
+        {
+            throw new NotImplementedException();
+            //AddMemberToShowModel model = new AddMemberToShowModel();
+            //return PartialView("AddMemberToShow",model);
         }
     }
 }

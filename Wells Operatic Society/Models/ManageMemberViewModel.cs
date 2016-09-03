@@ -9,6 +9,6 @@ namespace WellsOperaticSociety.Web.Models
     public class ManageMemberViewModel
     {
         public Member Member { get; set; }
-        public List<Membership> Memberships { get; set; }
+        public IEnumerable<Membership> Memberships { get; set; }
     }
 }

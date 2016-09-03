@@ -3177,15 +3177,14 @@
     <Content Include="Views\MacroPartials\ContactUsForm.cshtml" />
     <Content Include="Views\MacroPartials\SubscriptionForm.cshtml" />
     <Content Include="Views\MembershipSurface\SubscriptionForm.cshtml" />
-    <Content Include="Views\Partials\LoginSection.cshtml" />
-    <Content Include="Views\MembershipSurface\Login.cshtml" />
+    <Content Include="Views\Partials\Login.cshtml" />
     <Content Include="Views\MacroPartials\Login.cshtml" />
     <Content Include="Views\Login.cshtml" />
     <Content Include="Views\MacroPartials\Spacer.cshtml" />
     <Content Include="Views\MacroPartials\LoginStatus.cshtml" />
     <Content Include="StripeHandler.ashx" />
     <Content Include="Views\AdminSurface\ManageMembership.cshtml" />
-    <Content Include="Views\MacroPartials\AdminManageMembership.cshtml" />
+    <Content Include="Views\MacroPartials\AdminManageMembers.cshtml" />
     <Content Include="Views\AdminSurface\ManageMember.cshtml" />
     <Content Include="Views\MacroPartials\AdminManageMember.cshtml" />
     <Content Include="Views\MacroPartials\MembershipManageProfile.cshtml" />

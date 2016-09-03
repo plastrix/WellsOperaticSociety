@@ -49,10 +49,10 @@
     </div>
     <div class="form-group">
         <label>
-            Dissable the user
-            @Html.CheckBoxFor(m => m.Member.Disabled, new {@class = "form-control"})
+            Deactivate the user
+            @Html.CheckBoxFor(m => m.Member.Deactivated, new {@class = "form-control"})
         </label>
-        @Html.ValidationMessageFor(m => m.Member.Disabled)
+        @Html.ValidationMessageFor(m => m.Member.Deactivated)
     </div>
 
     <button type="submit" class="btn btn-default">Update Information</button>
@@ -69,11 +69,11 @@
             @foreach (var membership in Model.Memberships)
                 {
                 <tr>
-                    <td>@membership.Id</td>
-                    <td>@membership.StartDate</td>
-                    <td>@membership.EndDate</td>
-                    <td>@membership.MembershipType</td>
-                    <td><a href="#" class="btn btn-default">Manage Membership</a></td>
+                    <td>@membership.MembershipId</td>
+                    <td>@membership.StartDate.ToShortDateString()</td>
+                    <td>@membership.EndDate.ToShortDateString()</td>
+                    <td>@membership.MembershipTypeName</td>
+                    <td><a href="#" class="btn btn-default">Edit</a><a href="#" class="btn btn-danger btn-fill">Delete</a></td>
                 </tr>
             }
         </tbody>

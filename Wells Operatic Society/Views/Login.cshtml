@@ -1,5 +1,5 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
-@using System.Web.Optimization 
+@using System.Web.Optimization
 @using ContentModels = Umbraco.Web.PublishedContentModels;
 @{
     Layout = null;
@@ -33,6 +33,15 @@
     <!-- end navbar -->
     <div class="wrapper">
         @CurrentPage.GetGridHtml(Html, "gridContent")
+        <div class="container">
+            <div class="row clearfix">
+                <div class="grid-section">
+                    <div class="col-md-12 column">
+                        @Html.Partial("Login", new WellsOperaticSociety.Models.MemberModels.LoginModel())
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <footer class="footer footer-big footer-black">
             <div class="container">
