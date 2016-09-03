@@ -8,27 +8,27 @@
     @Html.HiddenFor(m => m.Id)
     @Html.ValidationSummary()
     <div class="form-group">
-        @Html.LabelFor(m => m.Name, new { @class = "sr-only" })
+        @Html.LabelFor(m => m.Name)
         @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Name) })
         @Html.ValidationMessageFor(m => m.Name)
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "sr-only" })
+        @Html.LabelFor(m => m.Email)
         @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Email) })
         @Html.ValidationMessageFor(m => m.Email)
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.TelephoneNumber, new { @class = "sr-only" })
+        @Html.LabelFor(m => m.TelephoneNumber)
         @Html.TextBoxFor(m => m.TelephoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.TelephoneNumber) })
         @Html.ValidationMessageFor(m => m.TelephoneNumber)
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.MobileNumber, new { @class = "sr-only" })
+        @Html.LabelFor(m => m.MobileNumber)
         @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.MobileNumber) })
         @Html.ValidationMessageFor(m => m.MobileNumber)
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.DateOfBirth, new { @class = "sr-only" })
+        @Html.LabelFor(m => m.DateOfBirth)
         @Html.TextBoxFor(m => m.DateOfBirth, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.DateOfBirth) })
         @Html.ValidationMessageFor(m => m.DateOfBirth)
     </div>

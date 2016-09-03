@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellsOperatiySociety.Web", "Wells Operatic Society\WellsOperatiySociety.Web.csproj", "{033830C5-E099-4E7F-A125-2D6FD3A55394}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellsOperaticSociety.DAL", "WellsOperaticSociety.DAL\WellsOperaticSociety.DAL.csproj", "{C3961D5E-F1D6-42A8-B37B-A837B1B92367}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellsOperaticSociety.Web", "Wells Operatic Society\WellsOperaticSociety.Web.csproj", "{033830C5-E099-4E7F-A125-2D6FD3A55394}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellsOperaticSociety.Models", "WellsOperaticSociety.Models\WellsOperaticSociety.Models.csproj", "{08F29A53-BBC5-4CF2-8708-E889AA63E5BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellsOperaticSociety.BusinessLogic", "WellsOperaticSociety.BusinessLogic\WellsOperaticSociety.BusinessLogic.csproj", "{F83D164E-71CE-4FCF-84CA-10860054A268}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellsOperaticSociety.DAL", "WellsOperaticSociety.DAL\WellsOperaticSociety.DAL.csproj", "{B3E1CBFF-1708-4E51-AAB2-5690864C69B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{033830C5-E099-4E7F-A125-2D6FD3A55394}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{033830C5-E099-4E7F-A125-2D6FD3A55394}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{033830C5-E099-4E7F-A125-2D6FD3A55394}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3961D5E-F1D6-42A8-B37B-A837B1B92367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3961D5E-F1D6-42A8-B37B-A837B1B92367}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3961D5E-F1D6-42A8-B37B-A837B1B92367}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3961D5E-F1D6-42A8-B37B-A837B1B92367}.Release|Any CPU.Build.0 = Release|Any CPU
 		{08F29A53-BBC5-4CF2-8708-E889AA63E5BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08F29A53-BBC5-4CF2-8708-E889AA63E5BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08F29A53-BBC5-4CF2-8708-E889AA63E5BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{F83D164E-71CE-4FCF-84CA-10860054A268}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F83D164E-71CE-4FCF-84CA-10860054A268}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F83D164E-71CE-4FCF-84CA-10860054A268}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3E1CBFF-1708-4E51-AAB2-5690864C69B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3E1CBFF-1708-4E51-AAB2-5690864C69B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3E1CBFF-1708-4E51-AAB2-5690864C69B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3E1CBFF-1708-4E51-AAB2-5690864C69B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

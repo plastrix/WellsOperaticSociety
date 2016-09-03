@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WellsOperaticSociety.DAL
+namespace WellsOperaticSociety.Models.Enums
 {
-    public class Class1
+    public enum MembershipType
     {
+        Ordinary,
+        Social,
+        Patron
     }
 }

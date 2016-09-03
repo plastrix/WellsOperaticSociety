@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C3961D5E-F1D6-42A8-B37B-A837B1B92367}</ProjectGuid>
+    <ProjectGuid>{B3E1CBFF-1708-4E51-AAB2-5690864C69B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WellsOperaticSociety.DAL</RootNamespace>
@@ -49,12 +49,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DataContext.cs" />
+    <Compile Include="Migrations\201609022359446_Initial.cs" />
+    <Compile Include="Migrations\201609022359446_Initial.Designer.cs">
+      <DependentUpon>201609022359446_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609031719231_AddSubscriptionAndMembershipType.cs" />
+    <Compile Include="Migrations\201609031719231_AddSubscriptionAndMembershipType.Designer.cs">
+      <DependentUpon>201609031719231_AddSubscriptionAndMembershipType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WellsOperaticSociety.Models\WellsOperaticSociety.Models.csproj">
+      <Project>{08f29a53-bbc5-4cf2-8708-e889aa63e5bf}</Project>
+      <Name>WellsOperaticSociety.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201609022359446_Initial.resx">
+      <DependentUpon>201609022359446_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609031719231_AddSubscriptionAndMembershipType.resx">
+      <DependentUpon>201609031719231_AddSubscriptionAndMembershipType.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

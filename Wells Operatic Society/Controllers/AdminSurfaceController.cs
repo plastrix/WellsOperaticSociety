@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
+using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Web.Models;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 
@@ -13,7 +14,7 @@ namespace WellsOperaticSociety.Web.Controllers
 {
     public class AdminSurfaceController : SurfaceController
     {
-        public ActionResult ManageMembership()
+        public ActionResult ManageMembers()
         {
             var model = new ManageMembershipViewModel();
             model.Members = Services.MemberService.GetAllMembers();
@@ -35,6 +36,26 @@ namespace WellsOperaticSociety.Web.Controllers
             var model = new ManageMemberViewModel();
             model.Member = new Member(member);
             model.Memberships = dm.GetMembershipsForUser(id);
+
+            //setup new membership
+            var curMemberships = dm.GetMembershipsForUser(id);
+            var startDate = DateTime.Now;
+            var endDate = DateTime.Now.AddYears(1);
+            if (curMemberships.Any())
+            {
+                var previous = curMemberships.OrderByDescending(m => m.EndDate).First();
+                startDate = previous.StartDate.AddYears(1);
+                endDate = startDate.AddYears(1);
+            }
+
+            model.NewMembership = new Membership()
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                Member = id,
+                IsSubscription = false
+            };
+
             return PartialView("ManageMember",model);
 
         }
@@ -83,12 +104,55 @@ namespace WellsOperaticSociety.Web.Controllers
                 member.SetValue("dateDeclinedForMembership", model.Member.DateDeclinedForMembership);
                 member.SetValue("dateLifeMembershipGranted", model.Member.DateLifeMembershipGranted);
                 member.SetValue("stripeUserId", model.Member.StripeUserId);
-                member.SetValue("disabled", model.Member.Disabled);
+                member.SetValue("deactivated", model.Member.Deactivated);
                 memberService.Save(member);
                 //TODO: Display success message
                 return RedirectToCurrentUmbracoPage("?id=" +model.Member.Id);
             }
             return CurrentUmbracoPage();
+        }
+
+        public PartialViewResult MemberSearch(string search)
+        {
+            var model = Services.MemberService.GetAllMembers().Where(m=>m.Email.Contains(search) || m.Username.Contains(search));
+            return PartialView("ManageMemberList",model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddMembership(Membership membership)
+        {
+            if (ModelState.IsValid)
+            {
+                var dm = new DataManager();
+                dm.CreateMembership(membership);
+                //TODO: Add success page
+                RedirectToCurrentUmbracoPage();
+            }
+            return CurrentUmbracoPage();
+        }
+
+        [HttpPost]
+        public ActionResult DeleteMembership()
+        {
+            int membershipId;
+            
+            if (!int.TryParse(Request.Form["membership.MembershipId"], out membershipId))
+            {
+                //TODO:Error Message like succes but error
+                return RedirectToCurrentUmbracoPage(Request.QueryString);
+            }
+            var dm = new DataManager();
+            dm.DeleteMembership(membershipId);
+            //TODO:Success message
+            return RedirectToCurrentUmbracoPage(Request.QueryString);
+        }
+
+        public ActionResult AddMemberToShow()
+        {
+            throw new NotImplementedException();
+            //AddMemberToShowModel model = new AddMemberToShowModel();
+            //return PartialView("AddMemberToShow",model);
         }
     }
 }

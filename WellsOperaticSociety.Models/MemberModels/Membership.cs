@@ -5,21 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models;
 using Zone.UmbracoMapper;
+using System.ComponentModel.DataAnnotations;
+using WellsOperaticSociety.Models.Enums;
 
 namespace WellsOperaticSociety.Models.MemberModels
 {
     public class Membership
     {
+        public int MembershipId { get; set; }
+        [Required]
         public int Member { get; set; }
-        public int Id { get; set; }
+        [Required]
         public DateTime StartDate { get; set; }
+        [Required]
         public DateTime EndDate { get; set; }
-        public string MembershipType { get; set; }
+        [Required]
+        public MembershipType MembershipType { get; set; }
+        public bool IsSubscription { get; set; }
 
-        public Membership(IPublishedContent content)
-        {
-            UmbracoMapper mapper = new UmbracoMapper();
-            mapper.Map(content, this);
-        }
+        public string MembershipTypeName => Enum.GetName(typeof(MembershipType), MembershipType);
     }
 }

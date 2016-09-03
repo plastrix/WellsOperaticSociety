@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Mvc;
 using log4net;
 using Stripe;
 using Umbraco.Web;
-using Umbraco.Web.Models;
 using WellsOperaticSociety.Models;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
+using WellsOperaticSociety.Models.Enums;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Web.Models;
+using LoginModel = WellsOperaticSociety.Models.MemberModels.LoginModel;
 
 namespace WellsOperaticSociety.Web.Controllers
 {
@@ -20,23 +20,26 @@ namespace WellsOperaticSociety.Web.Controllers
     {
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public ActionResult Login()
-        {
-            var model = new LoginModel();
-            return PartialView("Login", model);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SubmitLoginForm(LoginModel model)
         {
             if (ModelState.IsValid)
             {
+
                 if (Members.Login(model.Username, model.Password))
                 {
-                    return Redirect("/");
+                    if (Members.GetByUsername(model.Username) != null && Members.GetByUsername(model.Username).GetPropertyValue<bool>("deactivated") == false)
+                    {
+                        return Redirect("/");
+                    }
+                    Members.Logout();
+                    ModelState.AddModelError("", "Your account has been dissabled please contact us to resolve this");
                 }
-                ModelState.AddModelError("","There was an error with your username or password");
+                else
+                {
+                    ModelState.AddModelError("", "There was an error with your username or password");
+                }
             }
             return CurrentUmbracoPage();
         }
@@ -49,8 +52,21 @@ namespace WellsOperaticSociety.Web.Controllers
 
         public ActionResult ManageProfile()
         {
+
+            var m = new Membership()
+            {
+                Member = Members.GetCurrentMemberId(),
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                MembershipType = (int)MembershipType.Ordinary
+            };
+
+            new DataManager().CreateMembership(m);
+
             var model = new Member(Members.GetCurrentMember());
             return PartialView("ManageProfile", model);
+
+            
         }
 
         [HttpPost]
@@ -155,12 +171,6 @@ namespace WellsOperaticSociety.Web.Controllers
             return PartialView("ManageSubscription", model);
 
         }
-
-
-
-
-
-
 
         public ActionResult SubscriptionForm()
         {

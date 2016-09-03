@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /admin/
 Disallow: /umbraco/
 Disallow: /search/
-Sitemap: http://localhost:50753/sitemap.xml
+Sitemap: https://localhost:44300/sitemap.xml

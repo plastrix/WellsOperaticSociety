@@ -116,16 +116,17 @@
 {
     <table class="table table-hover">
         <thead>
-            <tr><th>Membership Id</th><th>Start</th><th>End</th><th>Membership Type</th><th></th></tr>
+            <tr><th>Membership Id</th><th>Start</th><th>End</th><th>Membership Type</th><th>Subscription</th><th></th></tr>
         </thead>
         <tbody>
             @foreach (var membership in Model.Memberships)
                 {
                 <tr>
-                    <td>@membership.Id</td>
+                    <td>@membership.MembershipId</td>
                     <td>@membership.StartDate</td>
                     <td>@membership.EndDate</td>
-                    <td>@membership.MembershipType</td>
+                    <td>@membership.MembershipTypeName</td>
+                    <td>@membership.IsSubscription</td>
                     <td><a href="#" class="btn btn-default">Manage Membership</a></td>
                 </tr>
             }

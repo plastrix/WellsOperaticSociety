@@ -263,9 +263,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContactUs.cs" />
+    <Compile Include="Enums\MembershipType.cs" />
     <Compile Include="Function.cs" />
+    <Compile Include="MemberModels\LoginModel.cs" />
     <Compile Include="MemberModels\Member.cs" />
     <Compile Include="MemberModels\Membership.cs" />
+    <Compile Include="MemberModels\MemberRolesInShow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReCaptcha.cs" />
     <Compile Include="StandardPage.cs" />
