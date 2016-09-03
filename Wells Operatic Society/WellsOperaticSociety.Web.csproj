@@ -3194,6 +3194,7 @@
     <Content Include="Views\MembershipSurface\ManageSubscription.cshtml" />
     <Content Include="Views\MacroPartials\MembershipManageSubscription.cshtml" />
     <Content Include="Views\Partials\ManageMemberList.cshtml" />
+    <Content Include="Views\Partials\AddMembershipForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

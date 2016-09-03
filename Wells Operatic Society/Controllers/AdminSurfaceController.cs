@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
+using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Web.Models;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 
@@ -35,6 +36,26 @@ namespace WellsOperaticSociety.Web.Controllers
             var model = new ManageMemberViewModel();
             model.Member = new Member(member);
             model.Memberships = dm.GetMembershipsForUser(id);
+
+            //setup new membership
+            var curMemberships = dm.GetMembershipsForUser(id);
+            var startDate = DateTime.Now;
+            var endDate = DateTime.Now.AddYears(1);
+            if (curMemberships.Any())
+            {
+                var previous = curMemberships.OrderByDescending(m => m.EndDate).First();
+                startDate = previous.StartDate.AddYears(1);
+                endDate = startDate.AddYears(1);
+            }
+
+            model.NewMembership = new Membership()
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                Member = id,
+                IsSubscription = false
+            };
+
             return PartialView("ManageMember",model);
 
         }
@@ -97,11 +118,34 @@ namespace WellsOperaticSociety.Web.Controllers
             return PartialView("ManageMemberList",model);
         }
 
-
-        public ActionResult AddMembership()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddMembership(Membership membership)
         {
-            throw new NotImplementedException();
-            //return PartialView("", model);
+            if (ModelState.IsValid)
+            {
+                var dm = new DataManager();
+                dm.CreateMembership(membership);
+                //TODO: Add success page
+                RedirectToCurrentUmbracoPage();
+            }
+            return CurrentUmbracoPage();
+        }
+
+        [HttpPost]
+        public ActionResult DeleteMembership()
+        {
+            int membershipId;
+            
+            if (!int.TryParse(Request.Form["membership.MembershipId"], out membershipId))
+            {
+                //TODO:Error Message like succes but error
+                return RedirectToCurrentUmbracoPage(Request.QueryString);
+            }
+            var dm = new DataManager();
+            dm.DeleteMembership(membershipId);
+            //TODO:Success message
+            return RedirectToCurrentUmbracoPage(Request.QueryString);
         }
 
         public ActionResult AddMemberToShow()

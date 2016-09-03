@@ -1,4 +1,5 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageMemberViewModel>
+﻿@using WellsOperaticSociety.Models.Enums
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageMemberViewModel>
 
 <h2>Update Member Information</h2>
 @using (Html.BeginUmbracoForm("UpdateMember", "AdminSurface"))
@@ -58,6 +59,12 @@
     <button type="submit" class="btn btn-default">Update Information</button>
 }
 
+
+@using(Html.BeginUmbracoForm("AddMembership","AdminSurface"))
+{
+    @Html.Partial("AddMembershipForm",Model.NewMembership)
+}
+
 <h2>Manage Membership</h2>
 @if (Model.Memberships != null && Model.Memberships.Any())
 {
@@ -67,14 +74,19 @@
         </thead>
         <tbody>
             @foreach (var membership in Model.Memberships)
-                {
+            {
                 <tr>
                     <td>@membership.MembershipId</td>
                     <td>@membership.StartDate.ToShortDateString()</td>
                     <td>@membership.EndDate.ToShortDateString()</td>
                     <td>@membership.MembershipTypeName</td>
                     <td>@membership.IsSubscription</td>
-                    <td><a href="#" class="btn btn-default">Edit</a><a href="#" class="btn btn-danger btn-fill">Delete</a></td>
+                    <td><a href="#" class="btn btn-default">Edit</a>
+                    @using (Html.BeginUmbracoForm("DeleteMembership", "AdminSurface"))
+                    {
+                        @Html.HiddenFor(m=>membership.MembershipId)
+                        <button type="submit" class="btn btn-danger btn-fill">Delete</button>
+                    }</td>
                 </tr>
             }
         </tbody>

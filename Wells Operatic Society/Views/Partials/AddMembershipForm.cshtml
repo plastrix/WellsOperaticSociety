@@ -1,0 +1,22 @@
+﻿@using WellsOperaticSociety.Models.Enums
+@model WellsOperaticSociety.Models.MemberModels.Membership
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(m => m.IsSubscription)
+@Html.HiddenFor(m => m.Member)
+<div class="form-group">
+    @Html.LabelFor(m => m.StartDate)
+    @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.StartDate) })
+    @Html.ValidationMessageFor(m => m.StartDate)
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.EndDate)
+    @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.EndDate) })
+    @Html.ValidationMessageFor(m => m.EndDate)
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.MembershipType)
+    @Html.DropDownListFor(m => m.MembershipType, Enum.GetValues(typeof(MembershipType)).Cast<MembershipType>().Select(m => new SelectListItem { Text = m.ToString(), Value = ((int)m).ToString() }).ToList(), "-- Please Select --", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.StartDate) })
+    @Html.ValidationMessageFor(m => m.MembershipType)
+</div>
+<button type="submit" class="btn btn-success">Add Membership</button>

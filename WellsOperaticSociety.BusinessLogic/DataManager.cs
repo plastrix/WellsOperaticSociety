@@ -71,11 +71,11 @@ namespace WellsOperaticSociety.BusinessLogic
             return funcListNode.Children.Count(n => n.GetPropertyValue<DateTime>("endDate") < DateTime.Now);
         }
 
-        public List<Membership> GetMembershipsForUser(int userId)
+        public List<Membership> GetMembershipsForUser(int memberId)
         {
             using(var db = new DataContext())
             {
-                return db.Memberships.Where(m => m.Member == userId).ToList();
+                return db.Memberships.Where(m => m.Member == memberId).OrderByDescending(m=>m.EndDate).ToList();
             }
         }
 
@@ -84,6 +84,18 @@ namespace WellsOperaticSociety.BusinessLogic
             using (var db = new DataContext())
             { 
                 db.Memberships.Add(membership);
+                db.SaveChanges();
+            }
+        }
+
+        public void DeleteMembership(int membershipId)
+        {
+            using (var db = new DataContext())
+            {
+                var memberhsip = db.Memberships.SingleOrDefault(m => m.MembershipId == membershipId);
+                if(memberhsip!=null)
+                    db.Memberships.Remove(memberhsip);
+
                 db.SaveChanges();
             }
         }
