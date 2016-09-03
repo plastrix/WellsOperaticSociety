@@ -21,6 +21,7 @@ namespace WellsOperaticSociety.Models.MemberModels
         public DateTime EndDate { get; set; }
         [Required]
         public MembershipType MembershipType { get; set; }
+        public bool IsSubscription { get; set; }
 
         public string MembershipTypeName => Enum.GetName(typeof(MembershipType), MembershipType);
     }

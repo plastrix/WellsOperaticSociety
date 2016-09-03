@@ -54,6 +54,10 @@
     <Compile Include="Migrations\201609022359446_Initial.Designer.cs">
       <DependentUpon>201609022359446_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609031719231_AddSubscriptionAndMembershipType.cs" />
+    <Compile Include="Migrations\201609031719231_AddSubscriptionAndMembershipType.Designer.cs">
+      <DependentUpon>201609031719231_AddSubscriptionAndMembershipType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,6 +74,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201609022359446_Initial.resx">
       <DependentUpon>201609022359446_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609031719231_AddSubscriptionAndMembershipType.resx">
+      <DependentUpon>201609031719231_AddSubscriptionAndMembershipType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
