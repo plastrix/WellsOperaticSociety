@@ -47,6 +47,12 @@ namespace WellsOperaticSociety.BusinessLogic
             return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "memberships");
         }
 
+        public IPublishedContent GetEditMemberAdminNode()
+        {
+            UmbracoHelper helper = new UmbracoHelper(Umbraco);
+            return helper.TypedContent(1103);
+        }
+
         public List<Function> GetListOfUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();

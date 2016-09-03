@@ -1,0 +1,32 @@
+﻿@using WellsOperaticSociety.BusinessLogic
+@model IEnumerable<IMember>
+@{
+    var dm = new DataManager();
+    var editMemberUrl = dm.GetEditMemberAdminNode().Url;
+    }
+<div>
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr><th>Member Id</th><th>Member Name</th><th>Member Email</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var member in Model)
+                {
+                    <tr>
+                        <td>@member.Id</td>
+                        <td>@member.Name</td>
+                        <td>@member.Email</td>
+                        @*//TODO:change this away from being a hard coded value*@
+                        <td><a href="@editMemberUrl?id=@member.Id" class="btn btn-default">Edit</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Results</p>
+    }
+</div>

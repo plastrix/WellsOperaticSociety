@@ -11,7 +11,8 @@ namespace WellsOperaticSociety.Web
                 "~/scripts/jquery-ui-1.12.0.js",
                 "~/scripts/bootstrap.js",
                 "~/scripts/jquery.validate.min.js",
-                "~/scripts/jquery.validate.unobtrusive.min.js"));
+                "~/scripts/jquery.validate.unobtrusive.min.js",
+                "~/scripts/jquery.unobtrusive-ajax.min.js"));
 
             bundles.Add(new ScriptBundle("~/Plugins").Include(
                 "~/scripts/gsdk-checkbox.js",

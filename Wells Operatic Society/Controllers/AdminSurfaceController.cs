@@ -91,6 +91,13 @@ namespace WellsOperaticSociety.Web.Controllers
             return CurrentUmbracoPage();
         }
 
+        public PartialViewResult MemberSearch(string search)
+        {
+            var model = Services.MemberService.GetAllMembers().Where(m=>m.Email.Contains(search) || m.Username.Contains(search));
+            return PartialView("ManageMemberList",model);
+        }
+
+
         public ActionResult AddMembership()
         {
             throw new NotImplementedException();

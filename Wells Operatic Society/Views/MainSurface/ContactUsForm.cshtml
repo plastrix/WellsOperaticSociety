@@ -5,17 +5,17 @@
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
     <div class="form-group">
-        @Html.LabelFor(m => m.Name, new { @class = "sr-only" })
+        @Html.LabelFor(m => m.Name)
         @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Name) })
         @Html.ValidationMessageFor(m => m.Name)
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "sr-only" })
+        @Html.LabelFor(m => m.Email)
         @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Email), type="Email" })
         @Html.ValidationMessageFor(m => m.Email)
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Message, new { @class = "sr-only" })
+        @Html.LabelFor(m => m.Message)
         @Html.TextAreaFor(m => m.Message, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Message), rows = "3" })
         @Html.ValidationMessageFor(m => m.Message)
     </div>
