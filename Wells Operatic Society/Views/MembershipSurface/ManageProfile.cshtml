@@ -29,8 +29,18 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.DateOfBirth)
-        @Html.TextBoxFor(m => m.DateOfBirth, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.DateOfBirth) })
+        @Html.TextBoxFor(m => m.DateOfBirth, "{0:d}", new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.DateOfBirth)})
         @Html.ValidationMessageFor(m => m.DateOfBirth)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.VehicleRegistration1)
+        @Html.TextBoxFor(m => m.VehicleRegistration1, new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.VehicleRegistration1) })
+        @Html.ValidationMessageFor(m => m.VehicleRegistration1)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.VehicleRegistration2)
+        @Html.TextBoxFor(m => m.VehicleRegistration2, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.VehicleRegistration2) })
+        @Html.ValidationMessageFor(m => m.VehicleRegistration2)
     </div>
     <button type="submit" class="btn btn-default">Update Information</button>
 }

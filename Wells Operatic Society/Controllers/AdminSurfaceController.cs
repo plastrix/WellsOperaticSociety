@@ -104,6 +104,8 @@ namespace WellsOperaticSociety.Web.Controllers
                 member.SetValue("dateDeclinedForMembership", model.Member.DateDeclinedForMembership);
                 member.SetValue("dateLifeMembershipGranted", model.Member.DateLifeMembershipGranted);
                 member.SetValue("stripeUserId", model.Member.StripeUserId);
+                member.SetValue("vehicleRegistration1", model.Member.VehicleRegistration1);
+                member.SetValue("vehicleRegistration2", model.Member.VehicleRegistration2);
                 member.SetValue("deactivated", model.Member.Deactivated);
                 memberService.Save(member);
                 //TODO: Display success message

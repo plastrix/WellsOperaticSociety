@@ -109,6 +109,8 @@ namespace WellsOperaticSociety.Web.Controllers
                 member.SetValue("telephoneNumber", model.TelephoneNumber);
                 member.SetValue("mobileNumber", model.MobileNumber);
                 member.SetValue("dateOfBirth", model.DateOfBirth);
+                member.SetValue("vehicleRegistration1", model.VehicleRegistration1);
+                member.SetValue("vehicleRegistration2", model.VehicleRegistration2);
                 memberService.Save(member);
                 //TODO: Display success message
                 return RedirectToCurrentUmbracoPage();
@@ -240,6 +242,15 @@ namespace WellsOperaticSociety.Web.Controllers
                 }
             }
             return CurrentUmbracoPage();
+        }
+
+        public ActionResult DisplayPdfs()
+        {
+            var dm = new DataManager();
+            var model = dm.GetListOfManuals();
+
+            return PartialView("DisplayPdfs",model);
+
         }
     }
 }
