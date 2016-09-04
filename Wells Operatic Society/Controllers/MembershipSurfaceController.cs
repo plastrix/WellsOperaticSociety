@@ -247,10 +247,8 @@ namespace WellsOperaticSociety.Web.Controllers
         public ActionResult DisplayPdfs()
         {
             var dm = new DataManager();
-            var model = dm.GetListOfManuals();
-
+            var model = dm.GetManuals();
             return PartialView("DisplayPdfs",model);
-
         }
     }
 }

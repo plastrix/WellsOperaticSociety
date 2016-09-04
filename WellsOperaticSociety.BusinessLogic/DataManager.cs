@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Hosting;
 using System.Xml.Linq;
 using Umbraco.Core;
@@ -12,6 +13,7 @@ using Umbraco.Web;
 using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.DAL;
+using Member = WellsOperaticSociety.Models.MemberModels.Member;
 
 namespace WellsOperaticSociety.BusinessLogic
 {
@@ -59,16 +61,22 @@ namespace WellsOperaticSociety.BusinessLogic
             return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == "manuals");
         }
 
-        public List<Function> GetListOfUpcomingFunctions(int pageSize, int rowIndex)
+        public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
             return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate>= DateTime.Now).Skip(rowIndex).Take(pageSize).OrderByDescending(n=>n.EndDate).ToList();
         }
 
-        public List<Function> GetListOfExpiredFunctions(int pageSize, int rowIndex)
+        public List<Function> GetExpiredFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
             return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate < DateTime.Now).Skip(rowIndex).Take(pageSize).OrderByDescending(n => n.EndDate).ToList();
+        }
+
+        public List<Function> GetAllFunctions(int pageSize, int rowIndex)
+        {
+            var funcListNode = GetFunctionListNode();
+            return funcListNode.Children.Select(n => new Function(n)).Skip(rowIndex).Take(pageSize).OrderByDescending(n => n.EndDate).ToList();
         }
 
         public int GetCountOfExpiredFunctions()
@@ -77,10 +85,20 @@ namespace WellsOperaticSociety.BusinessLogic
             return funcListNode.Children.Count(n => n.GetPropertyValue<DateTime>("endDate") < DateTime.Now);
         }
 
-        public List<Manual> GetListOfManuals()
+        public List<Manual> GetManuals()
         {
             return GetManualsNode().Children().Select(m => new Manual(m)).ToList();
         }
+
+        public Function GetFunction(int id)
+        {
+            var helper = new UmbracoHelper(Umbraco);
+            var func = helper.TypedContent(id);
+            if(func != null)
+                return new Function(func);
+            return null;
+        }
+
         #region DataContext
         public List<Membership> GetMembershipsForUser(int memberId)
         {
@@ -109,6 +127,64 @@ namespace WellsOperaticSociety.BusinessLogic
 
                 db.SaveChanges();
             }
+        }
+
+        public List<MemberRolesInShow> GetMemberRolesInFunction(int functionId, int? memberId = null)
+        {
+            var helper = new UmbracoHelper(Umbraco);
+            using (var db = new DataContext())
+            {
+                var roles = db.MemberRolesInShows.Where(m => m.FunctionId == functionId);
+                if (memberId != null)
+                    roles = roles.Where(m => m.MemberId == (int)memberId);
+
+                roles.ForEach(m =>m.Member = new Member(helper.TypedMember(m.MemberId)));
+                return roles.ToList();
+            }
+        }
+
+        public void CreateMemberInFunction(MemberRolesInShow memberRoleInShow)
+        {
+            using (var db = new DataContext())
+            {
+                db.MemberRolesInShows.Add(memberRoleInShow);
+                db.SaveChanges();
+            }
+        }
+
+        public void DeleteMemberRoleInFunction(int memberRoleInShowId)
+        {
+            using (var db = new DataContext())
+            {
+                var memeberRoleInShow = db.MemberRolesInShows.SingleOrDefault(m => m.MemberRolesInShowId == memberRoleInShowId);
+                if (memeberRoleInShow != null)
+                {
+                    db.MemberRolesInShows.Remove(memeberRoleInShow);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public List<string> GetRoleSuggestions(string query)
+        {
+            using (var db = new DataContext())
+            {
+                return db.MemberRolesInShows.Where(m=>m.Role.ToLower().Contains(query.ToLower())).Select(m=>m.Role).ToList();
+            }
+        }
+
+        public List<string> GetGroupSuggestions(string query)
+        {
+            using (var db = new DataContext())
+            {
+                return db.MemberRolesInShows.Where(m => m.Group.ToLower().Contains(query.ToLower())).Select(m => m.Group).ToList();
+            }
+        }
+
+        public object AcitveMemberSuggestions(string query)
+        {
+            //TODO: Make this return only members with active membership
+            return ApplicationContext.Current.Services.MemberService.GetAllMembers().Select(m=> new { label = m.Name, value = m.Id });
         }
         #endregion
 

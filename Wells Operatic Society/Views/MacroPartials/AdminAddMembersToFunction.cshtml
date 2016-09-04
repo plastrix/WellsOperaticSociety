@@ -1,0 +1,12 @@
+﻿@using System.Net.Http
+@{
+    var funcId = Request.QueryString["id"];
+}
+@if (funcId != null)
+{
+    @Html.Action("AddMembersToFunction", "AdminSurface", new {functionId = funcId})
+}
+else
+{
+    <p class="alert alert-error">There was an issue trying to find the function with the id supplied</p>
+}

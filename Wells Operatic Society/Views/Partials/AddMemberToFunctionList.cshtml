@@ -1,0 +1,39 @@
+﻿@model List<WellsOperaticSociety.Models.MemberModels.MemberRolesInShow>
+@if (Model.Any())
+{
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Group</th>
+                <th>Role</th>
+                <th>Member</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var index = 0;
+                foreach (var role in Model)
+                {
+                    <tr>
+                        <td>@role.Group</td>
+                        <td>@role.Role</td>
+                        <td>@role.Member.Name</td>
+                        <td>
+                            @using (Html.BeginUmbracoForm("RemoveMemberFromFunction", "AdminSurface"))
+                            {
+                                @Html.Hidden("memberRolesInShowId", Model[index].MemberRolesInShowId)<button type="submit" class="btn btn-danger">Remove</button>
+                            }
+                        </td>
+                    </tr>
+                    index++;
+                }
+            }
+        </tbody>
+    </table>
+                }
+                else
+                {
+                    <p class="alert alert-info">There are no members in this function yet</p>
+                }

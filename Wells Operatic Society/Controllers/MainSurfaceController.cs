@@ -17,7 +17,7 @@ namespace WellsOperaticSociety.Web.Controllers
         {
             DataManager manager = new DataManager();
 
-            var model = manager.GetListOfUpcomingFunctions(quantity, 0);
+            var model = manager.GetUpcomingFunctions(quantity, 0);
 
             return PartialView("FunctionCards", model);
 
@@ -27,7 +27,7 @@ namespace WellsOperaticSociety.Web.Controllers
         {
             DataManager manager = new DataManager();
 
-            var model = manager.GetListOfUpcomingFunctions(quantity, 0);
+            var model = manager.GetUpcomingFunctions(quantity, 0);
 
             return PartialView("WhatsOn", model);
         }
@@ -41,7 +41,7 @@ namespace WellsOperaticSociety.Web.Controllers
 
             var model = new PreviousProductionsViewModel()
             {
-                Functions = manager.GetListOfExpiredFunctions((int) pageSize, (int) row),
+                Functions = manager.GetExpiredFunctions((int) pageSize, (int) row),
                 PageSize = (int) pageSize,
                 Row = (int) row,
                 TotalItemCount = manager.GetCountOfExpiredFunctions()

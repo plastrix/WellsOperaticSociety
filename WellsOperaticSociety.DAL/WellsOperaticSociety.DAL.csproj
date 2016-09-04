@@ -58,6 +58,18 @@
     <Compile Include="Migrations\201609031719231_AddSubscriptionAndMembershipType.Designer.cs">
       <DependentUpon>201609031719231_AddSubscriptionAndMembershipType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609040941412_AddFunctionIdToMemberRolesInShow.cs" />
+    <Compile Include="Migrations\201609040941412_AddFunctionIdToMemberRolesInShow.Designer.cs">
+      <DependentUpon>201609040941412_AddFunctionIdToMemberRolesInShow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609040950405_ChnageFunctionidFromStringToInt.cs" />
+    <Compile Include="Migrations\201609040950405_ChnageFunctionidFromStringToInt.Designer.cs">
+      <DependentUpon>201609040950405_ChnageFunctionidFromStringToInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609041730469_NullableAddedToModelMemberInSHow.cs" />
+    <Compile Include="Migrations\201609041730469_NullableAddedToModelMemberInSHow.Designer.cs">
+      <DependentUpon>201609041730469_NullableAddedToModelMemberInSHow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -77,6 +89,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609031719231_AddSubscriptionAndMembershipType.resx">
       <DependentUpon>201609031719231_AddSubscriptionAndMembershipType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609040941412_AddFunctionIdToMemberRolesInShow.resx">
+      <DependentUpon>201609040941412_AddFunctionIdToMemberRolesInShow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609040950405_ChnageFunctionidFromStringToInt.resx">
+      <DependentUpon>201609040950405_ChnageFunctionidFromStringToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609041730469_NullableAddedToModelMemberInSHow.resx">
+      <DependentUpon>201609041730469_NullableAddedToModelMemberInSHow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
 using WellsOperaticSociety.Models.MemberModels;
@@ -150,11 +152,61 @@ namespace WellsOperaticSociety.Web.Controllers
             return RedirectToCurrentUmbracoPage(Request.QueryString);
         }
 
-        public ActionResult AddMemberToShow()
+        public ActionResult AddMembersToFunction(int functionId)
         {
-            throw new NotImplementedException();
-            //AddMemberToShowModel model = new AddMemberToShowModel();
-            //return PartialView("AddMemberToShow",model);
+            var dm = new DataManager();
+            
+            var model = new AddMembersToFunctionViewModel();
+            model.Function = dm.GetFunction(functionId);
+            model.MemberRolesInShows = dm.GetMemberRolesInFunction(functionId);
+            model.NewMemberRolesInShow = new MemberRolesInShow() {FunctionId = functionId};
+            return PartialView("AddMembersToFunction",model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddMemberToFunction(MemberRolesInShow model)
+        {
+            //TODO:Validation is not working
+            if (ModelState.IsValid)
+            {
+                var dm = new DataManager();
+                dm.CreateMemberInFunction(model);
+                return RedirectToCurrentUmbracoPage(Request.QueryString);
+            }
+            return CurrentUmbracoPage();
+        }
+
+        [HttpPost]
+        public ActionResult RemoveMemberFromFunction(int memberRolesInShowId)
+        {
+            var dm = new DataManager();
+            dm.DeleteMemberRoleInFunction(memberRolesInShowId);
+            //TODO:Success message
+            return RedirectToCurrentUmbracoPage(Request.QueryString);
+        }
+
+        public ActionResult GetRoleSuggestions(string term)
+        {
+            var dm = new DataManager();
+            var results = dm.GetRoleSuggestions(term);
+            return Json(results,JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetGroupSuggestions(string term)
+        {
+            var dm = new DataManager();
+            var results = dm.GetGroupSuggestions(term);
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetMemberSuggestions(string term)
+        {
+            var dm = new DataManager();
+            var result = dm.AcitveMemberSuggestions(term);
+            var jsonStr = JsonConvert.SerializeObject(result);
+            return Content(jsonStr, "application/json");
+            //return Json(jsonStr, JsonRequestBehavior.AllowGet);
         }
     }
 }

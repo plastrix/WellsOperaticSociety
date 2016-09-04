@@ -28,6 +28,8 @@ namespace WellsOperaticSociety.Web
                 "~/scripts/get-shit-done.js"));
 
             bundles.Add(new StyleBundle("~/cssFiles").Include(
+                "~/Content/normalize.css",
+                "~/Content/themes/base/jquery-ui.min.css",
                 "~/Content/bootstrap.min.css",
                 "~/Content/gsdk.css",
                 "~/Content/Site.css"));
