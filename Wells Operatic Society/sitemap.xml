@@ -49,6 +49,12 @@
     <loc>https://localhost:44300/manuals/auditorium-signs/</loc>
   </url>
   <url>
+    <loc>https://localhost:44300/minutes/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/minutes/minutes-feb-2016/</loc>
+  </url>
+  <url>
     <loc>https://localhost:44300/manage-members/</loc>
   </url>
   <url>

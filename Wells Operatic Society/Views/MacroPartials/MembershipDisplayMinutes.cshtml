@@ -4,7 +4,7 @@
 @{
     var dm = new DataManager();
 
-    var documents = dm.GetManuals();
+    var documents = dm.GetMinuets();
 }
 @functions
 {
@@ -16,20 +16,19 @@
         return Umbraco.TypedMedia(id).Url;
     }
 }
-
 @if (documents.Any())
 {
-    foreach (var manual in documents)
+    foreach (var minutes in documents)
     {
         <div>
-            <a href="@GetDocumentUrl(manual)">
-                <h2>@manual.Name</h2>
-                <p>@Html.Raw(manual.GetPropertyValue<string>("description"))</p>
+            <a href="@GetDocumentUrl(minutes)">
+                <h2>@minutes.Name</h2>
+                <p>@Html.Raw(minutes.GetPropertyValue<string>("description"))</p>
             </a>
         </div>
     }
 }
 else
 {
-    <div class="alert alert-info">There are no manuals available yet</div>
+    <div class="alert alert-info">There are no minutes recorded yet</div>
 }

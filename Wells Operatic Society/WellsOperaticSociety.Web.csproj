@@ -3203,6 +3203,7 @@
     <Content Include="Views\Partials\AddMemberToFunctionForm.cshtml" />
     <Content Include="Views\MacroPartials\AdminManageFunctions.cshtml" />
     <Content Include="Views\MacroPartials\AdminAddMembersToFunction.cshtml" />
+    <Content Include="Views\MacroPartials\MembershipDisplayMinutes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -61,6 +61,12 @@ namespace WellsOperaticSociety.BusinessLogic
             return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == "manuals");
         }
 
+        public IPublishedContent GetMinuetsNode()
+        {
+            var membersNode = GetMembersNode();
+            return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == "minutes");
+        }
+
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
@@ -85,9 +91,14 @@ namespace WellsOperaticSociety.BusinessLogic
             return funcListNode.Children.Count(n => n.GetPropertyValue<DateTime>("endDate") < DateTime.Now);
         }
 
-        public List<Manual> GetManuals()
+        public IList<IPublishedContent> GetManuals()
         {
-            return GetManualsNode().Children().Select(m => new Manual(m)).ToList();
+            return GetManualsNode().Children().ToList();
+        }
+
+        public IList<IPublishedContent> GetMinuets()
+        {
+            return GetMinuetsNode().Children().ToList();
         }
 
         public Function GetFunction(int id)
