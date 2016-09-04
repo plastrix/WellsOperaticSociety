@@ -54,4 +54,10 @@
   <url>
     <loc>https://localhost:44300/manage-member/</loc>
   </url>
+  <url>
+    <loc>https://localhost:44300/manage-functions/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/add-member-to-function/</loc>
+  </url>
 </urlset>

@@ -443,6 +443,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\gsdk.css" />
+    <Content Include="Content\normalize.css" />
     <Content Include="Content\pe-icon-7-stroke.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -3197,6 +3198,11 @@
     <Content Include="Views\Partials\AddMembershipForm.cshtml" />
     <Content Include="Views\MacroPartials\MembershipDisplayManuals.cshtml" />
     <Content Include="Views\MembershipSurface\DisplayPdfs.cshtml" />
+    <Content Include="Views\AdminSurface\AddMembersToFunction.cshtml" />
+    <Content Include="Views\Partials\AddMemberToFunctionList.cshtml" />
+    <Content Include="Views\Partials\AddMemberToFunctionForm.cshtml" />
+    <Content Include="Views\MacroPartials\AdminManageFunctions.cshtml" />
+    <Content Include="Views\MacroPartials\AdminAddMembersToFunction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3241,6 +3247,7 @@
     <Compile Include="Controllers\FunctionController.cs" />
     <Compile Include="Controllers\MainSurfaceController.cs" />
     <Compile Include="Controllers\MembershipSurfaceController.cs" />
+    <Compile Include="Models\AddMembersToFunctionViewModel.cs" />
     <Compile Include="Models\ManageMembershipViewModel.cs" />
     <Compile Include="Models\ManageMemberViewModel.cs" />
     <Compile Include="Models\ManageSubscriptionViewModel.cs" />

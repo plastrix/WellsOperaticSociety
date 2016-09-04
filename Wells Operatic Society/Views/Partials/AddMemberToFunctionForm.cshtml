@@ -1,0 +1,94 @@
+﻿@model WellsOperaticSociety.Models.MemberModels.MemberRolesInShow
+
+@using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.AdminSurfaceController>("AddMemberToFunction",null, new { @class = "form-inline" }))
+{
+    @Html.HiddenFor(m => m.FunctionId)
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Group)
+        @Html.TextBoxFor(m => m.Group, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Group) })
+        @Html.ValidationMessageFor(m => m.Group)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Role)
+        @Html.TextBoxFor(m => m.Role, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Role) })
+        @Html.ValidationMessageFor(m => m.Role)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberId)
+        @Html.TextBox("MemberName",null,new { @class="form-control", @readonly = "readonly"})
+        @Html.HiddenFor(m => m.MemberId)
+        @Html.ValidationMessageFor(m => m.MemberId)
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberSelectModal">
+            Select member
+        </button>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+}
+
+<div class="modal fade" id="memberSelectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Select a members</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.TextBox("MemberAutoComlete", null, new { @class = "form-control", placeholder = "Start typing ..." })
+                    @Html.Hidden("MemberAutoComleteId")
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id ="selectUserModal">Select</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    $(function() {
+        $("#@Html.IdFor(m => m.Role)")
+            .autocomplete({
+                source: "@Url.Action("GetRoleSuggestions", "AdminSurface")",
+                minLength: 2
+            });
+        $("#@Html.IdFor(m => m.Group)")
+            .autocomplete({
+                source: "@Url.Action("GetGroupSuggestions", "AdminSurface")",
+                minLength: 2
+            });
+        $("#MemberAutoComlete")
+            .autocomplete({
+                source: "@Url.Action("GetMemberSuggestions", "AdminSurface")",
+                minLength: 2,
+                select: function (event, ui) {
+                    $('#MemberAutoComlete').val(ui.item.label);
+                    $('#MemberAutoComleteId').val(ui.item.value);
+                    return false;
+                }
+            });
+        $("#memberSelectModal")
+            .on('hide.bs.modal',
+                function(e) {
+                    $("#MemberAutoComlete").val('');
+                    $("#MemberAutoComleteId").val('');
+                });
+        $("#selectUserModal")
+            .on("click",
+                function() {
+                    var name = $("#MemberAutoComlete").val();
+                    var id = $("#MemberAutoComleteId").val();
+                    $("#MemberName").val(name);
+                    $("#@Html.IdFor(m => m.MemberId)").val(id);
+
+                    $('#memberSelectModal').modal('hide');
+                });
+    });
+</script>
+<style>
+    ul.ui-autocomplete {
+    z-index: 1100;
+}
+</style>
