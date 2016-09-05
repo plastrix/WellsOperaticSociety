@@ -3204,6 +3204,9 @@
     <Content Include="Views\MacroPartials\AdminManageFunctions.cshtml" />
     <Content Include="Views\MacroPartials\AdminAddMembersToFunction.cshtml" />
     <Content Include="Views\MacroPartials\MembershipDisplayMinutes.cshtml" />
+    <Content Include="Views\AdminSurface\ManageSeats.cshtml" />
+    <Content Include="Views\Partials\AddSeatForm.cshtml" />
+    <Content Include="Views\MacroPartials\AdminManageSeats.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3251,6 +3254,7 @@
     <Compile Include="Models\AddMembersToFunctionViewModel.cs" />
     <Compile Include="Models\ManageMembershipViewModel.cs" />
     <Compile Include="Models\ManageMemberViewModel.cs" />
+    <Compile Include="Models\ManageSeatsViewModel.cs" />
     <Compile Include="Models\ManageSubscriptionViewModel.cs" />
     <Compile Include="Models\PreviousProductionsViewModel.cs" />
     <Compile Include="Models\StripeCheckoutViewModel.cs" />

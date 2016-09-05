@@ -13,6 +13,7 @@ using Umbraco.Web;
 using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.DAL;
+using WellsOperaticSociety.Models.AdminModels;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 
 namespace WellsOperaticSociety.BusinessLogic
@@ -133,10 +134,11 @@ namespace WellsOperaticSociety.BusinessLogic
             using (var db = new DataContext())
             {
                 var memberhsip = db.Memberships.SingleOrDefault(m => m.MembershipId == membershipId);
-                if(memberhsip!=null)
+                if (memberhsip != null)
+                {
                     db.Memberships.Remove(memberhsip);
-
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -196,6 +198,36 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             //TODO: Make this return only members with active membership
             return ApplicationContext.Current.Services.MemberService.GetAllMembers().Select(m=> new { label = m.Name, value = m.Id });
+        }
+
+        public List<Seat> GetSeats()
+        {
+            using (var db = new DataContext())
+            {
+                return db.Seats.OrderBy(m=>m.SeatNumber).ToList();
+            }
+        }
+
+        public void AddSeat(Seat seat)
+        {
+            using (var db = new DataContext())
+            {
+                db.Seats.Add(seat);
+                db.SaveChanges();
+            }
+        }
+
+        public void DeleteSeat(int seatId)
+        {
+            using (var db = new DataContext())
+            {
+                var seat= db.Seats.SingleOrDefault(m=>m.SeatId == seatId);
+                if (seat != null)
+                {
+                    db.Seats.Remove(seat);
+                    db.SaveChanges();
+                }
+            }
         }
         #endregion
 

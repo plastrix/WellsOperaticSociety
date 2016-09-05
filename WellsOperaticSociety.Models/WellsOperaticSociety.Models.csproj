@@ -262,6 +262,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminModels\Seat.cs" />
     <Compile Include="ContactUs.cs" />
     <Compile Include="Enums\MembershipType.cs" />
     <Compile Include="Function.cs" />

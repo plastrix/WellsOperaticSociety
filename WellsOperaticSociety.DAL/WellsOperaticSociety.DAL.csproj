@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201609041730469_NullableAddedToModelMemberInSHow.Designer.cs">
       <DependentUpon>201609041730469_NullableAddedToModelMemberInSHow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609051540001_AddSeatTable.cs" />
+    <Compile Include="Migrations\201609051540001_AddSeatTable.Designer.cs">
+      <DependentUpon>201609051540001_AddSeatTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -98,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609041730469_NullableAddedToModelMemberInSHow.resx">
       <DependentUpon>201609041730469_NullableAddedToModelMemberInSHow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609051540001_AddSeatTable.resx">
+      <DependentUpon>201609051540001_AddSeatTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
