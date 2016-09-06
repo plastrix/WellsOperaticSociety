@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <language alias="fr" intName="French" localName="français" lcid="12" culture="fr-FR">
   <creator>
     <name>The Umbraco community</name>
@@ -36,6 +36,12 @@
     <key alias="translate">Traduire</key>
     <key alias="update">Mettre à jour</key>
     <key alias="defaultValue">Valeur par défaut</key>
+    <key alias="DeleteCMSImportAction">Delete</key>
+    <key alias="ExecuteCMSImportWizardAction">Execute</key>
+    <key alias="ScheduleCMSImportWizardAction">Schedule</key>
+    <key alias="StartCMSImportWizardAction">Import Data</key>
+    <key alias="StartCMSImportChildDefinitionAction">Create child definition</key>
+    <key alias="LastRunInfoAction">Scheduled task log</key>
   </area>
   <area alias="assignDomain">
     <key alias="permissionDenied">Permission refusée.</key>
@@ -189,27 +195,22 @@
   </area>
   <area alias="bulk">
     <key alias="done">Done</key>
-
     <key alias="deletedItem">Deleted %0% item</key>
     <key alias="deletedItems">Deleted %0% items</key>
     <key alias="deletedItemOfItem">Deleted %0% out of %1% item</key>
     <key alias="deletedItemOfItems">Deleted %0% out of %1% items</key>
-
     <key alias="publishedItem">Published %0% item</key>
     <key alias="publishedItems">Published %0% items</key>
     <key alias="publishedItemOfItem">Published %0% out of %1% item</key>
     <key alias="publishedItemOfItems">Published %0% out of %1% items</key>
-
     <key alias="unpublishedItem">Unpublished %0% item</key>
     <key alias="unpublishedItems">Unpublished %0% items</key>
     <key alias="unpublishedItemOfItem">Unpublished %0% out of %1% item</key>
     <key alias="unpublishedItemOfItems">Unpublished %0% out of %1% items</key>
-
     <key alias="movedItem">Moved %0% item</key>
     <key alias="movedItems">Moved %0% items</key>
     <key alias="movedItemOfItem">Moved %0% out of %1% item</key>
     <key alias="movedItemOfItems">Moved %0% out of %1% items</key>
-
     <key alias="copiedItem">Copied %0% item</key>
     <key alias="copiedItems">Copied %0% items</key>
     <key alias="copiedItemOfItem">Copied %0% out of %1% item</key>
@@ -414,7 +415,8 @@
     <key alias="showPageOnSend">Afficher la page à l'envoi</key>
     <key alias="size">Taille</key>
     <key alias="sort">Trier</key>
-    <key alias="submit">Submit</key> <!-- TODO: Translate this -->
+    <key alias="submit">Submit</key>
+    <!-- TODO: Translate this -->
     <key alias="type">Type</key>
     <key alias="typeToSearch">Rechercher...</key>
     <key alias="up">Haut</key>
@@ -705,11 +707,9 @@ Pour gérer votre site, ouvrez simplement le backoffice Umbraco et commencez à 
     <key alias="paSimpleHelp">Si vous souhaitez simplement mettre en place une protection par identifiant et mot de passe</key>
   </area>
   <area alias="publish">
-    <key alias="contentPublishedFailedAwaitingRelease">
-      <![CDATA[
+    <key alias="contentPublishedFailedAwaitingRelease"><![CDATA[
       %0% n'a pas pu être publié car cet élément est programmé pour être publié bientôt.
-    ]]>
-    </key>
+    ]]></key>
     <key alias="contentPublishedFailedInvalid"><![CDATA[
       %0% n'a pas pu être publié à cause des propriétés suivantes qui n'ont pas pu passer les règles de validation :  %1%.
     ]]></key>
@@ -879,15 +879,12 @@ Pour gérer votre site, ouvrez simplement le backoffice Umbraco et commencez à 
     <key alias="addElement">Ajouter du contenu</key>
     <key alias="dropElement">Contenu goutte</key>
     <key alias="settingsApplied">Paramètres appliqués</key>
-
     <key alias="contentNotAllowed">Ce contenu est pas autorisée ici</key>
     <key alias="contentAllowed">Ce contenu est permis ici</key>
-
     <key alias="clickToEmbed">Cliquez pour intégrer</key>
     <key alias="clickToInsertImage">Cliquez pour insérer l'image</key>
     <key alias="placeholderImageCaption">Légende de l'image...</key>
     <key alias="placeholderWriteHere">Ecrire ici...</key>
-
     <key alias="gridLayouts">Layouts Grid</key>
     <key alias="gridLayoutsDetail">Layouts sont la superficie totale de travail pour l'éditeur de grille, en général, vous avez seulement besoin d'une ou deux configurations différentes</key>
     <key alias="addGridLayout">Ajouter Grid Layout</key>
@@ -896,18 +893,13 @@ Pour gérer votre site, ouvrez simplement le backoffice Umbraco et commencez à 
     <key alias="rowConfigurationsDetail">Les lignes sont des cellules prédéfinies disposées horizontalement</key>
     <key alias="addRowConfiguration">Ajouter une configuration de la ligne</key>
     <key alias="addRowConfigurationDetail">Ajustez la ligne en réglant la largeur des cellules et en ajoutant des cellules supplémentaires</key>
-
     <key alias="columns">Colonnes</key>
     <key alias="columnsDetails">Nombre total combiné de colonnes dans la configuration de la grille</key>
-
     <key alias="settings">Paramètres</key>
     <key alias="settingsDetails">Configurer quels paramètres éditeurs peuvent changer</key>
-
     <key alias="styles">Modes</key>
     <key alias="stylesDetails">Configurer ce style éditeurs peuvent changer</key>
-
     <key alias="settingDialogDetails">Les réglages seulement économiser si la configuration du json saisi est valide</key>
-
     <key alias="allowAllEditors">Autoriser tous les éditeurs</key>
     <key alias="allowAllRowConfigurations">Autoriser toutes les configurations de lignes</key>
   </area>

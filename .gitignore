@@ -271,3 +271,4 @@ paket-files/
 
 #Private information
 [Ss]ensative[Ii]nformation/
+**/App_Data/cmsimport/

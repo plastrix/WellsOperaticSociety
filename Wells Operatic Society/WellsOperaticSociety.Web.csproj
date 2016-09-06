@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -3207,6 +3208,7 @@
     <Content Include="Views\AdminSurface\ManageSeats.cshtml" />
     <Content Include="Views\Partials\AddSeatForm.cshtml" />
     <Content Include="Views\MacroPartials\AdminManageSeats.cshtml" />
+    <Content Include="Views\MacroPartials\DataTransfer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

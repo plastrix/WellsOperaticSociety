@@ -1,10 +1,10 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
-@using System;
+﻿@using System;
 @using WellsOperaticSociety.BusinessLogic
 @{
     UmbracoHelper helper = new UmbracoHelper(UmbracoContext.Current);
 
     var topLevel = GetTopLevelNodes(helper);
+    var membershipHelper = new Umbraco.Web.Security.MembershipHelper(UmbracoContext.Current);
 }
 
 <div id="navbar">
@@ -76,9 +76,9 @@
                 }
             </ul>
         </div><!-- /.navbar-collapse -->
-    @if (Members.IsLoggedIn())
+    @if(membershipHelper.IsLoggedIn())
     {
-        <p>Welcome @Members.GetCurrentLoginStatus().Name <a href="@Url.Action("Logout","MembershipSurface")">Logout</a></p>
+        <p>Welcome @membershipHelper.GetCurrentLoginStatus().Name <a href="@Url.Action("Logout","MembershipSurface")">Logout</a></p>
     }
     else
     {

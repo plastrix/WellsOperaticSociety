@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <language alias="ru" intName="Russian" localName="русский" lcid="" culture="ru-RU">
   <creator>
     <name>The Umbraco community</name>
@@ -37,6 +37,12 @@
     <key alias="translate">Перевести</key>
     <key alias="unpublish">Скрыть</key>
     <key alias="update">Обновить</key>
+    <key alias="DeleteCMSImportAction">Delete</key>
+    <key alias="ExecuteCMSImportWizardAction">Execute</key>
+    <key alias="ScheduleCMSImportWizardAction">Schedule</key>
+    <key alias="StartCMSImportWizardAction">Import Data</key>
+    <key alias="StartCMSImportChildDefinitionAction">Create child definition</key>
+    <key alias="LastRunInfoAction">Scheduled task log</key>
   </area>
   <area alias="assignDomain">
     <key alias="addNew">Добавить новый домен</key>
@@ -66,27 +72,22 @@
   </area>
   <area alias="bulk">
     <key alias="done">Завершено</key>
-
     <key alias="deletedItem">Удален %0% элемент</key>
     <key alias="deletedItems">Удалено %0% элементов</key>
     <key alias="deletedItemOfItem">Удален %0% из %1% элементов</key>
     <key alias="deletedItemOfItems">Удалено %0% из %1% элементов</key>
-
     <key alias="publishedItem">Опубликован %0% элемент</key>
     <key alias="publishedItems">Опубликовано %0% элементов</key>
     <key alias="publishedItemOfItem">Опубликован %0% из %1% элементов</key>
     <key alias="publishedItemOfItems">Опубликовано %0% из %1% элементов</key>
-
     <key alias="unpublishedItem">Скрыт %0% элемент</key>
     <key alias="unpublishedItems">Скрыто %0% элементов</key>
     <key alias="unpublishedItemOfItem">Скрыт %0% из %1% элементов</key>
     <key alias="unpublishedItemOfItems">Скрыто %0% из %1% элементов</key>
-
     <key alias="movedItem">Перенесен %0% элемент</key>
     <key alias="movedItems">Перенесено %0% элементов</key>
     <key alias="movedItemOfItem">Перенесен %0% из %1% элементов</key>
     <key alias="movedItemOfItems">Перенесено %0% из %1% элементов</key>
-
     <key alias="copiedItem">Скопирован %0% элемент</key>
     <key alias="copiedItems">Скопировано %0% элементов</key>
     <key alias="copiedItemOfItem">Скопирован %0% из %1% элементов</key>
@@ -223,52 +224,39 @@
     <key alias="inheritedFrom">Унаследован от</key>
     <key alias="addProperty">Добавить свойство</key>
     <key alias="requiredLabel">Обязательная метка</key>
-
     <key alias="enableListViewHeading">Представление в формате списка</key>
     <key alias="enableListViewDescription">Устанавливает представление документа данного типа в виде сортируемого списка дочерних документов с функцией поиска, в отличие от обычного представления дочерних документов в виде дерева</key>
-
     <key alias="allowedTemplatesHeading">Допустимые шаблоны</key>
     <key alias="allowedTemplatesDescription">Выберите перечень допустимых шаблонов для сопоставления документам данного типа</key>
     <key alias="allowAsRootHeading">Разрешить в качестве корневого</key>
     <key alias="allowAsRootDescription">Позволяет создавать документы этого типа в самом корне дерева содержимого</key>
     <key alias="allowAsRootCheckbox">ДА - разрешить создание в качестве корневого</key>
-
     <key alias="childNodesHeading">Допустимые типы дочерних документов</key>
     <key alias="childNodesDescription">Позволяет указать перечень типов документов, допустимых для создания документов, дочерних к данному типу</key>
-
     <key alias="chooseChildNode">Выбрать дочерний узел</key>
     <key alias="compositionsDescription">Унаследовать вкладки и свойства из уже существующего типа документов. Вкладки будут либо добавлены в создаваемый тип, либо в случае совпадения названий вкладок будут добавлены наследуемые свойства.</key>
     <key alias="compositionInUse">Этот тип документов уже участвует в композиции другого типа, поэтому сам не может быть композицией.</key>
     <key alias="noAvailableCompositions">В настоящее время нет типов документов, допустимых для построения композиции.</key>
-
     <key alias="availableEditors">Доступные редакторы</key>
     <key alias="reuse">Переиспользовать</key>
     <key alias="editorSettings">Установки редактора</key>
-
     <key alias="configuration">Конфигурирование</key>
-
     <key alias="yesDelete">ДА, удалить</key>
-
     <key alias="movedUnderneath">перемещены внутрь</key>
     <key alias="copiedUnderneath">скопированы внутрь</key>
     <key alias="folderToMove">Выбрать папку для перемещения</key>
     <key alias="folderToCopy">Выбрать папку для копирования</key>
     <key alias="structureBelow">в структуре дерева</key>
-
     <key alias="allDocumentTypes">Все типы документов</key>
     <key alias="allDocuments">Все документы</key>
     <key alias="allMediaItems">Все медиа-элементы</key>
-
     <key alias="usingThisDocument">, использующие этот тип документов, будут безвозвратно удалены, пожалуйста, подтвердите это действие.</key>
     <key alias="usingThisMedia">, использующие этот тип медиа, будут безвозвратно удалены, пожалуйста, подтвердите это действие.</key>
     <key alias="usingThisMember">, использующие этот тип участников, будут безвозвратно удалены, пожалуйста, подтвердите это действие.</key>
-
     <key alias="andAllDocuments">и все документы, использующие данный тип</key>
     <key alias="andAllMediaItems">и все медиа-элементы, использующие данный тип</key>
     <key alias="andAllMembers">и все участники, использующие данный тип</key>
-
     <key alias="thisEditorUpdateSettings">, использующие этот редактор, будут обновлены с применением этих установок</key>
-
     <key alias="memberCanEdit">Участник может изменить</key>
     <key alias="showOnMemberProfile">Показать в профиле участника</key>
     <key alias="tabHasNoSortOrder">для вкладки не указан порядок сортировки</key>
@@ -340,18 +328,13 @@
     <key alias="treepicker">Выберите элемент</key>
     <key alias="viewCacheItem">Просмотр элемента кэша</key>
     <key alias="createFolder">Создать папку...</key>
-
     <key alias="relateToOriginalLabel">Связать с оригиналом</key>
     <key alias="theFriendliestCommunity">Самое дружелюбное сообщество</key>
-
     <key alias="linkToPage">Ссылка на страницу</key>
-
     <key alias="openInNewWindow">Открывает документ по ссылке в новом окне или вкладке браузера</key>
     <key alias="openInFullBody">Открывает документ по ссылке в полноэкранном режиме</key>
     <key alias="openInParentFrame">Открывает документ по ссылке в родительском фрейме</key>
-
     <key alias="linkToMedia">Ссылка на медиа-файл</key>
-
     <key alias="selectMedia">Выбрать медиа</key>
     <key alias="selectIcon">Выбрать значок</key>
     <key alias="selectItem">Выбрать элемент</key>
@@ -360,19 +343,14 @@
     <key alias="selectContent">Выбрать содержимое</key>
     <key alias="selectMember">Выбрать участника</key>
     <key alias="selectMemberGroup">Выбрать группу участников</key>
-
     <key alias="noMacroParams">Это макрос без параметров</key>
-
     <key alias="externalLoginProviders">Провайдеры аутентификации</key>
     <key alias="exceptionDetail">Подробное сообщение об ошибке</key>
     <key alias="stacktrace">Трассировка стека</key>
     <key alias="innerException">Внутренняя ошибка</key>
-
     <key alias="linkYour">Связать</key>
     <key alias="unLinkYour">Разорвать связь</key>
-
     <key alias="account">учетную запись</key>
-
     <key alias="selectEditor">Выбрать редактор</key>
   </area>
   <area alias="dictionaryItem">
@@ -623,7 +601,6 @@
     <key alias="rectifySuccessMessage">Значение установлено в '%1%' для пути XPath '%2%' в файле конфигурации '%3%'.</key>
     <key alias="checkErrorMessageDifferentExpectedValue">Ожидаемое значение '%1%' для параметра '%2%' в файле конфигурации '%3%', найденное значение: '%0%'.</key>
     <key alias="checkErrorMessageUnexpectedValue">Найдено неожиданное значение '%0%' для параметра '%2%' в файле конфигурации '%3%'.</key>
-
     <!-- The following keys get these tokens passed in:
 	     0: Current value
 		   1: Recommended value
@@ -631,11 +608,9 @@
     <key alias="customErrorsCheckSuccessMessage">Параметр 'CustomErrors' установлен в '%0%'.</key>
     <key alias="customErrorsCheckErrorMessage">Параметр 'CustomErrors' сейчас установлен в '%0%'. Рекомендуется установить в '%1%' перед размещением сайта в сети.</key>
     <key alias="customErrorsCheckRectifySuccessMessage">Параметр 'CustomErrors' успешно установлен в '%0%'.</key>
-
     <key alias="macroErrorModeCheckSuccessMessage">Параметр 'MacroErrors' установлен в '%0%'.</key>
     <key alias="macroErrorModeCheckErrorMessage">Параметр 'MacroErrors' установлен в '%0%', что может привести к неполной обработке части страниц или всех страниц сайта при наличии ошибок в макросах. Устранить это можно путем установки значения в '%1%'.</key>
     <key alias="macroErrorModeCheckRectifySuccessMessage">Параметр 'MacroErrors' теперь установлен в '%0%'.</key>
-
     <!-- The following keys get these tokens passed in:
 	     0: Current value
 		   1: Recommended value
@@ -644,73 +619,60 @@
     <key alias="trySkipIisCustomErrorsCheckSuccessMessage">Параметр 'Try Skip IIS Custom Errors' установлен в '%0%' и Вы используете IIS версии '%1%'.</key>
     <key alias="trySkipIisCustomErrorsCheckErrorMessage">Параметр 'Try Skip IIS Custom Errors' сейчас установлен в '%0%'. Рекомендуется установить в '%1%' для Вашего текущего IIS версии (%2%).</key>
     <key alias="trySkipIisCustomErrorsCheckRectifySuccessMessage">Параметр 'Try Skip IIS Custom Errors' успешно установлен в '%0%'.</key>
-
     <!-- The following keys get predefined tokens passed in that are not all the same, like above -->
     <key alias="configurationServiceFileNotFound">Файл не существует: '%0%'.</key>
     <key alias="configurationServiceNodeNotFound"><![CDATA[Не найден параметр <strong>'%0%'</strong> в файле конфигурации <strong>'%1%'</strong>.]]></key>
     <key alias="configurationServiceError">Обнаружена ошибка, для получения полной информации обратитесь к журналу: %0%.</key>
-
     <key alias="xmlDataIntegrityCheckMembers">Участники - всего в XML: %0%, всего: %1%, с ошибками: %2%</key>
     <key alias="xmlDataIntegrityCheckMedia">Медиа - всего в XML: %0%, всего: %1%Б с ошибками: %2%</key>
     <key alias="xmlDataIntegrityCheckContent">Содержимое - всего в XML: %0%, всего опубликовано: %1%, с ошибками: %2%</key>
-
     <key alias="httpsCheckInvalidCertificate">Ошибка проверки сертификата: '%0%'</key>
     <key alias="httpsCheckInvalidUrl">Ошибка проверки адреса URL %0% - '%1%'</key>
     <key alias="httpsCheckIsCurrentSchemeHttps">Сейчас Вы %0% просматриваете сайт, используя протокол HTTPS.</key>
     <key alias="httpsCheckConfigurationRectifyNotPossible">Параметр 'umbracoUseSSL' в секции 'appSetting' установлен в 'false' в файле web.config. Если Вам необходим доступ к сайту по протоколу HTTPS, нужно установить данный параметр в 'true'.</key>
     <key alias="httpsCheckConfigurationCheckResult">Параметр 'umbracoUseSSL' в секции 'appSetting' в файле установлен в '%0%', значения cookies %1% маркированы как безопасные.</key>
     <key alias="httpsCheckEnableHttpsError">Невозможно обновить значение параметра 'umbracoUseSSL' в файле web.config. Ошибка: %0%</key>
-
     <!-- The following keys don't get tokens passed in -->
     <key alias="httpsCheckEnableHttpsButton">Разрешить HTTPS</key>
     <key alias="httpsCheckEnableHttpsDescription">Устанавливает значение параметра 'umbracoSSL' в 'true' в секции 'appSettings' файла web.config.</key>
     <key alias="httpsCheckEnableHttpsSuccess">Параметр 'umbracoUseSSL' в секции 'appSetting' файлf web.config теперь установлен в 'true', значения cookies будут промаркированы как безопасные.</key>
-
     <key alias="rectifyButton">Исправить</key>
     <key alias="cannotRectifyShouldNotEqual">Невозможно исправление по результату проверки значения на 'ShouldNotEqual'.</key>
     <key alias="cannotRectifyShouldEqualWithValue">Невозможно исправление по результату проверки значения на 'ShouldEqual' с предоставленным значением.</key>
     <key alias="valueToRectifyNotProvided">Значение для исправления не предоставлено.</key>
-
     <key alias="compilationDebugCheckSuccessMessage">Режим компиляции с отладкой выключен.</key>
     <key alias="compilationDebugCheckErrorMessage">Режим компиляции с отладкой сейчас включен. Рекомендуется выключить перед размещением сайта в сети.</key>
     <key alias="compilationDebugCheckRectifySuccessMessage">Режим компиляции с отладкой успешно выключен.</key>
-
     <key alias="traceModeCheckSuccessMessage">Режим трассировки выключен.</key>
     <key alias="traceModeCheckErrorMessage">Режим трассировки сейчас включен. Рекомендуется выключить перед размещением сайта в сети.</key>
     <key alias="traceModeCheckRectifySuccessMessage">Режим трассировки успешно выключен.</key>
-
     <key alias="folderPermissionsCheckMessage">Все папки имеют корректно установленные параметры безопасности.</key>
     <!-- The following keys get these tokens passed in:
 	    0: Comma delimitted list of failed folder paths
   	-->
     <key alias="requiredFolderPermissionFailed"><![CDATA[Не получен доступ для установки корректных параметров безопасности к следующим папкам: <strong>%0%</strong>.]]></key>
     <key alias="optionalFolderPermissionFailed"><![CDATA[Невозможно получить доступ для установки корректных параметров безопасности с целью корректного функционирования Umbraco к следующим папкам: <strong>%0%</strong>. Если в них не разрешена запись, не нужно предпринимать никаких действий.]]></key>
-
     <key alias="filePermissionsCheckMessage">Все файлы имеют корректно установленные параметры безопасности.</key>
     <!-- The following keys get these tokens passed in:
 	    0: Comma delimitted list of failed folder paths
   	-->
     <key alias="requiredFilePermissionFailed"><![CDATA[Не получен доступ для установки корректных параметров безопасности к следующим файлам: <strong>%0%</strong>.]]></key>
     <key alias="optionalFilePermissionFailed"><![CDATA[Невозможно получить доступ для установки корректных параметров безопасности с целью корректного функционирования Umbraco к следующим файлам: <strong>%0%</strong>. Если в них не разрешена запись, не нужно предпринимать никаких действий.]]></key>
-
     <key alias="clickJackingCheckHeaderFound"><![CDATA[Был обнаружен заголовок или мета-тэг <strong>X-Frame-Options</strong>, использующийся для управления возможностью помещать сайт в IFRAME на другом сайте.]]></key>
     <key alias="clickJackingCheckHeaderNotFound"><![CDATA[Заголовок или мета-тэг <strong>X-Frame-Options</strong>, использующийся для управления возможностью помещать сайт в IFRAME на другом сайте, не обнаружен.]]></key>
     <key alias="clickJackingSetHeaderInConfig">Установить заголовок в файле конфигурации</key>
     <key alias="clickJackingSetHeaderInConfigDescription">Добавляет значение в секцию 'httpProtocol/customHeaders' файла web.config, препятствующее возможному использованию этого сайта внутри IFRAME на другом сайте.</key>
     <key alias="clickJackingSetHeaderInConfigSuccess">Значение, добавляющее заголовок, препятствующий использованию этого сайта внутри IFRAME другого сайта, успешно добавлено в файл web.config.</key>
     <key alias="clickJackingSetHeaderInConfigError">Невозможно обновить файл web.config. Ошибка: %0%</key>
-
     <!-- The following key get these tokens passed in:
 	    0: Comma delimitted list of headers found
   	-->
     <key alias="excessiveHeadersFound"><![CDATA[Обнаружены следующие заголовки, позволяющие выяснить базовую технологию сайта: <strong>%0%</strong>.]]></key>
     <key alias="excessiveHeadersNotFound">Заголовки, позволяющие выяснить базовую технологию сайта, не обнаружены.</key>
-
     <key alias="smtpMailSettingsNotFound">В файле Web.config, не обнаружено параметров работы с отправкой электронной почты (секция 'system.net/mailsettings').</key>
     <key alias="smtpMailSettingsHostNotConfigured">В файле Web.config в секции 'system.net/mailsettings' не обнаружены настройки почтового хоста.</key>
     <key alias="smtpMailSettingsConnectionSuccess">Параметры отправки электронной почты (SMTP) настроены корректно, сервис работает как ожидается.</key>
     <key alias="smtpMailSettingsConnectionFail">Сервер SMTP сконфигурирован на использование хоста '%0%' на порту '%1%', который в настоящее время недоступен. Пожалуйста, убедитесь, что настройки SMTP в файле Web.config в секции 'system.net/mailsettings' верны.</key>
-
     <key alias="notificationEmailsCheckSuccessMessage"><![CDATA[Адрес для отправки уведомлений установлен в <strong>%0%</strong>.]]></key>
     <key alias="notificationEmailsCheckErrorMessage"><![CDATA[Адрес для отправки уведомлений все еще установлен в значение по-умолчанию <strong>%0%</strong>.]]></key>
   </area>
@@ -748,9 +710,7 @@
 		<p>Пожалуйста, не волнуйтесь, ни одной строки Вашей базы данных
 		не будет потеряно при данной операции, и после ее завершения все будет работать!</p>
 		]]></key>
-    <key alias="databaseUpgradeDone">
-      <![CDATA[Ваша база данных успешно обновлена до последней версии %0%.<br/>Нажмите <strong>Далее</strong> для продолжения. ]]>
-    </key>
+    <key alias="databaseUpgradeDone"><![CDATA[Ваша база данных успешно обновлена до последней версии %0%.<br/>Нажмите <strong>Далее</strong> для продолжения. ]]></key>
     <key alias="databaseUpToDate"><![CDATA[Указанная Вами база данных находится в актуальном состоянии. Нажмите кнопку <strong>Далее</strong> для продолжения работы мастера настроек]]></key>
     <key alias="defaultUserChangePass"><![CDATA[<strong>Пароль пользователя по-умолчанию необходимо сменить!</strong>]]></key>
     <key alias="defaultUserDisabled"><![CDATA[<strong>Пользователь по-умолчанию заблокирован или не имеет доступа к Umbraco!</strong></p><p>Не будет предпринято никаких дальнейших действий. Нажмите кнопку <strong>Далее</strong> для продолжения.]]></key>
@@ -758,8 +718,7 @@
     <key alias="defaultUserPasswordChanged">Пароль изменен!</key>
     <key alias="defaultUserText"><![CDATA[
 		<p>Umbraco создает пользователя по-умолчанию с именем входа <strong>('admin')</strong> и паролем <strong>('default')</strong>.
-		<strong>ОЧЕНЬ ВАЖНО</strong> изменить пароль по-умолчанию на что-либо уникальное.</p>]]>
-    </key>
+		<strong>ОЧЕНЬ ВАЖНО</strong> изменить пароль по-умолчанию на что-либо уникальное.</p>]]></key>
     <key alias="greatStart">Для начального обзора возможностей системы рекомендуем посмотреть ознакомительные видеоматериалы</key>
     <key alias="licenseText"><![CDATA[Нажимая кнопку <strong>Далее</strong> (или модифицируя вручную ключ "UmbracoConfigurationStatus" в файле "web.config"), Вы принимаете лицензионное соглашение для данного программного обеспечения, расположенное ниже. Пожалуйста, обратите внимание, что установочный пакет Umbraco отвечает двум различным типам лицензий: лицензии MIT на программные продукты с открытым исходным кодом в части ядра системы и свободной лицензии Umbraco в части пользовательского интерфейса.]]></key>
     <key alias="None">Система не установлена.</key>
@@ -866,9 +825,7 @@
     <key alias="signInWith">Войти с помощью</key>
     <key alias="resetCodeExpired">Ссылка, по которой Вы попали сюда, неверна или устарела</key>
     <key alias="resetPasswordEmailCopySubject">Umbraco: сброс пароля</key>
-    <key alias="resetPasswordEmailCopyFormat">
-      <![CDATA[<p>Ваше имя пользователя для входа в панель администрирования Umbraco: <strong>%0%</strong></p><p>Перейдите по <a href="%1%"><strong>этой ссылке</strong></a> для того, чтобы сбросить Ваш пароль, или скопируйте текст ссылки и вставьте в адресную строку своего браузера:</p><p><em>%1%</em></p>]]>
-    </key>
+    <key alias="resetPasswordEmailCopyFormat"><![CDATA[<p>Ваше имя пользователя для входа в панель администрирования Umbraco: <strong>%0%</strong></p><p>Перейдите по <a href="%1%"><strong>этой ссылке</strong></a> для того, чтобы сбросить Ваш пароль, или скопируйте текст ссылки и вставьте в адресную строку своего браузера:</p><p><em>%1%</em></p>]]></key>
   </area>
   <area alias="main">
     <key alias="dashboard">Панель управления</key>
@@ -889,11 +846,11 @@
     <key alias="allMembers">Все участники</key>
   </area>
   <area alias="modelsBuilder">
-      <key alias="buildingModels">Построение моделей</key>
-      <key alias="waitingMessage">это может занять некоторое время, пожалуйста, подождите</key>
-      <key alias="modelsGenerated">Модели построены</key>
-      <key alias="modelsGeneratedError">Модели не могут быть построены</key>
-      <key alias="modelsExceptionInUlog">Процесс построения моделей завершился ошибкой, подробности в системном журнале Umbraco</key>
+    <key alias="buildingModels">Построение моделей</key>
+    <key alias="waitingMessage">это может занять некоторое время, пожалуйста, подождите</key>
+    <key alias="modelsGenerated">Модели построены</key>
+    <key alias="modelsGeneratedError">Модели не могут быть построены</key>
+    <key alias="modelsExceptionInUlog">Процесс построения моделей завершился ошибкой, подробности в системном журнале Umbraco</key>
   </area>
   <area alias="moveOrCopy">
     <key alias="choose">Выберите страницу...</key>
@@ -1044,7 +1001,7 @@
     <key alias="contentPublishedFailedByEvent"><![CDATA[
 		Документ %0% не может быть опубликован. Операцию отменил установленный в системе пакет дополнений.
 		]]></key>
-	<key alias="contentPublishedFailedExpired"><![CDATA[
+    <key alias="contentPublishedFailedExpired"><![CDATA[
       Документ %0% не может быть опубликован, так как текущая информация в нем устарела.
     ]]></key>
     <key alias="contentPublishedFailedByParent"><![CDATA[
@@ -1131,14 +1088,10 @@
     <key alias="addTemplate">Добавить шаблон</key>
     <key alias="addChildNode">Добавить дочерний узел</key>
     <key alias="addChild">Добавить дочерний</key>
-
     <key alias="editDataType">Изменить тип данных</key>
-
     <key alias="navigateSections">Навигация по разделам</key>
-
     <key alias="shortcut">Ярлыки</key>
     <key alias="showShortcuts">показать ярлыки</key>
-
     <key alias="toggleListView">В формате списка</key>
     <key alias="toggleAllowAsRoot">Разрешить в качестве корневого</key>
   </area>
@@ -1173,7 +1126,8 @@
     <key alias="editContentSendToPublish">Отослано на утверждение</key>
     <key alias="editContentSendToPublishText">Изменения отосланы на утверждение</key>
     <key alias="editMediaSaved">Медиа-элемент сохранен</key>
-    <key alias="editMediaSavedText"></key>
+    <key alias="editMediaSavedText">
+    </key>
     <key alias="editMemberSaved">Участник сохранен</key>
     <key alias="editStylesheetPropertySaved">Правило стиля CSS сохранено</key>
     <key alias="editStylesheetSaved">Стиль CSS сохранен</key>

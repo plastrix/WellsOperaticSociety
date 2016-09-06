@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Hosting;
 using System.Xml.Linq;
 using Umbraco.Core;
@@ -71,7 +68,7 @@ namespace WellsOperaticSociety.BusinessLogic
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
-            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate>= DateTime.Now).Skip(rowIndex).Take(pageSize).OrderByDescending(n=>n.EndDate).ToList();
+            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate >= DateTime.Now).Skip(rowIndex).Take(pageSize).OrderByDescending(n => n.EndDate).ToList();
         }
 
         public List<Function> GetExpiredFunctions(int pageSize, int rowIndex)
@@ -80,10 +77,10 @@ namespace WellsOperaticSociety.BusinessLogic
             return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate < DateTime.Now).Skip(rowIndex).Take(pageSize).OrderByDescending(n => n.EndDate).ToList();
         }
 
-        public List<Function> GetAllFunctions(int pageSize, int rowIndex)
+        public List<Function> GetFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
-            return funcListNode.Children.Select(n => new Function(n)).Skip(rowIndex).Take(pageSize).OrderByDescending(n => n.EndDate).ToList();
+            return funcListNode.Children.Select(n => new Function(n)).OrderByDescending(n => n.EndDate).Skip(rowIndex).Take(pageSize).ToList();
         }
 
         public int GetCountOfExpiredFunctions()
@@ -106,7 +103,7 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             var helper = new UmbracoHelper(Umbraco);
             var func = helper.TypedContent(id);
-            if(func != null)
+            if (func != null)
                 return new Function(func);
             return null;
         }
@@ -114,16 +111,16 @@ namespace WellsOperaticSociety.BusinessLogic
         #region DataContext
         public List<Membership> GetMembershipsForUser(int memberId)
         {
-            using(var db = new DataContext())
+            using (var db = new DataContext())
             {
-                return db.Memberships.Where(m => m.Member == memberId).OrderByDescending(m=>m.EndDate).ToList();
+                return db.Memberships.Where(m => m.Member == memberId).OrderByDescending(m => m.EndDate).ToList();
             }
         }
 
         public void CreateMembership(Membership membership)
         {
             using (var db = new DataContext())
-            { 
+            {
                 db.Memberships.Add(membership);
                 db.SaveChanges();
             }
@@ -151,7 +148,7 @@ namespace WellsOperaticSociety.BusinessLogic
                 if (memberId != null)
                     roles = roles.Where(m => m.MemberId == (int)memberId);
 
-                roles.ForEach(m =>m.Member = new Member(helper.TypedMember(m.MemberId)));
+                roles.ForEach(m => m.Member = new Member(helper.TypedMember(m.MemberId)));
                 return roles.ToList();
             }
         }
@@ -182,7 +179,7 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             using (var db = new DataContext())
             {
-                return db.MemberRolesInShows.Where(m=>m.Role.ToLower().Contains(query.ToLower())).Select(m=>m.Role).ToList();
+                return db.MemberRolesInShows.Where(m => m.Role.ToLower().Contains(query.ToLower())).GroupBy(m=>new {m.Role}).Select(m => m.FirstOrDefault().Role).ToList();
             }
         }
 
@@ -190,21 +187,21 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             using (var db = new DataContext())
             {
-                return db.MemberRolesInShows.Where(m => m.Group.ToLower().Contains(query.ToLower())).Select(m => m.Group).ToList();
+                return db.MemberRolesInShows.Where(m => m.Group.ToLower().Contains(query.ToLower())).GroupBy(m => new { m.Group }).Select(m => m.FirstOrDefault().Group).ToList();
             }
         }
 
         public object AcitveMemberSuggestions(string query)
         {
             //TODO: Make this return only members with active membership
-            return ApplicationContext.Current.Services.MemberService.GetAllMembers().Select(m=> new { label = m.Name, value = m.Id });
+            return ApplicationContext.Current.Services.MemberService.GetAllMembers().Select(m => new { label = m.Name, value = m.Id });
         }
 
         public List<Seat> GetSeats()
         {
             using (var db = new DataContext())
             {
-                return db.Seats.OrderBy(m=>m.SeatNumber).ToList();
+                return db.Seats.OrderBy(m => m.SeatNumber).ToList();
             }
         }
 
@@ -221,7 +218,7 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             using (var db = new DataContext())
             {
-                var seat= db.Seats.SingleOrDefault(m=>m.SeatId == seatId);
+                var seat = db.Seats.SingleOrDefault(m => m.SeatId == seatId);
                 if (seat != null)
                 {
                     db.Seats.Remove(seat);
@@ -230,7 +227,7 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
         #endregion
-
+       
         #region Robot and siitemap fuinctions
         public void PublishRobots()
         {
@@ -308,7 +305,7 @@ namespace WellsOperaticSociety.BusinessLogic
         }
         public static List<string> GetSitemapExcludedDocumentTypes()
         {
-            return new List<string> {};//"Truth", "Poll", "PollItem", "PollFolder" };
+            return new List<string> { };//"Truth", "Poll", "PollItem", "PollFolder" };
         }
         #endregion
     }

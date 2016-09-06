@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <language alias="zh" intName="Chinese (Simple)" localName="中文（简体，中国）" lcid="0804" culture="zh-CN">
   <creator>
     <name>孙柱梁</name>
@@ -35,6 +35,12 @@
     <key alias="translate">翻译</key>
     <key alias="unpublish">取消发布</key>
     <key alias="update">更新</key>
+    <key alias="DeleteCMSImportAction">Delete</key>
+    <key alias="ExecuteCMSImportWizardAction">Execute</key>
+    <key alias="ScheduleCMSImportWizardAction">Schedule</key>
+    <key alias="StartCMSImportWizardAction">Import Data</key>
+    <key alias="StartCMSImportChildDefinitionAction">Create child definition</key>
+    <key alias="LastRunInfoAction">Scheduled task log</key>
   </area>
   <area alias="assignDomain">
     <key alias="permissionDenied">禁止访问</key>
@@ -47,19 +53,15 @@
     <key alias="domainCreated">新域名 '%0%' 已创建</key>
     <key alias="domainDeleted">域名 '%0%' 已删除</key>
     <key alias="domainExists">域名 '%0%' 已使用</key>
-    <key alias="domainHelp">
-    <![CDATA[例如：example.com、www.example.com、example.com:8080、<br/>
+    <key alias="domainHelp"><![CDATA[例如：example.com、www.example.com、example.com:8080、<br/>
         https://www.example.com/、example.com/en、……使用 * 代表任意域名，<br/>
-        只需要设置语言部分即可。]]>
-        </key>
+        只需要设置语言部分即可。]]></key>
     <key alias="domainUpdated">域名 '%0%' 已更新</key>
-    <key alias="invalidDomain">域名错误</key> 
+    <key alias="invalidDomain">域名错误</key>
     <key alias="orEdit">编辑当前域名</key>
     <key alias="inherit">继承</key>
     <key alias="setLanguage">语言</key>
-    <key alias="setLanguageHelp">
-      <![CDATA[为当前节点及子节点设置语言，<br /> 也可以从父节点继承。]]>
-    </key>
+    <key alias="setLanguageHelp"><![CDATA[为当前节点及子节点设置语言，<br /> 也可以从父节点继承。]]></key>
     <key alias="setDomains">域名</key>
   </area>
   <area alias="auditTrails">
@@ -95,23 +97,23 @@
   <area alias="changeDocType">
     <key alias="changeDocTypeInstruction">要更改所选节点的文档类型，先在列表中选择合适的文档类型。</key>
     <key alias="changeDocTypeInstruction2">然后设置当前文档类型到新文档类型的各字段间的对应映射关系并保存。</key>
-    <key alias="contentRepublished">内容已被重新发布</key>    
+    <key alias="contentRepublished">内容已被重新发布</key>
     <key alias="currentProperty">当前属性</key>
     <key alias="currentType">当前类型</key>
     <key alias="docTypeCannotBeChanged">不能改变文档类型，因为没有可替代的类型。</key>
-    <key alias="docTypeChanged">文档类型已更改</key>    
+    <key alias="docTypeChanged">文档类型已更改</key>
     <key alias="mapProperties">要映射的字段</key>
     <key alias="mapToProperty">映射字段</key>
     <key alias="newTemplate">新模板</key>
     <key alias="newType">新类型</key>
-    <key alias="none">无</key>    
+    <key alias="none">无</key>
     <key alias="selectedContent">内容</key>
     <key alias="selectNewDocType">选择新的文档类型</key>
     <key alias="successMessage">选中文档的类型已被成功更改为[new type]，以下字段被映射：</key>
     <key alias="to">至</key>
     <key alias="validationErrorPropertyWithMoreThanOneMapping">不能完成字段映射，因为存在一个字段映射至多字段的问题。</key>
-    <key alias="validDocTypesNote">仅显示可作为替代的文档类型。</key>    
-  </area> 
+    <key alias="validDocTypesNote">仅显示可作为替代的文档类型。</key>
+  </area>
   <area alias="content">
     <key alias="about">关于本页</key>
     <key alias="alias">别名</key>
@@ -172,29 +174,24 @@
     <key alias="unsavedChanges">You have unsaved changes</key>
     <key alias="unsavedChangesWarning">Are you sure you want to navigate away from this page? - you have unsaved changes</key>
   </area>
-    <area alias="bulk">
+  <area alias="bulk">
     <key alias="done">Done</key>
-    
     <key alias="deletedItem">Deleted %0% item</key>
     <key alias="deletedItems">Deleted %0% items</key>
     <key alias="deletedItemOfItem">Deleted %0% out of %1% item</key>
     <key alias="deletedItemOfItems">Deleted %0% out of %1% items</key>
-
     <key alias="publishedItem">Published %0% item</key>
     <key alias="publishedItems">Published %0% items</key>
     <key alias="publishedItemOfItem">Published %0% out of %1% item</key>
     <key alias="publishedItemOfItems">Published %0% out of %1% items</key>
-
     <key alias="unpublishedItem">Unpublished %0% item</key>
     <key alias="unpublishedItems">Unpublished %0% items</key>
     <key alias="unpublishedItemOfItem">Unpublished %0% out of %1% item</key>
     <key alias="unpublishedItemOfItems">Unpublished %0% out of %1% items</key>
-
     <key alias="movedItem">Moved %0% item</key>
     <key alias="movedItems">Moved %0% items</key>
     <key alias="movedItemOfItem">Moved %0% out of %1% item</key>
     <key alias="movedItemOfItems">Moved %0% out of %1% items</key>
-
     <key alias="copiedItem">Copied %0% item</key>
     <key alias="copiedItems">Copied %0% items</key>
     <key alias="copiedItemOfItem">Copied %0% out of %1% item</key>
@@ -383,7 +380,8 @@
     <key alias="showPageOnSend">在发送时预览</key>
     <key alias="size">大小</key>
     <key alias="sort">排序</key>
-    <key alias="submit">Submit</key> <!-- TODO: Translate this -->
+    <key alias="submit">Submit</key>
+    <!-- TODO: Translate this -->
     <key alias="type">类型</key>
     <key alias="typeToSearch">输入内容开始查找…</key>
     <key alias="up">上</key>
@@ -656,16 +654,12 @@
     <key alias="paSimpleHelp">如果您只希望提供一个用户名和密码就能访问</key>
   </area>
   <area alias="publish">
-    <key alias="contentPublishedFailedInvalid">
-      <![CDATA[%0%不能发布，因为%1%字段不合验证规则。]]>
-    </key>
+    <key alias="contentPublishedFailedInvalid"><![CDATA[%0%不能发布，因为%1%字段不合验证规则。]]></key>
     <key alias="contentPublishedFailedByEvent"><![CDATA[%0% 无法发布，第三方组件造成失败。
     ]]></key>
-    <key alias="contentPublishedFailedByParent">
-      <![CDATA[
+    <key alias="contentPublishedFailedByParent"><![CDATA[
       %0% 不能发布，因为上级页面没有发布。
-    ]]>
-    </key>  
+    ]]></key>
     <key alias="includeUnpublished">包含未发布的子项</key>
     <key alias="inProgress">正在发布，请稍候…</key>
     <key alias="inProgressCounter">%0% 中的 %1% 页面已发布…</key>
@@ -819,15 +813,12 @@
     <key alias="addElement">Add content</key>
     <key alias="dropElement">Drop content</key>
     <key alias="settingsApplied">Settings applied</key>
-
     <key alias="contentNotAllowed">This content is not allowed here</key>
     <key alias="contentAllowed">This content is allowed here</key>
-
     <key alias="clickToEmbed">Click to embed</key>
     <key alias="clickToInsertImage">Click to insert image</key>
     <key alias="placeholderImageCaption">Image caption...</key>
     <key alias="placeholderWriteHere">Write here...</key>
-
     <key alias="gridLayouts">Grid Layouts</key>
     <key alias="gridLayoutsDetail">Layouts are the overall work area for the grid editor, usually you only need one or two different layouts</key>
     <key alias="addGridLayout">Add Grid Layout</key>
@@ -836,18 +827,13 @@
     <key alias="rowConfigurationsDetail">Rows are predefined cells arranged horizontally</key>
     <key alias="addRowConfiguration">Add row configuration</key>
     <key alias="addRowConfigurationDetail">Adjust the row by setting cell widths and adding additional cells</key>
-
     <key alias="columns">Columns</key>
     <key alias="columnsDetails">Total combined number of columns in the grid layout</key>
-
     <key alias="settings">Settings</key>
     <key alias="settingsDetails">Configure what settings editors can change</key>
-
     <key alias="styles">Styles</key>
     <key alias="stylesDetails">Configure what styling editors can change</key>
-
     <key alias="settingDialogDetails">Settings will only save if the entered json configuration is valid</key>
-
     <key alias="allowAllEditors">Allow all editors</key>
     <key alias="allowAllRowConfigurations">Allow all row configurations</key>
   </area>
