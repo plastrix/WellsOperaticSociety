@@ -8,6 +8,7 @@ using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
+using WellsOperaticSociety.Models.AdminModels;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Web.Models;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
@@ -207,6 +208,41 @@ namespace WellsOperaticSociety.Web.Controllers
             var jsonStr = JsonConvert.SerializeObject(result);
             return Content(jsonStr, "application/json");
             //return Json(jsonStr, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ManageSeats()
+        {
+            var dm = new DataManager();
+            var model = new ManageSeatsViewModel();
+            model.Seats = dm.GetSeats();
+            model.NewSeat = new Seat();
+            return PartialView("ManageSeats", model);
+        }
+        [HttpPost]
+        public ActionResult DeleteSeat(int seatId)
+        {
+            if (ModelState.IsValid)
+            {
+                var dm = new DataManager();
+                dm.DeleteSeat(seatId);
+                //TODO:Success message
+                return RedirectToCurrentUmbracoPage();
+            }
+            return CurrentUmbracoPage();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddSeat(Seat seat)
+        {
+            if (ModelState.IsValid)
+            {
+                var dm = new DataManager();
+                seat.SeatNumber = seat.SeatNumber.ToUpper();
+                dm.AddSeat(seat);
+                //TODO:Success message
+                return RedirectToCurrentUmbracoPage();
+            }
+            return CurrentUmbracoPage();
         }
     }
 }

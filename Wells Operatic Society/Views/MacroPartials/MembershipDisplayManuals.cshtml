@@ -1,2 +1,35 @@
-﻿
-@Html.Action("DisplayPdfs","MembershipSurface")
+﻿@using WellsOperaticSociety.BusinessLogic
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    var dm = new DataManager();
+
+    var documents = dm.GetManuals();
+}
+@functions
+{
+    private string GetDocumentUrl(IPublishedContent content)
+    {
+        var id = content.GetPropertyValue<int>("document");
+        if (id == 0)
+            return string.Empty;
+        return Umbraco.TypedMedia(id).Url;
+    }
+}
+
+@if (documents.Any())
+{
+    foreach (var manual in documents)
+    {
+        <div>
+            <a href="@GetDocumentUrl(manual)">
+                <h2>@manual.Name</h2>
+                <p>@Html.Raw(manual.GetPropertyValue<string>("description"))</p>
+            </a>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-info">There are no manuals available yet</div>
+}

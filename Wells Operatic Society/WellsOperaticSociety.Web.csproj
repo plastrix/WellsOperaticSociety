@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -3203,6 +3204,11 @@
     <Content Include="Views\Partials\AddMemberToFunctionForm.cshtml" />
     <Content Include="Views\MacroPartials\AdminManageFunctions.cshtml" />
     <Content Include="Views\MacroPartials\AdminAddMembersToFunction.cshtml" />
+    <Content Include="Views\MacroPartials\MembershipDisplayMinutes.cshtml" />
+    <Content Include="Views\AdminSurface\ManageSeats.cshtml" />
+    <Content Include="Views\Partials\AddSeatForm.cshtml" />
+    <Content Include="Views\MacroPartials\AdminManageSeats.cshtml" />
+    <Content Include="Views\MacroPartials\DataTransfer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3250,6 +3256,7 @@
     <Compile Include="Models\AddMembersToFunctionViewModel.cs" />
     <Compile Include="Models\ManageMembershipViewModel.cs" />
     <Compile Include="Models\ManageMemberViewModel.cs" />
+    <Compile Include="Models\ManageSeatsViewModel.cs" />
     <Compile Include="Models\ManageSubscriptionViewModel.cs" />
     <Compile Include="Models\PreviousProductionsViewModel.cs" />
     <Compile Include="Models\StripeCheckoutViewModel.cs" />

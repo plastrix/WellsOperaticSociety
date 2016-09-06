@@ -262,11 +262,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminModels\Seat.cs" />
     <Compile Include="ContactUs.cs" />
     <Compile Include="Enums\MembershipType.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="MemberModels\LoginModel.cs" />
-    <Compile Include="MemberModels\Manual.cs" />
     <Compile Include="MemberModels\Member.cs" />
     <Compile Include="MemberModels\Membership.cs" />
     <Compile Include="MemberModels\MemberRolesInShow.cs" />

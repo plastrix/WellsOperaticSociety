@@ -243,12 +243,5 @@ namespace WellsOperaticSociety.Web.Controllers
             }
             return CurrentUmbracoPage();
         }
-
-        public ActionResult DisplayPdfs()
-        {
-            var dm = new DataManager();
-            var model = dm.GetManuals();
-            return PartialView("DisplayPdfs",model);
-        }
     }
 }

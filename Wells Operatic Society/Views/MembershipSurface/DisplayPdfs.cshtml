@@ -1,14 +1,1 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<IEnumerable<WellsOperaticSociety.Models.MemberModels.Manual>>
-    
-@if (Model.Any())
-{
-    foreach (var manual in Model)
-    {
-        <div>
-            <a href="@Umbraco.TypedMedia(manual.Document).Url">
-                <h2>@manual.Name</h2>
-                <p>@Html.Raw(manual.Description)</p>
-            </a>
-        </div>
-    }
-}
+﻿

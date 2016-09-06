@@ -10,6 +10,9 @@ namespace WellsOperaticSociety.Models.Enums
     {
         Ordinary,
         Social,
-        Patron
+        Patron,
+        Associate,
+        Child,
+        Life
     }
 }

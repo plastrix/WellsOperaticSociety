@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <language alias="es" intName="Spanish" localName="español" lcid="10" culture="es-ES">
   <creator>
     <name>The Umbraco community</name>
@@ -36,6 +36,12 @@
     <key alias="translate">Traducir</key>
     <key alias="update">Actualizar</key>
     <key alias="defaultValue">Valor por defecto</key>
+    <key alias="DeleteCMSImportAction">Delete</key>
+    <key alias="ExecuteCMSImportWizardAction">Execute</key>
+    <key alias="ScheduleCMSImportWizardAction">Schedule</key>
+    <key alias="StartCMSImportWizardAction">Import Data</key>
+    <key alias="StartCMSImportChildDefinitionAction">Create child definition</key>
+    <key alias="LastRunInfoAction">Scheduled task log</key>
   </area>
   <area alias="assignDomain">
     <key alias="permissionDenied">Permiso denegado.</key>
@@ -51,16 +57,12 @@
     <key alias="domainExists">El dominio'%0%' ya ha sido asignado</key>
     <key alias="domainUpdated">El dominio %0% ha sido actualizado</key>
     <key alias="orEdit">Editar dominios actuales</key>
-    <key alias="domainHelp">
-      <![CDATA[p.ej.: "tudominio.com", "www.tudominio.com", "tudominio.com:8080" o
-        "https://www.tudominio.com/".<br /><br />Los dominios de un nivel están soportados, por ej. "example.com/en". De todas formas deberían de evitarse. Mejor usar la configuración cultural especificada arriba.]]>
-    </key>
+    <key alias="domainHelp"><![CDATA[p.ej.: "tudominio.com", "www.tudominio.com", "tudominio.com:8080" o
+        "https://www.tudominio.com/".<br /><br />Los dominios de un nivel están soportados, por ej. "example.com/en". De todas formas deberían de evitarse. Mejor usar la configuración cultural especificada arriba.]]></key>
     <key alias="inherit">Heredar</key>
     <key alias="setLanguage">Cultura</key>
-    <key alias="setLanguageHelp">
-      <![CDATA[Configura la cultura para los nodos por debajo del nodo actual,<br /> o hereda la cultura de los nodos padres. También se aplicará<br />
-      para el nodo actual, a menos que un dominio por debajo lo aplique también.]]>
-    </key>
+    <key alias="setLanguageHelp"><![CDATA[Configura la cultura para los nodos por debajo del nodo actual,<br /> o hereda la cultura de los nodos padres. También se aplicará<br />
+      para el nodo actual, a menos que un dominio por debajo lo aplique también.]]></key>
     <key alias="setDomains">Domains</key>
   </area>
   <area alias="auditTrails">
@@ -95,7 +97,7 @@
     <key alias="styleChoose">Elegir estilo</key>
     <key alias="styleShow">Mostrar estilos</key>
     <key alias="tableInsert">Insertar tabla</key>
-	<key alias="returnToList">Volver al listado</key>
+    <key alias="returnToList">Volver al listado</key>
   </area>
   <area alias="changeDocType">
     <key alias="changeDocTypeInstruction">Para cambiar el tipo de documento al contenido seleccionado, primero selecciona uno de la lista de tipos válidos.</key>
@@ -118,7 +120,7 @@
     <key alias="validDocTypesNote">Solo se muestran otros tipos válidos para el contenido actual.</key>
   </area>
   <area alias="content">
-  <key alias="isPublished" version="7.2">Está publicado</key>
+    <key alias="isPublished" version="7.2">Está publicado</key>
     <key alias="about">Acerca de</key>
     <key alias="alias">Link alternativo</key>
     <key alias="alternativeTextHelp">(como describe la imagen sobre el teléfono)</key>
@@ -163,7 +165,7 @@
     <key alias="notmemberof">No es miembreo de grupo(s)</key>
     <key alias="childItems" version="7.0">Nodos hijo</key>
     <key alias="target" version="7.0">Target</key>
-	<key alias="listViewNoItems">No hay datos que mostrar</key>
+    <key alias="listViewNoItems">No hay datos que mostrar</key>
   </area>
   <area alias="media">
     <key alias="clickToUpload">Haz click para subir archivos</key>
@@ -193,27 +195,22 @@
   </area>
   <area alias="bulk">
     <key alias="done">Done</key>
-
     <key alias="deletedItem">Deleted %0% item</key>
     <key alias="deletedItems">Deleted %0% items</key>
     <key alias="deletedItemOfItem">Deleted %0% out of %1% item</key>
     <key alias="deletedItemOfItems">Deleted %0% out of %1% items</key>
-
     <key alias="publishedItem">Published %0% item</key>
     <key alias="publishedItems">Published %0% items</key>
     <key alias="publishedItemOfItem">Published %0% out of %1% item</key>
     <key alias="publishedItemOfItems">Published %0% out of %1% items</key>
-
     <key alias="unpublishedItem">Unpublished %0% item</key>
     <key alias="unpublishedItems">Unpublished %0% items</key>
     <key alias="unpublishedItemOfItem">Unpublished %0% out of %1% item</key>
     <key alias="unpublishedItemOfItems">Unpublished %0% out of %1% items</key>
-
     <key alias="movedItem">Moved %0% item</key>
     <key alias="movedItems">Moved %0% items</key>
     <key alias="movedItemOfItem">Moved %0% out of %1% item</key>
     <key alias="movedItemOfItems">Moved %0% out of %1% items</key>
-
     <key alias="copiedItem">Copied %0% item</key>
     <key alias="copiedItems">Copied %0% items</key>
     <key alias="copiedItemOfItem">Copied %0% out of %1% item</key>
@@ -279,7 +276,7 @@
     <key alias="filter">Escribe para filtrar resultados...</key>
   </area>
   <area alias="editcontenttype">
-  <key alias="allowAtRoot" version="7.2">Permitir en nodo raíz</key>
+    <key alias="allowAtRoot" version="7.2">Permitir en nodo raíz</key>
     <key alias="allowAtRootDesc" version="7.2">Sólo tipos de contenido permitidos podrán crearse bajo el nodo raíz de los árboles de Contenido y Media</key>
     <key alias="allowedchildnodetypes">Tipos de nodos hijos permitidos</key>
     <key alias="contenttypecompositions">Composiciones de Tipo de Documento</key>
@@ -290,7 +287,7 @@
     <key alias="tab">Pestaña</key>
     <key alias="thumbnail">Miniatura</key>
     <key alias="hasListView">Permitir vista de listado</key>
-	<key alias="hasListViewDesc" version="7.2">Configura el contenido para mostrar un listado de nodos hijos, en lugar de mostrarlos en forma de árbol</key>
+    <key alias="hasListViewDesc" version="7.2">Configura el contenido para mostrar un listado de nodos hijos, en lugar de mostrarlos en forma de árbol</key>
     <key alias="currentListView" version="7.2">Vista de listado actual</key>
     <key alias="currentListViewDesc" version="7.2">El tipo de vista de listado activa</key>
     <key alias="createListView" version="7.2">Crear un tipo de listado personalizado</key>
@@ -427,7 +424,8 @@
     <key alias="showPageOnSend">Mostrar página al enviar</key>
     <key alias="size">Tamaño</key>
     <key alias="sort">Ordenar</key>
-    <key alias="submit">Submit</key> <!-- TODO: Translate this -->
+    <key alias="submit">Submit</key>
+    <!-- TODO: Translate this -->
     <key alias="type">Tipo</key>
     <key alias="typeToSearch">Tipo que buscar...</key>
     <key alias="up">Arriba</key>
@@ -536,7 +534,6 @@
     <key alias="timeout">La sesión ha caducado</key>
     <key alias="bottomText"><![CDATA[<p style="text-align:right;">&copy; 2001 - %0% <br /><a href="http://umbraco.com" style="text-decoration: none" target="_blank">umbraco.com</a></p> ]]></key>
   </area>
-
   <area alias="main">
     <key alias="dashboard">Panel de Administración</key>
     <key alias="sections">Secciones</key>
@@ -761,32 +758,23 @@
     <key alias="addElement">Add content</key>
     <key alias="dropElement">Drop content</key>
     <key alias="settingsApplied">Settings applied</key>
-
     <key alias="contentNotAllowed">This content is not allowed here</key>
     <key alias="contentAllowed">This content is allowed here</key>
-
     <key alias="gridLayouts">Plantillas de Grid</key>
     <key alias="gridLayoutsDetail">Las plantillas son el área de trabajo para el editor de grids, normalmente sólo necesitas una o dos plantillas diferentes</key>
     <key alias="addGridLayout">Añadir plantilla de grid</key>
     <key alias="addGridLayoutDetail">Ajusta la plantilla configurando la anchura de las columnas y añadiendo más secciones</key>
-
     <key alias="rowConfigurations">Configuraciones de filas</key>
     <key alias="rowConfigurationsDetail">Las filas son celdas predefinidas que se disponen horizontalmente</key>
     <key alias="addRowConfiguration">Añade una configuración de fila</key>
     <key alias="addRowConfigurationDetail">Ajusta la fila configurando los anchos de cada celda y añadiendo más celdas</key>
-
     <key alias="columns">Columnas</key>
     <key alias="columnsDetails">Número total de columnas en la plantilla del grid</key>
-
     <key alias="settings">Configuración</key>
     <key alias="settingsDetails">Configura qué ajustes pueden cambiar los editores</key>
-
-
     <key alias="styles">Estilos</key>
     <key alias="stylesDetails">Configura qué estilos pueden cambiar los editores</key>
-
     <key alias="settingDialogDetails">La configuración sólo se guardará si el json introducido es válido</key>
-
     <key alias="allowAllEditors">Permitir todos los controles de edición</key>
     <key alias="allowAllRowConfigurations">Permitir todas las configuraciones de fila</key>
   </area>

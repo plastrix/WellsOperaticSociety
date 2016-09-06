@@ -1,0 +1,16 @@
+﻿@model WellsOperaticSociety.Models.AdminModels.Seat
+@using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.AdminSurfaceController>("AddSeat", null, new { @class = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.SeatNumber)
+        @Html.TextBoxFor(m => m.SeatNumber, new { @class = "form-control", placeholder = "Seat row and number" })
+        @Html.ValidationMessageFor(m => m.SeatNumber)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextAreaFor(m => m.Description, new {@class = "form-control", rows = 3, placeholder = Html.DisplayNameFor(n => n.Description)})
+        @Html.ValidationMessageFor(m => m.Description)
+    </div>
+    <button type="submit" class="btn btn-create">Add</button>
+}
