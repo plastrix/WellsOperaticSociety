@@ -1,6 +1,15 @@
 ﻿@using System.Globalization
 @using WellsOperaticSociety.BusinessLogic
+@using WellsOperaticSociety.Models
 @inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.PreviousProductionsViewModel>
+
+@functions
+{
+    private string GetImage(Function function)
+    {
+        return function.Image == 0 ? "" : Umbraco.TypedMedia(function.Image).Url;
+    }
+}
 
 @if (Model.Functions.Count > 0)
 {
@@ -10,8 +19,8 @@
             <div class="card card-horizontal">
                 <div class="row">
                     <div class="col-md-5">
-                        <div style="background-image: url('@Umbraco.TypedMedia(func.Image).Url'); background-position: center center; background-size: cover;" class="image">
-                            <img style="display: none;" src="@Umbraco.TypedMedia(func.Image).Url" alt="...">
+                        <div style="background-image: url('@GetImage(func)'); background-position: center center; background-size: cover;" class="image">
+                            <img style="display: none;" src="@GetImage(func)" alt="...">
                             <div class="filter">
                                 <button class="btn btn-neutral btn-round" type="button">
                                     <i class="fa fa-heart"></i>Read more
@@ -22,7 +31,7 @@
 
                     <div class="col-md-7">
                         <div class="content">
-                            <h4 class="title">@func.Name</h4>
+                            <h4 class="title">@func.DisplayName</h4>
                             <a class="card-link" href="@func.Url">
                                 <div class="description">@Html.Raw(func.ShortDescription)</div>
                             </a>

@@ -3,6 +3,17 @@
 @{
     Layout = null;
 }
+
+@functions
+{
+
+    private string GetBackgroundImage()
+    {
+        //TODO:Add in default image
+        return Model.Image == 0 ? "" : Umbraco.TypedMedia(Model.Image).Url;
+    }
+
+}
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,7 +31,7 @@
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Grand+Hotel|Open+Sans:400,300' rel='stylesheet' type='text/css'>
-    <link href="~/Content/pe-icon-7-stroke.css" rel="stylesheet"/>
+    <link href="~/Content/pe-icon-7-stroke.css" rel="stylesheet" />
 
     <!--  jQuery and Bootstrap core files    -->
     @Scripts.Render("~/jqueryAndBootstrapScripts")
@@ -33,7 +44,7 @@
     <div class="wrapper">
         <div class="parallax">
             <div class="parallax-image">
-                <img src="@Umbraco.TypedMedia(Model.Image).Url">
+                <img src="@GetBackgroundImage()">
             </div>
         </div>
         <div class="section">
@@ -41,7 +52,7 @@
                 <div class="row">
                     <h1>@Model.Name</h1>
                     @Html.Raw(Model.Description)
-                    <p>@Model.StartDate - @Model.EndDate</p>
+                    <p>@Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</p>
                 </div>
                 @if (Model.ButtonLink.IsNotNullOrEmpty())
                 {
@@ -49,11 +60,30 @@
                         var target = Model.OpenLinkInNewWindow ? " target='_blank" : string.Empty;
                         var text = Model.ButtonText.IsNullOrEmpty() ? "Book here" : Model.ButtonText;
 
-                        <a class="btn btn-primary btn-round" href="@Model.ButtonLink"@target>@text</a>
+                        <a class="btn btn-primary btn-round" href="@Model.ButtonLink" @target>@text</a>
                     }
                 }
             </div>
         </div>
+        @if (Model.MemberRoles!=null && Model.MemberRoles.Count >0)
+        {
+            <div class="section">
+                <div class="container">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr><th>Group</th><th>Role</th><th>Member Name</th></tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var role in Model.MemberRoles)
+                            {
+                                <tr><td>@role.Group</td><td>@role.Role</td><td>@(role.Member!= null? role.Member.Name: string.Empty)</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
         <footer class="footer footer-big footer-black">
             <div class="container">
                 <div class="copyright">&copy; 2016 Wells Operatic Society Ltd</div>

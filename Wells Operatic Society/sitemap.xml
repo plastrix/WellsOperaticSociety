@@ -892,6 +892,9 @@
     <loc>https://localhost:44300/minutes/minutes-feb-2016/</loc>
   </url>
   <url>
+    <loc>https://localhost:44300/previous-shows/</loc>
+  </url>
+  <url>
     <loc>https://localhost:44300/manage-members/</loc>
   </url>
   <url>

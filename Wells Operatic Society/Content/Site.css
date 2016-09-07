@@ -1,4 +1,8 @@
-﻿.parallax {
+﻿html {
+    font-size: 100%;
+}
+
+.parallax {
     width: 100%;
     height: 570px;
     display: block;
