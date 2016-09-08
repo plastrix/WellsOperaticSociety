@@ -34,7 +34,13 @@
     <link href="~/Content/pe-icon-7-stroke.css" rel="stylesheet" />
 
     <!--  jQuery and Bootstrap core files    -->
-    @Scripts.Render("~/jqueryAndBootstrapScripts")
+        @Scripts.Render("~/jqueryAndBootstrapScripts")
+
+    <!-- Unite Gallery -->
+    <script src="~/scripts/unitegallery.min.js"></script>
+    <link href="~/Content/unite-gallery.css" rel="stylesheet" />
+    <script src="~/scripts/ug-theme-tiles.js"></script>
+
 
 </head>
 <body>
@@ -65,7 +71,7 @@
                 }
             </div>
         </div>
-        @if (Model.MemberRoles!=null && Model.MemberRoles.Count >0)
+        @if (Model.MemberRoles != null && Model.MemberRoles.Count > 0)
         {
             <div class="section">
                 <div class="container">
@@ -77,10 +83,30 @@
 
                             @foreach (var role in Model.MemberRoles)
                             {
-                                <tr><td>@role.Group</td><td>@role.Role</td><td>@(role.Member!= null? role.Member.Name: string.Empty)</td></tr>
+                                <tr><td>@role.Group</td><td>@role.Role</td><td>@(role.Member != null ? role.Member.Name : string.Empty)</td></tr>
                             }
                         </tbody>
                     </table>
+                </div>
+            </div>
+        }
+
+        @if (Model.GalleryImages != null && Model.GalleryImages.Count > 0)
+        {
+            <div class="section">
+                <div class="container">
+                    <div id="gallery" style="display: none;">
+                        @{
+                            var index = 1;
+                            foreach (var img in Model.GalleryImages)
+                             {
+                                 <img alt="@Model.DisplayName @index" src="@Umbraco.TypedMedia(img).Url"
+                                      data-image="@Umbraco.TypedMedia(img).Url"
+                                      data-description="@Model.DisplayName @index">
+                                 index++;
+                             }
+                        }
+                    </div>
                 </div>
             </div>
         }
@@ -108,6 +134,14 @@
                 });
             }
 
+
+
+            $("#gallery").unitegallery({
+                gallery_theme: "tiles",
+                tiles_type: "nested"
+            });
+
+
         });
 
         var parallax = function () {
@@ -120,6 +154,3 @@
 
 </body>
 </html>
-
-
-

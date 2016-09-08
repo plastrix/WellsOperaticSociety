@@ -352,7 +352,7 @@
     <loc>https://localhost:44300/dick-whittington/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/guys-amp-dolls/</loc>
+    <loc>https://localhost:44300/guys-dolls/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/maria-martin/</loc>
@@ -860,6 +860,9 @@
   </url>
   <url>
     <loc>https://localhost:44300/isle-of-woman/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/open-day/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/second-soprano/</loc>
