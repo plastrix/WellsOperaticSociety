@@ -10,6 +10,57 @@
     <loc>https://localhost:44300/previous-productions/</loc>
   </url>
   <url>
+    <loc>https://localhost:44300/contact-us/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/data-transfer/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/privacy-policy/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/login/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/members/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-account/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-membership/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/auditorium-signs/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/minutes/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/minutes/minutes-feb-2016/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/previous-shows/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-members/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-member/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-functions/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/add-member-to-function/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/seats/</loc>
+  </url>
+  <url>
     <loc>https://localhost:44300/function-list/</loc>
   </url>
   <url>
@@ -352,7 +403,7 @@
     <loc>https://localhost:44300/dick-whittington/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/guys-amp-dolls/</loc>
+    <loc>https://localhost:44300/guys-dolls/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/maria-martin/</loc>
@@ -862,51 +913,9 @@
     <loc>https://localhost:44300/isle-of-woman/</loc>
   </url>
   <url>
+    <loc>https://localhost:44300/open-day/</loc>
+  </url>
+  <url>
     <loc>https://localhost:44300/second-soprano/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/contact-us/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/login/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/members/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/manage-account/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/manage-membership/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/manuals/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/manuals/auditorium-signs/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/minutes/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/minutes/minutes-feb-2016/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/manage-members/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/manage-member/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/manage-functions/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/add-member-to-function/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/seats/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/data-transfer/</loc>
   </url>
 </urlset>

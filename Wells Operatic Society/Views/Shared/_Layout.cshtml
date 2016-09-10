@@ -38,26 +38,12 @@
                 <div class="parallax-image">
                     <img src="@Umbraco.TypedMedia(Model.Content.GetPropertyValue<int>("heroImage")).Url()">
                 </div>
-                <div class="motto">
-                    <div>Get</div>
-                    <div class="border no-right-border">Sh</div>
-                    <div class="border">it</div>
-                    <div>Done</div>
-                    <label class="pro square">PRO</label>
-                </div>
-
-                <h3 class="motivation">Start designing and developing faster</h3>
-
             </div>
         }
 
         @RenderBody()
 
-        <footer class="footer footer-big footer-black">
-            <div class="container">
-                <div class="copyright">&copy; 2016 Wells Operatic Society Ltd</div>
-            </div>
-        </footer>
+        @Html.Partial("Footer")
     </div>
     <!--  Plugins -->
     @Scripts.Render("~/Plugins")
@@ -67,15 +53,21 @@
     <script type="text/javascript">
         var big_image;
         $().ready(function () {
-            var responsive = $(window).width();
-            $(window).on('scroll', gsdk.checkScrollForTransparentNavbar);
-            if (responsive >= 768) {
+            
+
+            @if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
+            {
+                @:$(window).on('scroll', gsdk.checkScrollForTransparentNavbar);
+            }
+
+            //var responsive = $(window).width();
+            //if (responsive >= 768) {
                 big_image = $('.parallax-image').find('img');
 
                 $(window).on('scroll', function () {
                     parallax();
                 });
-            }
+           // }
 
         });
 

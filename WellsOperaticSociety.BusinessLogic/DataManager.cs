@@ -68,19 +68,25 @@ namespace WellsOperaticSociety.BusinessLogic
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
-            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate >= DateTime.Now).Skip(rowIndex).Take(pageSize).OrderByDescending(n => n.EndDate).ToList();
+            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate >= DateTime.Now).OrderByDescending(n => n.EndDate).Skip(rowIndex*pageSize).Take(pageSize).ToList();
         }
 
         public List<Function> GetExpiredFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
-            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate < DateTime.Now).Skip(rowIndex).Take(pageSize).OrderByDescending(n => n.EndDate).ToList();
+            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate < DateTime.Now).OrderByDescending(n => n.EndDate).Skip(rowIndex * pageSize).Take(pageSize).ToList();
         }
 
         public List<Function> GetFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
-            return funcListNode.Children.Select(n => new Function(n)).OrderByDescending(n => n.EndDate).Skip(rowIndex).Take(pageSize).ToList();
+            return funcListNode.Children.Select(n => new Function(n)).OrderByDescending(n => n.EndDate).Skip(rowIndex * pageSize).Take(pageSize).ToList();
+        }
+
+        public List<Function> GetFunctions(IEnumerable<int> functionIds)
+        {
+            var funcListNode = GetFunctionListNode();
+            return funcListNode.Children.Where(m=>functionIds.Contains(m.Id)).Select(n => new Function(n)).OrderByDescending(n => n.EndDate).ToList();
         }
 
         public int GetCountOfExpiredFunctions()
@@ -104,7 +110,11 @@ namespace WellsOperaticSociety.BusinessLogic
             var helper = new UmbracoHelper(Umbraco);
             var func = helper.TypedContent(id);
             if (func != null)
-                return new Function(func);
+            {
+                var function = new Function(func);
+                function.MemberRoles = GetMemberRolesInFunction(id);
+                return function;
+            }
             return null;
         }
 
@@ -149,7 +159,7 @@ namespace WellsOperaticSociety.BusinessLogic
                     roles = roles.Where(m => m.MemberId == (int)memberId);
 
                 roles.ForEach(m => m.Member = new Member(helper.TypedMember(m.MemberId)));
-                return roles.ToList();
+                return roles.OrderBy(m=>m.Group).ThenBy(m=>m.Role).ToList();
             }
         }
 
@@ -226,8 +236,18 @@ namespace WellsOperaticSociety.BusinessLogic
                 }
             }
         }
+
+        public List<Function> GetPreviousFunctionsForMember(int memberId)
+        {
+            //Get all memberotfunction roles
+            using (var db = new DataContext())
+            {
+                var memberRolesInShows = db.MemberRolesInShows.Where(m => m.MemberId == memberId);
+                return GetFunctions(memberRolesInShows.Select(m => m.FunctionId).ToList());
+            }
+        }
         #endregion
-       
+
         #region Robot and siitemap fuinctions
         public void PublishRobots()
         {

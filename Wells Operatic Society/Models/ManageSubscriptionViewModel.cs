@@ -15,8 +15,5 @@ namespace WellsOperaticSociety.Web.Models
         public bool IsSocialMember { get; set; }
         public bool IsOrdinaryMember { get; set; }
         public bool IsPatron { get; set; }
-
-        public IEnumerable<Membership> Memberships { get; set; }
-
     }
 }

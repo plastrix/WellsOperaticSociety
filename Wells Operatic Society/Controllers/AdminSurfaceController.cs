@@ -44,7 +44,7 @@ namespace WellsOperaticSociety.Web.Controllers
             var curMemberships = dm.GetMembershipsForUser(id);
             var startDate = DateTime.Now;
             var endDate = DateTime.Now.AddYears(1);
-            if (curMemberships.Any())
+            if (curMemberships !=null && curMemberships.Count>0)
             {
                 var previous = curMemberships.OrderByDescending(m => m.EndDate).First();
                 startDate = previous.StartDate.AddYears(1);

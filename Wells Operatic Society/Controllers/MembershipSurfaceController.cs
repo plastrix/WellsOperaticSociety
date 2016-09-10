@@ -120,7 +120,6 @@ namespace WellsOperaticSociety.Web.Controllers
 
         public ActionResult ManageSubscription()
         {
-            var dm = new BusinessLogic.DataManager();
             var model = new ManageSubscriptionViewModel();
             try
             {
@@ -168,11 +167,22 @@ namespace WellsOperaticSociety.Web.Controllers
                 //TODO: Log error
             }
 
-            model.Memberships = dm.GetMembershipsForUser(Members.GetCurrentMemberId());
+            
 
             return PartialView("ManageSubscription", model);
 
         }
+
+
+        public ActionResult MembershipHistory()
+        {
+            var dm = new BusinessLogic.DataManager();
+            IEnumerable<Membership> model = dm.GetMembershipsForUser(Members.GetCurrentMemberId());
+            return PartialView("MembershipHistory",model);
+        }
+        
+
+        
 
         public ActionResult SubscriptionForm()
         {

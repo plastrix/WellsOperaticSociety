@@ -12,7 +12,8 @@ namespace WellsOperaticSociety.Web
                 "~/scripts/bootstrap.js",
                 "~/scripts/jquery.validate.min.js",
                 "~/scripts/jquery.validate.unobtrusive.min.js",
-                "~/scripts/jquery.unobtrusive-ajax.min.js"));
+                "~/scripts/jquery.unobtrusive-ajax.min.js",
+                "~/scripts/chartist.min.js"));
 
             bundles.Add(new ScriptBundle("~/Plugins").Include(
                 "~/scripts/gsdk-checkbox.js",
@@ -21,7 +22,6 @@ namespace WellsOperaticSociety.Web
                 "~/scripts/gsdk-bootstrapswitch.js",
                 "~/scripts/bootstrap-select.js",
                 "~/scripts/bootstrap-datepicker.js",
-                "~/scripts/chartist.min.js",
                 "~/scripts/jquery.tagsinput.js"));
 
             bundles.Add(new ScriptBundle("~/gsdCore").Include(

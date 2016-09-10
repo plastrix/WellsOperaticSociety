@@ -42,7 +42,7 @@
 }
 @helper renderRow(dynamic row, bool singleColumn)
 {
-    <div class="section @GetsectionColour()">
+    <div class="section">
         <div @RenderElementAttributes(row)>
             @Umbraco.If(singleColumn, "<div class='container'>")
             <div class="row clearfix">
@@ -89,11 +89,5 @@
         }
 
         return new MvcHtmlString(string.Join(" ", attrs));
-    }
-
-    string colourClass = "section-gray";
-    public string GetsectionColour()
-    {
-        return colourClass = colourClass != null && colourClass != string.Empty ? "" : "section-gray";
     }
 }
