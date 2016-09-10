@@ -1,0 +1,58 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+    var footerLinks = Umbraco.TypedContentAtRoot().Select(m => m.DescendantsOrSelf().Where(n => n.HasProperty("displayInFooter") && n.GetPropertyValue<bool>("displayInFooter") == true));
+}
+<footer class="footer footer-big footer-black">
+    <div class="container">
+        <div class="row">
+            @if (footerLinks.Any())
+            {
+                foreach (var links in footerLinks)
+                {
+                    if (links.Any())
+                    {
+                        <div class="col-md-4">
+                            <h5 class="title">Policies</h5>
+                            <nav>
+                                <ul>
+                                    @foreach (var link in links)
+                                    {
+                                        <li>
+                                            <a href="@link.Url">@link.Name</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
+                        </div>
+                    }
+                }
+            }
+            <div class="col-md-4">
+                <h5 class="title">Site information</h5>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="/sitemap/">Sitemap</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-4">
+                <h5 class="title">Social</h5>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="https://twitter.com/WellsTheatre" class="btn btn-social btn-twitter btn-simple"><i class="fa fa-twitter-square"></i>Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/wellslittletheatre/" class="btn btn-social btn-facebook btn-simple"><i class="fa fa-facebook-square"></i>Facebook</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <hr/>
+        <div class="copyright">&copy; 2016 Wells Operatic Society Ltd</div>
+    </div>
+</footer>

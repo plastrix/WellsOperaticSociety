@@ -1,0 +1,39 @@
+html{
+	font-family: "Helvetica Neue","Open Sans",Arial,sans-serif;
+	font-size: 14px;
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-weight: 400;
+	margin: 30px 0 15px;
+    line-height: 1.1;
+    color: inherit;
+}
+p{font-size: 16px;
+line-height: 1.5;
+}
+
+/**umb_name:H1*/
+h1{font-size: 52px;}
+
+/**umb_name:H2*/
+h2{font-size: 36px;}
+
+/**umb_name:H3*/
+h3{font-size: 28px;
+margin: 20px 0 10px;}
+
+/**umb_name:H4*/
+h4{font-size: 22px;
+line-height: 30px;}
+
+/**umb_name:H5*/
+h5{font-size: 18px;
+margin-bottom: 15px;}
+
+/**umb_name:Section Title*/
+.section-title{font-weight: 300;
+display: inline-block;
+padding-bottom: 10px;
+border-bottom: 1px solid #CCCCCC;
+color: #999;}

@@ -489,6 +489,7 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\unite-gallery.css" />
+    <Content Include="css\RTE.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\Pe-icon-7-stroke.svg" />
     <Content Include="packages.config" />
@@ -3213,6 +3214,11 @@
     <Content Include="Views\MacroPartials\AdminManageSeats.cshtml" />
     <Content Include="Views\MacroPartials\DataTransfer.cshtml" />
     <Content Include="Views\MacroPartials\MembershipPreviousShows.cshtml" />
+    <Content Include="Views\MacroPartials\ContactCard.cshtml" />
+    <Content Include="Views\MembershipSurface\MembershipHistory.cshtml" />
+    <Content Include="Views\MacroPartials\MembershipHistory.cshtml" />
+    <Content Include="Views\Partials\Footer.cshtml" />
+    <Content Include="Views\MacroPartials\SiteMap.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

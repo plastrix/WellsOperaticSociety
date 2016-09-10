@@ -45,14 +45,16 @@
 </head>
 <body>
     <!-- Navbar will come here -->
-    @Html.Partial("TopNavigation")
-    <!-- end navbar -->
-    <div class="wrapper">
-        <div class="parallax">
-            <div class="parallax-image">
-                <img src="@GetBackgroundImage()">
-            </div>
+    @Html.Partial("TopNavigation",Umbraco.TypedContent(UmbracoContext.PageId))
+<!-- end navbar -->
+
+    <div class="parallax">
+        <div class="parallax-image">
+            <img src="@GetBackgroundImage()">
         </div>
+    </div>
+
+<div class="wrapper">
         <div class="section">
             <div class="container">
                 <div class="row">
@@ -125,7 +127,9 @@
         var big_image;
         $().ready(function () {
             var responsive = $(window).width();
-            $(window).on('scroll', gsdk.checkScrollForTransparentNavbar);
+            
+            @*@RenderSection("NavigationJS",false);*@
+
             if (responsive >= 768) {
                 big_image = $('.parallax-image').find('img');
 

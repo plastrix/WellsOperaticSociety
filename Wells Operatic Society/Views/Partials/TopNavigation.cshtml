@@ -1,41 +1,40 @@
 ﻿@using System;
 @using WellsOperaticSociety.BusinessLogic
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @{
-    UmbracoHelper helper = new UmbracoHelper(UmbracoContext.Current);
-
-    var topLevel = GetTopLevelNodes(helper);
+    var topLevel = GetTopLevelNodes();
     var membershipHelper = new Umbraco.Web.Security.MembershipHelper(UmbracoContext.Current);
 }
 
-<div id="navbar">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="#">Work in progress...</a></li>
-                    <li class="active"><a href="#">Link</a></li>
-                    <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-</div><!--  end navbar -->
+@*<div id="navbar">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">Work in progress...</a></li>
+                        <li class="active"><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div><!--  end navbar -->*@
 
 
 
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="@GetNavBarCss()" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -74,26 +73,32 @@
                         }
                     }
                 }
+                <li>
+                    @if (membershipHelper.IsLoggedIn())
+            {
+                        <a href="@Url.Action("Logout", "MembershipSurface")">@membershipHelper.GetCurrentLoginStatus().Name Logout</a>
+                    }
+                    else
+                    {
+                        var dataManager = new DataManager();
+                        <a href="@dataManager.GetLoginNode().Url">Login</a>
+                    }
+                </li>
             </ul>
         </div><!-- /.navbar-collapse -->
-    @if(membershipHelper.IsLoggedIn())
-    {
-        <p>Welcome @membershipHelper.GetCurrentLoginStatus().Name <a href="@Url.Action("Logout","MembershipSurface")">Logout</a></p>
-    }
-    else
-    {
-        var dataManager = new DataManager();
-        <a href="@dataManager.GetLoginNode().Url">Login</a> 
-    }
+
+
+
     </div><!-- /.container-fluid -->
 </nav>
 
 @functions
 {
+    readonly UmbracoHelper _helper = new UmbracoHelper(UmbracoContext.Current);
 
-    IEnumerable<IPublishedContent> GetTopLevelNodes(UmbracoHelper helper)
+    IEnumerable<IPublishedContent> GetTopLevelNodes()
     {
-        return helper.TypedContentAtRoot().Where(n => n.GetPropertyValue<bool>("showInNavigation"));
+        return _helper.TypedContentAtRoot().Where(n => n.GetPropertyValue<bool>("showInNavigation"));
     }
 
 
@@ -117,10 +122,19 @@
     private string GetNavigationTitle(IPublishedContent page)
     {
         string title = page.GetPropertyValue<string>("navigationTitle");
-        
+
         if (title.IsNotNullOrEmpty()) return title;
 
         return page.Name;
+    }
+
+    private string GetNavBarCss()
+    {
+        string classes = "navbar navbar-inverse navbar-fixed-top";
+        if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
+            classes += " navbar-transparent";
+
+        return classes;
     }
 
 }
