@@ -11,6 +11,7 @@ using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.DAL;
 using WellsOperaticSociety.Models.AdminModels;
+using WellsOperaticSociety.Models.ReportModels;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 
 namespace WellsOperaticSociety.BusinessLogic
@@ -117,7 +118,7 @@ namespace WellsOperaticSociety.BusinessLogic
             }
             return null;
         }
-
+    
         /// <summary>
         /// Returns a list of active members that have a valid Membership record
         /// </summary>
@@ -127,6 +128,23 @@ namespace WellsOperaticSociety.BusinessLogic
             var helper = new UmbracoHelper(Umbraco);
             //TODO: Make this return only members with active membership
             return ApplicationContext.Current.Services.MemberService.GetAllMembers().Select(m=>new Member(helper.TypedMember(m.Id))).ToList();
+        }
+
+        /// <summary>
+        /// Returns all vehicle registrations for active members
+        /// </summary>
+        /// <returns></returns>
+        public List<VehicleRegistrationModel> GetVehicleRegistrations()
+        {
+            var membersWithReg = GetActiveMembers().Where(m => m.VehicleRegistration1.IsNotNullOrEmpty() || m.VehicleRegistration2.IsNotNullOrEmpty()).ToList();
+            var regList = new List<VehicleRegistrationModel>();
+            regList.AddRange(membersWithReg.Where(m => m.VehicleRegistration1.IsNotNullOrEmpty())
+                    .Select(m => new VehicleRegistrationModel() { Member = m, Registration = m.VehicleRegistration1 })
+                    .ToList());
+            regList.AddRange(membersWithReg.Where(m => m.VehicleRegistration2.IsNotNullOrEmpty())
+                    .Select(m => new VehicleRegistrationModel() { Member = m, Registration = m.VehicleRegistration1 })
+                    .ToList());
+            return regList.OrderBy(m => m.Registration).ToList();
         }
 
         #region DataContext

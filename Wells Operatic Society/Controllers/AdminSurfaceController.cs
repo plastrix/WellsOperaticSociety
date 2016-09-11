@@ -248,14 +248,13 @@ namespace WellsOperaticSociety.Web.Controllers
         [HttpGet]
         public FileStreamResult VehicleRegistrationReport()
         {
-            //TODO: Order by registration and make sure if a user has 2 regs they are split up to maintain the order
             var dm = new DataManager();
             var pdfService = new PDFService.PdfWriter();
-            var model = dm.GetActiveMembers();
+            var model = dm.GetVehicleRegistrations();
             ViewData.Model = model;
-            var demoHtml = RazorHelpers.RenderRazorViewToString("~/Views/Reports/VehicleRegistrationReport.cshtml",
+            var html = RazorHelpers.RenderRazorViewToString("~/Views/Reports/VehicleRegistrationReport.cshtml",
                 ControllerContext, ViewData, TempData);
-            var stream = pdfService.GenertatePdfFromHtml(demoHtml);
+            var stream = pdfService.GenertatePdfFromHtml(html);
 
             return File(stream, "application/pdf");
         }
