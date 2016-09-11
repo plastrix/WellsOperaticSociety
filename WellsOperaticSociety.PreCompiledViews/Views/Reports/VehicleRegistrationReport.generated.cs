@@ -72,18 +72,60 @@ WriteLiteral("\r\n\r\n<html>\r\n<head>\r\n    <style");
 
 WriteLiteral(" type=\"text/css\"");
 
-WriteLiteral(">\r\n        table {\r\n            border-collapse: collapse;\r\n            display: " +
-"inline-block;\r\n            width: 33%;\r\n        }\r\n        table, th, td {\r\n    " +
-"        border: 1px solid;\r\n        }    \r\n</style>\r\n</head>\r\n<body>\r\n\r\n");
+WriteLiteral(@">
+        table {
+            border-collapse: collapse;
+            display: inline-block;
+            width: 33%;
+        }
+        table, th, td {
+            border: 1px solid;
+        }    
+        .title {
+            text-align: center;
+        }
+
+        .title p {
+            font-size: 0.8rem;
+            color: #a9a9a9
+        }
+</style>
+</head>
+<body>
+");
+
+WriteLiteral("    ");
 
             
-            #line 38 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
+            #line 45 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
+Write(Html.Partial("~/Views/Reports/ReportHeader.cshtml"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n<div");
+
+WriteLiteral(" class=\"title\"");
+
+WriteLiteral(">\r\n    <h2>Vehicle Registrations</h2>\r\n    <p>As of ");
+
+            
+            #line 48 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
+        Write(DateTime.Now.ToString("D"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</p>\r\n</div>\r\n");
+
+            
+            #line 50 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 38 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
+            #line 50 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
      if (subList.Any())
     {
 
@@ -98,13 +140,13 @@ WriteLiteral("            <table>\r\n                <thead>\r\n                
 "  </tr>\r\n                </thead>\r\n                <tbody>\r\n");
 
             
-            #line 51 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
+            #line 63 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 51 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
+            #line 63 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
                      foreach (var record in list)
                     {
 
@@ -114,7 +156,7 @@ WriteLiteral("            <table>\r\n                <thead>\r\n                
 WriteLiteral("                        <tr>\r\n                            <td>");
 
             
-            #line 54 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
+            #line 66 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
                            Write(record.Registration);
 
             
@@ -123,7 +165,7 @@ WriteLiteral("                        <tr>\r\n                            <td>")
 WriteLiteral("</td>\r\n                            <td>");
 
             
-            #line 55 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
+            #line 67 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
                            Write(record.Member.Name);
 
             
@@ -132,7 +174,7 @@ WriteLiteral("</td>\r\n                            <td>");
 WriteLiteral("</td>\r\n                        </tr>\r\n");
 
             
-            #line 57 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
+            #line 69 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
                     }
 
             
@@ -141,7 +183,7 @@ WriteLiteral("</td>\r\n                        </tr>\r\n");
 WriteLiteral("                </tbody>\r\n            </table>\r\n");
 
             
-            #line 60 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
+            #line 72 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
         }
     }
 
