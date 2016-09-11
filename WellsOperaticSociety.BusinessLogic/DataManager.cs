@@ -118,6 +118,17 @@ namespace WellsOperaticSociety.BusinessLogic
             return null;
         }
 
+        /// <summary>
+        /// Returns a list of active members that have a valid Membership record
+        /// </summary>
+        /// <returns></returns>
+        public List<Member> GetActiveMembers()
+        {
+            var helper = new UmbracoHelper(Umbraco);
+            //TODO: Make this return only members with active membership
+            return ApplicationContext.Current.Services.MemberService.GetAllMembers().Select(m=>new Member(helper.TypedMember(m.Id))).ToList();
+        }
+
         #region DataContext
         public List<Membership> GetMembershipsForUser(int memberId)
         {
@@ -203,8 +214,7 @@ namespace WellsOperaticSociety.BusinessLogic
 
         public object AcitveMemberSuggestions(string query)
         {
-            //TODO: Make this return only members with active membership
-            return ApplicationContext.Current.Services.MemberService.GetAllMembers().Select(m => new { label = m.Name, value = m.Id });
+            return GetActiveMembers().Select(m => new {label = m.Name, value = m.Id});
         }
 
         public List<Seat> GetSeats()

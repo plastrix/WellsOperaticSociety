@@ -439,6 +439,131 @@
     <Content Include="App_Data\NuGetBackup\20160826-162736\Config\Lang\ru-RU.user.xml" />
     <Content Include="App_Data\NuGetBackup\20160826-162736\Config\Lang\sv-SE.user.xml" />
     <Content Include="App_Data\NuGetBackup\20160826-162736\Config\Lang\zh-CN.user.xml" />
+    <Content Include="bin\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
+    <Content Include="bin\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
+    <Content Include="bin\amd64\sqlceca40.dll" />
+    <Content Include="bin\amd64\sqlcecompact40.dll" />
+    <Content Include="bin\amd64\sqlceer40EN.dll" />
+    <Content Include="bin\amd64\sqlceme40.dll" />
+    <Content Include="bin\amd64\sqlceqp40.dll" />
+    <Content Include="bin\amd64\sqlcese40.dll" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\AutoMapper.dll" />
+    <Content Include="bin\AutoMapper.Net4.dll" />
+    <Content Include="bin\businesslogic.dll" />
+    <Content Include="bin\ClientDependency.Core.dll" />
+    <Content Include="bin\ClientDependency.Core.Mvc.dll" />
+    <Content Include="bin\cms.dll" />
+    <Content Include="bin\CMSImport.dll" />
+    <Content Include="bin\CMSImport.Events.dll" />
+    <Content Include="bin\CMSImport.Extensions.dll" />
+    <Content Include="bin\CMSImport.Resources.dll" />
+    <Content Include="bin\CMSImportCore.dll" />
+    <Content Include="bin\CMSImportLibrary.dll" />
+    <Content Include="bin\controls.dll" />
+    <Content Include="bin\CookComputing.XmlRpcV2.dll" />
+    <Content Include="bin\DTG.Spreadsheet.dll" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\Examine.dll" />
+    <Content Include="bin\HtmlAgilityPack.dll" />
+    <Content Include="bin\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="bin\ImageProcessor.dll" />
+    <Content Include="bin\ImageProcessor.Web.dll" />
+    <Content Include="bin\interfaces.dll" />
+    <Content Include="bin\log4net.dll" />
+    <Content Include="bin\Lucene.Net.dll" />
+    <Content Include="bin\LumenWorks.Framework.IO.dll" />
+    <Content Include="bin\MarkdownSharp.dll" />
+    <Content Include="bin\Microsoft.AI.Agent.Intercept.dll" />
+    <Content Include="bin\Microsoft.AI.DependencyCollector.dll" />
+    <Content Include="bin\Microsoft.AI.PerfCounterCollector.dll" />
+    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.dll" />
+    <Content Include="bin\Microsoft.AI.Web.dll" />
+    <Content Include="bin\Microsoft.AI.WindowsServer.dll" />
+    <Content Include="bin\Microsoft.ApplicationBlocks.Data.dll" />
+    <Content Include="bin\Microsoft.ApplicationInsights.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.dll" />
+    <Content Include="bin\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="bin\Microsoft.CodeAnalysis.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\MiniProfiler.dll" />
+    <Content Include="bin\MySql.Data.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\Owin.dll" />
+    <Content Include="bin\PackageActionsContrib.dll" />
+    <Content Include="bin\PackageGarden.Licensing.dll" />
+    <Content Include="bin\roslyn\csc.exe" />
+    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\vbc.exe" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\Semver.dll" />
+    <Content Include="bin\SQLCE4Umbraco.dll" />
+    <Content Include="bin\Stripe.net.dll" />
+    <Content Include="bin\Stripe.net.xml" />
+    <Content Include="bin\System.Collections.Immutable.dll" />
+    <Content Include="bin\System.Data.SqlServerCe.dll" />
+    <Content Include="bin\System.Data.SqlServerCe.Entity.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Reflection.Metadata.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\TidyNet.dll" />
+    <Content Include="bin\Umbraco.Core.dll" />
+    <Content Include="bin\umbraco.DataLayer.dll" />
+    <Content Include="bin\umbraco.dll" />
+    <Content Include="bin\umbraco.editorControls.dll" />
+    <Content Include="bin\umbraco.MacroEngines.dll" />
+    <Content Include="bin\Umbraco.ModelsBuilder.dll" />
+    <Content Include="bin\umbraco.providers.dll" />
+    <Content Include="bin\Umbraco.Web.UI.dll" />
+    <Content Include="bin\UmbracoExamine.dll" />
+    <Content Include="bin\UrlRewritingNet.UrlRewriter.dll" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="bin\WellsOperaticSociety.BusinessLogic.dll" />
+    <Content Include="bin\WellsOperaticSociety.BusinessLogic.pdb" />
+    <Content Include="bin\WellsOperaticSociety.DAL.dll" />
+    <Content Include="bin\WellsOperaticSociety.DAL.pdb" />
+    <Content Include="bin\WellsOperaticSociety.Models.dll" />
+    <Content Include="bin\WellsOperaticSociety.Models.pdb" />
+    <Content Include="bin\WellsOperaticSociety.Web.dll" />
+    <Content Include="bin\WellsOperaticSociety.Web.pdb" />
+    <Content Include="bin\x86\Microsoft.VC90.CRT\msvcr90.dll" />
+    <Content Include="bin\x86\Microsoft.VC90.CRT\README_ENU.txt" />
+    <Content Include="bin\x86\sqlceca40.dll" />
+    <Content Include="bin\x86\sqlcecompact40.dll" />
+    <Content Include="bin\x86\sqlceer40EN.dll" />
+    <Content Include="bin\x86\sqlceme40.dll" />
+    <Content Include="bin\x86\sqlceqp40.dll" />
+    <Content Include="bin\x86\sqlcese40.dll" />
+    <Content Include="bin\Z.ExtensionMethods.dll" />
+    <Content Include="bin\Z.ExtensionMethods.pdb" />
+    <Content Include="bin\Zone.UmbracoMapper.dll" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -533,6 +658,14 @@
     <Content Include="App_Data\NuGetBackup\20160826-162736\CopyLogs\UmbracoCopy.log" />
     <Content Include="App_Data\NuGetBackup\20160826-162736\Web.config" />
     <Content Include="App_Data\packages\installed\installedPackages.config" />
+    <Content Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+    <Content Include="bin\ApplicationInsights.config" />
+    <Content Include="bin\cmsimport.lic" />
+    <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <None Include="bin\WellsOperaticSociety.Web.dll.config" />
+    <Content Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="scripts\bootstrap-datepicker.js" />
@@ -3219,6 +3352,7 @@
     <Content Include="Views\MacroPartials\MembershipHistory.cshtml" />
     <Content Include="Views\Partials\Footer.cshtml" />
     <Content Include="Views\MacroPartials\SiteMap.cshtml" />
+    <Content Include="Views\MacroPartials\AdminReports.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3297,6 +3431,14 @@
     <ProjectReference Include="..\WellsOperaticSociety.Models\WellsOperaticSociety.Models.csproj">
       <Project>{08f29a53-bbc5-4cf2-8708-e889aa63e5bf}</Project>
       <Name>WellsOperaticSociety.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WellsOperaticSociety.PDFService\WellsOperaticSociety.PDFService.csproj">
+      <Project>{e60adb92-0864-453a-bfcc-a94351640d3a}</Project>
+      <Name>WellsOperaticSociety.PDFService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WellsOperaticSociety.PreCompiledViews\WellsOperaticSociety.PreCompiledViews.csproj">
+      <Project>{82c523b6-c3fb-4c9b-b05b-f3435591e47c}</Project>
+      <Name>WellsOperaticSociety.PreCompiledViews</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

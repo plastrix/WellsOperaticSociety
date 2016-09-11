@@ -1,0 +1,36 @@
+﻿@model List<WellsOperaticSociety.Models.MemberModels.Member>
+<html>
+<head></head>
+<body>
+    @if (Model != null && Model.Any())
+    {
+        <table>
+            <thead>
+            <tr>
+                <th>Registration</th>
+                <th>Owner</th>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach (var member in Model)
+                {
+                    if (member.VehicleRegistration1.IsNotNullOrEmpty())
+                    {
+                        <tr>
+                            <td>@member.VehicleRegistration1</td>
+                            <td>@member.Name</td>
+                        </tr>
+                    }
+                    if (member.VehicleRegistration2.IsNotNullOrEmpty())
+                    {
+                        <tr>
+                            <td>@member.VehicleRegistration2</td>
+                            <td>@member.Name</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+</body>
+</html>

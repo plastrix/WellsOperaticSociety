@@ -128,8 +128,6 @@
         $().ready(function () {
             var responsive = $(window).width();
             
-            @*@RenderSection("NavigationJS",false);*@
-
             if (responsive >= 768) {
                 big_image = $('.parallax-image').find('img');
 
@@ -137,8 +135,6 @@
                     parallax();
                 });
             }
-
-
 
             $("#gallery").unitegallery({
                 gallery_theme: "tiles",

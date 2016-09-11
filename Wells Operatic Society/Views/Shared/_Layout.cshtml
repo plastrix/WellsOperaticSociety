@@ -60,14 +60,14 @@
                 @:$(window).on('scroll', gsdk.checkScrollForTransparentNavbar);
             }
 
-            //var responsive = $(window).width();
-            //if (responsive >= 768) {
+            var responsive = $(window).width();
+            if (responsive >= 768) {
                 big_image = $('.parallax-image').find('img');
 
                 $(window).on('scroll', function () {
                     parallax();
                 });
-           // }
+            }
 
         });
 
