@@ -266,6 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTransfer.cs" />
+    <Compile Include="RazorHelpers.cs" />
     <Compile Include="StaticIdentifiers.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -283,6 +284,10 @@
     <ProjectReference Include="..\WellsOperaticSociety.Models\WellsOperaticSociety.Models.csproj">
       <Project>{08f29a53-bbc5-4cf2-8708-e889aa63e5bf}</Project>
       <Name>WellsOperaticSociety.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WellsOperaticSociety.PreCompiledViews\WellsOperaticSociety.PreCompiledViews.csproj">
+      <Project>{82c523b6-c3fb-4c9b-b05b-f3435591e47c}</Project>
+      <Name>WellsOperaticSociety.PreCompiledViews</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
