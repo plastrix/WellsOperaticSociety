@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,5 +14,9 @@ namespace WellsOperaticSociety.Models.MemberModels
         public int Member { get; set; }
         public NodaLongServiceAward Award { get; set; }
         public bool Hide { get; set; }
+        public bool Awarded { get; set; }
+
+        [NotMapped]
+        public Member MemberDetails { get; set; }
     }
 }

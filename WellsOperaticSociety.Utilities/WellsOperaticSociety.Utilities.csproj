@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E60ADB92-0864-453A-BFCC-A94351640D3A}</ProjectGuid>
+    <ProjectGuid>{52D4AA38-1A40-4406-9570-1225786A6F2F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WellsOperaticSociety.PDFService</RootNamespace>
-    <AssemblyName>WellsOperaticSociety.PDFService</AssemblyName>
+    <RootNamespace>WellsOperaticSociety.Utilities</RootNamespace>
+    <AssemblyName>WellsOperaticSociety.Utilities</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,11 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NReco.PdfGenerator, Version=1.1.12.0, Culture=neutral, PublicKeyToken=231663d50a41b451, processorArchitecture=MSIL">
-      <HintPath>..\packages\NReco.PdfGenerator.1.1.12.0\lib\net20\NReco.PdfGenerator.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,17 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PdfWriter.cs" />
+    <Compile Include="EnumHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WellsOperaticSociety.Utilities\WellsOperaticSociety.Utilities.csproj">
-      <Project>{52d4aa38-1a40-4406-9570-1225786a6f2f}</Project>
-      <Name>WellsOperaticSociety.Utilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

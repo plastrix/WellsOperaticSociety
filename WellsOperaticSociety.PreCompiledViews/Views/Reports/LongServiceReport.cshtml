@@ -1,0 +1,83 @@
+﻿@using WellsOperaticSociety.Models.Enums
+@using WellsOperaticSociety.Models.ReportModels
+
+@model WellsOperaticSociety.Models.ReportModels.LongServiceModel
+@{
+    //TODO: ADD in page header for styling
+    var subList = new List<List<WellsOperaticSociety.Models.MemberModels.LongServiceAward>>();
+    var breakPoint = 40;
+    if (Model != null && Model.DueAwards.Any())
+    {
+        var chunkCount = Model.DueAwards.Count() / breakPoint;
+
+        if (Model.DueAwards.Count % breakPoint > 0)
+        {
+            chunkCount++;
+        }
+
+        for (var i = 0; i < chunkCount; i++)
+        {
+            subList.Add(Model.DueAwards.Skip(i * breakPoint).Take(breakPoint).ToList());
+        }
+    }
+}
+
+<html>
+<head>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            display: inline-block;
+            width: 33%;
+        }
+
+        table, th, td {
+            border: 1px solid;
+        }
+
+        .title {
+            text-align: center;
+        }
+
+            .title p {
+                font-size: 0.8rem;
+                color: #a9a9a9;
+            }
+    </style>
+</head>
+<body>
+    @Html.Partial("~/Views/Reports/ReportHeader.cshtml")
+    <div class="title">
+        <h2>Due Long Service Awards</h2>
+        <p>As of @DateTime.Now.ToString("D")</p>
+    </div>
+    @if (subList.Any())
+    {
+        foreach (var list in subList)
+        {
+            <table id="upcomingAwards">
+                <thead>
+                    <tr>
+                        <th>Award</th>
+                        <th>Member</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var award in list)
+                    {
+                        <tr>
+                            <td>@(WellsOperaticSociety.Utilities.EnumHelper<NodaLongServiceAward>.GetDisplayValue(award.Award)) </td>
+                            <td>@(award.MemberDetails != null ? award.MemberDetails.Name : string.Empty) </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    }
+    else
+    {
+        <div class="alert alert-info">No awards are due yet</div>
+    }
+</body>
+</html>

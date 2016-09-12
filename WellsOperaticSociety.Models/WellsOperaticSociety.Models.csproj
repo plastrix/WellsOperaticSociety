@@ -274,6 +274,7 @@
     <Compile Include="MemberModels\MemberRolesInShow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReCaptcha.cs" />
+    <Compile Include="ReportModels\LongServiceModel.cs" />
     <Compile Include="ReportModels\VehicleRegistrationModel.cs" />
     <Compile Include="StandardPage.cs" />
     <Compile Include="StripeCheckout.cs" />

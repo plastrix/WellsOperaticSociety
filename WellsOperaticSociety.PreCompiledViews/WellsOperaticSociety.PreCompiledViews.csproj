@@ -208,6 +208,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Reports\LongServiceReport.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LongServiceReport.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Reports\ReportHeader.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -256,6 +261,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ReportHeader.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Reports\LongServiceReport.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>LongServiceReport.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Views\Reports\VehicleRegistrationReport.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>VehicleRegistrationReport.generated.cs</LastGenOutput>
@@ -265,6 +274,10 @@
     <ProjectReference Include="..\WellsOperaticSociety.Models\WellsOperaticSociety.Models.csproj">
       <Project>{08f29a53-bbc5-4cf2-8708-e889aa63e5bf}</Project>
       <Name>WellsOperaticSociety.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WellsOperaticSociety.Utilities\WellsOperaticSociety.Utilities.csproj">
+      <Project>{52d4aa38-1a40-4406-9570-1225786a6f2f}</Project>
+      <Name>WellsOperaticSociety.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

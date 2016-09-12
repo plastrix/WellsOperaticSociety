@@ -3353,6 +3353,8 @@
     <Content Include="Views\Partials\Footer.cshtml" />
     <Content Include="Views\MacroPartials\SiteMap.cshtml" />
     <Content Include="Views\MacroPartials\AdminReports.cshtml" />
+    <Content Include="Views\AdminSurface\ManageLongServiceAwards.cshtml" />
+    <Content Include="Views\MacroPartials\AdminManageLongServiceAward.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3398,6 +3400,7 @@
     <Compile Include="Controllers\MainSurfaceController.cs" />
     <Compile Include="Controllers\MembershipSurfaceController.cs" />
     <Compile Include="Models\AddMembersToFunctionViewModel.cs" />
+    <Compile Include="Models\ManageLongServiceReportViewModel.cs" />
     <Compile Include="Models\ManageMembershipViewModel.cs" />
     <Compile Include="Models\ManageMemberViewModel.cs" />
     <Compile Include="Models\ManageSeatsViewModel.cs" />
@@ -3439,6 +3442,10 @@
     <ProjectReference Include="..\WellsOperaticSociety.PreCompiledViews\WellsOperaticSociety.PreCompiledViews.csproj">
       <Project>{82c523b6-c3fb-4c9b-b05b-f3435591e47c}</Project>
       <Name>WellsOperaticSociety.PreCompiledViews</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WellsOperaticSociety.Utilities\WellsOperaticSociety.Utilities.csproj">
+      <Project>{52d4aa38-1a40-4406-9570-1225786a6f2f}</Project>
+      <Name>WellsOperaticSociety.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
