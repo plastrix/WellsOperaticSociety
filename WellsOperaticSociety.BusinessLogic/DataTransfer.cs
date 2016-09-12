@@ -1217,6 +1217,37 @@ namespace WellsOperaticSociety.BusinessLogic
                 }
             }
         }
+
+        public void PopulateLongServiceAwards()
+        {
+            using (
+                StreamReader r = new StreamReader("D:\\Users\\Nick\\Desktop\\Import Data SQL\\Data\\LongServiceAwards.json"))
+            {
+                string json = r.ReadToEnd();
+                //TODO: delete the temp class
+                List<LongServiceAwardExtension> items = JsonConvert.DeserializeObject<List<LongServiceAwardExtension>>(json);
+                List<LongServiceAward> list = new List<LongServiceAward>();
+                Debug.WriteLine("Writing LongServiceAwards");
+                foreach (var tmp in items)
+                {
+                    if (!member.ContainsKey(tmp.PreviousMemberId))
+                    {
+                        if (!member.ContainsKey(tmp.PreviousMemberId))
+                            Debug.WriteLine("Missing member: " + tmp.PreviousMemberId);
+                        continue;
+                    }
+                    var x = new LongServiceAward();
+                    x.Award = tmp.Award-2;
+                    x.Member = member[tmp.PreviousMemberId];
+                    list.Add(x);
+                }
+                using (var db = new DataContext())
+                {
+                    db.LongServiceAwards.AddRange(list);
+                    db.SaveChanges();
+                }
+            }
+        }
         #endregion
     }
 
@@ -1228,6 +1259,11 @@ namespace WellsOperaticSociety.BusinessLogic
     }
 
     public class MembershipsExtension : Membership
+    {
+        public int PreviousMemberId { get; set; }
+    }
+
+    public class LongServiceAwardExtension : LongServiceAward
     {
         public int PreviousMemberId { get; set; }
     }

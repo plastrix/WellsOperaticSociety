@@ -10,6 +10,7 @@ using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
 using WellsOperaticSociety.Models.AdminModels;
 using WellsOperaticSociety.Models.MemberModels;
+using WellsOperaticSociety.Models.ReportModels;
 using WellsOperaticSociety.Web.Models;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 
@@ -248,14 +249,50 @@ namespace WellsOperaticSociety.Web.Controllers
         [HttpGet]
         public FileStreamResult VehicleRegistrationReport()
         {
-            //TODO: Order by registration and make sure if a user has 2 regs they are split up to maintain the order
             var dm = new DataManager();
             var pdfService = new PDFService.PdfWriter();
-            var model = dm.GetActiveMembers();
+            var model = dm.GetVehicleRegistrations();
             ViewData.Model = model;
-            var demoHtml = RazorHelpers.RenderRazorViewToString("~/Views/Reports/VehicleRegistrationReport.cshtml",
+            var html = RazorHelpers.RenderRazorViewToString("~/Views/Reports/VehicleRegistrationReport.cshtml",
                 ControllerContext, ViewData, TempData);
-            var stream = pdfService.GenertatePdfFromHtml(demoHtml);
+            var stream = pdfService.GenertatePdfFromHtml(html);
+
+            return File(stream, "application/pdf");
+        }
+
+        public ActionResult ManageLongServiceAwards()
+        {
+            var dm = new DataManager();
+            var model = new ManageLongServiceReportViewModel();
+            model.DueAwards = dm.GetDueLongServiceAwards();
+            model.AlreadyPresentedAwards = dm.GetLongServiceAwards().Where(m=>m.Hide == false).ToList();
+
+            return PartialView("ManageLongServiceAwards",model);
+        }
+
+        [HttpPost]
+        public ActionResult SubmitLongServiceAward(LongServiceAward longServiceAward)
+        {
+            if (ModelState.IsValid)
+            {
+                var dm = new DataManager();
+                dm.AddOrUpdateLongServiceAward(longServiceAward);
+            }
+            //TODO: display any errors
+            return RedirectToCurrentUmbracoPage();
+        }
+
+        [HttpGet]
+        public FileStreamResult LongServiceReport()
+        {
+            var dm = new DataManager();
+            var pdfService = new PDFService.PdfWriter();
+            var model = new LongServiceModel();
+            model.DueAwards = dm.GetDueLongServiceAwards().Where(m=>m.Hide == false).ToList();
+            ViewData.Model = model;
+            var html = RazorHelpers.RenderRazorViewToString("~/Views/Reports/LongServiceReport.cshtml",
+                ControllerContext, ViewData, TempData);
+            var stream = pdfService.GenertatePdfFromHtml(html);
 
             return File(stream, "application/pdf");
         }

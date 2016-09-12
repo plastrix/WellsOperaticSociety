@@ -46,6 +46,7 @@ namespace WellsOperaticSociety.Web.Controllers
 
         public ActionResult Logout()
         {
+            Session.Clear();
             Members.Logout();
             return Redirect("/");
         }

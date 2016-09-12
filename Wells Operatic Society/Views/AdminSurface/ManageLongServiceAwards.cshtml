@@ -1,0 +1,109 @@
+﻿@using WellsOperaticSociety.Models.Enums
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageLongServiceReportViewModel>
+
+<h2>Upcoming Awards</h2>
+@if (Model.DueAwards != null && Model.DueAwards.Any())
+{
+    <table class="table table-hover table-striped" id="upcomingAwards">
+        <thead>
+            <tr>
+                <th>Award</th>
+                <th>Member</th>
+                <th><a href="@Url.Action("LongServiceReport", "AdminSurface")" class="btn btn-default btn-fill"><i class="fa fa-print"></i>Print due awards</a></th>
+                <th><button id="showHidden" class="btn btn-default btn-fill">Show hidden awards</button></th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var award in Model.DueAwards)
+            {
+
+                var styleClass = string.Empty;
+                if (award.Hide)
+                {
+                    styleClass = "class='hiddenAward hidden'";
+                }
+
+                <tr @Html.Raw(styleClass)>
+                    <td>@(WellsOperaticSociety.Utilities.EnumHelper<NodaLongServiceAward>.GetDisplayValue(award.Award)) </td>
+                    <td>@(award.MemberDetails != null ? award.MemberDetails.Name : string.Empty) </td>
+                    <td>
+                        @using (Html.BeginUmbracoForm("SubmitLongServiceAward", "AdminSurface"))
+                    {
+                            @Html.Hidden("longServiceAwardId", award.LongServiceAwardId)
+                            @Html.Hidden("award", award.Award)
+                            @Html.Hidden("member", award.Member)
+                            @Html.Hidden("hide", false)
+                            @Html.Hidden("awarded", true)
+                            <button type="submit" class="btn btn-fill btn-default">Awarded</button>
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginUmbracoForm("SubmitLongServiceAward", "AdminSurface"))
+                    {
+                            @Html.Hidden("longServiceAwardId", award.LongServiceAwardId)
+                            @Html.Hidden("award", award.Award)
+                            @Html.Hidden("member", award.Member)
+                        if (award.Hide)
+                        {
+                            @Html.Hidden("hide", false)
+                            <button type="submit" class="btn btn-fill btn-success">Unhide</button>
+                        }
+                        else
+                        {
+                            @Html.Hidden("hide", true)
+                            <button type="submit" class="btn btn-fill btn-warning">Hide</button>
+                        }
+                    }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">No awards have been given out yet</div>
+}
+
+<h2>Previous Awards</h2>
+@if (Model.AlreadyPresentedAwards != null && Model.AlreadyPresentedAwards.Any())
+{
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Award</th>
+                <th>Member</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prevAward in Model.AlreadyPresentedAwards)
+            {
+                <tr>
+                    <td>@(WellsOperaticSociety.Utilities.EnumHelper<NodaLongServiceAward>.GetDisplayValue(prevAward.Award))</td>
+                    <td>@(prevAward.MemberDetails != null ? prevAward.MemberDetails.Name : string.Empty)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <div class="alert alert-info">No awards have been given out yet</div>
+}
+
+<script type="text/javascript">
+    $(document)
+        .ready(function() {
+            $("#showHidden")
+                .click(function() {
+                    if ($(this).text() === 'Show hidden awards') {
+                        $(this).text('Hide hidden awards');
+                    } else {
+                        $(this).text('Show hidden awards');
+                    }
+                    $("#upcomingAwards .hiddenAward").toggleClass("hidden");
+                });
+        });
+</script>

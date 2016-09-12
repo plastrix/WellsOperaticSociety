@@ -1,36 +1,75 @@
-﻿@model List<WellsOperaticSociety.Models.MemberModels.Member>
-<html>
-<head></head>
-<body>
-    @if (Model != null && Model.Any())
+﻿@using WellsOperaticSociety.Models.ReportModels
+@model List<VehicleRegistrationModel>
+@{
+    //TODO: ADD in page header for styling
+    var subList = new List<List<VehicleRegistrationModel>>();
+    var breakPoint = 40;
+    if (Model != null && Model.Any())
     {
-        <table>
-            <thead>
-            <tr>
-                <th>Registration</th>
-                <th>Owner</th>
-            </tr>
-            </thead>
-            <tbody>
-                @foreach (var member in Model)
-                {
-                    if (member.VehicleRegistration1.IsNotNullOrEmpty())
+        var chunkCount = Model.Count() / breakPoint;
+
+        if (Model.Count % breakPoint > 0)
+        {
+            chunkCount++;
+        }
+
+        for (var i = 0; i < chunkCount; i++)
+        {
+            subList.Add(Model.Skip(i * breakPoint).Take(breakPoint).ToList());
+        }
+    }
+}
+
+<html>
+<head>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            display: inline-block;
+            width: 33%;
+        }
+        table, th, td {
+            border: 1px solid;
+        }    
+        .title {
+            text-align: center;
+        }
+
+        .title p {
+            font-size: 0.8rem;
+            color: #a9a9a9
+        }
+</style>
+</head>
+<body>
+    @Html.Partial("~/Views/Reports/ReportHeader.cshtml")
+<div class="title">
+    <h2>Vehicle Registrations</h2>
+    <p>As of @DateTime.Now.ToString("D")</p>
+</div>
+    @if (subList.Any())
+    {
+
+        foreach (var list in subList)
+        {
+            <table>
+                <thead>
+                <tr>
+                    <th>Registration</th>
+                    <th>Owner</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach (var record in list)
                     {
                         <tr>
-                            <td>@member.VehicleRegistration1</td>
-                            <td>@member.Name</td>
+                            <td>@record.Registration</td>
+                            <td>@record.Member.Name</td>
                         </tr>
                     }
-                    if (member.VehicleRegistration2.IsNotNullOrEmpty())
-                    {
-                        <tr>
-                            <td>@member.VehicleRegistration2</td>
-                            <td>@member.Name</td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        }
     }
 </body>
 </html>

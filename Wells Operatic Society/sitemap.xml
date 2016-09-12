@@ -22,9 +22,6 @@
     <loc>https://localhost:44300/login/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/members/</loc>
-  </url>
-  <url>
     <loc>https://localhost:44300/manage-account/</loc>
   </url>
   <url>
@@ -62,6 +59,9 @@
   </url>
   <url>
     <loc>https://localhost:44300/reports/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-long-service/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/function-list/</loc>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Hosting;
@@ -11,6 +13,8 @@ using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.DAL;
 using WellsOperaticSociety.Models.AdminModels;
+using WellsOperaticSociety.Models.Enums;
+using WellsOperaticSociety.Models.ReportModels;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 
 namespace WellsOperaticSociety.BusinessLogic
@@ -124,9 +128,101 @@ namespace WellsOperaticSociety.BusinessLogic
         /// <returns></returns>
         public List<Member> GetActiveMembers()
         {
-            var helper = new UmbracoHelper(Umbraco);
-            //TODO: Make this return only members with active membership
-            return ApplicationContext.Current.Services.MemberService.GetAllMembers().Select(m=>new Member(helper.TypedMember(m.Id))).ToList();
+            var key = "ActiveMembers";
+            var activeMembers = HttpContext.Current.Session[key] as List<Member>;
+            if (activeMembers == null)
+            {
+                var helper = new UmbracoHelper(Umbraco);
+                var members = ApplicationContext.Current.Services.MemberService.GetAllMembers()
+                    .Select(m => new Member(helper.TypedMember(m.Id)))
+                    .Where(m => m.Deactivated == false)
+                    .ToList();
+
+                var currentMemberships = GetCurrentMemberships();
+                activeMembers = new List<Member>();
+                foreach (var membership in currentMemberships)
+                {
+                    var m = members.SingleOrDefault(x => x.Id == membership.Member);
+                    if (m != null)
+                    {
+                        activeMembers.Add(m);
+                    }
+                }
+                HttpContext.Current.Session[key] = activeMembers;
+            }
+            return activeMembers;
+        }
+
+        /// <summary>
+        /// Returns all vehicle registrations for active members
+        /// </summary>
+        /// <returns></returns>
+        public List<VehicleRegistrationModel> GetVehicleRegistrations()
+        {
+            var membersWithReg = GetActiveMembers().Where(m => m.VehicleRegistration1.IsNotNullOrEmpty() || m.VehicleRegistration2.IsNotNullOrEmpty()).ToList();
+            var regList = new List<VehicleRegistrationModel>();
+            regList.AddRange(membersWithReg.Where(m => m.VehicleRegistration1.IsNotNullOrEmpty())
+                    .Select(m => new VehicleRegistrationModel() { Member = m, Registration = m.VehicleRegistration1 })
+                    .ToList());
+            regList.AddRange(membersWithReg.Where(m => m.VehicleRegistration2.IsNotNullOrEmpty())
+                    .Select(m => new VehicleRegistrationModel() { Member = m, Registration = m.VehicleRegistration1 })
+                    .ToList());
+            return regList.OrderBy(m => m.Registration).ToList();
+        }
+
+
+        public object AcitveMemberSuggestions(string query)
+        {
+            return GetActiveMembers().Where(m=>m.Name.ToLower().Contains(query.ToLower())).Select(m => new { label = m.Name, value = m.Id });
+        }
+
+        public List<LongServiceAward> GetDueLongServiceAwards()
+        {
+            var members = GetActiveMembers();
+            var previousAwards = GetAwardedLongServiceAwards();
+            var unawrdedAwards = GetLongServiceAwards().Where(m => m.Awarded == false).ToList();
+            var dueAwards = new List<LongServiceAward>();
+            foreach (var member in members)
+            {
+                int startYear;
+                int currentYear = DateTime.UtcNow.Year;
+                if (member.DateApprovedForMembership == null)
+                    continue;
+                startYear = ((DateTime) member.DateApprovedForMembership).Year;
+                var membersMemberships = GetMembershipsForUser(member.Id);
+
+                var activeYears = 0;
+                for (int i = startYear; i < currentYear; i++)
+                {
+
+                    if (membersMemberships.Any(m => m.StartDate.Year == i))
+                        activeYears++;
+                }
+
+                int tmp = activeYears/5;
+
+                
+                for (int i = 0; i <= tmp-2; i++)
+                {
+                    //This is where we check if already given or hidden
+                    if (!previousAwards.Any(m => m.Award == (NodaLongServiceAward) i && m.Member == member.Id) && !unawrdedAwards.Any(m => m.Award == (NodaLongServiceAward)i && m.Member == member.Id))
+                    {
+                        dueAwards.Add(new LongServiceAward()
+                        {
+                            Award = (NodaLongServiceAward) i,
+                            Member = member.Id,
+                            MemberDetails = member
+                        });
+                    }
+                }
+            }
+            dueAwards.AddRange(unawrdedAwards);
+            return dueAwards.OrderByDescending(m=>m.Award).ToList();
+        }
+
+        public List<LongServiceAward> GetAwardedLongServiceAwards()
+        {
+            return GetLongServiceAwards().Where(m=>m.Awarded).ToList();
         }
 
         #region DataContext
@@ -212,11 +308,6 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public object AcitveMemberSuggestions(string query)
-        {
-            return GetActiveMembers().Select(m => new {label = m.Name, value = m.Id});
-        }
-
         public List<Seat> GetSeats()
         {
             using (var db = new DataContext())
@@ -254,6 +345,48 @@ namespace WellsOperaticSociety.BusinessLogic
             {
                 var memberRolesInShows = db.MemberRolesInShows.Where(m => m.MemberId == memberId);
                 return GetFunctions(memberRolesInShows.Select(m => m.FunctionId).ToList());
+            }
+        }
+
+        public List<Membership> GetCurrentMemberships()
+        {
+            using (var db = new DataContext())
+            {
+                var key = "CurrentMemberships";
+                var memberships = HttpContext.Current.Session[key] as List<Membership>;
+                if (memberships == null)
+                {
+                    memberships =
+                        db.Memberships.Where(m => m.StartDate <= DateTime.UtcNow && m.EndDate >= DateTime.UtcNow)
+                            .GroupBy(m => new {m.Member})
+                            .Select(m => m.FirstOrDefault())
+                            .ToList();
+                    HttpContext.Current.Session[key] = memberships;
+                }
+
+                return memberships;
+                //return db.MemberRolesInShows.Where(m => m.Role.ToLower().Contains(query.ToLower())).GroupBy(m => new { m.Role }).Select(m => m.FirstOrDefault().Role).ToList();
+            }
+        }
+
+        public List<LongServiceAward> GetLongServiceAwards()
+        {
+            var helper = new UmbracoHelper(Umbraco);
+            using (var db = new DataContext())
+            {
+                var list = db.LongServiceAwards.ToList();
+                list.ForEach(m => m.MemberDetails = new Member(helper.TypedMember(m.Member)));
+                return list.OrderByDescending(m=>m.Award).ToList();
+
+            }
+        }
+
+        public void AddOrUpdateLongServiceAward(LongServiceAward longServiceAward)
+        {
+            using (var db = new DataContext())
+            {
+                db.LongServiceAwards.AddOrUpdate(longServiceAward);
+                db.SaveChanges();
             }
         }
         #endregion
