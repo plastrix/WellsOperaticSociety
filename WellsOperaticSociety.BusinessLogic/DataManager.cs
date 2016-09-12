@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Web;
 using System.Web.Hosting;
@@ -118,16 +119,36 @@ namespace WellsOperaticSociety.BusinessLogic
             }
             return null;
         }
-    
+
         /// <summary>
         /// Returns a list of active members that have a valid Membership record
         /// </summary>
         /// <returns></returns>
         public List<Member> GetActiveMembers()
         {
-            var helper = new UmbracoHelper(Umbraco);
-            //TODO: Make this return only members with active membership
-            return ApplicationContext.Current.Services.MemberService.GetAllMembers().Select(m=>new Member(helper.TypedMember(m.Id))).ToList();
+            var key = "ActiveMembers";
+            var activeMembers = HttpContext.Current.Session[key] as List<Member>;
+            if (activeMembers == null)
+            {
+                var helper = new UmbracoHelper(Umbraco);
+                var members = ApplicationContext.Current.Services.MemberService.GetAllMembers()
+                    .Select(m => new Member(helper.TypedMember(m.Id)))
+                    .Where(m => m.Deactivated == false)
+                    .ToList();
+
+                var currentMemberships = GetCurrentMemberships();
+                activeMembers = new List<Member>();
+                foreach (var membership in currentMemberships)
+                {
+                    var m = members.SingleOrDefault(x => x.Id == membership.Member);
+                    if (m != null)
+                    {
+                        activeMembers.Add(m);
+                    }
+                }
+                HttpContext.Current.Session[key] = activeMembers;
+            }
+            return activeMembers;
         }
 
         /// <summary>
@@ -145,6 +166,12 @@ namespace WellsOperaticSociety.BusinessLogic
                     .Select(m => new VehicleRegistrationModel() { Member = m, Registration = m.VehicleRegistration1 })
                     .ToList());
             return regList.OrderBy(m => m.Registration).ToList();
+        }
+
+
+        public object AcitveMemberSuggestions(string query)
+        {
+            return GetActiveMembers().Where(m=>m.Name.ToLower().Contains(query.ToLower())).Select(m => new { label = m.Name, value = m.Id });
         }
 
         #region DataContext
@@ -230,11 +257,6 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public object AcitveMemberSuggestions(string query)
-        {
-            return GetActiveMembers().Select(m => new {label = m.Name, value = m.Id});
-        }
-
         public List<Seat> GetSeats()
         {
             using (var db = new DataContext())
@@ -272,6 +294,27 @@ namespace WellsOperaticSociety.BusinessLogic
             {
                 var memberRolesInShows = db.MemberRolesInShows.Where(m => m.MemberId == memberId);
                 return GetFunctions(memberRolesInShows.Select(m => m.FunctionId).ToList());
+            }
+        }
+
+        public List<Membership> GetCurrentMemberships()
+        {
+            using (var db = new DataContext())
+            {
+                var key = "CurrentMemberships";
+                var memberships = HttpContext.Current.Session[key] as List<Membership>;
+                if (memberships == null)
+                {
+                    memberships =
+                        db.Memberships.Where(m => m.StartDate <= DateTime.UtcNow && m.EndDate >= DateTime.UtcNow)
+                            .GroupBy(m => new {m.Member})
+                            .Select(m => m.FirstOrDefault())
+                            .ToList();
+                    HttpContext.Current.Session[key] = memberships;
+                }
+
+                return memberships;
+                //return db.MemberRolesInShows.Where(m => m.Role.ToLower().Contains(query.ToLower())).GroupBy(m => new { m.Role }).Select(m => m.FirstOrDefault().Role).ToList();
             }
         }
         #endregion

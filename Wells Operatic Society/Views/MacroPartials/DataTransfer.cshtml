@@ -9,7 +9,8 @@
     var dt = new DataTransfer();
 
     //dt.PopulateMemberRoles();
-    dt.PopulateMemberShips();
+    //dt.PopulateMemberShips();
+    //dt.PopulateLongServiceAwards();
 }
 <h2>Function id and prev sys id</h2>
     <div>
@@ -24,6 +25,6 @@
     @foreach (var mem in members)
     {
         var x = string.Format("{{{1},{0}}},", mem.Id, mem.Properties["previousSystemId"].Value);
-        @x<br />
+        @x<br/>
     }
 </div>
