@@ -16,23 +16,23 @@ namespace WellsOperaticSociety.Models.Enums
         FifteenYears,
         [Display(Name = "Twenty years")]
         TwentyYears,
-        [Display(Name = "Twenty five years")]
+        [Display(Name = "Twenty-five years")]
         TwentyFive,
         [Display(Name = "Thirty years")]
         ThirtyYears,
-        [Display(Name = "Thirty five years")]
+        [Display(Name = "Thirty-five years")]
         ThirtyFiveYears,
         [Display(Name = "Fourty years")]
         FourtyYears,
-        [Display(Name = "Fourty five years")]
+        [Display(Name = "Fourty-five years")]
         FourtyFiveYears,
         [Display(Name = "Fifty years")]
         FiftyYears,
-        [Display(Name = "Fifty five years")]
+        [Display(Name = "Fifty-five years")]
         FiftyFiveYears,
         [Display(Name = "Sixty years")]
         SixtyYears,
-        [Display(Name = "Sixty five years")]
+        [Display(Name = "Sixty-five years")]
         SixtyFiveYears,
         [Display(Name = "Seventy years")]
         SeventyYears

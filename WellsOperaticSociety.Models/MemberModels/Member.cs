@@ -40,6 +40,8 @@ namespace WellsOperaticSociety.Models.MemberModels
         public string VehicleRegistration1 { get; set; }
         [DisplayName("Vehicle reg 2")]
         public string VehicleRegistration2 { get; set; }
+        [DisplayName("Previous years")]
+        public int PreviousYears { get; set; }
 
         public Member(IPublishedContent content)
         {

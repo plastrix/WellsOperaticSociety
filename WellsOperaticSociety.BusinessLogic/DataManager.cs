@@ -191,7 +191,8 @@ namespace WellsOperaticSociety.BusinessLogic
                 startYear = ((DateTime) member.DateApprovedForMembership).Year;
                 var membersMemberships = GetMembershipsForUser(member.Id);
 
-                var activeYears = 0;
+                var activeYears = member.PreviousYears;
+
                 for (int i = startYear; i < currentYear; i++)
                 {
 
@@ -202,14 +203,18 @@ namespace WellsOperaticSociety.BusinessLogic
                 int tmp = activeYears/5;
 
                 
-                for (int i = 0; i <= tmp-2; i++)
+                for (int x = 0; x <= tmp-2; x++)
                 {
+                    if (x > (int)Enum.GetValues(typeof(NodaLongServiceAward)).Cast<NodaLongServiceAward>().Max())
+                    {
+                        break;
+                    }
                     //This is where we check if already given or hidden
-                    if (!previousAwards.Any(m => m.Award == (NodaLongServiceAward) i && m.Member == member.Id) && !unawrdedAwards.Any(m => m.Award == (NodaLongServiceAward)i && m.Member == member.Id))
+                    if (!previousAwards.Any(m => m.Award == (NodaLongServiceAward) x && m.Member == member.Id) && !unawrdedAwards.Any(m => m.Award == (NodaLongServiceAward)x && m.Member == member.Id))
                     {
                         dueAwards.Add(new LongServiceAward()
                         {
-                            Award = (NodaLongServiceAward) i,
+                            Award = (NodaLongServiceAward) x,
                             Member = member.Id,
                             MemberDetails = member
                         });
