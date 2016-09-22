@@ -31,22 +31,32 @@
                 <div style="background-image: url('@GetImage(func)'); background-position: center center; background-size: cover;" class="image">
                     <img style="display: none;" src="@GetImage(func)" alt="...">
                     <div class="filter">
-                        <button class="btn btn-neutral btn-round" type="button">
-                            <i class="fa fa-heart"></i>Read more
-                        </button>
+                        @*<a class="btn btn-neutral btn-round btn-fill" href="@func.Url"><i class="fa fa-heart"></i>Read more</a>*@
                     </div>
                 </div>
                 <div class="content">
-                        <h4 class="title">@func.DisplayName</h4>
-                        <a class="card-link" href="@func.Url">
-                            <p class="description">@Html.Raw(func.ShortDescription)</p>
-                        </a>
-                        <div class="footer">
-                            <div class="author">
-                                <i class="pe-7s-date"></i>Show runs from @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()
-                            </div>
-                        </div>
 
+                    <h4 class="title"><a class="card-link" href="@func.Url">@func.DisplayName</a></h4>
+                    <div class="category">
+                        <a class="card-link" href="@func.Url">
+                            <i class="pe-7s-date"></i>Show runs from @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()
+                        </a>
+                    </div>
+                    <p class="description"><a class="card-link" href="@func.Url">@Html.Raw(func.ShortDescription)</a></p>
+
+                    <div class="footer">
+                        <div class="stats">
+                            @if (func.ButtonLink.IsNotNullOrEmpty())
+                            {
+                                {
+                                    var target = func.OpenLinkInNewWindow ? " target='_blank" : string.Empty;
+                                    var text = func.ButtonText.IsNullOrEmpty() ? "Book here" : func.ButtonText;
+
+                                    <a class="btn btn-info btn-round btn-fill" href="@func.ButtonLink" @target><i class="fa fa-@func.IconForButton"></i>@text</a>
+                                }
+                            }
+                        </div>
+                    </div>
                 </div>
             </div> <!-- end card -->
         </div>
@@ -54,5 +64,5 @@
 }
 else
 {
-    
+    //TODO:What should be displayed if no upcoming functions
 }

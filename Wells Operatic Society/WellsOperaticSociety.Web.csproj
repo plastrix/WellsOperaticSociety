@@ -449,7 +449,6 @@
     <Content Include="bin\DTG.Spreadsheet.dll" />
     <Content Include="bin\EntityFramework.dll" />
     <Content Include="bin\EntityFramework.SqlServer.dll" />
-    <Content Include="bin\EntityFramework.SqlServer.xml" />
     <Content Include="bin\EntityFramework.xml" />
     <Content Include="bin\Examine.dll" />
     <Content Include="bin\HtmlAgilityPack.dll" />

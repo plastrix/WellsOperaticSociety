@@ -15,29 +15,31 @@
 {
     foreach (var func in Model.Functions)
     {
-        <div class="col-md-12">
+        <div class="col-sm-12">
             <div class="card card-horizontal">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-sm-5">
                         <div style="background-image: url('@GetImage(func)'); background-position: center center; background-size: cover;" class="image">
                             <img style="display: none;" src="@GetImage(func)" alt="...">
                             <div class="filter">
-                                <button class="btn btn-neutral btn-round" type="button">
+                                <button class="btn btn-neutral btn-round btn-fill" type="button">
                                     <i class="fa fa-heart"></i>Read more
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-7">
+                    <div class="col-sm-7">
                         <div class="content">
-                            <h4 class="title">@func.DisplayName</h4>
-                            <a class="card-link" href="@func.Url">
-                                <div class="description">@Html.Raw(func.ShortDescription)</div>
-                            </a>
+
+                            <h4 class="title"><a class="card-link" href="@func.Url">@func.DisplayName</a></h4>
+                            <div class="category">
+                                <a class="card-link" href="@func.Url"><i class="pe-7s-date"></i>Show ran from @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()</a>
+                            </div>
+                            <div class="description"><a class="card-link" href="@func.Url">@Html.Raw(func.ShortDescription)</a></div>
+
                             <div class="footer">
                                 <div class="stats">
-                                    <i class="pe-7s-date"></i>Show runs from @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()
                                 </div>
                             </div>
                         </div>
@@ -57,9 +59,13 @@ else
 
 @helper Pagination()
 {
-    if (Model.TotalItemCount > Model.PageSize)
+if (Model.TotalItemCount > Model.PageSize)
+{
+    var totalNumberOfPages = Model.TotalItemCount / Model.PageSize;
+    if (Model.TotalItemCount%Model.PageSize != 0)
     {
-        var totalNumberOfPages = Model.TotalItemCount / Model.PageSize;
+        totalNumberOfPages++;
+    }
 
         <ul class="pagination pagination-blue">
             @if (Model.Row - 1 < 0)
@@ -93,11 +99,11 @@ else
 
         </ul>
 
-        <script type="text/javascript">
-            $(document)
-                .ready(function() {
-                    $("li.disabled a,li.active a ").on("click", function (event) { event.preventDefault() });
-                });
-        </script>
-    }
+            <script type="text/javascript">
+                $(document)
+                    .ready(function () {
+                        $("li.disabled a,li.active a ").on("click", function (event) { event.preventDefault() });
+                    });
+            </script>
+}
 }

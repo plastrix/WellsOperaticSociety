@@ -5,4 +5,4 @@ Disallow: /sitemap/
 Disallow: /404/
 Disallow: /umbraco/
 Disallow: /search/
-Sitemap: https://localhost:44300/sitemap.xml
+Sitemap: http://localhost:50753/sitemap.xml
