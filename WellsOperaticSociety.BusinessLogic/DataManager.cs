@@ -72,13 +72,13 @@ namespace WellsOperaticSociety.BusinessLogic
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
-            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate >= DateTime.Now).OrderByDescending(n => n.EndDate).Skip(rowIndex*pageSize).Take(pageSize).ToList();
+            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate.Date >= DateTime.Now.Date).OrderByDescending(n => n.EndDate).Skip(rowIndex*pageSize).Take(pageSize).ToList();
         }
 
         public List<Function> GetExpiredFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
-            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate < DateTime.Now).OrderByDescending(n => n.EndDate).Skip(rowIndex * pageSize).Take(pageSize).ToList();
+            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate.Date < DateTime.Now.Date).OrderByDescending(n => n.EndDate).Skip(rowIndex * pageSize).Take(pageSize).ToList();
         }
 
         public List<Function> GetFunctions(int pageSize, int rowIndex)
@@ -96,7 +96,7 @@ namespace WellsOperaticSociety.BusinessLogic
         public int GetCountOfExpiredFunctions()
         {
             var funcListNode = GetFunctionListNode();
-            return funcListNode.Children.Count(n => n.GetPropertyValue<DateTime>("endDate") < DateTime.Now);
+            return funcListNode.Children.Count(n => n.GetPropertyValue<DateTime>("endDate").Date < DateTime.Now.Date);
         }
 
         public IList<IPublishedContent> GetManuals()

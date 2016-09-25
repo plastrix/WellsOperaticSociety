@@ -1,5 +1,5 @@
 ﻿@using System.Web.Optimization
-@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Models.Function>
+@inherits UmbracoViewPage<WellsOperaticSociety.Models.Function>
 @{
     Layout = null;
 }
@@ -48,7 +48,7 @@
     @Html.Partial("TopNavigation",Umbraco.TypedContent(UmbracoContext.PageId))
 <!-- end navbar -->
 
-    <div class="parallax">
+    <div class="parallax hidden-xs">
         <div class="parallax-image">
             <img src="@GetBackgroundImage()">
         </div>

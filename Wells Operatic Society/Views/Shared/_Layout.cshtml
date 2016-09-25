@@ -34,7 +34,7 @@
     <div class="wrapper">
         @if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
         {
-            <div class="parallax">
+            <div class="parallax hidden-xs">
                 <div class="parallax-image">
                     <img src="@Umbraco.TypedMedia(Model.Content.GetPropertyValue<int>("heroImage")).Url()">
                 </div>
