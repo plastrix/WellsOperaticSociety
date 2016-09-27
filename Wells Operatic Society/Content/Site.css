@@ -6,7 +6,7 @@
 
 .parallax {
     width: 100%;
-    height: 570px;
+    height: 520px;
     display: block;
     position: relative;
     overflow: hidden;
@@ -54,7 +54,7 @@ footer {
 }
 
 .card-horizontal .description {
-    height: 160px;
+    height: 130px;
     overflow: hidden;
 }
 
@@ -70,4 +70,14 @@ footer {
   padding-bottom: 10px;
   border-bottom: 1px solid #CCCCCC;
   color: #999;
+}
+
+.section-dark {
+  background-color: #222;
+}
+
+.navbar-brand {
+    font-family: 'Grand Hotel',cursive;
+    font-size: 2.5em !important;
+    font-weight: normal !important;
 }

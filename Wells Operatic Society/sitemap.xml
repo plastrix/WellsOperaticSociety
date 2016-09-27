@@ -921,4 +921,7 @@
   <url>
     <loc>https://localhost:44300/second-soprano/</loc>
   </url>
+  <url>
+    <loc>https://localhost:44300/search/</loc>
+  </url>
 </urlset>

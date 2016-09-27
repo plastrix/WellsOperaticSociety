@@ -1,5 +1,4 @@
-﻿@using CMSImportLibrary.TypeExtensions
-@inherits Umbraco.Web.Macros.PartialViewMacroPage
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
 
 @{
 
@@ -9,7 +8,7 @@
     var role = Model.MacroParameters.ContainsKey("role") ? Model.MacroParameters["role"] : null;
     //TODO:Default value
     var heashotUrl = string.Empty;
-    if (headShotId != null && !headShotId.IsNullOrEmpty())
+    if (headShotId != null)
     {
         heashotUrl= Umbraco.TypedMedia(headShotId).Url;
     }
@@ -30,9 +29,6 @@
         <p class="description text-center">
             @Html.Raw(description)
         </p>
-    </div>
-    <div class="footer text-center">
-        <button href="#" class="btn btn-info btn-round btn-wd"> Follow</button>
     </div>
 </div> <!-- end card -->
 

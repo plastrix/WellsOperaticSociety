@@ -4,9 +4,19 @@
 
 @functions
 {
+    readonly Random _rnd = new Random();
     private string GetImage(Function function)
     {
-        return function.Image == 0 ? "" : Umbraco.TypedMedia(function.Image).Url;
+        return function.Image == 0 ? "" : Umbraco.TypedMedia(function.Image).GetCropUrl();
+    }
+    private string GetRandomBackgroundColour()
+    {
+        string[] colours = { "#d2691e", "#a52a2a", "#008080", "#00bfff" };
+
+        var selection = _rnd.Next(0, colours.Length);
+
+        return colours[selection];
+
     }
 }
 
@@ -14,29 +24,41 @@
 {
     foreach (var func in Model)
     {
-        <div class="col-md-12">
+        <div class="col-sm-12">
             <div class="card card-horizontal">
                 <div class="row">
-                    <div class="col-md-5">
-                        <div style="background-image: url('@GetImage(func)'); background-position: center center; background-size: cover;" class="image">
-                            <img style="display: none;" src="@GetImage(func)" alt="...">
+                    <div class="col-sm-5">
+                        <div style="background:@GetRandomBackgroundColour() url('@GetImage(func)'); background-position: center center; background-size: cover;" class="image">
+                            <img style="display: none;" src="@GetImage(func)" alt="@func.DisplayName">
                             <div class="filter">
-                                <button class="btn btn-neutral btn-round" type="button">
-                                    <i class="fa fa-heart"></i>Read more
-                                </button>
+                                <a href="@func.Url" class="btn btn-neutral btn-round btn-fill"><i class="fa fa-heart"></i>Read more</a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-7">
+                    <div class="col-sm-7">
                         <div class="content">
-                            <h4 class="title">@func.DisplayName</h4>
-                            <a class="card-link" href="@func.Url">
-                                <div class="description">@Html.Raw(func.ShortDescription)</div>
-                            </a>
+
+                            <h4 class="title"><a class="card-link" href="@func.Url">@func.DisplayName</a></h4>
+                            <div class="category">
+                                <a class="card-link" href="@func.Url">
+                                    <i class="pe-7s-date"></i>From @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()
+                                </a>
+
+                            </div>
+                            <div class="description"><a class="card-link" href="@func.Url">@Html.Raw(func.ShortDescription)</a></div>
+
                             <div class="footer">
                                 <div class="stats">
-                                    <i class="pe-7s-date"></i>Show runs from @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()
+                                    @if (func.ButtonLink.IsNotNullOrEmpty())
+                                    {
+                                        {
+                                            var target = func.OpenLinkInNewWindow ? " target='_blank" : string.Empty;
+                                            var text = func.ButtonText.IsNullOrEmpty() ? "Book here" : func.ButtonText;
+
+                                            <a class="btn btn-info btn-round btn-fill" href="@func.ButtonLink" @target><i class="fa fa-@func.IconForButton"></i>@text</a>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>

@@ -5,9 +5,20 @@
 
 @functions
 {
+    readonly Random _rnd = new Random();
     private string GetImage(Function function)
     {
-        return function.Image == 0 ? "" : Umbraco.TypedMedia(function.Image).Url;
+        return function.Image == 0 ? "" : Umbraco.TypedMedia(function.Image).GetCropUrl();
+    }
+
+    private string GetRandomBackgroundColour()
+    {
+        string[] colours = { "#d2691e", "#a52a2a", "#008080", "#00bfff" };
+
+        var selection = _rnd.Next(0, colours.Length);
+
+        return colours[selection];
+
     }
 }
 
@@ -15,29 +26,32 @@
 {
     foreach (var func in Model.Functions)
     {
-        <div class="col-md-12">
+        <div class="col-sm-12">
             <div class="card card-horizontal">
                 <div class="row">
-                    <div class="col-md-5">
-                        <div style="background-image: url('@GetImage(func)'); background-position: center center; background-size: cover;" class="image">
-                            <img style="display: none;" src="@GetImage(func)" alt="...">
+                    <div class="col-sm-5">
+                        <div style="background:@GetRandomBackgroundColour() url('@GetImage(func)'); background-position: center center; background-size: cover;" class="image">
+
+                            <img style="display: none;" src="@GetImage(func)" alt="@func.DisplayName">
                             <div class="filter">
-                                <button class="btn btn-neutral btn-round" type="button">
+                                <a class="btn btn-neutral btn-round btn-fill" href="@func.Url">
                                     <i class="fa fa-heart"></i>Read more
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-7">
+                    <div class="col-sm-7">
                         <div class="content">
-                            <h4 class="title">@func.DisplayName</h4>
-                            <a class="card-link" href="@func.Url">
-                                <div class="description">@Html.Raw(func.ShortDescription)</div>
-                            </a>
+
+                            <h4 class="title"><a class="card-link" href="@func.Url">@func.DisplayName</a></h4>
+                            <div class="category">
+                                <a class="card-link" href="@func.Url"><i class="pe-7s-date"></i>Show ran from @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()</a>
+                            </div>
+                            <div class="description"><a class="card-link" href="@func.Url">@Html.Raw(func.ShortDescription)</a></div>
+
                             <div class="footer">
                                 <div class="stats">
-                                    <i class="pe-7s-date"></i>Show runs from @func.StartDate.ToShortDateString() to @func.EndDate.ToShortDateString()
                                 </div>
                             </div>
                         </div>
@@ -57,47 +71,69 @@ else
 
 @helper Pagination()
 {
-    if (Model.TotalItemCount > Model.PageSize)
+if (Model.TotalItemCount > Model.PageSize)
+{
+    var maxPagesToDisplay = 9;
+    var totalNumberOfPages = Model.TotalItemCount / Model.PageSize;
+    if (Model.TotalItemCount % Model.PageSize != 0)
     {
-        var totalNumberOfPages = Model.TotalItemCount / Model.PageSize;
+        totalNumberOfPages++;
+    }
+    int startRow;
+    int endRow;
+    if (totalNumberOfPages <= maxPagesToDisplay || Model.Row <=maxPagesToDisplay/2)
+    {
+        startRow = 0;
+        endRow = maxPagesToDisplay;
+    }
+    else if (Model.Row >= totalNumberOfPages - maxPagesToDisplay/2)
+    {
+        startRow = totalNumberOfPages - maxPagesToDisplay;
+        endRow = totalNumberOfPages;
+    }
+    else
+    {
+        startRow = Model.Row - maxPagesToDisplay/2;
+        endRow = Model.Row + maxPagesToDisplay / 2;
+    }
 
-        <ul class="pagination pagination-blue">
-            @if (Model.Row - 1 < 0)
+    <ul class="pagination pagination-blue">
+        @if (Model.Row - 1 < 0)
+        {
+            <li class="disabled"><a href="#">&laquo;</a></li>
+        }
+        else
+        {
+            <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + (Model.Row - 1))">&laquo;</a></li>
+        }
+        @for (int i = startRow; i < endRow; i++)
+        {
+            if (i == Model.Row)
             {
-                <li class="disabled"><a href="#">&laquo;</a></li>
+                <li class="active"><a href="#">@(i + 1)</a></li>
             }
             else
             {
-                <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + (Model.Row - 1))">&laquo;</a></li>
+                <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + i)">@(i + 1)</a></li>
             }
-            @for (int i = 0; i < totalNumberOfPages; i++)
-            {
-                if (i == Model.Row)
-                {
-                    <li class="active"><a href="#">@(i + 1)</a></li>
-                }
-                else
-                {
-                    <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + i)">@(i + 1)</a></li>
-                }
-            }
-            @if (Model.Row + 1 >= totalNumberOfPages)
-            {
-                <li class="disabled"><a href="#">&raquo;</a></li>
+        }
+        @if (Model.Row + 1 >= totalNumberOfPages)
+        {
+            <li class="disabled"><a href="#">&raquo;</a></li>
 
-            }
-            else
-            {
-                <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + (Model.Row + 1))">&raquo;</a></li>
-            }
+        }
+        else
+        {
+            <li><a href="@(Umbraco.TypedContent(UmbracoContext.PageId).Url + "?pageSize=" + Model.PageSize + "&row=" + (Model.Row + 1))">&raquo;</a></li>
+        }
 
-        </ul>
+    </ul>
 
         <script type="text/javascript">
             $(document)
-                .ready(function() {
+                .ready(function () {
                     $("li.disabled a,li.active a ").on("click", function (event) { event.preventDefault() });
                 });
         </script>
-    }
+}
 }

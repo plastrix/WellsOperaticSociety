@@ -1,0 +1,90 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    List<IPublishedContent> results = new List<IPublishedContent>();
+    if (Request.QueryString["q"] != null)
+    {
+        results = Umbraco.TypedSearch(Request.QueryString["q"]).ToList();
+    }
+}
+
+@functions{
+    readonly Random _rnd = new Random();
+    private string GetRandomBackgroundColour()
+    {
+        string[] colours = { "#d2691e", "#a52a2a", "#008080", "#00bfff" };
+
+        var selection = _rnd.Next(0, colours.Length);
+
+        return colours[selection];
+
+    }
+    private string GetDisplayName(IPublishedContent node)
+    {
+        return node.HasProperty("displayName") && node.GetPropertyValue<string>("displayName").IsNotNullOrEmpty() ? node.GetPropertyValue<string>("displayName") : node.Name;
+    }
+
+    private string GetImage(IPublishedContent node)
+    {
+        string imageUrl = string.Empty;
+        if (node.HasProperty("image") && node.GetPropertyValue<int>("image") != 0)
+        {
+            imageUrl = Umbraco.TypedMedia(node.GetPropertyValue<int>("image")).GetCropUrl();
+        }
+        else if (node.HasProperty("heroImage") && node.GetPropertyValue<int>("heroImage") != 0)
+        {
+            imageUrl = Umbraco.TypedMedia(node.GetPropertyValue<int>("heroImage")).GetCropUrl();
+        }
+        return imageUrl;
+    }
+
+    private string GetDescription(IPublishedContent node)
+    {
+        return node.HasProperty("shortDescription") && node.GetPropertyValue<string>("shortDescription").IsNotNullOrEmpty() ? node.GetPropertyValue<string>("shortDescription") : string.Empty;
+    }
+}
+
+@if (!string.IsNullOrEmpty(Request.QueryString["q"]) && results.Any())
+{
+    <h2 class="title">Search Results</h2>
+    foreach (var result in results)
+    {
+        <div class="col-sm-12">
+            <div class="card card-horizontal">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div style="background:@GetRandomBackgroundColour() url('@GetImage(result)'); background-position: center center; background-size: cover;" class="image">
+
+                            <img style="display: none;" src="@GetImage(result)" alt="@GetDisplayName(result)">
+                            <div class="filter">
+                                <a class="btn btn-neutral btn-round btn-fill" href="@result.Url">
+                                    <i class="fa fa-heart"></i>Read more
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-7">
+                        <div class="content">
+
+                            <h4 class="title"><a class="card-link" href="@result.Url">@GetDisplayName(result)</a></h4>
+                            <div class="description"><a class="card-link" href="@result.Url">@Html.Raw(GetDescription(result))</a></div>
+
+                            <div class="footer">
+                                <div class="stats">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end card -->
+        </div>
+    }
+}
+else
+{
+    <div class="clearfix">
+        <h3>Sorry, we could not find what you were searching for</h3>
+        Try searching for something else...
+    </div>
+}

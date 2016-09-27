@@ -1,5 +1,5 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
-@using System.Web.Optimization    @using ContentModels = Umbraco.Web.PublishedContentModels;
+@using System.Web.Optimization 
 @{
     Layout = null;
 }
@@ -18,7 +18,7 @@
     @Styles.Render("~/cssFiles")
 
     <!--     Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Grand+Hotel|Open+Sans:400,300' rel='stylesheet' type='text/css'>
     <link href="~/Content/pe-icon-7-stroke.css" rel="stylesheet"/>
 
@@ -30,21 +30,27 @@
 <body>
     <!-- Navbar will come here -->
     @Html.Partial("TopNavigation")
-    <!-- end navbar -->
-    <div class="wrapper">
-        @if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
-        {
-            <div class="parallax">
-                <div class="parallax-image">
-                    <img src="@Umbraco.TypedMedia(Model.Content.GetPropertyValue<int>("heroImage")).Url()">
-                </div>
+<!-- end navbar -->
+<div class="wrapper">
+    
+    @if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
+    {
+        <div class="parallax hidden-xs">
+            <div class="parallax-image">
+                <img src="@Umbraco.TypedMedia(Model.Content.GetPropertyValue<int>("heroImage")).Url()">
             </div>
-        }
+        </div>
+    }
+    else
+    {
+        <div class="space"></div>
+    }
 
-        @RenderBody()
 
-        @Html.Partial("Footer")
-    </div>
+    @RenderBody()
+
+    @Html.Partial("Footer")
+</div>
     <!--  Plugins -->
     @Scripts.Render("~/Plugins")
     <!--  Get Shit Done Kit PRO Core javascript 	 -->

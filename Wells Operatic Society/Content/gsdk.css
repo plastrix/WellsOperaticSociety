@@ -1902,10 +1902,10 @@ input.ct-red + span + label + span.switch-right {
   position: relative;
   top: 1px;
 }
-.navbar .btn {
+/*.navbar .btn {
   margin: 15px 3px;
   font-size: 14px;
-}
+}*/
 .navbar .btn-simple {
   font-size: 16px;
 }

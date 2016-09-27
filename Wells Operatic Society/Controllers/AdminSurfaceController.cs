@@ -265,7 +265,7 @@ namespace WellsOperaticSociety.Web.Controllers
             var dm = new DataManager();
             var model = new ManageLongServiceReportViewModel();
             model.DueAwards = dm.GetDueLongServiceAwards();
-            model.AlreadyPresentedAwards = dm.GetLongServiceAwards().Where(m=>m.Hide == false).ToList();
+            model.AlreadyPresentedAwards = dm.GetAwardedLongServiceAwards();
 
             return PartialView("ManageLongServiceAwards",model);
         }

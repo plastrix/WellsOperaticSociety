@@ -1,5 +1,5 @@
 ﻿@using System.Web.Optimization
-@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Models.Function>
+@inherits UmbracoViewPage<WellsOperaticSociety.Models.Function>
 @{
     Layout = null;
 }
@@ -29,7 +29,7 @@
     @Styles.Render("~/cssFiles")
 
     <!--     Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Grand+Hotel|Open+Sans:400,300' rel='stylesheet' type='text/css'>
     <link href="~/Content/pe-icon-7-stroke.css" rel="stylesheet" />
 
@@ -48,7 +48,7 @@
     @Html.Partial("TopNavigation",Umbraco.TypedContent(UmbracoContext.PageId))
 <!-- end navbar -->
 
-    <div class="parallax">
+    <div class="parallax hidden-xs">
         <div class="parallax-image">
             <img src="@GetBackgroundImage()">
         </div>
@@ -67,8 +67,7 @@
                     {
                         var target = Model.OpenLinkInNewWindow ? " target='_blank" : string.Empty;
                         var text = Model.ButtonText.IsNullOrEmpty() ? "Book here" : Model.ButtonText;
-
-                        <a class="btn btn-primary btn-round" href="@Model.ButtonLink" @target>@text</a>
+                        <a class="btn btn-primary btn-round" href="@Model.ButtonLink" @target><i class="fa fa-@Model.IconForButton"></i>@text</a>
                     }
                 }
             </div>
@@ -120,7 +119,6 @@
     </div>
     <!--  Plugins -->
     @Scripts.Render("~/Plugins")
-    <!--  Get Shit Done Kit PRO Core javascript 	 -->
     @Scripts.Render("~/gsdCore")
 
     <script type="text/javascript">
