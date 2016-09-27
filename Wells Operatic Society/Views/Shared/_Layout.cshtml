@@ -30,21 +30,27 @@
 <body>
     <!-- Navbar will come here -->
     @Html.Partial("TopNavigation")
-    <!-- end navbar -->
-    <div class="wrapper">
-        @if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
-        {
-            <div class="parallax hidden-xs">
-                <div class="parallax-image">
-                    <img src="@Umbraco.TypedMedia(Model.Content.GetPropertyValue<int>("heroImage")).Url()">
-                </div>
+<!-- end navbar -->
+<div class="wrapper">
+    
+    @if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
+    {
+        <div class="parallax hidden-xs">
+            <div class="parallax-image">
+                <img src="@Umbraco.TypedMedia(Model.Content.GetPropertyValue<int>("heroImage")).Url()">
             </div>
-        }
+        </div>
+    }
+    else
+    {
+        <div class="space"></div>
+    }
 
-        @RenderBody()
 
-        @Html.Partial("Footer")
-    </div>
+    @RenderBody()
+
+    @Html.Partial("Footer")
+</div>
     <!--  Plugins -->
     @Scripts.Render("~/Plugins")
     <!--  Get Shit Done Kit PRO Core javascript 	 -->
