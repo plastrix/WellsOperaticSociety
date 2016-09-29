@@ -1,0 +1,6 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{
+    var myParam = Model.MacroParameters["maxCards"];
+}
+
+@Html.Action("FunctionCards", "MainSurface", new {quantity = myParam })

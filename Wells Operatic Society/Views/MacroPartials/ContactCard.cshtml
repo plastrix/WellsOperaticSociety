@@ -1,0 +1,34 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+
+    var headShotId = Model.MacroParameters.ContainsKey("headShot")?Model.MacroParameters["headShot"]:null;
+    var description = Model.MacroParameters.ContainsKey("description") ? Model.MacroParameters["description"] : null;
+    var name = Model.MacroParameters.ContainsKey("name") ? Model.MacroParameters["name"] : null;
+    var role = Model.MacroParameters.ContainsKey("role") ? Model.MacroParameters["role"] : null;
+    //TODO:Default value
+    var heashotUrl = string.Empty;
+    if (headShotId != null)
+    {
+        heashotUrl= Umbraco.TypedMedia(headShotId).Url;
+    }
+}
+
+<div class="card card-user">
+    <div class="image image-plain"></div>
+    <div class="content">
+        <div class="author">
+            <a href="#">
+                <img class="avatar" src="@heashotUrl" alt="...">
+                <h4 class="title">
+                    @name <br>
+                    <small>@Html.Raw(role)</small>
+                </h4>
+            </a>
+        </div>
+        <p class="description text-center">
+            @Html.Raw(description)
+        </p>
+    </div>
+</div> <!-- end card -->
+

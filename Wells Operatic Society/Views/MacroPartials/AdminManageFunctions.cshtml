@@ -1,0 +1,29 @@
+﻿@using WellsOperaticSociety.BusinessLogic
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    var dm = new DataManager();
+    var functions = dm.GetFunctions(10, 0);
+}
+
+@if (functions.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Function Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var function in functions)
+            {
+                <tr><td>@function.Name</td><td><a class="btn btn-create" href="@Umbraco.TypedContent(1114).Url?id=@function.Id">Manage member roles</a></td></tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="alert-info">Ther are no functions in the system yet for you to manage</p>
+}

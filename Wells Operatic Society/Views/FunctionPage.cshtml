@@ -1,0 +1,157 @@
+﻿@using System.Web.Optimization
+@inherits UmbracoViewPage<WellsOperaticSociety.Models.Function>
+@{
+    Layout = null;
+}
+
+@functions
+{
+
+    private string GetBackgroundImage()
+    {
+        //TODO:Add in default image
+        return Model.Image == 0 ? "" : Umbraco.TypedMedia(Model.Image).Url;
+    }
+
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>@Model.Name</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    @Styles.Render("~/cssFiles")
+
+    <!--     Fonts and icons     -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Grand+Hotel|Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href="~/Content/pe-icon-7-stroke.css" rel="stylesheet" />
+
+    <!--  jQuery and Bootstrap core files    -->
+        @Scripts.Render("~/jqueryAndBootstrapScripts")
+
+    <!-- Unite Gallery -->
+    <script src="~/scripts/unitegallery.min.js"></script>
+    <link href="~/Content/unite-gallery.css" rel="stylesheet" />
+    <script src="~/scripts/ug-theme-tiles.js"></script>
+
+    <!-- cookie law-->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.js"></script>
+</head>
+<body>
+    <!-- Navbar will come here -->
+    @Html.Partial("TopNavigation",Umbraco.TypedContent(UmbracoContext.PageId))
+<!-- end navbar -->
+
+    <div class="parallax hidden-xs">
+        <div class="parallax-image">
+            <img src="@GetBackgroundImage()">
+        </div>
+    </div>
+
+<div class="wrapper">
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <h1>@Model.Name</h1>
+                    @Html.Raw(Model.Description)
+                    <p>@Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</p>
+                </div>
+                @if (Model.ButtonLink.IsNotNullOrEmpty())
+                {
+                    {
+                        var target = Model.OpenLinkInNewWindow ? " target='_blank" : string.Empty;
+                        var text = Model.ButtonText.IsNullOrEmpty() ? "Book here" : Model.ButtonText;
+                        <a class="btn btn-primary btn-round" href="@Model.ButtonLink" @target><i class="fa fa-@Model.IconForButton"></i>@text</a>
+                    }
+                }
+            </div>
+        </div>
+        @if (Model.MemberRoles != null && Model.MemberRoles.Count > 0)
+        {
+            <div class="section">
+                <div class="container">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr><th>Group</th><th>Role</th><th>Member Name</th></tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var role in Model.MemberRoles)
+                            {
+                                <tr><td>@role.Group</td><td>@role.Role</td><td>@(role.Member != null ? role.Member.Name : string.Empty)</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+
+        @if (Model.GalleryImages != null && Model.GalleryImages.Count > 0)
+        {
+            <div class="section">
+                <div class="container">
+                    <div id="gallery" style="display: none;">
+                        @{
+                            var index = 1;
+                            foreach (var img in Model.GalleryImages)
+                             {
+                                 <img alt="@Model.DisplayName @index" src="@Umbraco.TypedMedia(img).Url"
+                                      data-image="@Umbraco.TypedMedia(img).Url"
+                                      data-description="@Model.DisplayName @index">
+                                 index++;
+                             }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        <footer class="footer footer-big footer-black">
+            <div class="container">
+                <div class="copyright">&copy; 2016 Wells Operatic Society Ltd</div>
+            </div>
+        </footer>
+    </div>
+    <!--  Plugins -->
+    @Scripts.Render("~/Plugins")
+    @Scripts.Render("~/gsdCore")
+
+    <script type="text/javascript">
+        var big_image;
+        $().ready(function () {
+            var responsive = $(window).width();
+            
+            if (responsive >= 768) {
+                big_image = $('.parallax-image').find('img');
+
+                $(window).on('scroll', function () {
+                    parallax();
+                });
+            }
+
+            $("#gallery").unitegallery({
+                gallery_theme: "tiles",
+                tiles_type: "nested"
+            });
+            //Cookie Law
+            window.cookieconsent.initialise({ "palette": { "popup": { "background": "#252e39" }, "button": { "background": "#14a7d0" } }, "theme": "classic" });
+
+        });
+
+        var parallax = function () {
+            var currentScroll = $(this).scrollTop();
+
+            var oVal = ($(window).scrollTop() / 3);
+            big_image.css('top', oVal);
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Web.Optimization
+@{
+    Layout = "Shared/_Layout.cshtml";
+}
+
+
+@CurrentPage.GetGridHtml(Html, "gridContent")
+<div class="container">
+    <div class="row clearfix">
+        <div class="grid-section">
+            <div class="col-md-12 column">
+                @Html.Partial("Login", new WellsOperaticSociety.Models.MemberModels.LoginModel())
+            </div>
+        </div>
+    </div>
+</div>
