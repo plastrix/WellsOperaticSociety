@@ -72,9 +72,9 @@
 
     </div>
 </nav>
-@if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
+@if ((Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0) || (Model.Content.HasProperty("image") && Model.Content.GetPropertyValue<int>("image") != 0))
 {
-    <div class="visible-xs" style="margin-top: 113px;"></div>
+    <div class="visible-xs" style="margin-top: 78px;"></div>
 }
 @functions
 {

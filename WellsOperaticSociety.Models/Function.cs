@@ -22,7 +22,7 @@ namespace WellsOperaticSociety.Models
         public string ButtonLink { get; set; }
         public bool OpenLinkInNewWindow { get; set; }
         public string ShowName { get; set; }
-        public string DisplayName { get { return ShowName ?? Name; }}
+        public string DisplayName { get { return ShowName ?? string.Empty; }}
         public List<int> GalleryImages { get; set; }
         public string IconForButton { get; set; }
 

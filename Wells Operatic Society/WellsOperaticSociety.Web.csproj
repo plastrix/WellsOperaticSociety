@@ -417,6 +417,11 @@
       <HintPath>..\packages\Z.ExtensionMethods.2.0.10\lib\net45\Z.ExtensionMethods.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Zone.UmbracoMapper, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoMapper.2.0.2\lib\Zone.UmbracoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Plugins\FontAwesomeIconsDD\assets\font-awesome\css\font-awesome.css" />
@@ -576,6 +581,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cookieconsent.min.css" />
     <Content Include="Content\gsdk.css" />
     <Content Include="Content\normalize.css" />
     <Content Include="Content\pe-icon-7-stroke.css" />
@@ -627,6 +633,37 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\Pe-icon-7-stroke.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\UniteGallery\button-close.png" />
+    <Content Include="Images\UniteGallery\cover-grid.png" />
+    <Content Include="Images\UniteGallery\icon-link32.png" />
+    <Content Include="Images\UniteGallery\icon-play32.png" />
+    <Content Include="Images\UniteGallery\icon-zoom32.png" />
+    <Content Include="Images\UniteGallery\lightbox-arrow-left.png" />
+    <Content Include="Images\UniteGallery\lightbox-arrow-right.png" />
+    <Content Include="Images\UniteGallery\lightbox-icon-close-compact.png" />
+    <Content Include="Images\UniteGallery\lightbox-icon-close-compact2.png" />
+    <Content Include="Images\UniteGallery\lightbox-icon-close.png" />
+    <Content Include="Images\UniteGallery\loader-black1.gif" />
+    <Content Include="Images\UniteGallery\loader-black2.gif" />
+    <Content Include="Images\UniteGallery\loader-black3.gif" />
+    <Content Include="Images\UniteGallery\loader-black4.gif" />
+    <Content Include="Images\UniteGallery\loader-black5.gif" />
+    <Content Include="Images\UniteGallery\loader-black6.gif" />
+    <Content Include="Images\UniteGallery\loader-black7.gif" />
+    <Content Include="Images\UniteGallery\loader-white1.gif" />
+    <Content Include="Images\UniteGallery\loader-white2.gif" />
+    <Content Include="Images\UniteGallery\loader-white3.gif" />
+    <Content Include="Images\UniteGallery\loader-white4.gif" />
+    <Content Include="Images\UniteGallery\loader-white5.gif" />
+    <Content Include="Images\UniteGallery\loader-white6.gif" />
+    <Content Include="Images\UniteGallery\loader-white7.gif" />
+    <Content Include="Images\UniteGallery\loader.gif" />
+    <Content Include="Images\UniteGallery\loader_bright.gif" />
+    <Content Include="Images\UniteGallery\loader_skype_trans.gif" />
+    <Content Include="Images\UniteGallery\not_loaded.png" />
+    <Content Include="Images\UniteGallery\play-button-round.png" />
+    <Content Include="Images\UniteGallery\play-button-square.png" />
+    <Content Include="Images\UniteGallery\transparent.png" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -709,6 +746,8 @@
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\chartist.min.js" />
+    <Content Include="scripts\cookieconsent.js" />
+    <Content Include="scripts\cookieconsent.min.js" />
     <Content Include="scripts\get-shit-done.js" />
     <Content Include="scripts\gsdk-bootstrapswitch.js" />
     <Content Include="scripts\gsdk-checkbox.js" />
