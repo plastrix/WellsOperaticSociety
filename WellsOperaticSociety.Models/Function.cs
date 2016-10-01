@@ -25,6 +25,7 @@ namespace WellsOperaticSociety.Models
         public string DisplayName { get { return ShowName ?? string.Empty; }}
         public List<int> GalleryImages { get; set; }
         public string IconForButton { get; set; }
+        public bool DoNotShowInPastProductions { get; set; }
 
         public List<MemberRolesInShow> MemberRoles { get; set; }
 

@@ -72,7 +72,7 @@
 
     </div>
 </nav>
-@if ((Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0) || (Model.Content.HasProperty("image") && Model.Content.GetPropertyValue<int>("image") != 0))
+@if ((Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0))
 {
     <div class="visible-xs" style="margin-top: 78px;"></div>
 }
@@ -114,9 +114,9 @@
 
     private string GetNavBarCss()
     {
-        string classes = "navbar navbar-inverse navbar-fixed-top navbar-burger";
+        string classes = "navbar navbar-inverse  navbar-burger";
         if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
-            classes += " navbar-transparent";
+            classes += " navbar-transparent navbar-fixed-top";
 
         return classes;
     }
