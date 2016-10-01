@@ -10,8 +10,6 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="@(Model.Content.HasProperty("description")?Model.Content.GetPropertyValue<string>("description"):string.Empty)">
-    <meta name="keywords" content="@(Model.Content.HasProperty("keywords")?Model.Content.GetPropertyValue<string>("keywords"):string.Empty)">
     <link rel="apple-touch-icon" sizes="57x57" href="/Images/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/Images/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/Images/apple-icon-72x72.png">
@@ -59,6 +57,8 @@
     <div class="wrapper">
         <div class="section">
             <div class="container">
+                <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                <div class="addthis_sharing_toolbox"></div>
                 <div class="row">
                     <div class="col-md-12">
                         <h1>@Model.Name</h1>
@@ -118,11 +118,7 @@
                 </div>
             </div>
         }
-        <footer class="footer footer-big footer-black">
-            <div class="container">
-                <div class="copyright">&copy; 2016 Wells Operatic Society Ltd</div>
-            </div>
-        </footer>
+        @Html.Partial("Footer", Umbraco.TypedContent(UmbracoContext.PageId))
     </div>
     <!--  Plugins -->
     @Scripts.Render("~/Plugins")
@@ -140,6 +136,7 @@
 
         });
     </script>
-
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56c0f4176c1341e4"></script>
 </body>
 </html>

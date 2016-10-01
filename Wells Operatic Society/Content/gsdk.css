@@ -1005,19 +1005,23 @@ input.ct-red + span + label + span.switch-right {
 }
 
 .alert-info {
-  background-color: rgba(91, 202, 255, 0.98);
+    background-color: #5bcaff;
+    background-color: rgba(91, 202, 255, 0.98);
 }
 
 .alert-success {
-  background-color: rgba(76, 217, 100, 0.98);
+    background-color: #4cd964;
+    background-color: rgba(76, 217, 100, 0.98);
 }
 
 .alert-warning {
-  background-color: rgba(255, 149, 0, 0.98);
+    background-color: #ff9500;
+    background-color: rgba(255, 149, 0, 0.98);
 }
 
 .alert-danger {
-  background-color: rgba(255, 76, 64, 0.98);
+    background-color: #ff4c40;
+    background-color: rgba(255, 76, 64, 0.98);
 }
 
 .table > thead > tr > th {
