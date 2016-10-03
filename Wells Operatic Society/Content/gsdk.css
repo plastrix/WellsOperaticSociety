@@ -1005,19 +1005,23 @@ input.ct-red + span + label + span.switch-right {
 }
 
 .alert-info {
-  background-color: rgba(91, 202, 255, 0.98);
+    background-color: #5bcaff;
+    background-color: rgba(91, 202, 255, 0.98);
 }
 
 .alert-success {
-  background-color: rgba(76, 217, 100, 0.98);
+    background-color: #4cd964;
+    background-color: rgba(76, 217, 100, 0.98);
 }
 
 .alert-warning {
-  background-color: rgba(255, 149, 0, 0.98);
+    background-color: #ff9500;
+    background-color: rgba(255, 149, 0, 0.98);
 }
 
 .alert-danger {
-  background-color: rgba(255, 76, 64, 0.98);
+    background-color: #ff4c40;
+    background-color: rgba(255, 76, 64, 0.98);
 }
 
 .table > thead > tr > th {
@@ -2087,22 +2091,14 @@ input.ct-red + span + label + span.switch-right {
 .navbar-form {
   -webkit-box-shadow: none;
   box-shadow: none;
+    border: 0;
 }
-.navbar-form .form-control {
-  border-radius: 0;
-  border: 0;
-  padding: 0;
-  background-color: transparent;
-  height: 22px;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #E3E3E3;
-}
-.navbar-transparent .navbar-form .form-control, [class*="navbar-ct"] .navbar-form .form-control {
+
+/*.navbar-transparent .navbar-form .form-control, [class*="navbar-ct"] .navbar-form .form-control {
   color: #FFFFFF;
   border: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-}
+}*/
 
 .navbar-ct-blue {
   background-color: rgba(52, 172, 220, 0.98);
@@ -2138,7 +2134,7 @@ input.ct-red + span + label + span.switch-right {
 .navbar-toggle .icon-bar {
   background-color: #FFFFFF;
 }
-.navbar-toggle .navbar-collapse,
+.navbar-toggle .navbar-collapse
 .navbar-toggle .navbar-form {
   border-color: transparent;
 }

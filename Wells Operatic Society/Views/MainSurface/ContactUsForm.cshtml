@@ -1,6 +1,6 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Models.ContactUs>
 
-@using (Html.BeginUmbracoForm("SubmitContactUsForm", "MainSurface"))
+@using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.MainSurfaceController>("SubmitContactUsForm",null,new {@class="form-horizontal"}))
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
@@ -11,7 +11,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Email)
-        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Email), type="Email" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Email), type="email" })
         @Html.ValidationMessageFor(m => m.Email)
     </div>
     <div class="form-group">

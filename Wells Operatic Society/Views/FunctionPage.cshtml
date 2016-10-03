@@ -4,28 +4,32 @@
     Layout = null;
 }
 
-@functions
-{
-
-    private string GetBackgroundImage()
-    {
-        //TODO:Add in default image
-        return Model.Image == 0 ? "" : Umbraco.TypedMedia(Model.Image).Url;
-    }
-
-}
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="57x57" href="/Images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/Images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/Images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/Images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/Images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Images/favicon-16x16.png">
+    <link rel="manifest" href="/Images/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/Images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 
-    <title>@Model.Name</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
-
+    <title>@Model.DisplayName</title>
+    
     @Styles.Render("~/cssFiles")
 
     <!--     Fonts and icons     -->
@@ -40,7 +44,7 @@
     <script src="~/scripts/unitegallery.min.js"></script>
     <script src="~/scripts/ug-theme-tiles.js"></script>
     <link href="~/Content/unite-gallery.css" rel="stylesheet" />
-    
+
     <!-- cookie law-->
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.js"></script>
@@ -50,15 +54,11 @@
     @Html.Partial("TopNavigation", Umbraco.TypedContent(UmbracoContext.PageId))
     <!-- end navbar -->
 
-    <div class="parallax hidden-xs">
-        <div class="parallax-image">
-            <img src="@GetBackgroundImage()">
-        </div>
-    </div>
-
     <div class="wrapper">
         <div class="section">
             <div class="container">
+                <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                <div class="addthis_sharing_toolbox"></div>
                 <div class="row">
                     <div class="col-md-12">
                         <h1>@Model.Name</h1>
@@ -118,11 +118,7 @@
                 </div>
             </div>
         }
-        <footer class="footer footer-big footer-black">
-            <div class="container">
-                <div class="copyright">&copy; 2016 Wells Operatic Society Ltd</div>
-            </div>
-        </footer>
+        @Html.Partial("Footer", Umbraco.TypedContent(UmbracoContext.PageId))
     </div>
     <!--  Plugins -->
     @Scripts.Render("~/Plugins")
@@ -131,16 +127,6 @@
     <script type="text/javascript">
         var big_image;
         $().ready(function () {
-            var responsive = $(window).width();
-
-            if (responsive >= 768) {
-                big_image = $('.parallax-image').find('img');
-
-                $(window).on('scroll', function () {
-                    parallax();
-                });
-            }
-
             $("#gallery").unitegallery({
                 gallery_theme: "tiles",
                 tiles_type: "nested"
@@ -149,14 +135,18 @@
             window.cookieconsent.initialise({ "palette": { "popup": { "background": "#252e39" }, "button": { "background": "#14a7d0" } }, "theme": "classic" });
 
         });
-
-        var parallax = function () {
-            var currentScroll = $(this).scrollTop();
-
-            var oVal = ($(window).scrollTop() / 3);
-            big_image.css('top', oVal);
-        };
     </script>
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56c0f4176c1341e4"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-85124309-1', 'auto');
+  ga('send', 'pageview');
+
+    </script>
 </body>
 </html>
