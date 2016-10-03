@@ -5,6 +5,9 @@
     var topLevel = GetTopLevelNodes();
     var membershipHelper = new Umbraco.Web.Security.MembershipHelper(UmbracoContext.Current);
 }
+
+
+
 <nav class="@GetNavBarCss()" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -16,22 +19,20 @@
                 <span class="icon-bar bar3"></span>
             </button>
             <a class="navbar-brand" href="/">Wells Little Theatre</a>
-            <div class="navbar-right" style="margin: 19px 15px; padding: 5px 0;">
-                <form method="get" action="/search" role="search">
-                    <div class="input-group input-group-sm">
-                        <input type="text" name="q" class="form-control" placeholder="Search ...">
+            <form class="navbar-form navbar-right" style="margin-right: 1em;" method="get" action="/search" role="search">
+                <div class="input-group input-group-sm">
+                    <input type="text" name="q" class="form-control" placeholder="Search ...">
 
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                        </span>
-                    </div>
-                </form>
-            </div>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </form>
         </div>
-
+       
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav">
                 @foreach (var parent in topLevel)
                 {
                     var loginAcces = library.IsProtected(parent.Id, parent.Path) && umbraco.library.HasAccess(parent.Id, parent.Path);
@@ -114,7 +115,7 @@
 
     private string GetNavBarCss()
     {
-        string classes = "navbar navbar-inverse  navbar-burger";
+        string classes = "navbar navbar-inverse navbar-burger";
         if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
             classes += " navbar-transparent navbar-fixed-top";
 

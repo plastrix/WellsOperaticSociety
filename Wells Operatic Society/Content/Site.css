@@ -6,7 +6,7 @@
 
 .parallax {
     width: 100%;
-    height: 520px;
+    height: 330px;
     display: block;
     position: relative;
     overflow: hidden;
@@ -31,7 +31,7 @@
 @media (max-width: 768px) {
     .parallax .parallax-image {
         width: 100%;
-        height: 640px;
+        height: 330px;
         overflow: hidden;
     }
 
@@ -93,4 +93,9 @@ footer {
     color: #ffffff;
     border-radius: 5px;
     margin-top: 1em;*/
+}
+
+.card .title {
+    overflow: hidden;
+    white-space: nowrap;
 }

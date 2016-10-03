@@ -72,7 +72,7 @@ namespace WellsOperaticSociety.BusinessLogic
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
-            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate.Date >= DateTime.Now.Date).OrderByDescending(n => n.EndDate).Skip(rowIndex*pageSize).Take(pageSize).ToList();
+            return funcListNode.Children.Select(n => new Function(n)).Where(n => n.EndDate.Date >= DateTime.Now.Date).OrderBy(n => n.EndDate).Skip(rowIndex*pageSize).Take(pageSize).ToList();
         }
 
         public List<Function> GetExpiredFunctions(int pageSize, int rowIndex)
