@@ -3442,6 +3442,7 @@
     <Content Include="Views\MacroPartials\MailChimpNewsletterSignupHorizontal.cshtml" />
     <Content Include="Views\MacroPartials\MailChimpNewsletterSignupClassic.cshtml" />
     <Content Include="Views\MacroPartials\Search.cshtml" />
+    <Content Include="Views\MacroPartials\GoogleMap.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
