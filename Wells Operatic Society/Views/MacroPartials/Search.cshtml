@@ -40,7 +40,15 @@
 
     private string GetDescription(IPublishedContent node)
     {
-        return node.HasProperty("shortDescription") && node.GetPropertyValue<string>("shortDescription").IsNotNullOrEmpty() ? node.GetPropertyValue<string>("shortDescription") : string.Empty;
+        var description = string.Empty;
+        if(node.HasProperty("shortDescription") && node.GetPropertyValue<string>("shortDescription").IsNotNullOrEmpty())
+            description = node.GetPropertyValue<string>("shortDescription");
+        else if (node.HasProperty("gridContent"))
+        {
+            description = node.GetGridHtml(Html, "gridContent").ToString();
+        }
+
+        return description;
     }
 }
 
