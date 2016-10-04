@@ -168,8 +168,6 @@ namespace WellsOperaticSociety.Web.Controllers
                 //TODO: Log error
             }
 
-            
-
             return PartialView("ManageSubscription", model);
 
         }
@@ -182,18 +180,6 @@ namespace WellsOperaticSociety.Web.Controllers
             return PartialView("MembershipHistory",model);
         }
         
-
-        
-
-        public ActionResult SubscriptionForm()
-        {
-            var planService = new StripePlanService(SensativeInformation.StripeKeys.SecretKey);
-            IEnumerable<StripePlan> plans = planService.List();
-
-            var model = new StripeCheckout();
-            model.PlanId = "WOS_ORD";
-            return PartialView("SubscriptionForm", model);
-        }
         [HttpPost]
         public ActionResult SubmitStripeSubscriptionForm(StripeCheckout model)
         {
@@ -213,8 +199,8 @@ namespace WellsOperaticSociety.Web.Controllers
                 if (stripeUserId.IsNullOrEmpty())
                 {
                     var customer = new StripeCustomerCreateOptions();
-                    customer.Email = "test@email.com";
-                    customer.Description = "Best customer ever!";
+                    customer.Email = member.Email;
+                    customer.Description = member.Name;
 
                     customer.SourceToken = model.StripeToken;
                     customer.PlanId = model.PlanId;
@@ -241,7 +227,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 {
                     try
                     {
-                        var subscriptionService = new StripeSubscriptionService();
+                        var subscriptionService = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
                         StripeSubscription stripeSubscription = subscriptionService.Create(stripeUserId, model.PlanId);
                     }
                     catch (StripeException e)

@@ -123,6 +123,21 @@ namespace WellsOperaticSociety.BusinessLogic
         }
 
         /// <summary>
+        /// Gets member by stripeid
+        /// </summary>
+        /// <returns></returns>
+        public Member GetActiveMember(string stripeUserId)
+        {
+            var helper = new UmbracoHelper(Umbraco);
+            var member = ApplicationContext.Current.Services.MemberService
+                    .GetAllMembers()
+                    .Select(m => new Member(helper.TypedMember(m.Id)))
+                    .SingleOrDefault(m => m.Deactivated == false && m.StripeUserId == stripeUserId);
+
+            return member;
+        }
+
+        /// <summary>
         /// Returns a list of active members that have a valid Membership record
         /// </summary>
         /// <returns></returns>

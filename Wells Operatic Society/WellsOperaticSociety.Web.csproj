@@ -659,6 +659,7 @@
     <Content Include="Images\ms-icon-150x150.png" />
     <Content Include="Images\ms-icon-310x310.png" />
     <Content Include="Images\ms-icon-70x70.png" />
+    <Content Include="Images\StripeIcon.png" />
     <Content Include="Images\UniteGallery\button-close.png" />
     <Content Include="Images\UniteGallery\cover-grid.png" />
     <Content Include="Images\UniteGallery\icon-link32.png" />
@@ -767,6 +768,7 @@
     <Content Include="Config\backup\xsltExtensions.config.backup" />
     <Content Include="Images\manifest.json" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <None Include="Properties\PublishProfiles\WellsOperaticSociety.pubxml" />
     <None Include="scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="scripts\bootstrap-datepicker.js" />
     <Content Include="scripts\bootstrap-select.js" />
@@ -3393,7 +3395,6 @@
     <Content Include="Views\MainSurface\ContactUsForm.cshtml" />
     <Content Include="Views\MacroPartials\ContactUsForm.cshtml" />
     <Content Include="Views\MacroPartials\SubscriptionForm.cshtml" />
-    <Content Include="Views\MembershipSurface\SubscriptionForm.cshtml" />
     <Content Include="Views\Partials\Login.cshtml" />
     <Content Include="Views\MacroPartials\Login.cshtml" />
     <Content Include="Views\Login.cshtml" />
