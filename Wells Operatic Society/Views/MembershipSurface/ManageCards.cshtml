@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Stripe.StripeCard>
+
+@if (Model != null && Model.Any())
+{
+    <h2>Current cards</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Crad Type</th>
+            <th>Expires</th>
+            <th>Last four digits</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var card in Model)
+            {
+                <tr>
+                    <td>@card.Brand</td><td>@card.ExpirationMonth/@card.ExpirationYear</td><td>@card.Last4</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    using (Html.BeginUmbracoForm("UpdateCardDetails", "MembershipSurface"))
+    {
+        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key="@WellsOperaticSociety.Web.SensativeInformation.StripeKeys.PublishableKey"
+                data-image="/images/StripeIcon.png"
+                data-name="WellsOperatic Society"
+                data-panel-label="Update Card Details"
+                data-label="Update Card Details"
+                data-allow-remember-me=false
+                data-locale="auto">
+
+        </script>
+    }
+}
+else
+{
+    <div>You dont currently have any cards registered. Please sign up to a plan first</div>
+}

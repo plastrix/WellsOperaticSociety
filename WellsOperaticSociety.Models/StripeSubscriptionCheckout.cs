@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WellsOperaticSociety.Models
 {
-    public class StripeCheckout
+    public class StripeSubscriptionCheckout
     {
         public string PlanId { get; set; }
         public string StripeToken { get; set; }

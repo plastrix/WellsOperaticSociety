@@ -1,5 +1,10 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageSubscriptionViewModel>
+    @{
+        var buttonText = Model.HasExistingSubscription ? "Change to this membership" : "Subscribe";
+    }
 <div class="row">
+
+    <div class="col-md-12" style="margin-bottom: 1.5em;">@Html.ValidationSummary(true)</div>
     <div class="col-md-4">
         <div class="card card-price">
             <div class="content">
@@ -9,16 +14,10 @@
                 </h1>
                 <ul class="list-unstyled list-lines">
                     <li>
-                        <i class="fa fa-comments"></i> <b>10,000</b> Messages
+                        <i class="fa fa-bolt"></i> <b>Help backstage</b> but not on stage
                     </li>
                     <li>
-                        <i class="fa fa-magic"></i> <b>500+</b> Elements
-                    </li>
-                    <li>
-                        <i class="fa fa-male"></i> <b>250</b> Users
-                    </li>
-                    <li>
-                        <i class="fa fa-level-up"></i> <b>Free</b> Updates
+                        <i class="fa fa-beer"></i> <b>Purchase Drinks</b> and sign in up to two guests
                     </li>
                 </ul>
             </div>
@@ -29,7 +28,23 @@
                 }
                 else
                 {
-                    <button type="button" class="btn btn-info btn-block">Buy now!</button>
+                    //Dont require the user to enter card details if they already have a stripe account
+                    if (Model.IsStripeUser)
+                    {
+                        using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.MembershipSurfaceController>("SubmitSubscribeToStripeSubscriptionForm"))
+                        {
+                            @Html.Hidden("PlanId", WellsOperaticSociety.BusinessLogic.StaticIdentifiers.SocialMemberPlanId)
+                            <button type="submit" class="btn btn-info btn-block">@buttonText</button>
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.MembershipSurfaceController>("SubmitStripeSubscriptionForm", null, new { id = "SocialForm" }))
+                        {
+                            @Html.Hidden("PlanId", WellsOperaticSociety.BusinessLogic.StaticIdentifiers.SocialMemberPlanId)
+                            <button type="submit" id="socialSubmit" class="btn btn-info btn-block">Subscribe now!</button>
+                        }
+                    }
                 }
             </div>
         </div> <!-- end card -->
@@ -43,22 +58,19 @@
                 </h1>
                 <ul class="list-unstyled list-lines">
                     <li>
-                        <i class="fa fa-comments"></i> <b>Unlimited</b> Messages
+                        <i class="fa fa-star"></i> <b>Star</b> in a show
                     </li>
                     <li>
-                        <i class="fa fa-magic"></i> <b>Unlimited</b> Elements
+                        <i class="fa fa-thumbs-up"></i> <b>Vote</b> in the AGM
                     </li>
                     <li>
-                        <i class="fa fa-male"></i> <b>Unlimited</b> Users
+                        <i class="fa fa-car"></i> <b>Park</b> in the car park (£1 permit fee applies)
                     </li>
                     <li>
-                        <i class="fa fa-dollar"></i> <b>Best Price</b> Deal
+                        <i class="fa fa-comments"></i> <b>Help backstage</b> and show us your skills
                     </li>
                     <li>
-                        <i class="fa fa-level-up"></i> <b>Free</b> Updates
-                    </li>
-                    <li>
-                        <i class="fa fa-phone"></i> <b>Premium</b> Support
+                        <i class="fa fa-beer"></i> <b>Purchase Drinks</b> and sign in up to two guests
                     </li>
                 </ul>
             </div>
@@ -69,7 +81,23 @@
                 }
                 else
                 {
-                    <button type="button" class="btn btn-info btn-block">Buy now!</button>
+                    //Dont require the user to enter card details if they already have a stripe account
+                    if (Model.IsStripeUser)
+                    {
+                        using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.MembershipSurfaceController>("SubmitSubscribeToStripeSubscriptionForm"))
+                        {
+                            @Html.Hidden("PlanId", WellsOperaticSociety.BusinessLogic.StaticIdentifiers.OrdinaryMemberPlanId)
+                            <button type="submit" class="btn btn-info btn-block">@buttonText</button>
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.MembershipSurfaceController>("SubmitStripeSubscriptionForm", null, new {id = "OrdinaryForm"}))
+                        {
+                            @Html.Hidden("PlanId", WellsOperaticSociety.BusinessLogic.StaticIdentifiers.OrdinaryMemberPlanId)
+                            <button type="submit" id="ordinarySubmit" class="btn btn-info btn-block">Subscribe now!</button>
+                        }
+                    }
                 }
             </div>
         </div> <!-- end card -->
@@ -84,16 +112,13 @@
                 </h1>
                 <ul class="list-unstyled list-lines">
                     <li>
-                        <i class="fa fa-comments"></i> <b>10,000</b> Messages
+                        <i class="fa fa-beer"></i> <b>Purchase Drinks</b> and sign in up to two guests
                     </li>
                     <li>
-                        <i class="fa fa-magic"></i> <b>500+</b> Elements
+                        <i class="fa fa-ticket"></i> <b>2</b> comp tickets for the spring show civic night
                     </li>
                     <li>
-                        <i class="fa fa-male"></i> <b>250</b> Users
-                    </li>
-                    <li>
-                        <i class="fa fa-level-up"></i> <b>Free</b> Updates
+                        <i class="fa fa-gbp"></i> <b>Support</b> the theatre
                     </li>
                 </ul>
             </div>
@@ -104,9 +129,127 @@
                 }
                 else
                 {
-                    <button type="button" class="btn btn-info btn-block">Buy now!</button>
+                    //Dont require the user to enter card details if they already have a stripe account
+                    if (Model.IsStripeUser)
+                    {
+                        using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.MembershipSurfaceController>("SubmitSubscribeToStripeSubscriptionForm"))
+                        {
+                            @Html.Hidden("PlanId", WellsOperaticSociety.BusinessLogic.StaticIdentifiers.PatronPlanId)
+                            <button type="submit" class="btn btn-info btn-block">@buttonText</button>
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.MembershipSurfaceController>("SubmitStripeSubscriptionForm", null, new {id = "PatronForm"}))
+                        {
+                            @Html.Hidden("PlanId", WellsOperaticSociety.BusinessLogic.StaticIdentifiers.PatronPlanId)
+                            <button type="submit" id="patronSubmit" class="btn btn-info btn-block">Subscribe now!</button>
+                        }
+                    }
                 }
             </div>
         </div> <!-- end card -->
     </div>
 </div>
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script>
+    var handler = StripeCheckout.configure({
+        key: '@WellsOperaticSociety.Web.SensativeInformation.StripeKeys.PublishableKey'
+    });
+    if($("#patronSubmit").length){
+        //PATRON
+        $('#patronSubmit')
+            .on('click',
+                function(e) {
+                    // Open Checkout with further options:
+                    handler.open({
+                        name: 'Wells Little Theatre',
+                        description: 'Patron',
+                        zipCode: true,
+                        currency: 'gbp',
+                        amount: @Model.PatronPrice.Replace(".", ""),
+                        image: '/images/stripeIcon.png',
+                        locale: 'auto',
+                        token: function(token) {
+                            $('<input>')
+                                .attr({
+                                    type: 'hidden',
+                                    id: 'StripeToken',
+                                    name: 'StripeToken',
+                                    value: token.id
+                                })
+                                .appendTo('#PatronForm');
+                            handler.close();
+                            $('#PatronForm').submit();
+                        }
+                    });
+                    e.preventDefault();
+                });
+    }
+    if ($('#ordinarySubmit').length) {
+        $('#ordinarySubmit')
+            .on('click',
+                function(e) {
+                    // Open Checkout with further options:
+                    handler.open({
+                        name: 'Wells Little Theatre',
+                        description: 'Ordinary',
+                        zipCode: true,
+                        currency: 'gbp',
+                        amount: @Model.OrdinaryPrice.Replace(".", ""),
+                        image: '/images/stripeIcon.png',
+                        locale: 'auto',
+                        token: function(token) {
+                            $('<input>')
+                                .attr({
+                                    type: 'hidden',
+                                    id: 'StripeToken',
+                                    name: 'StripeToken',
+                                    value: token.id
+                                })
+                                .appendTo('#OrdinaryForm');
+                            handler.close();
+                            $('#OrdinaryForm').submit();
+                        }
+                    });
+                    e.preventDefault();
+                });
+    }
+    if ($('#socialSubmit').length) {
+        //Social
+        $('#socialSubmit')
+            .on('click',
+                function(e) {
+                    // Open Checkout with further options:
+                    handler.open({
+                        name: 'Wells Little Theatre',
+                        description: 'Social',
+                        zipCode: true,
+                        currency: 'gbp',
+                        amount: @Model.SocialPrice.Replace(".", ""),
+                        image: '/images/stripeIcon.png',
+                        locale: 'auto',
+                        token: function(token) {
+                            $('<input>')
+                                .attr({
+                                    type: 'hidden',
+                                    id: 'StripeToken',
+                                    name: 'StripeToken',
+                                    value: token.id
+                                })
+                                .appendTo('#SocialForm');
+                            handler.close();
+                            $('#SocialForm').submit();
+
+                        }
+                    });
+                    e.preventDefault();
+                });
+    }
+
+
+    // Close Checkout on page navigation:
+    window.addEventListener('popstate', function() {
+        handler.close();
+    });
+</script>

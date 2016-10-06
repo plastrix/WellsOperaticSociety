@@ -8,8 +8,8 @@ namespace WellsOperaticSociety.BusinessLogic
 {
     public static class StaticIdentifiers
     {
-        public static string OrdinaryMemberPlanId = "WOS_ORD";
-        public static string SocialMemberPlanId = "WOS_SOC";
-        public static string PatronPlanId = "WOS_PAT";
+        public const string OrdinaryMemberPlanId = "WOS_ORD";
+        public const string SocialMemberPlanId = "WOS_SOC";
+        public const string PatronPlanId = "WOS_PAT";
     }
 }

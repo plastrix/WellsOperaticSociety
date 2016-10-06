@@ -86,6 +86,10 @@
     <Compile Include="Migrations\201609121700299_201609120903365_LongServiceAwards.Designer.cs">
       <DependentUpon>201609121700299_201609120903365_LongServiceAwards.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610042311103_StripeSubscriptionFields.cs" />
+    <Compile Include="Migrations\201610042311103_StripeSubscriptionFields.Designer.cs">
+      <DependentUpon>201610042311103_StripeSubscriptionFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -123,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609121700299_201609120903365_LongServiceAwards.resx">
       <DependentUpon>201609121700299_201609120903365_LongServiceAwards.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610042311103_StripeSubscriptionFields.resx">
+      <DependentUpon>201610042311103_StripeSubscriptionFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

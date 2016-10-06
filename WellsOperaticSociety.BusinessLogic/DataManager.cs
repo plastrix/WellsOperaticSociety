@@ -123,6 +123,21 @@ namespace WellsOperaticSociety.BusinessLogic
         }
 
         /// <summary>
+        /// Gets member by stripeid
+        /// </summary>
+        /// <returns></returns>
+        public Member GetActiveMember(string stripeUserId)
+        {
+            var helper = new UmbracoHelper(Umbraco);
+            var member = ApplicationContext.Current.Services.MemberService
+                    .GetAllMembers()
+                    .Select(m => new Member(helper.TypedMember(m.Id)))
+                    .SingleOrDefault(m => m.Deactivated == false && m.StripeUserId == stripeUserId);
+
+            return member;
+        }
+
+        /// <summary>
         /// Returns a list of active members that have a valid Membership record
         /// </summary>
         /// <returns></returns>
@@ -239,11 +254,11 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public void CreateMembership(Membership membership)
+        public void AddOrUpdateMembership(Membership membership)
         {
             using (var db = new DataContext())
             {
-                db.Memberships.Add(membership);
+                db.Memberships.AddOrUpdate(membership);
                 db.SaveChanges();
             }
         }
@@ -392,6 +407,14 @@ namespace WellsOperaticSociety.BusinessLogic
             {
                 db.LongServiceAwards.AddOrUpdate(longServiceAward);
                 db.SaveChanges();
+            }
+        }
+
+        public Membership GetLatestMembership(string stripeSubscriptionId)
+        {
+            using (var db = new DataContext())
+            {
+                return db.Memberships.OrderByDescending(m=>m.StartDate).SingleOrDefault(m => m.StripeSubscriptionId == stripeSubscriptionId);
             }
         }
         #endregion

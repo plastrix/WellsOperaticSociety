@@ -270,6 +270,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert.cs" />
     <Compile Include="DataTransfer.cs" />
     <Compile Include="RazorHelpers.cs" />
     <Compile Include="StaticIdentifiers.cs" />

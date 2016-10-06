@@ -131,7 +131,7 @@ namespace WellsOperaticSociety.Web.Controllers
             if (ModelState.IsValid)
             {
                 var dm = new DataManager();
-                dm.CreateMembership(membership);
+                dm.AddOrUpdateMembership(membership);
                 //TODO: Add success page
                 RedirectToCurrentUmbracoPage();
             }

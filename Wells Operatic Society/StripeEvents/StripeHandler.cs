@@ -1,8 +1,14 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Web;
+using AutoMapper;
 using Stripe;
 using log4net;
+using WellsOperaticSociety.BusinessLogic;
+using WellsOperaticSociety.Models.Enums;
+using WellsOperaticSociety.Models.MemberModels;
 
 namespace WellsOperaticSociety.Web.StripeEvents
 {
@@ -19,7 +25,8 @@ namespace WellsOperaticSociety.Web.StripeEvents
             var json = new StreamReader(context.Request.InputStream).ReadToEnd();
 
             var stripeEvent = StripeEventUtility.ParseEvent(json);
-
+            StripeSubscription stripeSubscription;
+            DataManager dataManager = new DataManager();
             switch (stripeEvent.Type)
             {
                 case Stripe.StripeEvents.AccountApplicationDeauthorized: _log.Info("Stripe Event: AccountApplicationDeauthorized"); break;
@@ -47,17 +54,53 @@ namespace WellsOperaticSociety.Web.StripeEvents
                 case Stripe.StripeEvents.CustomerSourceCreated: _log.Info("Stripe Event: CustomerSourceCreated"); break;
                 case Stripe.StripeEvents.CustomerSourcedDeleted: _log.Info("Stripe Event: CustomerSourcedDeleted"); break;
                 case Stripe.StripeEvents.CustomerSourceUpdated: _log.Info("Stripe Event: CustomerSourceUpdated"); break;
-                case Stripe.StripeEvents.CustomerSubscriptionCreated: var x = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString()); break;
-                case Stripe.StripeEvents.CustomerSubscriptionDeleted: var y = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString()); break;
-                case Stripe.StripeEvents.CustomerSubscriptionTrialWillEnd: var z = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString()); break;
-                case Stripe.StripeEvents.CustomerSubscriptionUpdated: var a = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString()); break;
+                case Stripe.StripeEvents.CustomerSubscriptionCreated: _log.Info("Stripe Event: CustomerSubscriptionCreated"); break;
+                case Stripe.StripeEvents.CustomerSubscriptionDeleted:
+                    _log.Info("Stripe Event: CustomerSubscriptionDeleted");
+                    stripeSubscription = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString());
+                    CancelMembership(stripeSubscription);
+
+                    break;
+                case Stripe.StripeEvents.CustomerSubscriptionTrialWillEnd: var z = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString()); _log.Info("Stripe Event: CustomerSubscriptionTrialWillEnd"); break;
+                case Stripe.StripeEvents.CustomerSubscriptionUpdated:
+                    _log.Info("Stripe Event: CustomerSubscriptionUpdated");
+                    stripeSubscription = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString());
+                    //canacel if cancel at end of period set
+                    if (stripeSubscription.CancelAtPeriodEnd)
+                    {
+                        CancelMembership(stripeSubscription);
+                    }
+                    else 
+                    {
+                        //update subscription
+                        AddOrUpdateMembership(stripeSubscription);
+                    }
+
+                    break;
                 case Stripe.StripeEvents.CustomerUpdated: _log.Info("Stripe Event: CustomerUpdated"); break;
-                case Stripe.StripeEvents.InvoiceCreated: _log.Info("Stripe Event: InvoiceCreated"); break;
+                case Stripe.StripeEvents.InvoiceCreated:
+                    _log.Info("Stripe Event: InvoiceCreated");
+                    //TODO: This is where to hold membership if no activity on account
+                    break;
                 case Stripe.StripeEvents.InvoiceItemCreated: _log.Info("Stripe Event: InvoiceItemCreated"); break;
                 case Stripe.StripeEvents.InvoiceItemDeleted: _log.Info("Stripe Event: InvoiceItemDeleted"); break;
                 case Stripe.StripeEvents.InvoiceItemUpdated: _log.Info("Stripe Event: InvoiceItemUpdated"); break;
-                case Stripe.StripeEvents.InvoicePaymentFailed: _log.Info("Stripe Event: InvoicePaymentFailed"); break;
-                case Stripe.StripeEvents.InvoicePaymentSucceeded: _log.Info("Stripe Event: InvoicePaymentSucceeded"); break;
+                case Stripe.StripeEvents.InvoicePaymentFailed:
+                    _log.Info("Stripe Event: InvoicePaymentFailed");
+                    //TODO: Email customer about issue and next steps
+                    break;
+                case Stripe.StripeEvents.InvoicePaymentSucceeded:
+                    _log.Info("Stripe Event: InvoicePaymentSucceeded");
+                    StripeInvoice invoice = Mapper<StripeInvoice>.MapFromJson(stripeEvent.Data.Object.ToString());
+
+                    //if not for a subscription ignore
+                    if (invoice.SubscriptionId.IsNullOrEmpty())
+                        return;
+
+                    stripeSubscription = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey).Get(invoice.CustomerId, invoice.SubscriptionId);
+                    AddOrUpdateMembership(stripeSubscription);
+                    
+                    break;
                 case Stripe.StripeEvents.InvoiceUpdated: _log.Info("Stripe Event: InvoiceUpdated"); break;
                 case Stripe.StripeEvents.Ping: _log.Info("Stripe Event: Ping"); break;
                 case Stripe.StripeEvents.PlanCreated: _log.Info("Stripe Event: PlanCreated"); break;
@@ -70,7 +113,84 @@ namespace WellsOperaticSociety.Web.StripeEvents
                 case Stripe.StripeEvents.TransferFailed: _log.Info("Stripe Event: TransferFailed"); break;
                 case Stripe.StripeEvents.TransferPaid: _log.Info("Stripe Event: TransferPaid"); break;
                 case Stripe.StripeEvents.TransferReversed: _log.Info("Stripe Event: TransferReversed"); break;
-                case Stripe.StripeEvents.TransferUpdated:_log.Info("Stripe Event: TransferUpdated"); break;
+                case Stripe.StripeEvents.TransferUpdated: _log.Info("Stripe Event: TransferUpdated"); break;
+            }
+        }
+
+        private void CancelMembership(StripeSubscription subscription)
+        {
+            if (subscription == null)
+            {
+                _log.Error($"Tried to cancel a membership but the subscription passed was null so could not work out which membership to cancel");
+                //TODO: send email to admins
+                return;
+            }
+            DataManager dataManager = new DataManager();
+            var membership = dataManager.GetLatestMembership(subscription.Id);
+            if (membership == null)
+            {
+                _log.Error($"Tried to update a membership but could not find the membership with the subscription id {subscription.Id}");
+                //TODO: send email to admins
+                return;
+            }
+            membership.CancelAtEnd = true;
+            dataManager.AddOrUpdateMembership(membership);
+        }
+
+        private void AddOrUpdateMembership(StripeSubscription subscription)
+        {
+            if (subscription == null)
+            {
+                _log.Error($"Tried to add or update a membership but the subscription passed was null");
+                //TODO: send email to admins
+                return;
+            }
+            DataManager dataManager = new DataManager();
+            var member = dataManager.GetActiveMember(subscription.CustomerId);
+            if (member == null)
+            {
+                _log.Error($"Tried to create/update a membership but no member could be found with the stripe id of {subscription.CustomerId}");
+                //TODO: send email to admins
+                return;
+            }
+           
+            //convert the plan to internal plan
+            if (subscription.StripePlan == null)
+            {
+                _log.Error($"Could not locate plan linked to subscription {subscription.Id}");
+                //TODO: send email to admins
+                return;
+            }
+            var membershipType = BusinessLogic.Convert.StripePlanToMembershipType(subscription.StripePlan.Id);
+            if (membershipType == null)
+            {
+                _log.Error($"Tried to create a membership but could not convert the plan to the membershiptype for {member.Name} and stripe plan {subscription.StripePlan.Name}");
+                //TODO: send email to admins
+                return;
+            }
+            //if we already have a membership covering this subscription period update the plan
+            var membership =
+                    dataManager
+                        .GetMembershipsForUser(member.Id)
+                        .FirstOrDefault(m => m.StripeSubscriptionId == subscription.Id && m.StartDate <= (subscription.CurrentPeriodStart ?? DateTime.Now.Date) && m.EndDate >= (subscription.CurrentPeriodEnd ?? DateTime.Now.Date));
+
+            if (membership != null)
+            {
+                membership.MembershipType = (MembershipType)membershipType;
+                dataManager.AddOrUpdateMembership(membership);
+            }
+            else
+            {
+                Membership m = new Membership
+                {
+                    IsSubscription = true,
+                    MembershipType = (MembershipType)membershipType,
+                    StartDate = subscription.CurrentPeriodStart ?? DateTime.Now,
+                    EndDate = subscription.CurrentPeriodEnd ?? DateTime.Now.AddYears(1),
+                    Member = member.Id,
+                    StripeSubscriptionId = subscription.Id
+                };
+                dataManager.AddOrUpdateMembership(m);
             }
         }
     }
