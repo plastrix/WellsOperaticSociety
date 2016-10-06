@@ -22,6 +22,8 @@ namespace WellsOperaticSociety.Models.MemberModels
         [Required]
         public MembershipType MembershipType { get; set; }
         public bool IsSubscription { get; set; }
+        public bool CancelAtEnd { get; set; }
+        public string StripeSubscriptionId { get; set; }
 
         public string MembershipTypeName => Enum.GetName(typeof(MembershipType), MembershipType);
     }

@@ -62,12 +62,12 @@ namespace WellsOperaticSociety.Web.Controllers
                 MembershipType = (int)MembershipType.Ordinary
             };
 
-            new DataManager().CreateMembership(m);
+            new DataManager().AddOrUpdateMembership(m);
 
             var model = new Member(Members.GetCurrentMember());
             return PartialView("ManageProfile", model);
 
-            
+
         }
 
         [HttpPost]
@@ -126,12 +126,12 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 //GetUptodate plan prices from stripe
                 var planService = new StripePlanService(SensativeInformation.StripeKeys.SecretKey);
-                var ordPlan = planService.Get(BusinessLogic.StaticIdentifiers.OrdinaryMemberPlanId);
-                var socialPlan = planService.Get(BusinessLogic.StaticIdentifiers.SocialMemberPlanId);
-                var patronPlan = planService.Get(BusinessLogic.StaticIdentifiers.PatronPlanId);
+                var ordPlan = planService.Get(StaticIdentifiers.OrdinaryMemberPlanId);
+                var socialPlan = planService.Get(StaticIdentifiers.SocialMemberPlanId);
+                var patronPlan = planService.Get(StaticIdentifiers.PatronPlanId);
                 if (ordPlan != null)
                 {
-                    model.OrdinaryPrice = (ordPlan.Amount/100m).ToString("N");
+                    model.OrdinaryPrice = (ordPlan.Amount / 100m).ToString("N");
                 }
                 if (socialPlan != null)
                 {
@@ -144,13 +144,16 @@ namespace WellsOperaticSociety.Web.Controllers
             }
             catch (StripeException e)
             {
-                //TODO: Log error
+                _log.Error($"There was a stripe error whilst trying to load the current subscriptions prices for the manage membership page. The error was {e.Message}.");
             }
             try
             {
                 var stripeAccountId = new Member(Members.GetCurrentMember()).StripeUserId;
+                var dm = new DataManager();
                 if (stripeAccountId.IsNotNullOrEmpty())
                 {
+                    model.IsStripeUser = true;
+                    model.HasExistingSubscription = false;
                     //Get plan status
                     var subscriptionService = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
                     var subs = subscriptionService.List(stripeAccountId);
@@ -160,12 +163,13 @@ namespace WellsOperaticSociety.Web.Controllers
                         model.IsOrdinaryMember = stripeSubscriptions.Any(m => m.StripePlan.Id == StaticIdentifiers.OrdinaryMemberPlanId && m.Status == StripeSubscriptionStatuses.Active);
                         model.IsSocialMember = stripeSubscriptions.Any(m => m.StripePlan.Id == StaticIdentifiers.SocialMemberPlanId && m.Status == StripeSubscriptionStatuses.Active);
                         model.IsPatron = stripeSubscriptions.Any(m => m.StripePlan.Id == StaticIdentifiers.PatronPlanId && m.Status == StripeSubscriptionStatuses.Active);
+                        model.HasExistingSubscription = stripeSubscriptions.Any(m =>m.Status == StripeSubscriptionStatuses.Active);
                     }
                 }
             }
-            catch(StripeException e)
+            catch (StripeException e)
             {
-                //TODO: Log error
+                _log.Error($"There was a stripe error whilst trying to load the current subscriptions for the managemembership page for user {Members.GetCurrentMember().Name} and id {Members.GetCurrentMember().Id}. The error was {e.Message}.");
             }
 
             return PartialView("ManageSubscription", model);
@@ -177,66 +181,189 @@ namespace WellsOperaticSociety.Web.Controllers
         {
             var dm = new BusinessLogic.DataManager();
             IEnumerable<Membership> model = dm.GetMembershipsForUser(Members.GetCurrentMemberId());
-            return PartialView("MembershipHistory",model);
+            return PartialView("MembershipHistory", model);
         }
-        
+
         [HttpPost]
-        public ActionResult SubmitStripeSubscriptionForm(StripeCheckout model)
+        public ActionResult SubmitStripeSubscriptionForm(StripeSubscriptionCheckout model)
         {
             if (ModelState.IsValid)
             {
 
                 var loggedOnMember = Members.GetCurrentMember();
-
                 var memberService = Services.MemberService;
-
                 var member = memberService.GetById(loggedOnMember.Id);
 
-                var stripeUserId = member.Properties.Contains("stripeUserId")
-                    ? member.Properties["stripeUserId"].Value as string
-                    : null;
+                var customer = new StripeCustomerCreateOptions();
+                customer.Email = member.Email;
+                customer.Description = member.Name;
 
-                if (stripeUserId.IsNullOrEmpty())
+                customer.SourceToken = model.StripeToken;
+                customer.PlanId = model.PlanId;
+                try
                 {
-                    var customer = new StripeCustomerCreateOptions();
-                    customer.Email = member.Email;
-                    customer.Description = member.Name;
+                    var customerService = new StripeCustomerService(SensativeInformation.StripeKeys.SecretKey);
+                    StripeCustomer stripeCustomer = customerService.Create(customer);
 
-                    customer.SourceToken = model.StripeToken;
-                    customer.PlanId = model.PlanId;
-                    try
+                    //Log customer id on member
+                    member.SetValue("stripeUserId", stripeCustomer.Id);
+                    memberService.Save(member);
+                    return RedirectToCurrentUmbracoPage();
+                }
+                catch (StripeException e)
+                {
+                    _log.Error(e.StripeError.Message);
+                    ModelState.AddModelError("",
+                        "There was an error setting up your subscription. Please try again. If the issue persists please contact us");
+                }
+            }
+            return CurrentUmbracoPage();
+        }
+
+        public ActionResult SubmitSubscribeToStripeSubscriptionForm(StripeSubscriptionCheckout model)
+        {
+            var loggedOnMember = Members.GetCurrentMember();
+            var memberService = Services.MemberService;
+            var member = memberService.GetById(loggedOnMember.Id);
+
+            var stripeUserId = member.Properties.Contains("stripeUserId")
+                ? member.Properties["stripeUserId"].Value as string
+                : null;
+            try
+            {
+                //Add subscription
+                var subscriptionService = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
+                var subs = subscriptionService.List(stripeUserId);
+                var stripeSubscriptions = subs as StripeSubscription[] ?? subs.ToArray();
+                var update = stripeSubscriptions.Any(m => m.Status == StripeSubscriptionStatuses.Active);
+
+                //ifexistingsubscripton update else create a new subscription
+                if (update)
+                {
+                    var subscription =
+                        stripeSubscriptions.FirstOrDefault(m => m.Status == StripeSubscriptionStatuses.Active);
+                    if (subscription != null)
                     {
-                        var customerService = new StripeCustomerService();
-                        StripeCustomer stripeCustomer = customerService.Create(customer,
-                            new StripeRequestOptions() {ApiKey = SensativeInformation.StripeKeys.SecretKey});
-                        
-                        //Log customer id on member
-                        member.SetValue("stripeUserId",stripeCustomer.Id);
-                        memberService.Save(member);
-                        //TODO: setup membership
+                        StripeSubscriptionUpdateOptions so = new StripeSubscriptionUpdateOptions();
+                        so.PlanId = model.PlanId;
+                        subscriptionService.Update(stripeUserId, subscription.Id, so);
+                        //TODO:success message
                         return RedirectToCurrentUmbracoPage();
                     }
-                    catch (StripeException e)
+                    else
                     {
-                        _log.Error(e.StripeError.Message);
+                        _log.Error(
+                            $"Tried to update a stripe subsciption for user with id {member.Id} but could not find any stripe subscriptions for this user.");
                         ModelState.AddModelError("",
-                            "There was an error setting up your subscription. Please try again. If the issue persists please contact us");
+                            "There was an error upgrading your subscription. Please try again. If the issue persists please contact us");
+                        return CurrentUmbracoPage();
                     }
                 }
                 else
                 {
-                    try
-                    {
-                        var subscriptionService = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
-                        StripeSubscription stripeSubscription = subscriptionService.Create(stripeUserId, model.PlanId);
-                    }
-                    catch (StripeException e)
-                    {
-                        _log.Error(e.StripeError.Message);
-                        ModelState.AddModelError("",
-                            "There was an error setting up your subscription. Please try again. If the issue persists please contact us");
-                    }
+                    StripeSubscription stripeSubscription = subscriptionService.Create(stripeUserId, model.PlanId);
+                    //TODO:success message
+                    return RedirectToCurrentUmbracoPage();
                 }
+            }
+            catch (StripeException e)
+            {
+                _log.Error(e.StripeError.Message);
+                ModelState.AddModelError("",
+                    "There was an error setting up your subscription. Please try again. If the issue persists please contact us");
+            }
+            return CurrentUmbracoPage();
+        }
+
+        [HttpPost]
+        public ActionResult CancelSubscription(string subscriptionId)
+        {
+            if (subscriptionId.IsNullOrEmpty())
+            {
+                _log.Error("Canceling the subscription but the subscriptionId passed in was null or empty");
+                ModelState.AddModelError("",
+                    "There was an error whilst trying to cancel your subscription. Please try again or contact us so we can help you resolve this.");
+                return CurrentUmbracoPage();
+            }
+            var loggedOnMember = Members.GetCurrentMember();
+
+
+            var member = new Member(Umbraco.TypedMember(loggedOnMember.Id));
+
+            if (member.StripeUserId.IsNotNullOrEmpty())
+            {
+                try
+                {
+                    var subscriptionService = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
+                    StripeSubscription stripeSubscription = subscriptionService.Cancel(member.StripeUserId, subscriptionId,
+                        true);
+                    TempData["CancelMessage"] =
+                        "You have successfully canceled your membership subscription. It can take five minutes to process.";
+                    return RedirectToCurrentUmbracoPage();
+                }
+                catch (StripeException e)
+                {
+                    _log.Error(e.StripeError.Message);
+                }
+            }
+            else
+            {
+                _log.Error($"The retrieved user had a null or empty stripe user id. The username is {member.Name}");
+                //TODO:Email admins
+            }
+            ModelState.AddModelError("",
+                        "There was an error cancelling your subscription. Please try again. If the issue persists please contact us");
+            return CurrentUmbracoPage();
+        }
+
+        public ActionResult ManageCards()
+        {
+            var loggedOnMember = Members.GetCurrentMember();
+            var member = new Member(Umbraco.TypedMember(loggedOnMember.Id));
+            IEnumerable<StripeCard> cardList = null;
+            if (member.StripeUserId.IsNotNullOrEmpty())
+            {
+                StripeCardService cardService = new StripeCardService(SensativeInformation.StripeKeys.SecretKey);
+                cardList = cardService.List(member.StripeUserId);
+            }
+
+            var model = cardList;
+
+            return PartialView("ManageCards", model);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateCardDetails(string stripeToken)
+        {
+            if (stripeToken.IsNullOrEmpty())
+            {
+                _log.Error($"Tried to update a card but the supplied stripeToken was null or empty");
+                ModelState.AddModelError("","There was an error whilst adding your new card details. Please try again. If the issue persists please contact us");
+                return CurrentUmbracoPage();
+            }
+
+            var member = new Member(Members.GetCurrentMember());
+            if (member.StripeUserId.IsNullOrEmpty())
+            {
+                _log.Error($"Somone tried to add a card when they did not have a stripe account");
+                ModelState.AddModelError("", "You account is not currently capable of adding cards you must first signup for a membership subscription. If you already have done this please contact us to resolve this issue.");
+                return CurrentUmbracoPage();
+            }
+            try
+            {
+                var custOptions = new StripeCustomerUpdateOptions();
+                custOptions.SourceToken = stripeToken;
+
+                var custService = new StripeCustomerService(SensativeInformation.StripeKeys.SecretKey);
+                custService.Update(member.StripeUserId, custOptions);
+                //TODO: success message
+                return RedirectToCurrentUmbracoPage();
+            }
+            catch (StripeException e)
+            {
+                _log.Error(e.StripeError.Message);
+                ModelState.AddModelError("",
+                    "There was an error trying to update your card details. Please contact us if this problem persists.");
             }
             return CurrentUmbracoPage();
         }

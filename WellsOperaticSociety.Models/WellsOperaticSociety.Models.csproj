@@ -159,8 +159,8 @@
       <HintPath>..\packages\UmbracoCms.Core.7.5.3\lib\SQLCE4Umbraco.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Stripe.net, Version=6.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Stripe.net.6.6.0\lib\net45\Stripe.net.dll</HintPath>
+    <Reference Include="Stripe.net, Version=6.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.6.8.0\lib\net45\Stripe.net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -273,7 +273,7 @@
     <Compile Include="ReportModels\LongServiceModel.cs" />
     <Compile Include="ReportModels\VehicleRegistrationModel.cs" />
     <Compile Include="StandardPage.cs" />
-    <Compile Include="StripeCheckout.cs" />
+    <Compile Include="StripeSubscriptionCheckout.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

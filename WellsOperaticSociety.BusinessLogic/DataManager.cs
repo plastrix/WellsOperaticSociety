@@ -254,11 +254,11 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public void CreateMembership(Membership membership)
+        public void AddOrUpdateMembership(Membership membership)
         {
             using (var db = new DataContext())
             {
-                db.Memberships.Add(membership);
+                db.Memberships.AddOrUpdate(membership);
                 db.SaveChanges();
             }
         }
@@ -407,6 +407,14 @@ namespace WellsOperaticSociety.BusinessLogic
             {
                 db.LongServiceAwards.AddOrUpdate(longServiceAward);
                 db.SaveChanges();
+            }
+        }
+
+        public Membership GetLatestMembership(string stripeSubscriptionId)
+        {
+            using (var db = new DataContext())
+            {
+                return db.Memberships.OrderByDescending(m=>m.StartDate).SingleOrDefault(m => m.StripeSubscriptionId == stripeSubscriptionId);
             }
         }
         #endregion
