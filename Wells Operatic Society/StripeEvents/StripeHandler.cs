@@ -65,11 +65,17 @@ namespace WellsOperaticSociety.Web.StripeEvents
                 case Stripe.StripeEvents.CustomerSubscriptionUpdated:
                     _log.Info("Stripe Event: CustomerSubscriptionUpdated");
                     stripeSubscription = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString());
-
+                    //canacel if cancel at end of period set
                     if (stripeSubscription.CancelAtPeriodEnd)
                     {
                         CancelMembership(stripeSubscription);
                     }
+                    else 
+                    {
+                        //update subscription
+                        AddOrUpdateMembership(stripeSubscription);
+                    }
+
                     break;
                 case Stripe.StripeEvents.CustomerUpdated: _log.Info("Stripe Event: CustomerUpdated"); break;
                 case Stripe.StripeEvents.InvoiceCreated:
@@ -91,54 +97,9 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     if (invoice.SubscriptionId.IsNullOrEmpty())
                         return;
 
-                    var member = dataManager.GetActiveMember(invoice.CustomerId);
-                    if (member == null)
-                    {
-                        _log.Error($"Tried to create/update a membership but no member could be found with the stripe id of {invoice.CustomerId}");
-                        //TODO: send email to admins
-                        return;
-                    }
-
                     stripeSubscription = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey).Get(invoice.CustomerId, invoice.SubscriptionId);
-
-                    //convert the plan to internal plan
-                    if (stripeSubscription.StripePlan == null)
-                    {
-                        _log.Error($"Could not locate plan linked to subscription {invoice.SubscriptionId}");
-                        //TODO: send email to admins
-                        return;
-                    }
-                    var membershipType = BusinessLogic.Convert.StripePlanToMembershipType(stripeSubscription.StripePlan.Id);
-                    if (membershipType == null)
-                    {
-                        _log.Error($"Tried to create a membership but could not convert the plan to the membershiptype for {member.Name} and stripe plan {stripeSubscription.StripePlan.Name}");
-                        //TODO: send email to admins
-                        return;
-                    }
-                    //if we already have a membership covering this subscription period update the plan
-                    var membership =
-                            dataManager
-                                .GetMembershipsForUser(member.Id)
-                                .FirstOrDefault(m => m.StripeSubscriptionId == stripeSubscription.Id && m.StartDate <= (stripeSubscription.CurrentPeriodStart ?? DateTime.Now.Date) && m.EndDate >= (stripeSubscription.CurrentPeriodEnd ?? DateTime.Now.Date));
-
-                    if (membership != null)
-                    {
-                        membership.MembershipType = (MembershipType)membershipType;
-                        dataManager.AddOrUpdateMembership(membership);
-                    }
-                    else
-                    {
-                        Membership m = new Membership
-                        {
-                            IsSubscription = true,
-                            MembershipType = (MembershipType)membershipType,
-                            StartDate = stripeSubscription.CurrentPeriodStart ?? DateTime.Now,
-                            EndDate = stripeSubscription.CurrentPeriodEnd ?? DateTime.Now.AddYears(1),
-                            Member = member.Id,
-                            StripeSubscriptionId = stripeSubscription.Id
-                        };
-                        dataManager.AddOrUpdateMembership(m);
-                    }
+                    AddOrUpdateMembership(stripeSubscription);
+                    
                     break;
                 case Stripe.StripeEvents.InvoiceUpdated: _log.Info("Stripe Event: InvoiceUpdated"); break;
                 case Stripe.StripeEvents.Ping: _log.Info("Stripe Event: Ping"); break;
@@ -174,6 +135,63 @@ namespace WellsOperaticSociety.Web.StripeEvents
             }
             membership.CancelAtEnd = true;
             dataManager.AddOrUpdateMembership(membership);
+        }
+
+        private void AddOrUpdateMembership(StripeSubscription subscription)
+        {
+            if (subscription == null)
+            {
+                _log.Error($"Tried to add or update a membership but the subscription passed was null");
+                //TODO: send email to admins
+                return;
+            }
+            DataManager dataManager = new DataManager();
+            var member = dataManager.GetActiveMember(subscription.CustomerId);
+            if (member == null)
+            {
+                _log.Error($"Tried to create/update a membership but no member could be found with the stripe id of {subscription.CustomerId}");
+                //TODO: send email to admins
+                return;
+            }
+           
+            //convert the plan to internal plan
+            if (subscription.StripePlan == null)
+            {
+                _log.Error($"Could not locate plan linked to subscription {subscription.Id}");
+                //TODO: send email to admins
+                return;
+            }
+            var membershipType = BusinessLogic.Convert.StripePlanToMembershipType(subscription.StripePlan.Id);
+            if (membershipType == null)
+            {
+                _log.Error($"Tried to create a membership but could not convert the plan to the membershiptype for {member.Name} and stripe plan {subscription.StripePlan.Name}");
+                //TODO: send email to admins
+                return;
+            }
+            //if we already have a membership covering this subscription period update the plan
+            var membership =
+                    dataManager
+                        .GetMembershipsForUser(member.Id)
+                        .FirstOrDefault(m => m.StripeSubscriptionId == subscription.Id && m.StartDate <= (subscription.CurrentPeriodStart ?? DateTime.Now.Date) && m.EndDate >= (subscription.CurrentPeriodEnd ?? DateTime.Now.Date));
+
+            if (membership != null)
+            {
+                membership.MembershipType = (MembershipType)membershipType;
+                dataManager.AddOrUpdateMembership(membership);
+            }
+            else
+            {
+                Membership m = new Membership
+                {
+                    IsSubscription = true,
+                    MembershipType = (MembershipType)membershipType,
+                    StartDate = subscription.CurrentPeriodStart ?? DateTime.Now,
+                    EndDate = subscription.CurrentPeriodEnd ?? DateTime.Now.AddYears(1),
+                    Member = member.Id,
+                    StripeSubscriptionId = subscription.Id
+                };
+                dataManager.AddOrUpdateMembership(m);
+            }
         }
     }
 }
