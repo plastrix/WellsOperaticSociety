@@ -3428,6 +3428,8 @@
     <Content Include="Views\MacroPartials\GoogleMap.cshtml" />
     <Content Include="Views\MembershipSurface\ManageCards.cshtml" />
     <Content Include="Views\MacroPartials\MembershipManageCards.cshtml" />
+    <Content Include="Views\Partials\ForgotPasswordForm.cshtml" />
+    <Content Include="Views\MacroPartials\ForgotPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3474,6 +3476,10 @@
     <ProjectReference Include="..\WellsOperaticSociety.BusinessLogic\WellsOperaticSociety.BusinessLogic.csproj">
       <Project>{F83D164E-71CE-4FCF-84CA-10860054A268}</Project>
       <Name>WellsOperaticSociety.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WellsOperaticSociety.EmailService\WellsOperaticSociety.EmailService.csproj">
+      <Project>{239b74d6-b78c-49af-a05f-4cab4445de50}</Project>
+      <Name>WellsOperaticSociety.EmailService</Name>
     </ProjectReference>
     <ProjectReference Include="..\WellsOperaticSociety.Models\WellsOperaticSociety.Models.csproj">
       <Project>{08f29a53-bbc5-4cf2-8708-e889aa63e5bf}</Project>

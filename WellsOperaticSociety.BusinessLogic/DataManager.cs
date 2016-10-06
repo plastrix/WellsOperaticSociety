@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Hosting;
+using System.Web.Mvc;
 using System.Xml.Linq;
 using Umbraco.Core;
 using Umbraco.Core.Models;
+using Umbraco.Core.Security;
 using Umbraco.Web;
 using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Models.MemberModels;
@@ -67,6 +70,12 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             var membersNode = GetMembersNode();
             return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == "minutes");
+        }
+
+        public IPublishedContent GetForgotPasswordNode()
+        {
+            UmbracoHelper helper = new UmbracoHelper(Umbraco);
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "forgotPassword");
         }
 
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
@@ -415,6 +424,41 @@ namespace WellsOperaticSociety.BusinessLogic
             using (var db = new DataContext())
             {
                 return db.Memberships.OrderByDescending(m=>m.StartDate).SingleOrDefault(m => m.StripeSubscriptionId == stripeSubscriptionId);
+            }
+        }
+
+        public void SendResetPasswordEmail(Member member, ViewDataDictionary viewData, ControllerContext contContext, TempDataDictionary tempData)
+        {
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
+            {
+                byte[] tokenData = new byte[32];
+                rng.GetBytes(tokenData);
+
+                string token = System.Convert.ToBase64String(tokenData);
+
+                using (var db = new DataContext())
+                {
+                    //store token
+                    var authtoken = new Models.ServiceModels.AuthorisationToken
+                    {
+                        Member = member.Id,
+                        Token = token,
+                        Created = DateTime.UtcNow
+                    };
+                    db.AuthorisationTokens.Add(authtoken);
+                    db.SaveChanges();
+                    var model = new Models.EmailModels.ResetPassword();
+                    model.Member = member;
+                    //todo:link
+                    model.Link = "http://www.wellslittletheratre.com/chankpassword?token=" + token;
+                    viewData.Model = model;
+                    var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ResetPassword.cshtml",
+                        contContext, viewData, tempData);
+
+                    //Generate email
+                    var emailService = new EmailService.EmailHelpers();
+                    emailService.SendEmail("info@wellslittletheatre.com",member.Email,"Reset password request",html);
+                }
             }
         }
         #endregion

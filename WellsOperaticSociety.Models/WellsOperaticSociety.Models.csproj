@@ -260,9 +260,11 @@
   <ItemGroup>
     <Compile Include="AdminModels\Seat.cs" />
     <Compile Include="ContactUs.cs" />
+    <Compile Include="EmailModels\ResetPassword.cs" />
     <Compile Include="Enums\MembershipType.cs" />
     <Compile Include="Enums\NodaLongServiceAward.cs" />
     <Compile Include="Function.cs" />
+    <Compile Include="MemberModels\ForgotPassword.cs" />
     <Compile Include="MemberModels\LoginModel.cs" />
     <Compile Include="MemberModels\LongServiceAward.cs" />
     <Compile Include="MemberModels\Member.cs" />
@@ -272,6 +274,7 @@
     <Compile Include="ReCaptcha.cs" />
     <Compile Include="ReportModels\LongServiceModel.cs" />
     <Compile Include="ReportModels\VehicleRegistrationModel.cs" />
+    <Compile Include="ServiceModels\AuthorisationToken.cs" />
     <Compile Include="StandardPage.cs" />
     <Compile Include="StripeSubscriptionCheckout.cs" />
   </ItemGroup>

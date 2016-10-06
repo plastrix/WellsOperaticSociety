@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using WellsOperaticSociety.Models.AdminModels;
 using WellsOperaticSociety.Models.MemberModels;
+using WellsOperaticSociety.Models.ServiceModels;
 
 namespace WellsOperaticSociety.DAL
 {
@@ -10,5 +11,6 @@ namespace WellsOperaticSociety.DAL
         public DbSet<Membership> Memberships { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<LongServiceAward> LongServiceAwards { get; set; }
+        public DbSet<AuthorisationToken> AuthorisationTokens { get; set; }
     }
 }

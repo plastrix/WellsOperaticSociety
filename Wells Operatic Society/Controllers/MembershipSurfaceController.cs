@@ -9,6 +9,7 @@ using Umbraco.Web;
 using WellsOperaticSociety.Models;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
+using WellsOperaticSociety.EmailService;
 using WellsOperaticSociety.Models.Enums;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Web.Models;
@@ -44,6 +45,25 @@ namespace WellsOperaticSociety.Web.Controllers
             return CurrentUmbracoPage();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitForgotPasswordForm(ForgotPassword model)
+        {
+            if (ModelState.IsValid)
+            {
+                var member = Members.GetByEmail(model.Email);
+                if (member != null)
+                {
+
+                    DataManager dm = new DataManager();
+                    dm.SendResetPasswordEmail(new Member(member),ViewData,ControllerContext,TempData);
+                }
+                //TODO:Success messag
+                return RedirectToCurrentUmbracoPage();
+            }
+            return CurrentUmbracoPage();
+        }
+
         public ActionResult Logout()
         {
             Session.Clear();
@@ -53,7 +73,6 @@ namespace WellsOperaticSociety.Web.Controllers
 
         public ActionResult ManageProfile()
         {
-
             var m = new Membership()
             {
                 Member = Members.GetCurrentMemberId(),
