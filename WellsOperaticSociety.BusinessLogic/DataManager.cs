@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Hosting;
+using System.Web.Mvc;
 using System.Xml.Linq;
 using Umbraco.Core;
 using Umbraco.Core.Models;
+using Umbraco.Core.Security;
 using Umbraco.Web;
 using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Models.MemberModels;
@@ -67,6 +70,18 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             var membersNode = GetMembersNode();
             return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == "minutes");
+        }
+
+        public IPublishedContent GetForgotPasswordNode()
+        {
+            UmbracoHelper helper = new UmbracoHelper(Umbraco);
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "forgotPassword");
+        }
+
+        public IPublishedContent GetResetPasswordNode()
+        {
+            UmbracoHelper helper = new UmbracoHelper(Umbraco);
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "resetPassword");
         }
 
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
@@ -417,6 +432,74 @@ namespace WellsOperaticSociety.BusinessLogic
                 return db.Memberships.OrderByDescending(m=>m.StartDate).SingleOrDefault(m => m.StripeSubscriptionId == stripeSubscriptionId);
             }
         }
+
+        public void SendResetPasswordEmail(Member member, ViewDataDictionary viewData, ControllerContext contContext, TempDataDictionary tempData)
+        {
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
+            {
+                byte[] tokenData = new byte[32];
+                rng.GetBytes(tokenData);
+
+                string token = System.Convert.ToBase64String(tokenData).TrimEnd('=').Replace('+', '-').Replace('/', '_'); ;
+
+                using (var db = new DataContext())
+                {
+                    //store token
+                    var authtoken = new Models.ServiceModels.AuthorisationToken
+                    {
+                        Member = member.Id,
+                        Token = token,
+                        Created = DateTime.UtcNow
+                    };
+                    db.AuthorisationTokens.Add(authtoken);
+                    db.SaveChanges();
+                    var model = new Models.EmailModels.ResetPassword {Member = member};
+                    UriBuilder resetPasswordBsoluteUrl = new UriBuilder("https://www.wellslittletheatre.com")
+                    {
+                        Path = GetResetPasswordNode().Url,
+                        Query = "token=" + token
+                    };
+                    model.Link = resetPasswordBsoluteUrl.ToString();
+                    viewData.Model = model;
+                    var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ResetPassword.cshtml",
+                        contContext, viewData, tempData);
+
+                    //Generate email
+                    var emailService = new EmailService.EmailHelpers();
+                    emailService.SendEmail("info@wellslittletheatre.com",member.Email,"Reset password request",html);
+                }
+            }
+        }
+
+        public Member ValidateToken(string token,int minsKeepAlive)
+        {
+            if (token.IsNullOrEmpty())
+                return null;
+            using (var db = new DataContext())
+            {
+                var expiredDate = DateTime.UtcNow.AddMinutes(minsKeepAlive*-1);
+                var authToken = db.AuthorisationTokens.FirstOrDefault(m => m.Token == token && m.Used == false && m.Created>= expiredDate);
+                if(authToken == null)
+                    return null;
+                var membershipHelper = new Umbraco.Web.Security.MembershipHelper(Umbraco);
+                return new Member(membershipHelper.GetById(authToken.Member));
+            }
+        }
+
+        public void TryInvalidateToken(string token)
+        {
+            if (token.IsNullOrEmpty())
+                return;
+            using (var db = new DataContext())
+            {
+                var authToken = db.AuthorisationTokens.SingleOrDefault(m => m.Token == token);
+                if (authToken == null)
+                    return;
+                authToken.Used = true;
+                db.SaveChanges();
+            }
+        }
+
         #endregion
 
         #region Robot and siitemap fuinctions

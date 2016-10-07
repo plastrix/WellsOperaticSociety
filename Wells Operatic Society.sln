@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellsOperaticSociety.Web", "Wells Operatic Society\WellsOperaticSociety.Web.csproj", "{033830C5-E099-4E7F-A125-2D6FD3A55394}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellsOperaticSociety.PreCompiledViews", "WellsOperaticSociety.PreCompiledViews\WellsOperaticSociety.PreCompiledViews.csproj", "{82C523B6-C3FB-4C9B-B05B-F3435591E47C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellsOperaticSociety.Utilities", "WellsOperaticSociety.Utilities\WellsOperaticSociety.Utilities.csproj", "{52D4AA38-1A40-4406-9570-1225786A6F2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellsOperaticSociety.EmailService", "WellsOperaticSociety.EmailService\WellsOperaticSociety.EmailService.csproj", "{239B74D6-B78C-49AF-A05F-4CAB4445DE50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{52D4AA38-1A40-4406-9570-1225786A6F2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52D4AA38-1A40-4406-9570-1225786A6F2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52D4AA38-1A40-4406-9570-1225786A6F2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{239B74D6-B78C-49AF-A05F-4CAB4445DE50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{239B74D6-B78C-49AF-A05F-4CAB4445DE50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{239B74D6-B78C-49AF-A05F-4CAB4445DE50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{239B74D6-B78C-49AF-A05F-4CAB4445DE50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

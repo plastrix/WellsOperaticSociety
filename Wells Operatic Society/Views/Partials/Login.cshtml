@@ -1,5 +1,8 @@
-﻿@model WellsOperaticSociety.Models.MemberModels.LoginModel
-
+﻿@using WellsOperaticSociety.BusinessLogic
+@model WellsOperaticSociety.Models.MemberModels.LoginModel
+@{
+    var forgotPasswordUrl = new DataManager().GetForgotPasswordNode().Url;
+}
 @using (Html.BeginUmbracoForm("SubmitLoginForm", "MembershipSurface"))
 {
     @Html.AntiForgeryToken()
@@ -16,4 +19,5 @@
     </div>
 
     <button type="submit" class="btn btn-default">Login</button>
+    <a href="@forgotPasswordUrl">Forgot your password?</a>
 }

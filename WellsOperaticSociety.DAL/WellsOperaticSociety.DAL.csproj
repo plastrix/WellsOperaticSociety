@@ -90,6 +90,10 @@
     <Compile Include="Migrations\201610042311103_StripeSubscriptionFields.Designer.cs">
       <DependentUpon>201610042311103_StripeSubscriptionFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610061948338_AuthorisationToken.cs" />
+    <Compile Include="Migrations\201610061948338_AuthorisationToken.Designer.cs">
+      <DependentUpon>201610061948338_AuthorisationToken.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -130,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610042311103_StripeSubscriptionFields.resx">
       <DependentUpon>201610042311103_StripeSubscriptionFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610061948338_AuthorisationToken.resx">
+      <DependentUpon>201610061948338_AuthorisationToken.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
