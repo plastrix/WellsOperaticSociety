@@ -58,8 +58,55 @@ namespace WellsOperaticSociety.Web.Controllers
                     DataManager dm = new DataManager();
                     dm.SendResetPasswordEmail(new Member(member),ViewData,ControllerContext,TempData);
                 }
-                //TODO:Success messag
+                TempData["SuccessMessage"] =
+                    "An email has been sent to the email address you entered. Please follow the instruction in the email to finish reseting your password";
                 return RedirectToCurrentUmbracoPage();
+            }
+            return CurrentUmbracoPage();
+        }
+
+        public ActionResult AuthenticateResetPassword(string token)
+        {
+            DataManager dm = new DataManager();
+            //validate token
+            var m = dm.ValidateToken(token, 1440);
+            //does it exist
+            //has it expired
+            if (m == null)
+            {
+                dm.TryInvalidateToken(token);
+                TempData["ErrorMessage"] = "We could not validate you on the system. This could be because the token is invalid. Please try again.";
+                return PartialView("ResetPasswordForm", new ResetPassword());
+            }
+
+            ResetPassword model = new ResetPassword();
+            model.Token = token;
+            return PartialView("ResetPasswordForm",model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPassword model)
+        {
+            if (ModelState.IsValid)
+            {
+                DataManager dm = new DataManager();
+                var m = dm.ValidateToken(model.Token,1440);
+                if (m == null)
+                {
+                    ModelState.AddModelError("", "There was an error whilst trying to reset your password. Please try again or contact us if the problem persists.");
+                    return CurrentUmbracoPage();
+                }
+                var memberService = Services.MemberService;
+                var member = memberService.GetById(m.Id);
+                if (member != null)
+                {
+                    memberService.SavePassword(member,model.Password);
+                    dm.TryInvalidateToken(model.Token);
+                    TempData["SuccessMessage"] = "You have successfully reset your password. Now all you have to do is log in";
+                    return Redirect(dm.GetLoginNode().Url);
+                }
+                ModelState.AddModelError("","There was an error whilst trying to reset your password. Please try again or contact us if the problem persists.");   
             }
             return CurrentUmbracoPage();
         }
@@ -109,6 +156,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 if (member == null)
                 {
                     //TODO:LogError
+                    _log.Warn("There was a post to the SubmitManageProfileForm function but we cuold not find the member associated with this post");
                     ModelState.AddModelError("", "We could not find a user with that id to update");
                     return CurrentUmbracoPage();
                 }

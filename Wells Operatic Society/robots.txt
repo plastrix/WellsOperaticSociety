@@ -3,6 +3,7 @@ Disallow: /members/
 Disallow: /admin/
 Disallow: /sitemap/
 Disallow: /404/
+Disallow: /reset-password/
 Disallow: /umbraco/
 Disallow: /search/
 Sitemap: https://localhost:44300/sitemap.xml

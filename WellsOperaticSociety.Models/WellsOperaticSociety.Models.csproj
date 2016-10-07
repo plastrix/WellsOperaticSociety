@@ -270,6 +270,7 @@
     <Compile Include="MemberModels\Member.cs" />
     <Compile Include="MemberModels\Membership.cs" />
     <Compile Include="MemberModels\MemberRolesInShow.cs" />
+    <Compile Include="MemberModels\ResetPassword.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReCaptcha.cs" />
     <Compile Include="ReportModels\LongServiceModel.cs" />

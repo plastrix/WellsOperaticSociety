@@ -78,6 +78,12 @@ namespace WellsOperaticSociety.BusinessLogic
             return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "forgotPassword");
         }
 
+        public IPublishedContent GetResetPasswordNode()
+        {
+            UmbracoHelper helper = new UmbracoHelper(Umbraco);
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "resetPassword");
+        }
+
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
@@ -434,7 +440,7 @@ namespace WellsOperaticSociety.BusinessLogic
                 byte[] tokenData = new byte[32];
                 rng.GetBytes(tokenData);
 
-                string token = System.Convert.ToBase64String(tokenData);
+                string token = System.Convert.ToBase64String(tokenData).TrimEnd('=').Replace('+', '-').Replace('/', '_'); ;
 
                 using (var db = new DataContext())
                 {
@@ -447,10 +453,13 @@ namespace WellsOperaticSociety.BusinessLogic
                     };
                     db.AuthorisationTokens.Add(authtoken);
                     db.SaveChanges();
-                    var model = new Models.EmailModels.ResetPassword();
-                    model.Member = member;
-                    //todo:link
-                    model.Link = "http://www.wellslittletheratre.com/chankpassword?token=" + token;
+                    var model = new Models.EmailModels.ResetPassword {Member = member};
+                    UriBuilder resetPasswordBsoluteUrl = new UriBuilder("https://www.wellslittletheatre.com")
+                    {
+                        Path = GetResetPasswordNode().Url,
+                        Query = "token=" + token
+                    };
+                    model.Link = resetPasswordBsoluteUrl.ToString();
                     viewData.Model = model;
                     var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ResetPassword.cshtml",
                         contContext, viewData, tempData);
@@ -461,6 +470,36 @@ namespace WellsOperaticSociety.BusinessLogic
                 }
             }
         }
+
+        public Member ValidateToken(string token,int minsKeepAlive)
+        {
+            if (token.IsNullOrEmpty())
+                return null;
+            using (var db = new DataContext())
+            {
+                var expiredDate = DateTime.UtcNow.AddMinutes(minsKeepAlive*-1);
+                var authToken = db.AuthorisationTokens.FirstOrDefault(m => m.Token == token && m.Used == false && m.Created>= expiredDate);
+                if(authToken == null)
+                    return null;
+                var membershipHelper = new Umbraco.Web.Security.MembershipHelper(Umbraco);
+                return new Member(membershipHelper.GetById(authToken.Member));
+            }
+        }
+
+        public void TryInvalidateToken(string token)
+        {
+            if (token.IsNullOrEmpty())
+                return;
+            using (var db = new DataContext())
+            {
+                var authToken = db.AuthorisationTokens.SingleOrDefault(m => m.Token == token);
+                if (authToken == null)
+                    return;
+                authToken.Used = true;
+                db.SaveChanges();
+            }
+        }
+
         #endregion
 
         #region Robot and siitemap fuinctions
