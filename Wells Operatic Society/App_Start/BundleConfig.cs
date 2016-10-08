@@ -9,6 +9,7 @@ namespace WellsOperaticSociety.Web
             bundles.Add(new ScriptBundle("~/jqueryAndBootstrapScripts").Include(
                 "~/scripts/jquery-{version}.js",
                 "~/scripts/jquery-ui-1.12.0.js",
+                "~/scripts/datepicker-en-GB.js",
                 "~/scripts/bootstrap.js",
                 "~/scripts/jquery.validate.min.js",
                 "~/scripts/jquery.validate.unobtrusive.min.js",
@@ -21,7 +22,7 @@ namespace WellsOperaticSociety.Web
                 "~/scripts/gsdk-radio.js",
                 "~/scripts/gsdk-bootstrapswitch.js",
                 "~/scripts/bootstrap-select.js",
-                "~/scripts/bootstrap-datepicker.js",
+                //"~/scripts/bootstrap-datepicker.js",
                 "~/scripts/jquery.tagsinput.js"));
 
             bundles.Add(new ScriptBundle("~/gsdCore").Include(
@@ -30,6 +31,7 @@ namespace WellsOperaticSociety.Web
             bundles.Add(new StyleBundle("~/cssFiles").Include(
                 "~/Content/normalize.css",
                 "~/Content/themes/base/jquery-ui.min.css",
+                "~/Content/themes/base/jquery-ui.theme.min.css",
                 "~/Content/bootstrap.min.css",
                 "~/Content/gsdk.css",
                 "~/Content/Site.css"));

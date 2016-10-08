@@ -601,6 +601,7 @@
     <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\themes\base\jquery-ui.css" />
     <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\jquery-ui.theme.min.css" />
     <Content Include="Content\themes\base\menu.css" />
     <Content Include="Content\themes\base\progressbar.css" />
     <Content Include="Content\themes\base\resizable.css" />
@@ -759,6 +760,7 @@
     <Content Include="scripts\chartist.min.js" />
     <Content Include="scripts\cookieconsent.js" />
     <Content Include="scripts\cookieconsent.min.js" />
+    <Content Include="scripts\datepicker-en-GB.js" />
     <Content Include="scripts\get-shit-done.js" />
     <Content Include="scripts\gsdk-bootstrapswitch.js" />
     <Content Include="scripts\gsdk-checkbox.js" />

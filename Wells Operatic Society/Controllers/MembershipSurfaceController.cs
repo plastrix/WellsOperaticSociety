@@ -155,7 +155,6 @@ namespace WellsOperaticSociety.Web.Controllers
                 //couldnt find member
                 if (member == null)
                 {
-                    //TODO:LogError
                     _log.Warn("There was a post to the SubmitManageProfileForm function but we cuold not find the member associated with this post");
                     ModelState.AddModelError("", "We could not find a user with that id to update");
                     return CurrentUmbracoPage();
