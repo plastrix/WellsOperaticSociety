@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WellsOperaticSociety.Models.MemberModels;
 
 namespace WellsOperaticSociety.Models.ReportModels
 {
-    public class LongServiceModel:ReportBase
+    public class VehicleRgeistrationViewModel : ReportBase
     {
-        public List<LongServiceAward> DueAwards { get; set; }
+        public List<VehicleRegistrationModel> RegistrationList { get; set; }
     }
 }

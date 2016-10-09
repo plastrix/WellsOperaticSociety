@@ -37,7 +37,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Reports/VehicleRegistrationReport.cshtml")]
-    public partial class _Views_Reports_VehicleRegistrationReport_cshtml : System.Web.Mvc.WebViewPage<List<VehicleRegistrationModel>>
+    public partial class _Views_Reports_VehicleRegistrationReport_cshtml : System.Web.Mvc.WebViewPage<VehicleRgeistrationViewModel>
     {
         public _Views_Reports_VehicleRegistrationReport_cshtml()
         {
@@ -50,18 +50,18 @@ namespace ASP
     //TODO: ADD in page header for styling
     var subList = new List<List<VehicleRegistrationModel>>();
     var breakPoint = 40;
-    if (Model != null && Model.Any())
+    if (Model.RegistrationList != null && Model.RegistrationList.Any())
     {
-        var chunkCount = Model.Count() / breakPoint;
+        var chunkCount = Model.RegistrationList.Count() / breakPoint;
 
-        if (Model.Count % breakPoint > 0)
+        if (Model.RegistrationList.Count % breakPoint > 0)
         {
             chunkCount++;
         }
 
         for (var i = 0; i < chunkCount; i++)
         {
-            subList.Add(Model.Skip(i * breakPoint).Take(breakPoint).ToList());
+            subList.Add(Model.RegistrationList.Skip(i * breakPoint).Take(breakPoint).ToList());
         }
     }
 
@@ -98,7 +98,7 @@ WriteLiteral("    ");
 
             
             #line 45 "..\..\Views\Reports\VehicleRegistrationReport.cshtml"
-Write(Html.Partial("~/Views/Reports/ReportHeader.cshtml"));
+Write(Html.Partial("~/Views/Reports/ReportHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri } }));
 
             
             #line default

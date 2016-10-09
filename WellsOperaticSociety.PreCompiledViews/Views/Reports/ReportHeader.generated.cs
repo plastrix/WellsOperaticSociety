@@ -38,17 +38,24 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("\r\n");
+WriteLiteral("<div");
 
+WriteLiteral(" style=\"width: 100%; text-align: right;\"");
+
+WriteLiteral(">\r\n    <img");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 55), Tuple.Create("\"", 106)
             
             #line 2 "..\..\Views\Reports\ReportHeader.cshtml"
-  
-    ViewBag.Title = "ReportHeader";
-
+, Tuple.Create(Tuple.Create("", 61), Tuple.Create<System.Object, System.Int32>(ViewBag.BaseUri
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n<h2>ReportHeader</h2>\r\n\r\n");
+, 61), false)
+, Tuple.Create(Tuple.Create("", 77), Tuple.Create("/Images/Logo-Black-250x42.png", 77), true)
+);
+
+WriteLiteral(" />\r\n</div>\r\n");
 
         }
     }

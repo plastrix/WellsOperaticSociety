@@ -107,3 +107,7 @@ h5 .subtitle {
   display: block;
   font-family: 'Grand Hotel',cursive;
 }
+
+body > .navbar-collapse ul {
+    overflow-y: auto !important;
+}
