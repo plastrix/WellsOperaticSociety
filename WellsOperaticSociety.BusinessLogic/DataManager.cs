@@ -454,7 +454,9 @@ namespace WellsOperaticSociety.BusinessLogic
                     db.AuthorisationTokens.Add(authtoken);
                     db.SaveChanges();
                     var model = new Models.EmailModels.ResetPassword {Member = member};
-                    UriBuilder resetPasswordBsoluteUrl = new UriBuilder("https://www.wellslittletheatre.com")
+                    var baseUri = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/');
+                    model.BaseUri = baseUri;
+                    UriBuilder resetPasswordBsoluteUrl = new UriBuilder(baseUri)
                     {
                         Path = GetResetPasswordNode().Url,
                         Query = "token=" + token

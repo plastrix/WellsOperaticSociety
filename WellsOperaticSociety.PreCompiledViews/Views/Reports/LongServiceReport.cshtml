@@ -1,6 +1,4 @@
 ﻿@using WellsOperaticSociety.Models.Enums
-@using WellsOperaticSociety.Models.ReportModels
-
 @model WellsOperaticSociety.Models.ReportModels.LongServiceModel
 @{
     //TODO: ADD in page header for styling
@@ -46,7 +44,7 @@
     </style>
 </head>
 <body>
-    @Html.Partial("~/Views/Reports/ReportHeader.cshtml")
+    @Html.Partial("~/Views/Reports/ReportHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri} })
     <div class="title">
         <h2>Due Long Service Awards</h2>
         <p>As of @DateTime.Now.ToString("D")</p>

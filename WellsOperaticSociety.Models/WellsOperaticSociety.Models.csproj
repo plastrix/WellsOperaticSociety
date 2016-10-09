@@ -260,7 +260,12 @@
   <ItemGroup>
     <Compile Include="AdminModels\Seat.cs" />
     <Compile Include="ContactUs.cs" />
+    <Compile Include="EmailModels\EmailBase.cs" />
+    <Compile Include="EmailModels\Payment.cs" />
+    <Compile Include="EmailModels\PaymentFailed.cs" />
     <Compile Include="EmailModels\ResetPassword.cs" />
+    <Compile Include="EmailModels\SubscriptionCanceled.cs" />
+    <Compile Include="EmailModels\SubscriptionCreated.cs" />
     <Compile Include="Enums\MembershipType.cs" />
     <Compile Include="Enums\NodaLongServiceAward.cs" />
     <Compile Include="Function.cs" />
@@ -274,7 +279,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReCaptcha.cs" />
     <Compile Include="ReportModels\LongServiceModel.cs" />
+    <Compile Include="ReportModels\ReportBase.cs" />
     <Compile Include="ReportModels\VehicleRegistrationModel.cs" />
+    <Compile Include="ReportModels\VehicleRgeistrationViewModel.cs" />
     <Compile Include="ServiceModels\AuthorisationToken.cs" />
     <Compile Include="StandardPage.cs" />
     <Compile Include="StripeSubscriptionCheckout.cs" />

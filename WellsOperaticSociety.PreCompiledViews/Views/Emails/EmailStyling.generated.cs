@@ -30,32 +30,19 @@ namespace ASP
     using WellsOperaticSociety.PreCompiledViews;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Reports/ReportHeader.cshtml")]
-    public partial class _Views_Reports_ReportHeader_cshtml : System.Web.Mvc.WebViewPage<dynamic>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Emails/EmailStyling.cshtml")]
+    public partial class _Views_Emails_EmailStyling_cshtml : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public _Views_Reports_ReportHeader_cshtml()
+        public _Views_Emails_EmailStyling_cshtml()
         {
         }
         public override void Execute()
         {
-WriteLiteral("<div");
+WriteLiteral("<style");
 
-WriteLiteral(" style=\"width: 100%; text-align: right;\"");
+WriteLiteral(" type=\"text/css\"");
 
-WriteLiteral(">\r\n    <img");
-
-WriteAttribute("src", Tuple.Create(" src=\"", 55), Tuple.Create("\"", 106)
-            
-            #line 2 "..\..\Views\Reports\ReportHeader.cshtml"
-, Tuple.Create(Tuple.Create("", 61), Tuple.Create<System.Object, System.Int32>(ViewBag.BaseUri
-            
-            #line default
-            #line hidden
-, 61), false)
-, Tuple.Create(Tuple.Create("", 77), Tuple.Create("/Images/Logo-Black-250x42.png", 77), true)
-);
-
-WriteLiteral(" />\r\n</div>\r\n");
+WriteLiteral(">\r\n    p {\r\n        margin-bottom: 1em;\r\n    }\r\n</style>");
 
         }
     }

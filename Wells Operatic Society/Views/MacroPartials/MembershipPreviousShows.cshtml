@@ -1,4 +1,5 @@
 ﻿@using WellsOperaticSociety.BusinessLogic
+@using WellsOperaticSociety.Models
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 @{
     var dm = new DataManager();
@@ -36,7 +37,7 @@
             height: 200px;
             line-height: 200px;
             text-align: center;
-            background: #303e49;
+            background: #9A9A9A;
         }
 
             header h1 {
@@ -73,6 +74,7 @@
                 height: 100%;
                 width: 4px;
                 background: #cccccc;
+                margin-top: 56px;
             }
 
         @@media only screen and (min-width: 1170px) {
@@ -91,6 +93,7 @@
         .cd-timeline-block-year {
             position: relative;
             margin: 2em 0;
+            color: #ececec;
         }
 
             .cd-timeline-block:after {
@@ -127,19 +130,16 @@
             left: 0;
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            box-shadow: 0 0 0 4px white, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            /*background-image: url('path/to/image.jpg');*/
         }
 
         .cd-timeline-img img {
             display: block;
-            width: 24px;
-            height: 24px;
-            position: relative;
-            left: 50%;
-            top: 50%;
-            margin-left: -12px;
-            margin-top: -12px;
+            /*width: auto;
+            height: auto;*/
         }
 
 
@@ -155,24 +155,12 @@
             font-size: 1.25rem;
             }
 
-        .cd-timeline-img.cd-picture {
-            background: #75ce66;
-        }
-
-        .cd-timeline-img.cd-movie {
-            background: #c03b44;
-        }
-
-        .cd-timeline-img.cd-location {
-            background: #f0ca45;
-        }
-
         @@media only screen and (min-width: 1170px) {
             .cd-timeline-img {
-                width: 60px;
-                height: 60px;
+                width: 100px;
+                height: 100px;
                 left: 50%;
-                margin-left: -30px;
+                margin-left: -50px;
                 /* Force Hardware Acceleration in WebKit */
                 -webkit-transform: translateZ(0);
                 -webkit-backface-visibility: hidden;
@@ -251,6 +239,7 @@
         }
 
         .cd-timeline-content {
+            color: #9A9A9A;
             position: relative;
             margin-left: 60px;
             background: white;
@@ -266,7 +255,9 @@
             }
 
             .cd-timeline-content h2 {
-                color: #303e49;
+                font-family: 'Grand Hotel',cursive;
+                color: #9A9A9A;
+                font-size: 2rem;
             }
 
             .cd-timeline-content p, .cd-timeline-content .cd-date {
@@ -305,10 +296,7 @@
             }
 
         @@media only screen and (min-width: 768px) {
-            .cd-timeline-content h2 {
-                font-size: 20px;
-                font-size: 1.25rem;
-            }
+
 
             .cd-timeline-content p {
                 font-size: 16px;
@@ -325,7 +313,7 @@
             .cd-timeline-content {
                 margin-left: 0;
                 padding: 1.6em;
-                width: 45%;
+                width: 43%;
             }
 
                 .cd-timeline-content::before {
@@ -342,7 +330,7 @@
                 .cd-timeline-content .cd-date {
                     position: absolute;
                     width: 100%;
-                    left: 122%;
+                    left: 132%;
                     top: 6px;
                     font-size: 16px;
                     font-size: 1rem;
@@ -366,7 +354,7 @@
 
                 .cd-timeline-block:nth-child(even) .cd-timeline-content .cd-date {
                     left: auto;
-                    right: 122%;
+                    right: 132%;
                     text-align: right;
                 }
 
@@ -521,13 +509,13 @@
             if (year != func.StartDate.Year)
             {
                 year = func.StartDate.Year;
-                <div class="cd-timeline-block-year">
-                    <div class="cd-timeline-year">@year</div>
+                <div class="cd-timeline-block-year" >
+                    <div class="cd-timeline-year" style="background-color: @GetRandomBackgroundColour();">@year</div>
                 </div>
             }
             <div class="cd-timeline-block">
-                <div class="cd-timeline-img cd-picture">
-                    <img src="img/cd-icon-picture.svg" alt="Picture">
+                <div class="cd-timeline-img cd-picture" style="background-image: url('@GetImage(func)'); background-color: @GetRandomBackgroundColour();">
+                    <img src="@GetImage(func)" style="display: none;" alt="Picture">
                 </div> <!-- cd-timeline-img -->
                 <div class="cd-timeline-content">
                     <h2>@func.DisplayName</h2>
@@ -546,30 +534,62 @@ else
     <p class="alert alert-info">You have not stared in any shows yet! Time to get involved!</p>
 }
 <script type="text/javascript">
-    $(document).ready(function ($) {
-        var timelineBlocks = $('.cd-timeline-block'),
-            offset = 0.8;
+    $(document)
+        .ready(function($) {
+            var timelineBlocks = $('.cd-timeline-block'),
+                offset = 0.8;
 
-        //hide timeline blocks which are outside the viewport
-        hideBlocks(timelineBlocks, offset);
+            //hide timeline blocks which are outside the viewport
+            hideBlocks(timelineBlocks, offset);
 
-        //on scolling, show/animate timeline blocks when enter the viewport
-        $(window).on('scroll', function () {
-            (!window.requestAnimationFrame)
-                ? setTimeout(function () { showBlocks(timelineBlocks, offset); }, 100)
-                : window.requestAnimationFrame(function () { showBlocks(timelineBlocks, offset); });
+            //on scolling, show/animate timeline blocks when enter the viewport
+            $(window)
+                .on('scroll',
+                    function() {
+                        (!window.requestAnimationFrame)
+                            ? setTimeout(function() { showBlocks(timelineBlocks, offset); }, 100)
+                            : window.requestAnimationFrame(function() { showBlocks(timelineBlocks, offset); });
+                    });
+
+            function hideBlocks(blocks, offset) {
+                blocks.each(function() {
+                    ($(this).offset().top > $(window).scrollTop() + $(window).height() * offset) &&
+                        $(this).find('.cd-timeline-img, .cd-timeline-content').addClass('is-hidden');
+                });
+            }
+
+            function showBlocks(blocks, offset) {
+                blocks.each(function() {
+                    ($(this).offset().top <= $(window).scrollTop() + $(window).height() * offset &&
+                            $(this).find('.cd-timeline-img').hasClass('is-hidden')) &&
+                        $(this)
+                        .find('.cd-timeline-img, .cd-timeline-content')
+                        .removeClass('is-hidden')
+                        .addClass('bounce-in');
+                });
+            }
         });
-
-        function hideBlocks(blocks, offset) {
-            blocks.each(function () {
-                ($(this).offset().top > $(window).scrollTop() + $(window).height() * offset) && $(this).find('.cd-timeline-img, .cd-timeline-content').addClass('is-hidden');
-            });
-        }
-
-        function showBlocks(blocks, offset) {
-            blocks.each(function () {
-                ($(this).offset().top <= $(window).scrollTop() + $(window).height() * offset && $(this).find('.cd-timeline-img').hasClass('is-hidden')) && $(this).find('.cd-timeline-img, .cd-timeline-content').removeClass('is-hidden').addClass('bounce-in');
-            });
-        }
-    });
 </script>
+@functions
+{
+    readonly Random _rnd = new Random();
+    private string GetImage(Function function)
+    {
+        if (function.Image != 0)
+        {
+            return Umbraco.TypedMedia(function.Image).GetCropUrl();
+        }
+
+        //TODO:add default image
+        return string.Empty;
+    }
+    private string GetRandomBackgroundColour()
+    {
+        string[] colours = { "#d2691e", "#a52a2a", "#008080", "#00bfff" };
+
+        var selection = _rnd.Next(0, colours.Length);
+
+        return colours[selection];
+
+    }
+}

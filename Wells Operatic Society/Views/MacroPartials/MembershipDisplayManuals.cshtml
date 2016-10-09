@@ -15,17 +15,29 @@
             return string.Empty;
         return Umbraco.TypedMedia(id).Url;
     }
+    private string GetDocumentExtension(IPublishedContent content)
+    {
+        var id = content.GetPropertyValue<int>("document");
+        if (id == 0)
+            return string.Empty;
+        string extension = Umbraco.TypedMedia(id).GetProperty("umbracoExtension").Value.ToString();
+        return extension;
+
+    }
 }
 
 @if (documents.Any())
 {
     foreach (var manual in documents)
     {
-        <div>
-            <a href="@GetDocumentUrl(manual)">
-                <h2>@manual.Name</h2>
-                <p>@Html.Raw(manual.GetPropertyValue<string>("description"))</p>
-            </a>
+        <div class="row">
+            <div class="col-sm-2"><div class="file-icon file-icon-xl" data-type="@GetDocumentExtension(manual)"></div></div>
+            <div class="col-sm-10">
+                <a href="@GetDocumentUrl(manual)">
+                    <h2>@manual.Name</h2>
+                    <p>@Html.Raw(manual.GetPropertyValue<string>("description"))</p>
+                </a>
+            </div>
         </div>
     }
 }

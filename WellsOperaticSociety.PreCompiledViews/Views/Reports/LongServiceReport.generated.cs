@@ -33,12 +33,6 @@ namespace ASP
     
     #line default
     #line hidden
-    
-    #line 2 "..\..\Views\Reports\LongServiceReport.cshtml"
-    using WellsOperaticSociety.Models.ReportModels;
-    
-    #line default
-    #line hidden
     using WellsOperaticSociety.PreCompiledViews;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
@@ -50,10 +44,8 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("\r\n");
-
             
-            #line 5 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 3 "..\..\Views\Reports\LongServiceReport.cshtml"
   
     //TODO: ADD in page header for styling
     var subList = new List<List<WellsOperaticSociety.Models.MemberModels.LongServiceAward>>();
@@ -107,8 +99,8 @@ WriteLiteral(@">
 WriteLiteral("    ");
 
             
-            #line 49 "..\..\Views\Reports\LongServiceReport.cshtml"
-Write(Html.Partial("~/Views/Reports/ReportHeader.cshtml"));
+            #line 47 "..\..\Views\Reports\LongServiceReport.cshtml"
+Write(Html.Partial("~/Views/Reports/ReportHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri} }));
 
             
             #line default
@@ -120,7 +112,7 @@ WriteLiteral(" class=\"title\"");
 WriteLiteral(">\r\n        <h2>Due Long Service Awards</h2>\r\n        <p>As of ");
 
             
-            #line 52 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 50 "..\..\Views\Reports\LongServiceReport.cshtml"
             Write(DateTime.Now.ToString("D"));
 
             
@@ -129,13 +121,13 @@ WriteLiteral(">\r\n        <h2>Due Long Service Awards</h2>\r\n        <p>As of 
 WriteLiteral("</p>\r\n    </div>\r\n");
 
             
-            #line 54 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 52 "..\..\Views\Reports\LongServiceReport.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 54 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 52 "..\..\Views\Reports\LongServiceReport.cshtml"
      if (subList.Any())
     {
         foreach (var list in subList)
@@ -153,13 +145,13 @@ WriteLiteral(">\r\n                <thead>\r\n                    <tr>\r\n      
 "\n                </thead>\r\n                <tbody>\r\n");
 
             
-            #line 66 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 64 "..\..\Views\Reports\LongServiceReport.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 66 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 64 "..\..\Views\Reports\LongServiceReport.cshtml"
                      foreach (var award in list)
                     {
 
@@ -169,7 +161,7 @@ WriteLiteral(">\r\n                <thead>\r\n                    <tr>\r\n      
 WriteLiteral("                        <tr>\r\n                            <td>");
 
             
-            #line 69 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 67 "..\..\Views\Reports\LongServiceReport.cshtml"
                             Write(WellsOperaticSociety.Utilities.EnumHelper<NodaLongServiceAward>.GetDisplayValue(award.Award));
 
             
@@ -178,7 +170,7 @@ WriteLiteral("                        <tr>\r\n                            <td>")
 WriteLiteral(" </td>\r\n                            <td>");
 
             
-            #line 70 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 68 "..\..\Views\Reports\LongServiceReport.cshtml"
                             Write(award.MemberDetails != null ? award.MemberDetails.Name : string.Empty);
 
             
@@ -187,7 +179,7 @@ WriteLiteral(" </td>\r\n                            <td>");
 WriteLiteral(" </td>\r\n                        </tr>\r\n");
 
             
-            #line 72 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 70 "..\..\Views\Reports\LongServiceReport.cshtml"
                     }
 
             
@@ -196,7 +188,7 @@ WriteLiteral(" </td>\r\n                        </tr>\r\n");
 WriteLiteral("                </tbody>\r\n            </table>\r\n");
 
             
-            #line 75 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 73 "..\..\Views\Reports\LongServiceReport.cshtml"
         }
 
     }
@@ -213,7 +205,7 @@ WriteLiteral(" class=\"alert alert-info\"");
 WriteLiteral(">No awards are due yet</div>\r\n");
 
             
-            #line 81 "..\..\Views\Reports\LongServiceReport.cshtml"
+            #line 79 "..\..\Views\Reports\LongServiceReport.cshtml"
     }
 
             

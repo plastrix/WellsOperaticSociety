@@ -99,3 +99,15 @@ footer {
     overflow: hidden;
     white-space: nowrap;
 }
+
+h2 .subtitle,
+h3 .subtitle,
+h4 .subtitle,
+h5 .subtitle {
+  display: block;
+  font-family: 'Grand Hotel',cursive;
+}
+
+body > .navbar-collapse ul {
+    overflow-y: auto !important;
+}

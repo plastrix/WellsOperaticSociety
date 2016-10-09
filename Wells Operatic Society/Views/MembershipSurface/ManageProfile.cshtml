@@ -1,6 +1,5 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Models.MemberModels.Member>
 
-<h2>Update your profile</h2>
 @using (Html.BeginUmbracoForm("SubmitManageProfileForm", "MembershipSurface"))
 {
     @Html.AntiForgeryToken()
@@ -44,3 +43,25 @@
     </div>
     <button type="submit" class="btn btn-default">Update Information</button>
 }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#DateOfBirth").datepicker({ dateFormat: "dd/mm/yy" });
+        //date work around
+        $.validator.addMethod('date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                }
+
+                var ok = true;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                }
+                catch (err) {
+                    ok = false;
+                }
+                return ok;
+            });
+    });
+</script>

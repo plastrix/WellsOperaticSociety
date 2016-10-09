@@ -1,0 +1,30 @@
+﻿@model WellsOperaticSociety.Models.EmailModels.Payment
+
+<html>
+<head>
+    @Html.Partial("~/Views/Emails/EmailStyling.cshtml")
+</head>
+<body>
+    @Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri } })
+    <p>
+        This is your receipt for your membership subscription,
+    </p>
+    <p>
+        ======================================
+        RECEIPT #: @Model.RecieptId
+
+        @Model.StartDate to @Model.EndDate
+
+        Total: £@Model.Amount
+
+        If you have any questions, please contactus.
+    </p>
+    <p>
+        Wells Operatic Society
+    </p>
+    @Html.Partial("~/Views/Emails/EmailFooter.cshtml")
+</body>
+</html>
+
+
+

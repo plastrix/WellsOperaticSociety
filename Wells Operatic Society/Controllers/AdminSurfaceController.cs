@@ -251,7 +251,9 @@ namespace WellsOperaticSociety.Web.Controllers
         {
             var dm = new DataManager();
             var pdfService = new PDFService.PdfWriter();
-            var model = dm.GetVehicleRegistrations();
+            var model = new VehicleRgeistrationViewModel();
+            model.BaseUri = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + System.Web.HttpContext.Current.Request.ApplicationPath.TrimEnd('/');
+            model.RegistrationList = dm.GetVehicleRegistrations();
             ViewData.Model = model;
             var html = RazorHelpers.RenderRazorViewToString("~/Views/Reports/VehicleRegistrationReport.cshtml",
                 ControllerContext, ViewData, TempData);
@@ -288,6 +290,8 @@ namespace WellsOperaticSociety.Web.Controllers
             var dm = new DataManager();
             var pdfService = new PDFService.PdfWriter();
             var model = new LongServiceModel();
+            var baseUri = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + System.Web.HttpContext.Current.Request.ApplicationPath.TrimEnd('/');
+            model.BaseUri = baseUri;
             model.DueAwards = dm.GetDueLongServiceAwards().Where(m=>m.Hide == false).ToList();
             ViewData.Model = model;
             var html = RazorHelpers.RenderRazorViewToString("~/Views/Reports/LongServiceReport.cshtml",

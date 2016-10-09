@@ -1,16 +1,14 @@
-﻿using System.Globalization;
-using Microsoft.Build.Framework;
-using Umbraco.Core.Models;
-using Umbraco.Web.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
 
 namespace WellsOperaticSociety.Models.MemberModels
 {
     public class LoginModel
     {
-        [Required]
+        [Required(ErrorMessage = "You must supply a password")]
         public string Password { get; set; }
-        [Required]
+        [Required(ErrorMessage = "You must supply an email address")]
+        [Display(Name = "Email")]
         public string Username { get; set; }
     }
 }
