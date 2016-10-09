@@ -94,6 +94,10 @@
     <Compile Include="Migrations\201610061948338_AuthorisationToken.Designer.cs">
       <DependentUpon>201610061948338_AuthorisationToken.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610091552573_SeatRequiredFields.cs" />
+    <Compile Include="Migrations\201610091552573_SeatRequiredFields.Designer.cs">
+      <DependentUpon>201610091552573_SeatRequiredFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -137,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610061948338_AuthorisationToken.resx">
       <DependentUpon>201610061948338_AuthorisationToken.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610091552573_SeatRequiredFields.resx">
+      <DependentUpon>201610091552573_SeatRequiredFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

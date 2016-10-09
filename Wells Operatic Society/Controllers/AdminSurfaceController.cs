@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using log4net;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
+using Stripe;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
 using WellsOperaticSociety.Models.AdminModels;
@@ -18,10 +21,15 @@ namespace WellsOperaticSociety.Web.Controllers
 {
     public class AdminSurfaceController : SurfaceController
     {
-        public ActionResult ManageMembers()
+        private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public ActionResult ManageMembers(int? pageSize, int? row)
         {
-            var model = new ManageMembershipViewModel();
-            model.Members = Services.MemberService.GetAllMembers();
+            var model = new ManageMembershipViewModel
+            {
+                Members = Services.MemberService.GetAllMembers().Take(50)
+            };
+
             return PartialView("ManageMembership",model);
         }
 
@@ -120,7 +128,7 @@ namespace WellsOperaticSociety.Web.Controllers
 
         public PartialViewResult MemberSearch(string search)
         {
-            var model = Services.MemberService.GetAllMembers().Where(m=>m.Email.Contains(search) || m.Username.Contains(search));
+            var model = Services.MemberService.GetAllMembers().Where(m=>m.Email.ToLower().Contains(search.ToLower()) || m.Name.ToLower().Contains(search.ToLower()));
             return PartialView("ManageMemberList",model);
         }
 
@@ -145,12 +153,60 @@ namespace WellsOperaticSociety.Web.Controllers
             
             if (!int.TryParse(Request.Form["membership.MembershipId"], out membershipId))
             {
-                //TODO:Error Message like succes but error
+                TempData["ErrorMessage"] =
+                    "There was an error whilst deleting the membership line. Try again or contact the system else who might be in the know.... not Nick though as he is probably busy!";
                 return RedirectToCurrentUmbracoPage(Request.QueryString);
             }
             var dm = new DataManager();
             dm.DeleteMembership(membershipId);
-            //TODO:Success message
+            TempData["SuccessMessage"] =
+                    $"You have successfully deleted the membership with id {membershipId}";
+            return RedirectToCurrentUmbracoPage(Request.QueryString);
+        }
+
+        [HttpPost]
+        public ActionResult CancelSubscription()
+        {
+            int memberId;
+            if (!int.TryParse(Request.Form["membership.Member"], out memberId))
+            {
+                TempData["ErrorMessage"] =
+                   "There was an error whilst canceling the subscription. Try again or contact the system else who might be in the know.... not Nick though as he is probably busy!";
+
+                return RedirectToCurrentUmbracoPage(Request.QueryString);
+            }
+            if (Request.Form["membership.StripeSubscriptionId"]==null)
+            {
+                TempData["ErrorMessage"] =
+                   "There was an error whilst canceling the subscription. Try again or contact the system else who might be in the know.... not Nick though as he is probably busy!";
+
+                return RedirectToCurrentUmbracoPage(Request.QueryString);
+            }
+            string subscriptionId = Request.Form["membership.StripeSubscriptionId"];
+            var m = new Member(Members.GetById(memberId));
+            if (m.StripeUserId.IsNullOrEmpty())
+            {
+                TempData["ErrorMessage"] =
+                   "There was an error whilst canceling the subscription. Try again or contact the system else who might be in the know.... not Nick though as he is probably busy!";
+
+                return RedirectToCurrentUmbracoPage(Request.QueryString);
+            }
+            try
+            {
+                StripeSubscriptionService service =
+                    new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
+                service.Cancel(m.StripeUserId, subscriptionId, true);
+            }
+            catch (StripeException e)
+            {
+                _log.Error($"Admin tried to cancel subscription but stripe returned the error: {e.Message}");
+                TempData["ErrorMessage"] =
+                   $"There was an error whilst canceling the subscription. The service retrurned the error {e.Message}";
+
+                return RedirectToCurrentUmbracoPage(Request.QueryString);
+            }
+            TempData["SuccessMessage"] =
+                    $"You have successfully deleted the subsctipn with id {subscriptionId}. This can take a few seconds to take effect.";
             return RedirectToCurrentUmbracoPage(Request.QueryString);
         }
 

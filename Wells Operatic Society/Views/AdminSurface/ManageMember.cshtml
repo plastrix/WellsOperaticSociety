@@ -1,13 +1,19 @@
 ﻿@using WellsOperaticSociety.Models.Enums
 @inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageMemberViewModel>
-
-<h2>Update Member Information</h2>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-warning">@TempData["ErrorMessage"]</div>
+}
+<h2 class="section-title">Update Member Information</h2>
 @using (Html.BeginUmbracoForm("UpdateMember", "AdminSurface"))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     @Html.HiddenFor(m => m.Member.Id)
-    @Html.ValidationSummary()
     <div class="form-group">
         @Html.LabelFor(m => m.Member.Name)
         @Html.TextBoxFor(m => m.Member.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.Name) })
@@ -15,7 +21,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.Email)
-        @Html.TextBoxFor(m => m.Member.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.Email) })
+        @Html.TextBoxFor(m => m.Member.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.Email), type = "email" })
         @Html.ValidationMessageFor(m => m.Member.Email)
     </div>
     <div class="form-group">
@@ -30,27 +36,27 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.DateOfBirth)
-        @Html.TextBoxFor(m => m.Member.DateOfBirth, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateOfBirth) })
+        @Html.TextBoxFor(m => m.Member.DateOfBirth, "{0:d}", new { @class = "form-control datePicker", placeholder = Html.DisplayNameFor(n => n.Member.DateOfBirth) })
         @Html.ValidationMessageFor(m => m.Member.DateOfBirth)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.DateApprovedForMembership)
-        @Html.TextBoxFor(m => m.Member.DateApprovedForMembership, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateApprovedForMembership) })
+        @Html.TextBoxFor(m => m.Member.DateApprovedForMembership, "{0:d}", new { @class = "form-control datePicker", placeholder = Html.DisplayNameFor(n => n.Member.DateApprovedForMembership) })
         @Html.ValidationMessageFor(m => m.Member.DateApprovedForMembership)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.DateLifeMembershipGranted)
-        @Html.TextBoxFor(m => m.Member.DateLifeMembershipGranted, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateLifeMembershipGranted) })
+        @Html.TextBoxFor(m => m.Member.DateLifeMembershipGranted, "{0:d}", new { @class = "form-control datePicker", placeholder = Html.DisplayNameFor(n => n.Member.DateLifeMembershipGranted) })
         @Html.ValidationMessageFor(m => m.Member.DateLifeMembershipGranted)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.DateDeclinedForMembership)
-        @Html.TextBoxFor(m => m.Member.DateDeclinedForMembership, "{0:d}", new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateDeclinedForMembership)})
+        @Html.TextBoxFor(m => m.Member.DateDeclinedForMembership, "{0:d}", new { @class = "form-control datePicker", placeholder = Html.DisplayNameFor(n => n.Member.DateDeclinedForMembership) })
         @Html.ValidationMessageFor(m => m.Member.DateDeclinedForMembership)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.VehicleRegistration1)
-        @Html.TextBoxFor(m => m.Member.VehicleRegistration1, new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.VehicleRegistration1) })
+        @Html.TextBoxFor(m => m.Member.VehicleRegistration1, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.VehicleRegistration1) })
         @Html.ValidationMessageFor(m => m.Member.VehicleRegistration1)
     </div>
     <div class="form-group">
@@ -61,7 +67,7 @@
     <div class="form-group">
         <label>
             Deactivate the user
-            @Html.CheckBoxFor(m => m.Member.Deactivated, new {@class = "form-control"})
+            @Html.CheckBoxFor(m => m.Member.Deactivated, new { @class = "form-control" })
         </label>
         @Html.ValidationMessageFor(m => m.Member.Deactivated)
     </div>
@@ -69,18 +75,18 @@
     <button type="submit" class="btn btn-default">Update Information</button>
 }
 
-
-@using(Html.BeginUmbracoForm("AddMembership","AdminSurface"))
+<h2 class="section-title">Add new membership</h2>
+@using (Html.BeginUmbracoForm("AddMembership", "AdminSurface"))
 {
-    @Html.Partial("AddMembershipForm",Model.NewMembership)
+    @Html.Partial("AddMembershipForm", Model.NewMembership)
 }
 
-<h2>Manage Membership</h2>
+<h2 class="section-title">Manage Membership</h2>
 @if (Model.Memberships != null && Model.Memberships.Any())
 {
     <table class="table table-hover">
         <thead>
-        <tr><th>Membership Id</th><th>Start</th><th>End</th><th>Membership Type</th><th>Subscription</th><th></th></tr>
+            <tr><th>Membership Id</th><th>Start</th><th>End</th><th>Membership Type</th><th>Subscription</th><th></th></tr>
         </thead>
         <tbody>
             @foreach (var membership in Model.Memberships)
@@ -92,11 +98,33 @@
                     <td>@membership.MembershipTypeName</td>
                     <td>@membership.IsSubscription</td>
                     <td>
-                    @using (Html.BeginUmbracoForm("DeleteMembership", "AdminSurface"))
+                        @if (membership.IsSubscription)
                     {
-                        @Html.HiddenFor(m=>membership.MembershipId)
-                        <button type="submit" class="btn btn-danger btn-fill">Delete</button>
-                    }</td>
+                        if (membership.CancelAtEnd && membership.StripeSubscriptionId.IsNotNullOrEmpty())
+                        {
+                                <button type="button" class="btn btn-default disabled">Canceling</button>
+                            }
+                            else
+                            {
+                                using (Html.BeginUmbracoForm("CancelSubscription", "AdminSurface"))
+                                {
+                                    @Html.HiddenFor(m => membership.StripeSubscriptionId)
+                                    @Html.HiddenFor(m => membership.Member)
+                                    <button type="submit" class="btn btn-warning btn-fill">Cancel subscription</button>
+                                }
+                            }
+                        }
+                        <br />
+                        @using (Html.BeginUmbracoForm("DeleteMembership", "AdminSurface"))
+                    {
+                            @Html.HiddenFor(m => membership.MembershipId)
+                            <button type="submit" class="btn btn-danger btn-fill">Delete</button>
+                            if (membership.IsSubscription)
+                            {
+                                <span>Deleting the record will not cancle the subscription</span>
+                            }
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
@@ -106,3 +134,24 @@ else
 {
     <p class="alert alert-info">There are no memberships related to this member</p>
 }
+<script>
+    $(document).ready(function () {
+        $(".datePicker").datepicker({ dateFormat: "dd/mm/yy" });
+        //date work around
+        $.validator.addMethod('date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                }
+
+                var ok = true;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                }
+                catch (err) {
+                    ok = false;
+                }
+                return ok;
+            });
+    });
+</script>
