@@ -30,18 +30,20 @@ namespace ASP
     using WellsOperaticSociety.PreCompiledViews;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Emails/ResetPassword.cshtml")]
-    public partial class _Views_Emails_ResetPassword_cshtml : System.Web.Mvc.WebViewPage<WellsOperaticSociety.Models.EmailModels.ResetPassword>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Emails/SubscriptionCanceled.cshtml")]
+    public partial class _Views_Emails_SubscriptionCanceled_cshtml : System.Web.Mvc.WebViewPage<WellsOperaticSociety.Models.EmailModels.SubscriptionCanceled>
     {
-        public _Views_Emails_ResetPassword_cshtml()
+        public _Views_Emails_SubscriptionCanceled_cshtml()
         {
         }
         public override void Execute()
         {
 WriteLiteral("<html>\r\n<head>\r\n");
 
+WriteLiteral("    ");
+
             
-            #line 5 "..\..\Views\Emails\ResetPassword.cshtml"
+            #line 5 "..\..\Views\Emails\SubscriptionCanceled.cshtml"
 Write(Html.Partial("~/Views/Emails/EmailStyling.cshtml"));
 
             
@@ -49,51 +51,32 @@ Write(Html.Partial("~/Views/Emails/EmailStyling.cshtml"));
             #line hidden
 WriteLiteral("\r\n</head>\r\n<body>\r\n");
 
+WriteLiteral("    ");
+
             
-            #line 8 "..\..\Views\Emails\ResetPassword.cshtml"
-Write(Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri }}));
+            #line 8 "..\..\Views\Emails\SubscriptionCanceled.cshtml"
+Write(Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri } }));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n<p>\r\n    Hi ");
+WriteLiteral("\r\n    <p>\r\n        Your subscription for ");
 
             
-            #line 10 "..\..\Views\Emails\ResetPassword.cshtml"
-  Write(Model.Member.Name);
-
-            
-            #line default
-            #line hidden
-WriteLiteral(",\r\n</p>\r\n<p>\r\n    You have requested to reset your password. Please use the link " +
-"below to reset your password.\r\n</p>\r\n<p><a");
-
-WriteAttribute("href", Tuple.Create(" href=\"", 411), Tuple.Create("\"", 429)
-            
-            #line 15 "..\..\Views\Emails\ResetPassword.cshtml"
-, Tuple.Create(Tuple.Create("", 418), Tuple.Create<System.Object, System.Int32>(Model.Link
-            
-            #line default
-            #line hidden
-, 418), false)
-);
-
-WriteLiteral(">");
-
-            
-            #line 15 "..\..\Views\Emails\ResetPassword.cshtml"
-                    Write(Model.Link);
+            #line 10 "..\..\Views\Emails\SubscriptionCanceled.cshtml"
+                         Write(Model.PlanName);
 
             
             #line default
             #line hidden
-WriteLiteral("</a>\r\n</p>\r\n<p>If you did not request to reset your password just ignore this ema" +
-"il.</p>\r\n<p>\r\n    Wells Operatic Society\r\n</p>\r\n");
+WriteLiteral(" was recently cancelled.,\r\n    </p>\r\n    <p>\r\n        If this was a mistake, or y" +
+"ou just need to update your card info please login or get in contact with us.\r\n " +
+"   </p>\r\n    <p>\r\n        Wells Operatic Society\r\n    </p>\r\n");
 
 WriteLiteral("    ");
 
             
-            #line 21 "..\..\Views\Emails\ResetPassword.cshtml"
+            #line 18 "..\..\Views\Emails\SubscriptionCanceled.cshtml"
 Write(Html.Partial("~/Views/Emails/EmailFooter.cshtml"));
 
             

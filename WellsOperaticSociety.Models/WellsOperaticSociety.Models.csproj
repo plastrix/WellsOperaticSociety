@@ -260,7 +260,12 @@
   <ItemGroup>
     <Compile Include="AdminModels\Seat.cs" />
     <Compile Include="ContactUs.cs" />
+    <Compile Include="EmailModels\EmailBase.cs" />
+    <Compile Include="EmailModels\Payment.cs" />
+    <Compile Include="EmailModels\PaymentFailed.cs" />
     <Compile Include="EmailModels\ResetPassword.cs" />
+    <Compile Include="EmailModels\SubscriptionCanceled.cs" />
+    <Compile Include="EmailModels\SubscriptionCreated.cs" />
     <Compile Include="Enums\MembershipType.cs" />
     <Compile Include="Enums\NodaLongServiceAward.cs" />
     <Compile Include="Function.cs" />

@@ -1,0 +1,40 @@
+﻿@model WellsOperaticSociety.Models.EmailModels.PaymentFailed
+
+<html>
+<head>
+    @Html.Partial("~/Views/Emails/EmailStyling.cshtml")
+</head>
+<body>
+    @Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri } })
+    <p>
+        Oops! Your latest payment failed to go through. Please log on and update your credit card info to keep your subscription active. The details are included below.,
+    </p>
+    <p>
+        ======================================<br/>
+        RECEIPT #: @Model.ReceiptId<br />
+        <br />
+        Bill to:<br />
+        @Model.BillTo<br />
+        <br />
+        Running from  @Model.StartDate to @Model.EndDate<br />
+        <br />
+        Total: £@Model.Amount<br />
+        <br />
+        ======================================<br />
+        NEED TO CANCEL:<br />
+        ======================================<br />
+        <br />
+        If you don’t need your subscription anymore,<br />
+        go to your account and cancel at any time.<br />
+        <br />
+        If you have any questions, please contact us.
+    </p>
+    <p>
+        Wells Operatic Society
+    </p>
+    @Html.Partial("~/Views/Emails/EmailFooter.cshtml")
+</body>
+</html>
+
+
+

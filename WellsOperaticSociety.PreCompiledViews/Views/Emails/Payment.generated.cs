@@ -30,18 +30,20 @@ namespace ASP
     using WellsOperaticSociety.PreCompiledViews;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Emails/ResetPassword.cshtml")]
-    public partial class _Views_Emails_ResetPassword_cshtml : System.Web.Mvc.WebViewPage<WellsOperaticSociety.Models.EmailModels.ResetPassword>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Emails/Payment.cshtml")]
+    public partial class _Views_Emails_Payment_cshtml : System.Web.Mvc.WebViewPage<WellsOperaticSociety.Models.EmailModels.Payment>
     {
-        public _Views_Emails_ResetPassword_cshtml()
+        public _Views_Emails_Payment_cshtml()
         {
         }
         public override void Execute()
         {
 WriteLiteral("<html>\r\n<head>\r\n");
 
+WriteLiteral("    ");
+
             
-            #line 5 "..\..\Views\Emails\ResetPassword.cshtml"
+            #line 5 "..\..\Views\Emails\Payment.cshtml"
 Write(Html.Partial("~/Views/Emails/EmailStyling.cshtml"));
 
             
@@ -49,57 +51,68 @@ Write(Html.Partial("~/Views/Emails/EmailStyling.cshtml"));
             #line hidden
 WriteLiteral("\r\n</head>\r\n<body>\r\n");
 
+WriteLiteral("    ");
+
             
-            #line 8 "..\..\Views\Emails\ResetPassword.cshtml"
-Write(Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri }}));
+            #line 8 "..\..\Views\Emails\Payment.cshtml"
+Write(Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri } }));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n<p>\r\n    Hi ");
+WriteLiteral("\r\n    <p>\r\n        This is your receipt for your membership subscription,\r\n    </" +
+"p>\r\n    <p>\r\n        ======================================\r\n        RECEIPT #: " +
+"");
 
             
-            #line 10 "..\..\Views\Emails\ResetPassword.cshtml"
-  Write(Model.Member.Name);
-
-            
-            #line default
-            #line hidden
-WriteLiteral(",\r\n</p>\r\n<p>\r\n    You have requested to reset your password. Please use the link " +
-"below to reset your password.\r\n</p>\r\n<p><a");
-
-WriteAttribute("href", Tuple.Create(" href=\"", 411), Tuple.Create("\"", 429)
-            
-            #line 15 "..\..\Views\Emails\ResetPassword.cshtml"
-, Tuple.Create(Tuple.Create("", 418), Tuple.Create<System.Object, System.Int32>(Model.Link
-            
-            #line default
-            #line hidden
-, 418), false)
-);
-
-WriteLiteral(">");
-
-            
-            #line 15 "..\..\Views\Emails\ResetPassword.cshtml"
-                    Write(Model.Link);
+            #line 14 "..\..\Views\Emails\Payment.cshtml"
+              Write(Model.RecieptId);
 
             
             #line default
             #line hidden
-WriteLiteral("</a>\r\n</p>\r\n<p>If you did not request to reset your password just ignore this ema" +
-"il.</p>\r\n<p>\r\n    Wells Operatic Society\r\n</p>\r\n");
+WriteLiteral("\r\n\r\n");
+
+WriteLiteral("        ");
+
+            
+            #line 16 "..\..\Views\Emails\Payment.cshtml"
+   Write(Model.StartDate);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(" to ");
+
+            
+            #line 16 "..\..\Views\Emails\Payment.cshtml"
+                       Write(Model.EndDate);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n        Total: £");
+
+            
+            #line 18 "..\..\Views\Emails\Payment.cshtml"
+           Write(Model.Amount);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n        If you have any questions, please contactus.\r\n    </p>\r\n    <p>\r\n    " +
+"    Wells Operatic Society\r\n    </p>\r\n");
 
 WriteLiteral("    ");
 
             
-            #line 21 "..\..\Views\Emails\ResetPassword.cshtml"
+            #line 25 "..\..\Views\Emails\Payment.cshtml"
 Write(Html.Partial("~/Views/Emails/EmailFooter.cshtml"));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n</body>\r\n</html>");
+WriteLiteral("\r\n</body>\r\n</html>\r\n\r\n\r\n\r\n");
 
         }
     }

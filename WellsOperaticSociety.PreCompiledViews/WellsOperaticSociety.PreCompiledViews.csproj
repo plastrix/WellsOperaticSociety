@@ -189,10 +189,45 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Emails\EmailFooter.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailFooter.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Emails\EmailHeader.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailHeader.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Emails\EmailStyling.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailStyling.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Emails\Payment.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Payment.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Emails\PaymentFailed.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PaymentFailed.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Emails\ResetPassword.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ResetPassword.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Emails\SubscriptionCanceled.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SubscriptionCanceled.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Emails\SubscriptionCreated.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SubscriptionCreated.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\Reports\LongServiceReport.generated.cs">
       <AutoGen>True</AutoGen>
@@ -257,6 +292,34 @@
     <Content Include="Views\Emails\ResetPassword.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ResetPassword.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Emails\SubscriptionCreated.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SubscriptionCreated.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Emails\EmailStyling.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailStyling.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Emails\EmailHeader.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailHeader.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Emails\EmailFooter.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailFooter.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Emails\SubscriptionCanceled.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SubscriptionCanceled.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Emails\PaymentFailed.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PaymentFailed.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Emails\Payment.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Payment.generated.cs</LastGenOutput>
     </Content>
     <None Include="Views\Reports\VehicleRegistrationReport.cshtml">
       <Generator>RazorGenerator</Generator>

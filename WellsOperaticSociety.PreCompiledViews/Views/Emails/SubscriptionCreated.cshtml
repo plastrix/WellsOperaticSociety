@@ -1,0 +1,16 @@
+﻿@model WellsOperaticSociety.Models.EmailModels.SubscriptionCreated
+    <html>
+    <head>
+        @Html.Partial("~/Views/Emails/EmailStyling.cshtml")
+    </head>
+    <body>
+        @Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri } })
+        <p>
+            Thanks for setting up your subscription for membership at the level @Model.PlanName
+        </p>
+        <p>
+            You will get a receipt shortly if your payment has been successful.
+        </p>
+        @Html.Partial("~/Views/Emails/EmailFooter.cshtml")
+    </body>
+</html>
