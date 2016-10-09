@@ -1,5 +1,6 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @using System.Web.Optimization
+@using WellsOperaticSociety.BusinessLogic
 @{
     Layout = null;
 }
@@ -57,7 +58,7 @@
 <body>
     <!-- Navbar will come here -->
     @Html.Partial("TopNavigation")
-    <!-- end navbar -->
+<!-- end navbar -->
     <div class="wrapper" id="content">
 
         @if (Model.Content.HasProperty("heroImage") && Model.Content.GetPropertyValue<int>("heroImage") != 0)
@@ -68,7 +69,11 @@
                 </div>
             </div>
         }
-
+        @if (Members.IsLoggedIn() && Roles.IsUserInRole("Member") && !new DataManager().DoesUserHaveCurrentMembership(Members.GetCurrentMemberId()))
+        {
+            <div class="alert alert-danger text-center">Your membership has expired. You will not be able to take part in shows or get access to early tickets. Manage your membership <a href="/manage-membership/">here</a>
+            </div>
+        }
         @RenderBody()
 
         @Html.Partial("Footer")

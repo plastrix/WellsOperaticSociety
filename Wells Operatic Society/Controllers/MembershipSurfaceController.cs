@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
+using System.Web.Security;
 using log4net;
 using Stripe;
 using Umbraco.Web;
@@ -14,6 +15,7 @@ using WellsOperaticSociety.Models.Enums;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Web.Models;
 using LoginModel = WellsOperaticSociety.Models.MemberModels.LoginModel;
+using Membership = WellsOperaticSociety.Models.MemberModels.Membership;
 
 namespace WellsOperaticSociety.Web.Controllers
 {
@@ -30,8 +32,17 @@ namespace WellsOperaticSociety.Web.Controllers
 
                 if (Members.Login(model.Username, model.Password))
                 {
-                    if (Members.GetByUsername(model.Username) != null && Members.GetByUsername(model.Username).GetPropertyValue<bool>("deactivated") == false)
+                    var member = Members.GetByUsername(model.Username);
+                    if (member != null && member.GetPropertyValue<bool>("deactivated") == false)
                     {
+                        if (Roles.IsUserInRole("Member"))
+                        {
+                            DataManager dm = new DataManager();
+                            if (!dm.DoesUserHaveCurrentMembership(member.Id))
+                            {
+                                  return Redirect("/manage-membership/");
+                            }
+                        }
                         return Redirect("/");
                     }
                     Members.Logout();
