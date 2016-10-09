@@ -34,7 +34,8 @@ namespace WellsOperaticSociety.Web
                 "~/Content/themes/base/jquery-ui.theme.min.css",
                 "~/Content/bootstrap.min.css",
                 "~/Content/gsdk.css",
-                "~/Content/Site.css"));
+                "~/Content/Site.css",
+                "~/Content/DocumentIcons.css"));
 
             BundleTable.EnableOptimizations = false;
         }

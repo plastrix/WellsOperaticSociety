@@ -567,6 +567,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\cookieconsent.min.css" />
+    <Content Include="Content\DocumentIcons.css" />
     <Content Include="Content\gsdk.css" />
     <Content Include="Content\normalize.css" />
     <Content Include="Content\pe-icon-7-stroke.css" />
@@ -3398,7 +3399,6 @@
     <Content Include="Views\Partials\ManageMemberList.cshtml" />
     <Content Include="Views\Partials\AddMembershipForm.cshtml" />
     <Content Include="Views\MacroPartials\MembershipDisplayManuals.cshtml" />
-    <Content Include="Views\MembershipSurface\DisplayPdfs.cshtml" />
     <Content Include="Views\AdminSurface\AddMembersToFunction.cshtml" />
     <Content Include="Views\Partials\AddMemberToFunctionList.cshtml" />
     <Content Include="Views\Partials\AddMemberToFunctionForm.cshtml" />
