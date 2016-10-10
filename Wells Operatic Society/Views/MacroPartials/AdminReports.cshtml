@@ -1,3 +1,10 @@
-﻿
-<a href="@Url.Action("VehicleRegistrationReport", "AdminSurface")" class="btn btn-default btn-fill">Download Vehicle Registration List</a><br/>
-<a href="@Url.Action("LongServiceReport", "AdminSurface")" class="btn btn-default btn-fill">Download long service awards</a>
+﻿<div class="row">
+    <div class="col-sm-6">
+        <div>Gets a printable list of member registration numbers.</div>
+        <a href="@Url.Action("VehicleRegistrationReport", "AdminSurface")" class="btn btn-info btn-fill"><i class="fa fa-car"></i> Download Vehicle Registration List</a>
+    </div>
+    <div class="col-sm-6">
+        <div>Gets a printable list of all of the upcoming and overdue long service awards.</div>
+        <a href="@Url.Action("LongServiceReport", "AdminSurface")" class="btn btn-info btn-fill"><i class="pe-7s-medal"></i> Download long service awards</a>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageSeatsViewModel>
 
-<h2>Manage Seat Information</h2>
+<h2 class="section-title">Manage Seat Information</h2>
 @if (Model.Seats.Any())
 {
     <table class="table">
@@ -36,6 +36,6 @@ else
 {
     <p class="alert alert-info">There are no seat descriptions logged yet</p>
 }
-<h2>Add seat information</h2>
+<h2 class="section-title">Add seat information</h2>
 @Html.Partial("AddSeatForm",Model.NewSeat)
 

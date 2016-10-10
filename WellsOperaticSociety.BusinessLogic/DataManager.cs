@@ -502,6 +502,15 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
+        public bool DoesUserHaveCurrentMembership(int memberId)
+        {
+            using (var db = new DataContext())
+            {
+                var date = DateTime.UtcNow;
+                return db.Memberships.Any(m => m.Member == memberId && m.StartDate <= date && m.EndDate >= date);
+            }
+        }
+
         #endregion
 
         #region Robot and siitemap fuinctions

@@ -1,9 +1,13 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageMembershipViewModel>
-<div>
-    @using(Ajax.BeginForm("MemberSearch","AdminSurface", new AjaxOptions() { UpdateTargetId = "memberList" })) {
-
-        <input type="text" name="search" id="search"/>
-        <button type="submit">Search</button>
+<div class="col-sm-6 pull-right" style="margin-bottom: 1rem;">
+    @using (Ajax.BeginForm("MemberSearch", "AdminSurface", new AjaxOptions() { UpdateTargetId = "memberList" }))
+    {
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="Search members..." id="search" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                </span>
+            </div><!-- /input-group -->
     }
 </div>
 <div id="memberList">
