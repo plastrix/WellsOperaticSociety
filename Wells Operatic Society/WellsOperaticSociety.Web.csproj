@@ -3436,6 +3436,7 @@
     <Content Include="Views\MacroPartials\ForgotPassword.cshtml" />
     <Content Include="Views\MembershipSurface\ResetPasswordForm.cshtml" />
     <Content Include="Views\MacroPartials\ResetPassword.cshtml" />
+    <Content Include="Views\MacroPartials\PictureCard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

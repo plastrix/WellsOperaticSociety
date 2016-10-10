@@ -1,0 +1,36 @@
+﻿@using CMSImportLibrary.TypeExtensions
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    string linkedContent = Model.MacroParameters["link"] as string;
+    var link = string.Empty;
+    if (!linkedContent.IsNullOrEmpty())
+    {
+        link = Umbraco.TypedContent(int.Parse(linkedContent)).Url;
+    }
+    string linkedMedia = Model.MacroParameters["image"] as string;
+    var imageUrl = string.Empty;
+    if (!linkedMedia.IsNullOrEmpty())
+    {
+        imageUrl = Umbraco.TypedMedia(int.Parse(linkedMedia)).Url;
+    }
+
+    var footerText = Server.HtmlDecode(Model.MacroParameters["footerText"]as string);
+    var contentText = Server.HtmlDecode(Model.MacroParameters["contentText"] as string);
+}
+
+<div class="card card-background">
+    <a href="@link">
+        <div class="image" style="background-image: url('@imageUrl'); background-position: center center; background-size: cover;">
+            <img src="@imageUrl" style="display: none;"/>
+            <div class="filter"></div>
+        </div>
+        <div class="content text-center">
+            <br/>
+            <h1 class="title">@Html.Raw(contentText)</h1>
+        </div>
+        <div class="footer">
+            <h4>@Html.Raw(footerText)</h4>
+        </div>
+    </a>
+</div>

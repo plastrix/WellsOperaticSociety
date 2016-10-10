@@ -63,22 +63,36 @@
         var attrs = new List<string>();
         JObject cfg = contentItem.config;
 
-        if(cfg != null)
-            foreach (JProperty property in cfg.Properties()) {
+        if (cfg != null)
+        {
+            var hasClass = false;
+            foreach (JProperty property in cfg.Properties())
+            {
+
+                if (property.Name == "class")
+                {
+                    attrs.Add(property.Name + "=\"section " + property.Value.ToString() + "\"");
+                    hasClass = true;
+                }
                 attrs.Add(property.Name + "=\"" + property.Value.ToString() + "\"");
             }
-                
+            if (!hasClass)
+            {
+                attrs.Add("class=\"section\"");
+            }
+        }
+
         JObject style = contentItem.styles;
 
-        if (style != null) { 
-        var cssVals = new List<string>();
-        foreach (JProperty property in style.Properties())
-            cssVals.Add(property.Name + ":" + property.Value.ToString() + ";");
+        if (style != null) {
+            var cssVals = new List<string>();
+            foreach (JProperty property in style.Properties())
+                cssVals.Add(property.Name + ":" + property.Value.ToString() + ";");
 
-        if (cssVals.Any())
-            attrs.Add("style=\"" + string.Join(" ", cssVals) + "\"");
+            if (cssVals.Any())
+                attrs.Add("style=\"" + string.Join(" ", cssVals) + "\"");
         }
-            
+
         return new MvcHtmlString(string.Join(" ", attrs));
     }
 }
