@@ -1,0 +1,25 @@
+﻿@model WellsOperaticSociety.Models.EmailModels.ContactUsEmailModel
+
+<html>
+<head>
+    @Html.Partial("~/Views/Emails/EmailStyling.cshtml")
+</head>
+<body>
+    @Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri } })
+    <p>
+        @Model.Info.Name has raised a query throught the contact us form. The information is listed below:
+    </p>
+    <p>
+        Name: @Model.Info.Name<br />
+        Email: @Model.Info.Email<br />
+        Name: @Model.Info.Message
+</p>
+<p>
+    Wells Operatic Society
+</p>
+@Html.Partial("~/Views/Emails/EmailFooter.cshtml")
+</body>
+</html>
+
+
+

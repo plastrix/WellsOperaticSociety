@@ -189,6 +189,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Emails\ContactUsEmail.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContactUsEmail.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Emails\EmailFooter.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -320,6 +325,10 @@
     <Content Include="Views\Emails\Payment.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Payment.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Emails\ContactUsEmail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ContactUsEmail.generated.cs</LastGenOutput>
     </Content>
     <None Include="Views\Reports\VehicleRegistrationReport.cshtml">
       <Generator>RazorGenerator</Generator>

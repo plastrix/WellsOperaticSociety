@@ -21,7 +21,7 @@
     }
     private string GetDisplayName(IPublishedContent node)
     {
-        return node.HasProperty("displayName") && node.GetPropertyValue<string>("displayName").IsNotNullOrEmpty() ? node.GetPropertyValue<string>("displayName") : node.Name;
+        return node.HasProperty("showName") && node.GetPropertyValue<string>("showName").IsNotNullOrEmpty() ? node.GetPropertyValue<string>("showName") : node.Name;
     }
 
     private string GetImage(IPublishedContent node)

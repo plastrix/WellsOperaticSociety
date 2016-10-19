@@ -4,6 +4,7 @@ using log4net;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
 using WellsOperaticSociety.Models;
+using WellsOperaticSociety.Models.EmailModels;
 using WellsOperaticSociety.Web.Models;
 
 namespace WellsOperaticSociety.Web.Controllers
@@ -73,7 +74,15 @@ namespace WellsOperaticSociety.Web.Controllers
                     ModelState.AddModelError("", "Please verify you are not a robot");
                     return CurrentUmbracoPage();
                 }
-                //TODO:send email
+
+                ContactUsEmailModel emailModel = new ContactUsEmailModel();
+                emailModel.Info = model;
+                emailModel.BaseUri = UrlHelpers.GetBaseUrl();
+                ViewData.Model = emailModel;
+                var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ContactUsEmail.cshtml", ControllerContext, ViewData, TempData);
+                var emailService = new EmailService.EmailHelpers();
+                emailService.SendEmail("info@wellsoperaticsociety.com","Query from contact form", html);
+                TempData["Success"] = "That is winging its way to us now. We will be in contact as soon as we can.";
                 return RedirectToCurrentUmbracoPage();
             }
             return CurrentUmbracoPage();
