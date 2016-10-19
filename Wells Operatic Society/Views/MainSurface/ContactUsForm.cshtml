@@ -1,5 +1,11 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Models.ContactUs>
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+
 @using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.MainSurfaceController>("SubmitContactUsForm",null,new {@class="form-horizontal"}))
 {
     @Html.ValidationSummary(true)

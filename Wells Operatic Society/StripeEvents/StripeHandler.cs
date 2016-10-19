@@ -81,13 +81,13 @@ namespace WellsOperaticSociety.Web.StripeEvents
                         return;
                     //Thank you for signing up
                     var subCreatedModel = new WellsOperaticSociety.Models.EmailModels.SubscriptionCreated();
-                    subCreatedModel.BaseUri = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/');
+                    subCreatedModel.BaseUri = UrlHelpers.GetBaseUrl();
                     subCreatedModel.PlanName = stripeSubscription.StripePlan.Name;
                     viewData.Model = subCreatedModel;
                     html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCreated.cshtml", controllerContext, viewData, tempData);
 
                     //Generate email
-                    emailService.SendEmail("info@wellslittletheatre.com", customer.Email, "Thank you for setting up a subscription", html);
+                    emailService.SendEmail(customer.Email, "Thank you for setting up a subscription", html);
                     break;
                 case Stripe.StripeEvents.CustomerSubscriptionDeleted:
                     _log.Info("Stripe Event: CustomerSubscriptionDeleted");
@@ -103,13 +103,13 @@ namespace WellsOperaticSociety.Web.StripeEvents
                         return;
                     //Cancelation
                     var subCanceledModel = new WellsOperaticSociety.Models.EmailModels.SubscriptionCanceled();
-                    subCanceledModel.BaseUri = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/');
+                    subCanceledModel.BaseUri = UrlHelpers.GetBaseUrl();
                     subCanceledModel.PlanName = stripeSubscription.StripePlan.Name;
                     viewData.Model = subCanceledModel;
                     html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCreated.cshtml", controllerContext, viewData, tempData);
 
                     //Generate email
-                    emailService.SendEmail("info@wellslittletheatre.com", customer.Email, "Your subscription has been cancelled", html);
+                    emailService.SendEmail(customer.Email, "Your subscription has been cancelled", html);
                     break;
                 case Stripe.StripeEvents.CustomerSubscriptionTrialWillEnd: var z = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString()); _log.Info("Stripe Event: CustomerSubscriptionTrialWillEnd"); break;
                 case Stripe.StripeEvents.CustomerSubscriptionUpdated:
@@ -129,13 +129,13 @@ namespace WellsOperaticSociety.Web.StripeEvents
                             return;
                         //Cancelation
                         var sCanModel = new WellsOperaticSociety.Models.EmailModels.SubscriptionCanceled();
-                        sCanModel.BaseUri = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/');
+                        sCanModel.BaseUri = UrlHelpers.GetBaseUrl();
                         sCanModel.PlanName = stripeSubscription.StripePlan.Name;
                         viewData.Model = sCanModel;
                         html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCreated.cshtml", controllerContext, viewData, tempData);
 
                         //Generate email
-                        emailService.SendEmail("info@wellslittletheatre.com", customer.Email, "Your subscription has been cancelled", html);
+                        emailService.SendEmail(customer.Email, "Your subscription has been cancelled", html);
                     }
                     else
                     {
@@ -167,7 +167,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                         return;
                     //Email customer about issue and next steps
                     var paymentFailedModel = new WellsOperaticSociety.Models.EmailModels.PaymentFailed();
-                    paymentFailedModel.BaseUri = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/');
+                    paymentFailedModel.BaseUri = UrlHelpers.GetBaseUrl();
                     paymentFailedModel.ReceiptId = i.ReceiptNumber;
                     paymentFailedModel.StartDate = i.PeriodStart.ToShortDateString();
                     paymentFailedModel.EndDate = i.PeriodEnd.ToShortDateString();
@@ -177,7 +177,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/PaymentFailed.cshtml", controllerContext, viewData, tempData);
 
                     //Generate email
-                    emailService.SendEmail("info@wellslittletheatre.com", customer.Email, "Oops! Your membership payment failed", html);
+                    emailService.SendEmail(customer.Email, "Oops! Your membership payment failed", html);
                     break;
                 case Stripe.StripeEvents.InvoicePaymentSucceeded:
                     _log.Info("Stripe Event: InvoicePaymentSucceeded");
@@ -195,7 +195,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                         return;
                     //Email customer about issue and next steps
                     var paymentModel = new WellsOperaticSociety.Models.EmailModels.Payment();
-                    paymentModel.BaseUri = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/');
+                    paymentModel.BaseUri = UrlHelpers.GetBaseUrl();
                     paymentModel.RecieptId = invoice.ReceiptNumber;
                     paymentModel.StartDate = invoice.PeriodStart.ToShortDateString();
                     paymentModel.EndDate = invoice.PeriodEnd.ToShortDateString();
@@ -205,7 +205,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/Payment.cshtml", controllerContext, viewData, tempData);
 
                     //Generate email
-                    emailService.SendEmail("info@wellslittletheatre.com", customer.Email, "Payment to Wells Operatic Society", html);
+                    emailService.SendEmail(customer.Email, "Payment to Wells Operatic Society", html);
                     stripeSubscription = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey).Get(invoice.CustomerId, invoice.SubscriptionId);
                     AddOrUpdateMembership(stripeSubscription);
 

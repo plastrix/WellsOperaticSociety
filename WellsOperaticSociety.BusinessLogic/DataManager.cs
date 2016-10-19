@@ -468,7 +468,7 @@ namespace WellsOperaticSociety.BusinessLogic
 
                     //Generate email
                     var emailService = new EmailService.EmailHelpers();
-                    emailService.SendEmail("info@wellslittletheatre.com",member.Email,"Reset password request",html);
+                    emailService.SendEmail(member.Email,"Reset password request",html);
                 }
             }
         }
