@@ -90,11 +90,11 @@ WriteLiteral("<br />\r\n        Email: ");
             
             #line default
             #line hidden
-WriteLiteral("<br />\r\n        Name: ");
+WriteLiteral("<br />\r\n        Message: ");
 
             
             #line 15 "..\..\Views\Emails\ContactUsEmail.cshtml"
-         Write(Model.Info.Message);
+            Write(Model.Info.Message);
 
             
             #line default

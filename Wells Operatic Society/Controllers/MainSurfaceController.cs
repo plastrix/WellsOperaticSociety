@@ -81,7 +81,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 ViewData.Model = emailModel;
                 var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ContactUsEmail.cshtml", ControllerContext, ViewData, TempData);
                 var emailService = new EmailService.EmailHelpers();
-                emailService.SendEmail("info@wellsoperaticsociety.com","Query from contact form", html);
+                emailService.SendEmail("info@wellslittletheatre.com","Query from contact form", html);
                 TempData["Success"] = "That is winging its way to us now. We will be in contact as soon as we can.";
                 return RedirectToCurrentUmbracoPage();
             }
