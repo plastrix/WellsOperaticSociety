@@ -65,8 +65,8 @@ namespace WellsOperaticSociety.Web.Controllers
             if (ModelState.IsValid)
             {
                 string encodedResponse = Request.Form["g-Recaptcha-Response"];
-                bool isCaptchaValid =
-                    ReCaptcha.Validate(encodedResponse, SensativeInformation.ReCaptchKeys.ReCaptchaSecretKey) == "True"
+                var response = ReCaptcha.Validate(encodedResponse, SensativeInformation.ReCaptchKeys.ReCaptchaSecretKey);
+                bool isCaptchaValid = response.ToLower() == "true"
                         ? true
                         : false;
                 if (!isCaptchaValid)
