@@ -6,7 +6,7 @@
 }
 
 
-@using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.MainSurfaceController>("SubmitContactUsForm",null,new {@class="form-horizontal"}))
+@using (Html.BeginUmbracoForm<WellsOperaticSociety.Web.Controllers.MainSurfaceController>("SubmitContactUsForm"))
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()

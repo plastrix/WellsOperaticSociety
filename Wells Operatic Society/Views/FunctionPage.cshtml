@@ -1,4 +1,5 @@
 ﻿@using System.Web.Optimization
+@using HtmlAgilityPack
 @using WellsOperaticSociety.BusinessLogic
 @inherits UmbracoViewPage<WellsOperaticSociety.Models.Function>
 @{
@@ -9,6 +10,40 @@
     private string GetDisplayName()
     {
         return Model.DisplayName.IsNotNullOrEmpty() ? Model.DisplayName : Model.Name;
+    }
+
+    private static string RemoveTags(string data)
+    {
+        var document = new HtmlDocument();
+        document.LoadHtml(data);
+
+        var acceptableTags = new String[] {  };
+
+        var nodes = new Queue<HtmlNode>(document.DocumentNode.SelectNodes("./*|./text()"));
+        while (nodes.Count > 0)
+        {
+            var node = nodes.Dequeue();
+            var parentNode = node.ParentNode;
+
+            if (!acceptableTags.Contains(node.Name) && node.Name != "#text")
+            {
+                var childNodes = node.SelectNodes("./*|./text()");
+
+                if (childNodes != null)
+                {
+                    foreach (var child in childNodes)
+                    {
+                        nodes.Enqueue(child);
+                        parentNode.InsertBefore(child, node);
+                    }
+                }
+
+                parentNode.RemoveChild(node);
+
+            }
+        }
+
+        return document.DocumentNode.InnerHtml;
     }
 
 }
@@ -40,7 +75,7 @@
     <!--Facebook Open Graph Tags-->
     <meta property="og:url" content="@Umbraco.TypedContent(Model.Id).UrlWithDomain()"/>
     <meta property="og:title" content="@GetDisplayName()"/>
-    <meta property="og:description" content="@Html.Raw(Model.ShortDescription)" />
+    <meta property="og:description" content="@RemoveTags(Model.ShortDescription)" />
     <meta property="og:image" content="@WellsOperaticSociety.BusinessLogic.UrlHelpers.GetBaseUrl()@Umbraco.TypedMedia(Model.Image).Url"/>
     <meta property="og:locale" content="en_GB" />
 
