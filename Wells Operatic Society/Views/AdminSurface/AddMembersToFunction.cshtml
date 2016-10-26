@@ -6,7 +6,7 @@
         @Html.Partial("AddMemberToFunctionForm", Model.NewMemberRolesInShow)
     if (Model.MostUsedGroups.Count > 0)
     {
-        <div>
+        <div class="row">
             <h4>Popular groups:</h4>
             <div class="col-sm-6">
                 @foreach (var g in Model.MostUsedGroups)
@@ -16,6 +16,7 @@
             </div>
         </div>
     }
+    <br/>
     @Html.Partial("AddMemberToFunctionList",Model.MemberRolesInShows)
 }
 else
