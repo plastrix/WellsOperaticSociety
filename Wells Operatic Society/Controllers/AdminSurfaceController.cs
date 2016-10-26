@@ -218,6 +218,7 @@ namespace WellsOperaticSociety.Web.Controllers
             model.Function = dm.GetFunction(functionId);
             model.MemberRolesInShows = dm.GetMemberRolesInFunction(functionId);
             model.NewMemberRolesInShow = new MemberRolesInShow() {FunctionId = functionId};
+            model.MostUsedGroups = dm.GetMostUsedRoles(10);
             return PartialView("AddMembersToFunction",model);
         }
 

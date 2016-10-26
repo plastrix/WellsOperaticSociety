@@ -2,10 +2,28 @@
 @if (Model.Function != null)
 {
     <h2>@Model.Function.Name</h2>
+    <p class="alert alert-info">Just start typing and it will auto complete for you. But if nothing appears everything is ok it will still work.</p>
+        @Html.Partial("AddMemberToFunctionForm", Model.NewMemberRolesInShow)
+    if (Model.MostUsedGroups.Count > 0)
+    {
+        <div>
+            <h4>Popular groups:</h4>
+            <div class="col-sm-6">
+                @foreach (var g in Model.MostUsedGroups)
+                {
+                    <div class="btn btn-fill btn-info group-tag" style="margin-top: 5px;">@g</div>
+                }
+            </div>
+        </div>
+    }
     @Html.Partial("AddMemberToFunctionList",Model.MemberRolesInShows)
-    @Html.Partial("AddMemberToFunctionForm", Model.NewMemberRolesInShow)
 }
 else
 {
     <p class="alert alert-info">We could not find that function to add members to it</p>
 }
+<script>
+    $(".group-tag").on('click', function() {
+        $("#Group").val(this.innerHTML);
+    })
+</script>

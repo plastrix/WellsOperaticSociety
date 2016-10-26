@@ -203,7 +203,7 @@ namespace WellsOperaticSociety.BusinessLogic
 
         public object AcitveMemberSuggestions(string query)
         {
-            return GetActiveMembers().Where(m=>m.Name.ToLower().Contains(query.ToLower())).Select(m => new { label = m.Name, value = m.Id });
+            return GetActiveMembers().Where(m=>m.Name.ToLower().Contains(query.ToLower()) || m.Email.ToLower().Contains(query.ToLower()) ).Select(m => new { label = m.Name, value = m.Id });
         }
 
         public List<LongServiceAward> GetDueLongServiceAwards()
@@ -508,6 +508,18 @@ namespace WellsOperaticSociety.BusinessLogic
             {
                 var date = DateTime.UtcNow;
                 return db.Memberships.Any(m => m.Member == memberId && m.StartDate <= date && m.EndDate >= date);
+            }
+        }
+
+        public List<string> GetMostUsedRoles(int amount = 6)
+        {
+            using (var db = new DataContext())
+            {
+                var list = db.MemberRolesInShows.GroupBy(m => m.Group)
+                    .OrderByDescending(g => g.Count())
+                    .Take(amount)
+                    .Select(g => g.Key).ToList();
+                return list;
             }
         }
 
