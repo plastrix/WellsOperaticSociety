@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201610091552573_SeatRequiredFields.Designer.cs">
       <DependentUpon>201610091552573_SeatRequiredFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610271922409_UpdatedRequirements.cs" />
+    <Compile Include="Migrations\201610271922409_UpdatedRequirements.Designer.cs">
+      <DependentUpon>201610271922409_UpdatedRequirements.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -144,6 +148,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610091552573_SeatRequiredFields.resx">
       <DependentUpon>201610091552573_SeatRequiredFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610271922409_UpdatedRequirements.resx">
+      <DependentUpon>201610271922409_UpdatedRequirements.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

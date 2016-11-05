@@ -219,6 +219,9 @@ namespace WellsOperaticSociety.Web.Controllers
             model.MemberRolesInShows = dm.GetMemberRolesInFunction(functionId);
             model.NewMemberRolesInShow = new MemberRolesInShow() {FunctionId = functionId};
             model.MostUsedGroups = dm.GetMostUsedRoles(10);
+            if (TempData["LastGroup"] != null)
+                model.NewMemberRolesInShow.Group = TempData["LastGroup"].ToString();
+
             return PartialView("AddMembersToFunction",model);
         }
 
@@ -231,6 +234,7 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 var dm = new DataManager();
                 dm.CreateMemberInFunction(model);
+                TempData["LastGroup"] = model.Group;
                 return RedirectToCurrentUmbracoPage(Request.QueryString);
             }
             return CurrentUmbracoPage();

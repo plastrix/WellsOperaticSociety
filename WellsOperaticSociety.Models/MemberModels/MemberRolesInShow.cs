@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Build.Framework;
 
 namespace WellsOperaticSociety.Models.MemberModels
 {
     public class MemberRolesInShow
     {
         public int MemberRolesInShowId { get; set; }
-        [Required]
+        [Display(Name = "Member")]
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "You must select a valid member")]
+        [Microsoft.Build.Framework.Required]
         public int? MemberId { get; set; }
-        [Required]
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "You must supply a group")]
+        [Microsoft.Build.Framework.Required]
         public string Group { get; set; }
-        [Required]
+        [Microsoft.Build.Framework.Required]
         public string Role { get; set; }
-        [Required]
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "There is no function assigned. So we cannot add the user to the function")]
+        [Microsoft.Build.Framework.Required]
         public int FunctionId { get; set; }
         [NotMapped]
         public Member Member { get; set; }

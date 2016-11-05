@@ -8,25 +8,26 @@
         <div class="row">
             @if (footerLinks.Any())
             {
-                foreach (var links in footerLinks)
-                {
-                    if (links.Any())
-                    {
-                        <div class="col-md-4">
-                            <h5 class="title">Policies</h5>
-                            <nav>
-                                <ul>
-                                    @foreach (var link in links)
+                <div class="col-md-4">
+                    <h5 class="title">Policies</h5>
+                    <nav>
+                        <ul>
+                            @foreach (var links in footerLinks)
+                            {
+                                if (links.Any())
+                                {
+                                    foreach (var link in links)
                                     {
                                         <li>
                                             <a href="@link.Url">@link.Name</a>
                                         </li>
                                     }
-                                </ul>
-                            </nav>
-                        </div>
-                    }
-                }
+
+                                }
+                            }
+                        </ul>
+                    </nav>
+                </div>
             }
             <div class="col-md-4">
                 <h5 class="title">Site information</h5>
@@ -52,7 +53,8 @@
                 </nav>
             </div>
         </div>
-        <hr/>
+
+        <hr />
         <div class="copyright">&copy; 2016 Wells Operatic Society Ltd</div>
     </div>
 </footer>
