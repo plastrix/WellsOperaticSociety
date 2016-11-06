@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -57,7 +58,7 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 var previous = curMemberships.OrderByDescending(m => m.EndDate).First();
                 startDate = previous.StartDate.AddYears(1);
-                endDate = startDate.AddYears(1);
+                endDate = startDate.AddYears(1).AddDays(-1);
             }
 
             model.NewMembership = new Membership()
@@ -134,12 +135,12 @@ namespace WellsOperaticSociety.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddMembership(Membership membership)
+        public async Task<ActionResult> AddMembership(Membership membership)
         {
             if (ModelState.IsValid)
             {
                 var dm = new DataManager();
-                dm.AddOrUpdateMembership(membership);
+                await dm.AddOrUpdateMembership(membership);
                 //TODO: Add success page
                 RedirectToCurrentUmbracoPage();
             }
@@ -147,7 +148,7 @@ namespace WellsOperaticSociety.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteMembership()
+        public async Task<ActionResult> DeleteMembership()
         {
             int membershipId;
             
@@ -158,9 +159,9 @@ namespace WellsOperaticSociety.Web.Controllers
                 return RedirectToCurrentUmbracoPage(Request.QueryString);
             }
             var dm = new DataManager();
-            dm.DeleteMembership(membershipId);
+            await dm.DeleteMembership(membershipId);
             TempData["SuccessMessage"] =
-                    $"You have successfully deleted the membership with id {membershipId}";
+                    $"You have successfully deleted the membership with id {membershipId} and removed them from the mailchimp Members list if they are not an active member any more";
             return RedirectToCurrentUmbracoPage(Request.QueryString);
         }
 

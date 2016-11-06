@@ -3466,7 +3466,7 @@
     <Compile Include="Models\PreviousProductionsViewModel.cs" />
     <Compile Include="Models\StripeCheckoutViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SensativeInformation\ReCaptchKeys.cs" />
+    <Compile Include="SensativeInformation\Keys.cs" />
     <Compile Include="StripeEvents\StripeHandler.cs" />
     <Compile Include="UmbracoStartup.cs" />
   </ItemGroup>

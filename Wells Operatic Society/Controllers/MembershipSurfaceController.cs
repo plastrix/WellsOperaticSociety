@@ -131,20 +131,8 @@ namespace WellsOperaticSociety.Web.Controllers
 
         public ActionResult ManageProfile()
         {
-            var m = new Membership()
-            {
-                Member = Members.GetCurrentMemberId(),
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now,
-                MembershipType = (int)MembershipType.Ordinary
-            };
-
-            new DataManager().AddOrUpdateMembership(m);
-
             var model = new Member(Members.GetCurrentMember());
             return PartialView("ManageProfile", model);
-
-
         }
 
         [HttpPost]

@@ -4,10 +4,15 @@ using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using MailChimp.Net;
+using MailChimp.Net.Core;
+using MailChimp.Net.Interfaces;
+using MailChimp.Net.Models;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Security;
@@ -19,6 +24,7 @@ using WellsOperaticSociety.Models.AdminModels;
 using WellsOperaticSociety.Models.Enums;
 using WellsOperaticSociety.Models.ReportModels;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
+using Task = System.Threading.Tasks.Task;
 
 namespace WellsOperaticSociety.BusinessLogic
 {
@@ -260,6 +266,49 @@ namespace WellsOperaticSociety.BusinessLogic
             return GetLongServiceAwards().Where(m=>m.Awarded).ToList();
         }
 
+        public async Task AddUserToMailChimpList(string listId, string emailToAdd,string firstName,string lastName)
+        {
+            try
+            {
+                IMailChimpManager mailChimpManager =
+                    new MailChimpManager(SensativeInformation.MailChimpKeys.MailChimpApiKey);
+
+                var member = new MailChimp.Net.Models.Member() {EmailAddress = emailToAdd, Status = Status.Subscribed};
+                if(firstName.IsNotNullOrEmpty())
+                    member.MergeFields.Add("FNAME", firstName);
+                if(lastName.IsNotNullOrEmpty())
+                    member.MergeFields.Add("LNAME", lastName);
+                await mailChimpManager.Members.AddOrUpdateAsync(listId, member);
+            }
+            catch (MailChimpNotFoundException e)
+            {
+                //Could not remove from list as they did not exist
+            }
+            catch (MailChimpException e)
+            {
+                //TODO: Log error
+            }
+        }
+
+        public async Task RemoveUserFromMailChimpList(string listId, string emailToRemove)
+        {
+            try
+            {
+                IMailChimpManager mailChimpManager =
+                    new MailChimpManager(SensativeInformation.MailChimpKeys.MailChimpApiKey);
+
+                await mailChimpManager.Members.DeleteAsync(listId, emailToRemove);
+            }
+            catch (MailChimpNotFoundException e)
+            {
+                //Could not remove from list as they did not exist
+            }
+            catch( MailChimpException e)
+            {
+                //TODO: Log error
+            }
+        }
+
         #region DataContext
         public List<Membership> GetMembershipsForUser(int memberId)
         {
@@ -269,24 +318,53 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public void AddOrUpdateMembership(Membership membership)
+        public async Task AddOrUpdateMembership(Membership membership)
         {
             using (var db = new DataContext())
             {
                 db.Memberships.AddOrUpdate(membership);
                 db.SaveChanges();
             }
+            var memberService = ApplicationContext.Current.Services.MemberService;
+            //Add to Mailchimp
+            var member = memberService.GetById(membership.Member);
+            if (member != null)
+            {
+                var firstName = member.GetValue<string>("firstName");
+                var lastName = member.GetValue<string>("lastName");
+                //Added this check in as first and last name didnt exist originally so as we are converting back to first and last name then we will need this.
+                if (firstName.IsNullOrEmpty() && lastName.IsNullOrEmpty())
+                {
+                    firstName = member.Name;
+                }
+                await AddUserToMailChimpList(MailChimpListIds.Membership, member.Email, firstName, lastName);
+                await AddUserToMailChimpList(MailChimpListIds.MailingList, member.Email, firstName, lastName);
+            }
         }
 
-        public void DeleteMembership(int membershipId)
+        public async Task DeleteMembership(int membershipId)
         {
+            int memberId =0;
             using (var db = new DataContext())
             {
-                var memberhsip = db.Memberships.SingleOrDefault(m => m.MembershipId == membershipId);
-                if (memberhsip != null)
+                var membership = db.Memberships.SingleOrDefault(m => m.MembershipId == membershipId);
+                if (membership != null)
                 {
-                    db.Memberships.Remove(memberhsip);
+                    memberId = membership.Member;
+                    db.Memberships.Remove(membership);
                     db.SaveChanges();
+                }
+            }
+            
+
+            //Remove from mailchimp member list if not a member any more
+            if (memberId != 0)
+            {
+                if (!DoesUserHaveCurrentMembership(memberId))
+                {
+                    var memberService = ApplicationContext.Current.Services.MemberService;
+                    var member = memberService.GetById(memberId);
+                    await RemoveUserFromMailChimpList(MailChimpListIds.Membership, member.Email);
                 }
             }
         }

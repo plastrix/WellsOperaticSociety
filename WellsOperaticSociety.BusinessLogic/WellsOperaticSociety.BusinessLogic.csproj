@@ -102,6 +102,10 @@
       <HintPath>..\packages\Lucene.Net.2.9.4.1\lib\net40\Lucene.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MailChimp.Net.V3, Version=1.7.5.0, Culture=neutral, PublicKeyToken=37d26d538413c581, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailChimp.Net.V3.1.7.5.0\lib\net45\MailChimp.Net.V3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MarkdownSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Markdown.1.14.4\lib\net45\MarkdownSharp.dll</HintPath>
       <Private>True</Private>
@@ -160,6 +164,10 @@
     </Reference>
     <Reference Include="Semver, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\semver.1.1.2\lib\net451\Semver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Text.3.9.71\lib\net35\ServiceStack.Text.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SQLCE4Umbraco, Version=1.0.6092.24023, Culture=neutral, processorArchitecture=MSIL">
@@ -272,7 +280,9 @@
   <ItemGroup>
     <Compile Include="Convert.cs" />
     <Compile Include="DataTransfer.cs" />
+    <Compile Include="MailChimpListIds.cs" />
     <Compile Include="RazorHelpers.cs" />
+    <Compile Include="SensativeInformation\Keys.cs" />
     <Compile Include="StaticIdentifiers.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
