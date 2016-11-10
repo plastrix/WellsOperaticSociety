@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Umbraco.Core.Models;
 using Zone.UmbracoMapper;
 using System.ComponentModel.DataAnnotations;
+using Umbraco.Core;
 
 namespace WellsOperaticSociety.Models.MemberModels
 {
@@ -42,6 +43,14 @@ namespace WellsOperaticSociety.Models.MemberModels
         public string VehicleRegistration2 { get; set; }
         [DisplayName("Previous years")]
         public int PreviousYears { get; set; }
+        [DisplayName("Contact Email")]
+        public string ContactEmail { get; set; }
+
+        public string GetContactEmail { get
+        {
+            return ContactEmail.IsNullOrWhiteSpace() ? Email : ContactEmail;
+        }
+        }
 
         public Member(IPublishedContent content)
         {

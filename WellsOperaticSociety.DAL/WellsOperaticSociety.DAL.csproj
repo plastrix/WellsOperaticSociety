@@ -102,6 +102,10 @@
     <Compile Include="Migrations\201610271922409_UpdatedRequirements.Designer.cs">
       <DependentUpon>201610271922409_UpdatedRequirements.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611081530054_Vouchers.cs" />
+    <Compile Include="Migrations\201611081530054_Vouchers.Designer.cs">
+      <DependentUpon>201611081530054_Vouchers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -151,6 +155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610271922409_UpdatedRequirements.resx">
       <DependentUpon>201610271922409_UpdatedRequirements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611081530054_Vouchers.resx">
+      <DependentUpon>201611081530054_Vouchers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

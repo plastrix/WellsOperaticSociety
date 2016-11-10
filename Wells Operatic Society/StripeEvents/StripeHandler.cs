@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -24,7 +25,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
             get { return true; }
         }
 
-        public void ProcessRequest(HttpContext context)
+        public async void ProcessRequest(HttpContext context)
         {
             var json = new StreamReader(context.Request.InputStream).ReadToEnd();
             var html = string.Empty;
@@ -93,7 +94,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     _log.Info("Stripe Event: CustomerSubscriptionDeleted");
                     //Email notification of cancelation
                     stripeSubscription = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString());
-                    CancelMembership(stripeSubscription);
+                    await CancelMembership(stripeSubscription);
                     if (stripeSubscription.CustomerId.IsNullOrEmpty())
                     {
                         return;
@@ -119,7 +120,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     //canacel if cancel at end of period set
                     if (stripeSubscription.CancelAtPeriodEnd)
                     {
-                        CancelMembership(stripeSubscription);
+                        await CancelMembership(stripeSubscription);
                         if (stripeSubscription.CustomerId.IsNullOrEmpty())
                         {
                             return;
@@ -141,7 +142,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     {
                         
                         //update subscription
-                        AddOrUpdateMembership(stripeSubscription);
+                        await AddOrUpdateMembership(stripeSubscription);
 
                         //TODO:Email notification of subscription change
                     }
@@ -207,7 +208,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     //Generate email
                     emailService.SendEmail(customer.Email, "Payment to Wells Operatic Society", html);
                     stripeSubscription = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey).Get(invoice.CustomerId, invoice.SubscriptionId);
-                    AddOrUpdateMembership(stripeSubscription);
+                    await AddOrUpdateMembership(stripeSubscription);
 
                     break;
                 case Stripe.StripeEvents.InvoiceUpdated: _log.Info("Stripe Event: InvoiceUpdated"); break;
@@ -226,7 +227,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
             }
         }
 
-        private void CancelMembership(StripeSubscription subscription)
+        private async Task CancelMembership(StripeSubscription subscription)
         {
             if (subscription == null)
             {
@@ -243,7 +244,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                 return;
             }
             membership.CancelAtEnd = true;
-            dataManager.AddOrUpdateMembership(membership);
+            await dataManager.AddOrUpdateMembership(membership);
         }
 
         private StripeCustomer GetCustomer(string stripeUserId)
@@ -260,7 +261,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
             }
         }
 
-        private void AddOrUpdateMembership(StripeSubscription subscription)
+        private async Task AddOrUpdateMembership(StripeSubscription subscription)
         {
             if (subscription == null)
             {
@@ -300,7 +301,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
             if (membership != null)
             {
                 membership.MembershipType = (MembershipType)membershipType;
-                dataManager.AddOrUpdateMembership(membership);
+                await dataManager.AddOrUpdateMembership(membership);
             }
             else
             {
@@ -313,7 +314,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     Member = member.Id,
                     StripeSubscriptionId = subscription.Id
                 };
-                dataManager.AddOrUpdateMembership(m);
+                await dataManager.AddOrUpdateMembership(m);
             }
         }
     }

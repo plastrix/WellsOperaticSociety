@@ -46,16 +46,22 @@
     <loc>https://localhost:44300/manage-cards/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/manage-members/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/manage-member/</loc>
+    <loc>https://localhost:44300/content/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/manage-functions/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/add-member-to-function/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-show-vouchers/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-members/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-member/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/seats/</loc>

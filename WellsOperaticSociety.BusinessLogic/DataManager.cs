@@ -90,6 +90,24 @@ namespace WellsOperaticSociety.BusinessLogic
             return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "resetPassword");
         }
 
+        public IPublishedContent GetEditorSectionNode()
+        {
+            UmbracoHelper helper = new UmbracoHelper(Umbraco);
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "editorSection");
+        }
+
+        public IPublishedContent GetAddMemberToFunctionNode()
+        {
+            var root = GetEditorSectionNode();
+            return root.Children.Single(m=>m.DocumentTypeAlias == "addMemberToFunction");
+        }
+
+        public IPublishedContent GetManageVouchersNode()
+        {
+            var root = GetEditorSectionNode();
+            return root.Children.Single(m => m.DocumentTypeAlias == "manageVouchers");
+        }
+
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
@@ -466,7 +484,10 @@ namespace WellsOperaticSociety.BusinessLogic
             using (var db = new DataContext())
             {
                 var key = "CurrentMemberships";
-                var memberships = HttpContext.Current.Session[key] as List<Membership>;
+                List<Membership> memberships = null;
+                if (HttpContext.Current != null)
+                    memberships = HttpContext.Current.Session[key] as List<Membership>;
+
                 if (memberships == null)
                 {
                     memberships =
@@ -474,7 +495,9 @@ namespace WellsOperaticSociety.BusinessLogic
                             .GroupBy(m => new {m.Member})
                             .Select(m => m.FirstOrDefault())
                             .ToList();
-                    HttpContext.Current.Session[key] = memberships;
+
+                    if (HttpContext.Current != null)
+                        HttpContext.Current.Session[key] = memberships;
                 }
 
                 return memberships;
@@ -546,7 +569,7 @@ namespace WellsOperaticSociety.BusinessLogic
 
                     //Generate email
                     var emailService = new EmailService.EmailHelpers();
-                    emailService.SendEmail(member.Email,"Reset password request",html);
+                    emailService.SendEmail(member.GetContactEmail,"Reset password request",html);
                 }
             }
         }
@@ -598,6 +621,115 @@ namespace WellsOperaticSociety.BusinessLogic
                     .Take(amount)
                     .Select(g => g.Key).ToList();
                 return list;
+            }
+        }
+
+        public List<Voucher> GetVouchersForShow(int functionId)
+        {
+            var helper = new UmbracoHelper(Umbraco);
+            using (var db = new DataContext())
+            {
+                var vouchers = db.Vouchers.Where(m => m.FunctionId == functionId).ToList();
+                if (vouchers.Count > 0)
+                {
+                    foreach (var voucher in vouchers)
+                    {
+                        voucher.Member = new Member(helper.TypedMember(voucher.MemberId));
+                        voucher.Function = GetFunction(voucher.FunctionId);
+                    }
+                }
+                return vouchers;
+            }
+        }
+
+        public ShowVouchersModel GetMemberShowVouchers(int functionId)
+        {
+            var model = new ShowVouchersModel();
+            var memberships = GetCurrentMemberships();
+            var helper = new UmbracoHelper(Umbraco);
+            var membersInshow =GetMemberRolesInFunction(functionId).DistinctBy(m=>(int)m.MemberId).ToList();//, g => g.Sum(x => x.Amount)).ToList();
+            model.MemberVoucherList = new List<Voucher>();
+            model.PatronVoucherList = new List<Voucher>();
+            model.ShowMemberVoucherList = new List<Voucher>();
+
+            var vouchers = GetVouchersForShow(functionId);
+
+            foreach (var member in membersInshow)
+            {
+                var voucher = vouchers.SingleOrDefault(m => m.MemberId == member.MemberId);
+                if (voucher == null)
+                {
+                    model.ShowMemberVoucherList.Add(new Voucher { FunctionId = functionId, MemberId = (int)member.MemberId, Member = member.Member, Key = string.Empty });
+                }
+                else
+                {
+                    model.ShowMemberVoucherList.Add(voucher);
+                }
+
+            }
+            foreach (var member in memberships.Where(m => m.MembershipType == MembershipType.Patron))
+            {
+                var voucher = vouchers.SingleOrDefault(m => m.MemberId == member.Member);
+                if (voucher == null)
+                {
+                    var mem = helper.TypedMember(member.Member);
+                    Member memberModel;
+                    if (mem != null)
+                    {
+                        memberModel = new Member(mem);
+                    }
+                    else
+                    {
+                        memberModel = new Member();
+                    }
+
+                    model.PatronVoucherList.Add(new Voucher { FunctionId = functionId, MemberId = member.Member, Member = memberModel, Key = string.Empty });
+                }
+                else
+                {
+                    model.PatronVoucherList.Add(voucher);
+                }
+
+            }
+            foreach (var member in memberships.Where(m => m.MembershipType != MembershipType.Patron && membersInshow.All(n => n.MemberId != m.Member)))
+            {
+                var voucher = vouchers.SingleOrDefault(m => m.MemberId == member.Member);
+                if (voucher == null)
+                {
+                    var mem = helper.TypedMember(member.Member);
+                    Member memberModel;
+                    if (mem != null)
+                    {
+                        memberModel = new Member(mem);
+                    }
+                    else
+                    {
+                        memberModel = new Member();
+                    }
+                    model.MemberVoucherList.Add(new Voucher { FunctionId = functionId, MemberId = member.Member, Member = memberModel, Key = string.Empty });
+                }
+                else
+                {
+                    model.MemberVoucherList.Add(voucher);
+                }
+
+            }
+
+            return model;
+        }
+
+        public void AddOrUpdateShowVoucher(string key,int memberId, int functionId)
+        {
+            using (var db = new DataContext())
+            {
+                var voucher = db.Vouchers.FirstOrDefault(m => m.MemberId == memberId && m.FunctionId == functionId);
+                if(voucher == null)
+                    voucher = new Voucher() {FunctionId = functionId,MemberId = memberId};
+
+                voucher.Key = key;
+
+                db.Vouchers.AddOrUpdate(voucher);
+                db.SaveChanges();
             }
         }
 

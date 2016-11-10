@@ -6,6 +6,8 @@
 @{
     var dm = new DataManager();
     var functions = dm.GetFunctions(30, 0);
+    var addMembersUrl = dm.GetAddMemberToFunctionNode().Url;
+    var manageVouchersUrl = dm.GetManageVouchersNode().Url;
 }
 @functions{
 
@@ -30,7 +32,7 @@
         <tbody>
             @foreach (var function in functions)
             {
-                <tr><td style="max-width: 300px;"><img class="img-responsive" src="@GetImage(function)"/></td><td>@function.Name</td><td><a class="btn btn-create" href="@Umbraco.TypedContent(1114).Url?id=@function.Id">Manage member roles</a></td></tr>
+                <tr><td style="max-width: 300px;"><img class="img-responsive" src="@GetImage(function)"/></td><td>@function.Name</td><td><a class="btn btn-create" href="@addMembersUrl?id=@function.Id">Manage member roles</a><a class="btn btn-create" href="@manageVouchersUrl?id=@function.Id">Send vouchers</a></td></tr>
             }
         </tbody>
     </table>

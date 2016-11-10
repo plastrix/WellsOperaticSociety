@@ -1,0 +1,39 @@
+﻿@model WellsOperaticSociety.Models.EmailModels.ShowVoucher
+
+<html>
+<head>
+    @Html.Partial("~/Views/Emails/EmailStyling.cshtml")
+</head>
+<body>
+    @Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri } })
+    <p>
+        Hi @Model.Member.Name,
+    </p>
+    <p>
+        Pre booking tickets for @Model.Function.DisplayName starts on @Model.DateActive. Follow the instructions below to get your tickets.
+    </p>
+<p>
+    You can either follow this link<br/>
+    <br/>
+    <a href="@Model.Link">@Model.Link</a><br/>
+    <br/>
+    which will take you to the boxoffice and will apply your voucher automatically, or follow the steps below:
+    <ol>
+        <li>Go to the the show on the website and click on the book tickets link. This may not appear until the pre booking date has been reached</li>
+        <li>Click on the "Enter Voucher Code" link at the top of the page</li>
+        <li>Enter your voucher code<br/>
+            <br/>
+            <b>@Model.Key</b><br/>
+            <br/>
+            and click apply
+        </li>
+        <li>You should now be able to book tickets</li>
+    </ol>
+    N.B If there are no tickets displayed when you select a show date then either you have not entered your voucher correctly, or it might have been invalidated for some reason. Please contact us to resolve this.
+</p>
+    <p>
+        Wells Operatic Society
+    </p>
+    @Html.Partial("~/Views/Emails/EmailFooter.cshtml")
+</body>
+</html>

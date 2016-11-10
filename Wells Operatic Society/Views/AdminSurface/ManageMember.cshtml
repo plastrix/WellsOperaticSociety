@@ -61,8 +61,13 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.VehicleRegistration2)
-        @Html.TextBoxFor(m => m.Member.VehicleRegistration2, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.VehicleRegistration2) })
+        @Html.TextBoxFor(m => m.Member.VehicleRegistration2, new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.VehicleRegistration2)})
         @Html.ValidationMessageFor(m => m.Member.VehicleRegistration2)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.ContactEmail)
+        @Html.TextBoxFor(m => m.Member.ContactEmail, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.ContactEmail) })
+        @Html.ValidationMessageFor(m => m.Member.ContactEmail)
     </div>
     <div class="form-group">
         <label>

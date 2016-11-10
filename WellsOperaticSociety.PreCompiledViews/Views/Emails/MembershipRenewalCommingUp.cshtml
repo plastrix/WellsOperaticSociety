@@ -1,0 +1,25 @@
+﻿@model WellsOperaticSociety.Models.EmailModels.MembershipRenewal
+
+<html>
+<head>
+    @Html.Partial("~/Views/Emails/EmailStyling.cshtml")
+</head>
+<body>
+    @Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri } })
+    <p>
+        It's that time of year again.
+        <br />
+        <br />
+        Your @Model.MembershipType membership is running out and will be due for renewal on
+    </p>
+    <p>
+        <b>@Model.DateDue.ToShortDateString()</b>
+    </p>
+<p>Don't worry this is just a reminder. You can either renew your membership by giving payment to our treasurer or, you can sign up to a subscription in the members area of the website and not have to worry about paying your subs ever again.</p>
+<p>If you have already signed up to a subscription then please don't worry this is just a warning that the payment will come out shortly.</p>
+<p>
+    Wells Operatic Society
+</p>
+    @Html.Partial("~/Views/Emails/EmailFooter.cshtml")
+</body>
+</html>
