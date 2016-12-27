@@ -153,7 +153,7 @@ namespace WellsOperaticSociety.BusinessLogic
             return GetMinuetsNode().Children().ToList();
         }
 
-        public void AddOrUpdateMember(Member member)
+        public void AddOrUpdateMember(Member member,bool isAdmin=false)
         {
             var memberService = ApplicationContext.Current.Services.MemberService;
             var umbMember = memberService.GetById(member.Id);
@@ -175,7 +175,18 @@ namespace WellsOperaticSociety.BusinessLogic
                 umbMember.SetValue("dateOfBirth", member.DateOfBirth);
                 umbMember.SetValue("vehicleRegistration1", member.VehicleRegistration1);
                 umbMember.SetValue("vehicleRegistration2", member.VehicleRegistration2);
-                
+
+                if (isAdmin)
+                {
+                    umbMember.SetValue("dateAppliedForMembership", member.DateAppliedForMembership);
+                    umbMember.SetValue("dateApprovedForMembership", member.DateApprovedForMembership);
+                    umbMember.SetValue("dateDeclinedForMembership", member.DateDeclinedForMembership);
+                    umbMember.SetValue("dateLifeMembershipGranted", member.DateLifeMembershipGranted);
+                    umbMember.SetValue("stripeUserId", member.StripeUserId);
+                    umbMember.SetValue("deactivated", member.Deactivated);
+                    umbMember.SetValue("contactEmail", member.ContactEmail);
+                }
+
                 memberService.Save(umbMember);
             }
             catch(Exception ex)
@@ -373,7 +384,7 @@ namespace WellsOperaticSociety.BusinessLogic
             }
             catch (MailChimpException e)
             {
-                //TODO: Log error
+                _log.Error($"There was an error adding a user to a MailChimp list with list id {listId} and email {emailToAdd}",e);
             }
         }
 
@@ -392,7 +403,7 @@ namespace WellsOperaticSociety.BusinessLogic
             }
             catch (MailChimpException e)
             {
-                //TODO: Log error
+                _log.Error($"There was an error removing a user from a MailChimp list with list id {listId} and email {emailToRemove}", e);
             }
         }
 

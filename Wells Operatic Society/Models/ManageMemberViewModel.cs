@@ -11,5 +11,7 @@ namespace WellsOperaticSociety.Web.Models
         public Member Member { get; set; }
         public Membership NewMembership { get; set; }
         public IEnumerable<Membership> Memberships { get; set; }
+        public bool IsSubscribedToMailingList { get; set; }
+        public bool IsSubscribedToMemberList { get; set; }
     }
 }

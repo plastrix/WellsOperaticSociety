@@ -1,9 +1,18 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.AddMembersToFunctionViewModel>
 @if (Model.Function != null)
 {
+    if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-error">@TempData["ErrorMessage"]</div>
+    }
+    if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
     <h2>@Model.Function.DisplayName</h2>
     <p class="alert alert-info">Just start typing and it will auto complete for you. But if nothing appears everything is ok it will still work.</p>
-        @Html.Partial("AddMemberToFunctionForm", Model.NewMemberRolesInShow)
+    @Html.Partial("AddMemberToFunctionForm", Model.NewMemberRolesInShow)
     if (Model.MostUsedGroups.Count > 0)
     {
         <div class="row">
@@ -16,15 +25,15 @@
             </div>
         </div>
     }
-    <br/>
-    @Html.Partial("AddMemberToFunctionList",Model.MemberRolesInShows)
+    <br />
+    @Html.Partial("AddMemberToFunctionList", Model.MemberRolesInShows)
 }
 else
 {
     <p class="alert alert-info">We could not find that function to add members to it</p>
 }
 <script>
-    $(".group-tag").on('click', function() {
+    $(".group-tag").on('click', function () {
         $("#Group").val(this.innerHTML);
     })
 </script>

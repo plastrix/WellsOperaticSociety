@@ -2,19 +2,25 @@
 
 @if (Model != null && Model.Any())
 {
+    if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
     <table class="table">
         <thead>
-        <tr>
-            <th>Crad Type</th>
-            <th>Expires</th>
-            <th>Last four digits</th>
-        </tr>
+            <tr>
+                <th>Crad Type</th>
+                <th>Expires</th>
+                <th>Last four digits</th>
+            </tr>
         </thead>
         <tbody>
             @foreach (var card in Model)
             {
                 <tr>
-                    <td>@card.Brand</td><td>@card.ExpirationMonth/@card.ExpirationYear</td><td>@card.Last4</td>
+                    <td>@card.Brand</td>
+                    <td>@card.ExpirationMonth/@card.ExpirationYear</td>
+                    <td>@card.Last4</td>
                 </tr>
             }
         </tbody>

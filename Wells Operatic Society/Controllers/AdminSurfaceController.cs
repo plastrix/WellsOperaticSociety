@@ -51,8 +51,9 @@ namespace WellsOperaticSociety.Web.Controllers
             var member = Members.GetById(id);
             if (member == null)
             {
-                //TODO: report error to user
-                //TODO: log error
+                TempData["ErrorMessage"] =
+                    "The member you are looking for could not be found. Please try again but if it persists please give your handy IT people a shout :)";
+                _log.Error($"A member with the id of {id} could not be found in the admin surface controller ManageMember function");
                 return null;
             }
 
@@ -79,6 +80,16 @@ namespace WellsOperaticSociety.Web.Controllers
                 IsSubscription = false
             };
 
+            try
+            {
+                model.IsSubscribedToMailingList = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.MailingList, model.Member.Email)).Result;
+                model.IsSubscribedToMemberList = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.Membership, model.Member.Email)).Result;
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error fetching mailchimp subscription information", ex);
+            }
+
             return PartialView("ManageMember",model);
 
         }
@@ -91,7 +102,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 //No user id was passed in
                 if (model.Member.Id == 0)
                 {
-                    //TODO:LogError
+                    _log.Error("Trying to update a member on the admin form but no userId was posted back");
                     ModelState.AddModelError("","We could not find a user with that id to update");
                     return CurrentUmbracoPage();
                 }
@@ -101,7 +112,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 //couldnt find member
                 if (member == null)
                 {
-                    //TODO:LogError
+                    _log.Error($"Trying to update a member on the admin form but the member with id {model.Member.Id} could not be found");
                     ModelState.AddModelError("", "We could not find a user with that id to update");
                     return CurrentUmbracoPage();
                 }
@@ -114,25 +125,56 @@ namespace WellsOperaticSociety.Web.Controllers
                         ModelState.AddModelError("Email","This email address already exists in the system and emails must be unique.");
                         return CurrentUmbracoPage();
                     }
-                    member.Username = model.Member.Email;
-                    member.Email = model.Member.Email;
                 }
+                
+                try
+                {
+                    DataManager dm = new DataManager();
+                    dm.AddOrUpdateMember(model.Member,true);
+                    //mailing list subscribe
+                    if (model.IsSubscribedToMailingList)
+                        Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.MailingList, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName));
+                    else
+                    {
+                        var mailingListMember = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.MailingList, model.Member.Email)).Result;
+                        if (mailingListMember)
+                        {
+                            Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.MailingList, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName, true));
+                        }
+                    }
 
-                member.Name = model.Member.Name;
-                member.SetValue("telephoneNumber",model.Member.TelephoneNumber);
-                member.SetValue("mobileNumber", model.Member.MobileNumber);
-                member.SetValue("dateOfBirth", model.Member.DateOfBirth);
-                member.SetValue("dateAppliedForMembership", model.Member.DateAppliedForMembership);
-                member.SetValue("dateApprovedForMembership", model.Member.DateApprovedForMembership);
-                member.SetValue("dateDeclinedForMembership", model.Member.DateDeclinedForMembership);
-                member.SetValue("dateLifeMembershipGranted", model.Member.DateLifeMembershipGranted);
-                member.SetValue("stripeUserId", model.Member.StripeUserId);
-                member.SetValue("vehicleRegistration1", model.Member.VehicleRegistration1);
-                member.SetValue("vehicleRegistration2", model.Member.VehicleRegistration2);
-                member.SetValue("deactivated", model.Member.Deactivated);
-                member.SetValue("contactEmail", model.Member.ContactEmail);
-                memberService.Save(member);
-                //TODO: Display success message
+                    //members mailing list subscribe
+                    if (model.IsSubscribedToMailingList)
+                        Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.Membership, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName));
+                    else
+                    {
+                        var memberListMember = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.Membership, model.Member.Email)).Result;
+                        if (memberListMember)
+                        {
+                            Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.Membership, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName, true));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("There was an error updating a profile with the exception as follows", ex);
+                    ModelState.AddModelError("", "There was an error updating this profile. Give us a shout if this keeps happening and we will find out whats going on");
+                    return CurrentUmbracoPage();
+                }
+                TempData["SuccessMessage"] =
+                    $"Hurray!! Everything worked and you have update the profile for {model.Member.FirstName} {model.Member.LastName}";
                 return RedirectToCurrentUmbracoPage("?id=" +model.Member.Id);
             }
             return CurrentUmbracoPage();
@@ -152,8 +194,8 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 var dm = new DataManager();
                 dm.AddOrUpdateMembership(membership);
-                //TODO: Add success page
-                RedirectToCurrentUmbracoPage();
+                TempData["SuccessMessage"] = "You have successfully added a membership record to this user";
+                return RedirectToCurrentUmbracoPage(Request.QueryString);
             }
             return CurrentUmbracoPage();
         }
@@ -257,7 +299,8 @@ namespace WellsOperaticSociety.Web.Controllers
         {
             var dm = new DataManager();
             dm.DeleteMemberRoleInFunction(memberRolesInShowId);
-            //TODO:Success message
+            TempData["SuccessMessage"] =
+                $"You have successfully managed to remove that role and person.... but I am too lazy to say who they were in the message. So just know I think you are doing a grand job!";
             return RedirectToCurrentUmbracoPage(Request.QueryString);
         }
 
@@ -299,7 +342,7 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 var dm = new DataManager();
                 dm.DeleteSeat(seatId);
-                //TODO:Success message
+                TempData["SuccessMessage"] = $"You have managed to remove that seat.... I hope you are having fun :)";
                 return RedirectToCurrentUmbracoPage();
             }
             return CurrentUmbracoPage();
@@ -313,7 +356,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 var dm = new DataManager();
                 seat.SeatNumber = seat.SeatNumber.ToUpper();
                 dm.AddSeat(seat);
-                //TODO:Success message
+                TempData["SuccessMessage"] = $"You have added seat {seat.SeatNumber}. Time to open the Champaign.";
                 return RedirectToCurrentUmbracoPage();
             }
             return CurrentUmbracoPage();
@@ -352,9 +395,12 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 var dm = new DataManager();
                 dm.AddOrUpdateLongServiceAward(longServiceAward);
+                TempData["SuccessMessage"] =
+                    $"You have awarded/hidden/revealed the {longServiceAward.Award} successfully. Jolly good show!";
+                return RedirectToCurrentUmbracoPage();
             }
-            //TODO: display any errors
-            return RedirectToCurrentUmbracoPage();
+            return CurrentUmbracoPage();
+
         }
 
         [HttpGet]

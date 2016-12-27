@@ -279,7 +279,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Convert.cs" />
-    <Compile Include="DataTransfer.cs" />
     <Compile Include="MailChimpListIds.cs" />
     <Compile Include="RazorHelpers.cs" />
     <Compile Include="SensativeInformation\Keys.cs" />

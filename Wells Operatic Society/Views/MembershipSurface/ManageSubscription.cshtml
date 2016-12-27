@@ -3,7 +3,10 @@
         var buttonText = Model.HasExistingSubscription ? "Change to this membership" : "Subscribe";
     }
 <div class="row">
-
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
     <div class="col-md-12" style="margin-bottom: 1.5em;">@Html.ValidationSummary(true)</div>
     <div class="col-md-4">
         <div class="card card-price">

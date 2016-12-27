@@ -156,7 +156,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 //No user id was passed in
                 if (model.Member.Id == 0)
                 {
-                    //TODO:LogError
+                    _log.Error("No user id we submitted to the SubmitManageProfileForm on the Membership surface controller");
                     ModelState.AddModelError("", "We could not find a user with that id to update");
                     return CurrentUmbracoPage();
                 }
@@ -335,7 +335,7 @@ namespace WellsOperaticSociety.Web.Controllers
             }
             return CurrentUmbracoPage();
         }
-
+        [HttpPost]
         public ActionResult SubmitSubscribeToStripeSubscriptionForm(StripeSubscriptionCheckout model)
         {
             var loggedOnMember = Members.GetCurrentMember();
@@ -363,7 +363,8 @@ namespace WellsOperaticSociety.Web.Controllers
                         StripeSubscriptionUpdateOptions so = new StripeSubscriptionUpdateOptions();
                         so.PlanId = model.PlanId;
                         subscriptionService.Update(stripeUserId, subscription.Id, so);
-                        //TODO:success message
+                        TempData["SuccessMessage"] =
+                            "Congratulations! You have subscribed successfully. No more worrying about subs :)";
                         return RedirectToCurrentUmbracoPage();
                     }
                     else
@@ -378,7 +379,8 @@ namespace WellsOperaticSociety.Web.Controllers
                 else
                 {
                     StripeSubscription stripeSubscription = subscriptionService.Create(stripeUserId, model.PlanId);
-                    //TODO:success message
+                    TempData["SuccessMessage"] =
+                            "Congratulations! You have subscribed successfully. No more worrying about subs :)";
                     return RedirectToCurrentUmbracoPage();
                 }
             }
@@ -425,7 +427,6 @@ namespace WellsOperaticSociety.Web.Controllers
             else
             {
                 _log.Error($"The retrieved user had a null or empty stripe user id. The username is {member.Name}");
-                //TODO:Email admins
             }
             ModelState.AddModelError("",
                         "There was an error cancelling your subscription. Please try again. If the issue persists please contact us");
@@ -472,7 +473,7 @@ namespace WellsOperaticSociety.Web.Controllers
 
                 var custService = new StripeCustomerService(SensativeInformation.StripeKeys.SecretKey);
                 custService.Update(member.StripeUserId, custOptions);
-                //TODO: success message
+                TempData["SuccessMessage"] = "Congrats you have successfully updated your card details!";
                 return RedirectToCurrentUmbracoPage();
             }
             catch (StripeException e)

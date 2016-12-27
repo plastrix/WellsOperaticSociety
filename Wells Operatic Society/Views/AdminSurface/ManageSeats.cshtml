@@ -1,5 +1,8 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageSeatsViewModel>
-
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
 <h2 class="section-title">Manage Seat Information</h2>
 @if (Model.Seats.Any())
 {
