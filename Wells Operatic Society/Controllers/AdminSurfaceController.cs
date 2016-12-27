@@ -13,11 +13,13 @@ using Stripe;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
 using WellsOperaticSociety.EmailService;
+using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Models.AdminModels;
 using WellsOperaticSociety.Models.EmailModels;
 using WellsOperaticSociety.Models.Enums;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Models.ReportModels;
+using WellsOperaticSociety.Web.Helper;
 using WellsOperaticSociety.Web.Models;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 
@@ -26,6 +28,11 @@ namespace WellsOperaticSociety.Web.Controllers
     public class AdminSurfaceController : SurfaceController
     {
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public AdminSurfaceController()
+        {
+            this.ActionInvoker = new RenderActionInvokerAsync();
+        }
 
         public ActionResult ManageMembers(int? pageSize, int? row)
         {
@@ -139,12 +146,12 @@ namespace WellsOperaticSociety.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddMembership(Membership membership)
+        public ActionResult AddMembership(Membership membership)
         {
             if (ModelState.IsValid)
             {
                 var dm = new DataManager();
-                await dm.AddOrUpdateMembership(membership);
+                dm.AddOrUpdateMembership(membership);
                 //TODO: Add success page
                 RedirectToCurrentUmbracoPage();
             }
@@ -152,7 +159,7 @@ namespace WellsOperaticSociety.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteMembership()
+        public ActionResult DeleteMembership()
         {
             int membershipId;
             
@@ -163,7 +170,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 return RedirectToCurrentUmbracoPage(Request.QueryString);
             }
             var dm = new DataManager();
-            await dm.DeleteMembership(membershipId);
+            dm.DeleteMembership(membershipId);
             TempData["SuccessMessage"] =
                     $"You have successfully deleted the membership with id {membershipId} and removed them from the mailchimp Members list if they are not an active member any more";
             return RedirectToCurrentUmbracoPage(Request.QueryString);
@@ -367,104 +374,123 @@ namespace WellsOperaticSociety.Web.Controllers
             return File(stream, "application/pdf");
         }
 
+        public ActionResult ManageVouchers(int id)
+        {
+            ShowVouchersViewModel model;
+
+            if (id != 0)
+            {
+                var dm = new DataManager();
+                model = new ShowVouchersViewModel
+                {
+                    FunctionId = id,
+                    MemberVoucherList = dm.GetVouchersForShow(id, VoucherMember.Member),
+                    PatronVoucherList = dm.GetVouchersForShow(id, VoucherMember.Patron),
+                    ShowMemberVoucherList = dm.GetVouchersForShow(id, VoucherMember.ShowMember),
+                    BoxOfficeOpenDate = DateTime.Now
+                };
+                model.MembersCount = model.MemberVoucherList.Count();
+                model.PatronsCount = model.PatronVoucherList.Count();
+                model.ShowMembersCount = model.ShowMemberVoucherList.Count();
+            }
+            else
+            {
+                model = new ShowVouchersViewModel();
+            }
+
+            return PartialView("ManageVouchers", model);
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult SendVoucher(Voucher voucher,ste)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ShowVouchers.cshtml", ControllerContext,
+        //            ViewData, TempData);
+        //        EmailService.EmailHelpers emailsService = new EmailHelpers();
+        //        emailsService.SendEmail(mem.ShowMemberVoucherList[i].Member.GetContactEmail,
+        //            $"Pre booking for {mem.ShowMemberVoucherList[i].Function.DisplayName}", html);
+        //    }
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SendVouchers(int functionId, string showMemberVouchers, string membersVouchers, string patronsVouchers, string voucherActiveFrom,string showBoxOfficeUrl)
+        public ActionResult SendVouchers(ShowVouchersModel model)
         {
-            var dm = new DataManager();
-            var mem = dm.GetMemberShowVouchers(functionId);
-
-            if (showMemberVouchers.IsNotNullOrEmpty())
+            if (ModelState.IsValid)
             {
-                var vouchers = showMemberVouchers.Split(',').ToList();
-                if (vouchers.Count < mem.ShowMemberVoucherList.Count)
-                    ModelState.AddModelError("",
-                        $"You need at least {mem.ShowMemberVoucherList.Count} vouchers for the show member vouchers and you only suplied {vouchers.Count}");
-                else
+                var dm = new DataManager();
+
+                if (model.ShowMemberVouchers.IsNotNullOrEmpty())
                 {
-                    for(var i=0;i<mem.ShowMemberVoucherList.Count;i++)
+                    var showMemberVouchers = dm.GetVouchersForShow(model.FunctionId, VoucherMember.ShowMember);
+                    var vouchers = model.ShowMemberVouchers.Split(',').ToList();
+                    if (vouchers.Count < showMemberVouchers.Count)
+                        ModelState.AddModelError("ShowMemberVouchers",
+                            $"You need at least {showMemberVouchers.Count} vouchers for the show member vouchers and you only suplied {vouchers.Count}");
+                    else
                     {
-                        //save
-                        dm.AddOrUpdateShowVoucher(vouchers[i], mem.ShowMemberVoucherList[i].MemberId,functionId);
-                        //Email vouchers
-                        ShowVoucher model = new ShowVoucher();
-                        model.Member = mem.ShowMemberVoucherList[i].Member;
-                        model.Function = mem.ShowMemberVoucherList[i].Function;
-                        model.DateActive = voucherActiveFrom;
-                        model.Key = vouchers[i];
-                        model.Link = showBoxOfficeUrl + "?v=" + vouchers[i];
-                        model.BaseUri = UrlHelpers.GetBaseUrl();
-                        ViewData.Model = model;
-                        //send email
-                        var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ShowVouchers.cshtml", ControllerContext,
-                            ViewData, TempData);
-                        EmailService.EmailHelpers emailsService = new EmailHelpers();
-                        emailsService.SendEmail(mem.ShowMemberVoucherList[i].Member.GetContactEmail,
-                            $"Pre booking for {mem.ShowMemberVoucherList[i].Function.Name}", html);
+                        for (var i = 0; i < showMemberVouchers.Count; i++)
+                        {
+                            showMemberVouchers[i].Key = vouchers[i];
+                            //save
+                            dm.AddOrUpdateShowVoucher(vouchers[i], showMemberVouchers[i].MemberId, model.FunctionId);
+                            //Email vouchers
+                            dm.SendVoucherEmail(showMemberVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"), model.BookingUrl,
+                                ControllerContext, ViewData, TempData);
+                        }
                     }
                 }
-            }
 
-            if (membersVouchers.IsNotNullOrEmpty())
-            {
-                var vouchers = membersVouchers.Split(',').ToList();
-                if (vouchers.Count < mem.MemberVoucherList.Count)
-                    ModelState.AddModelError("",
-                        $"You need at least {mem.MemberVoucherList.Count} vouchers for the show member vouchers and you only suplied {vouchers.Count}");
-                else
+                if (model.PatronVouchers.IsNotNullOrEmpty())
                 {
-                    for (var i = 0; i < mem.MemberVoucherList.Count; i++)
+                    var patronVouchers = dm.GetVouchersForShow(model.FunctionId, VoucherMember.Patron);
+                    var vouchers = model.PatronVouchers.Split(',').ToList();
+                    if (vouchers.Count < patronVouchers.Count)
+                        ModelState.AddModelError("PatronVouchers",
+                            $"You need at least {patronVouchers.Count} vouchers for the show member vouchers and you only suplied {vouchers.Count}");
+                    else
                     {
-                        //save
-                        dm.AddOrUpdateShowVoucher(vouchers[i], mem.MemberVoucherList[i].MemberId, functionId);
-                        //send email
-                        ShowVoucher model = new ShowVoucher();
-                        model.Member = mem.MemberVoucherList[i].Member;
-                        model.Function = mem.MemberVoucherList[i].Function;
-                        model.DateActive = voucherActiveFrom;
-                        model.Key = vouchers[i];
-                        model.Link = showBoxOfficeUrl + "?v=" + vouchers[i];
-                        model.BaseUri = UrlHelpers.GetBaseUrl();
-                        ViewData.Model = model;
-                        //send email
-                        var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ShowVouchers", ControllerContext,
-                            ViewData, TempData);
-                        EmailService.EmailHelpers emailsService = new EmailHelpers();
-                        emailsService.SendEmail(mem.MemberVoucherList[i].Member.GetContactEmail,
-                            $"Pre booking for {mem.MemberVoucherList[i].Function.Name}", html);
+                        for (var i = 0; i < patronVouchers.Count; i++)
+                        {
+                            patronVouchers[i].Key = vouchers[i];
+                            //save
+                            dm.AddOrUpdateShowVoucher(vouchers[i], patronVouchers[i].MemberId, model.FunctionId);
+                            //Email vouchers
+                            dm.SendVoucherEmail(patronVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"), model.BookingUrl,
+                                ControllerContext, ViewData, TempData);
+                        }
                     }
                 }
-            }
 
-            if (patronsVouchers.IsNotNullOrEmpty())
-            {
-                var vouchers = patronsVouchers.Split(',').ToList();
-                if (vouchers.Count < mem.PatronVoucherList.Count)
-                    ModelState.AddModelError("",
-                        $"You need at least {mem.PatronVoucherList.Count} vouchers for the show member vouchers and you only suplied {vouchers.Count}");
-                else
+                if (model.MemberVouchers.IsNotNullOrEmpty())
                 {
-                    for (var i = 0; i < mem.PatronVoucherList.Count; i++)
+                    var memberVouchers = dm.GetVouchersForShow(model.FunctionId, VoucherMember.Member);
+                    var vouchers = model.MemberVouchers.Split(',').ToList();
+                    if (vouchers.Count < memberVouchers.Count)
+                        ModelState.AddModelError("MemberVouchers",
+                            $"You need at least {memberVouchers.Count} vouchers for the show member vouchers and you only suplied {vouchers.Count}");
+                    else
                     {
-                        //save
-                        dm.AddOrUpdateShowVoucher(vouchers[i], mem.PatronVoucherList[i].MemberId, functionId);
-                        //send email
-                        ShowVoucher model = new ShowVoucher();
-                        model.Member = mem.PatronVoucherList[i].Member;
-                        model.Function = mem.PatronVoucherList[i].Function;
-                        model.DateActive = voucherActiveFrom;
-                        model.Key = vouchers[i];
-                        model.Link = showBoxOfficeUrl + "?v=" + vouchers[i];
-                        model.BaseUri = UrlHelpers.GetBaseUrl();
-                        ViewData.Model = model;
-                        //send email
-                        var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ShowVouchers", ControllerContext,
-                            ViewData, TempData);
-                        EmailService.EmailHelpers emailsService = new EmailHelpers();
-                        emailsService.SendEmail(mem.PatronVoucherList[i].Member.GetContactEmail,
-                            $"Pre booking for {mem.PatronVoucherList[i].Function.Name}", html);
+                        for (var i = 0; i < memberVouchers.Count; i++)
+                        {
+                            memberVouchers[i].Key = vouchers[i];
+                            //save
+                            dm.AddOrUpdateShowVoucher(vouchers[i], memberVouchers[i].MemberId, model.FunctionId);
+                            //Email vouchers
+                            dm.SendVoucherEmail(memberVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"), model.BookingUrl,
+                                ControllerContext, ViewData, TempData);
+                        }
                     }
                 }
+
+                if (ModelState.IsValid)
+                {
+                    TempData["Success"] = "The vouchers are winging their way to our extremely lovely membership. Well done!";
+                }
+                return RedirectToCurrentUmbracoPage($"id={model.FunctionId}");
             }
             return CurrentUmbracoPage();
         }

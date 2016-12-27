@@ -69,9 +69,9 @@ WriteLiteral("\r\n    <p>\r\n        Your subscription for ");
             
             #line default
             #line hidden
-WriteLiteral(" was recently cancelled.,\r\n    </p>\r\n    <p>\r\n        If this was a mistake, or y" +
-"ou just need to update your card info please login or get in contact with us.\r\n " +
-"   </p>\r\n    <p>\r\n        Wells Operatic Society\r\n    </p>\r\n");
+WriteLiteral(" was recently cancelled.\r\n    </p>\r\n    <p>\r\n        If this was a mistake, or yo" +
+"u just need to update your card info please login or get in contact with us.\r\n  " +
+"  </p>\r\n    <p>\r\n        Wells Operatic Society\r\n    </p>\r\n");
 
 WriteLiteral("    ");
 

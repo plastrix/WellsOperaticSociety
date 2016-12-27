@@ -10,5 +10,8 @@ namespace WellsOperaticSociety.Models.EmailModels
     {
         public DateTime DateDue { get; set; }
         public string MembershipType { get; set; }
+        public bool IsSubscription { get; set; }
+        public string Price { get; set; }
+        public string Name { get; set; }
     }
 }

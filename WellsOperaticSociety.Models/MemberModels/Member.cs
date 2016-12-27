@@ -13,8 +13,14 @@ namespace WellsOperaticSociety.Models.MemberModels
 {
     public class Member
     {
-        [Required(ErrorMessage = "Please enter a name")]
+        
         public string Name { get; set; }
+        [Required(ErrorMessage = "Please enter your first name")]
+        [DisplayName("First name")]
+        public string FirstName { get; set; }
+        [DisplayName("Last name")]
+        [Required(ErrorMessage = "Please enter your last name")]
+        public string LastName { get; set; }
         public int Id { get; set; }
         [DisplayName("Telephone number")]
         public string TelephoneNumber { get; set; }

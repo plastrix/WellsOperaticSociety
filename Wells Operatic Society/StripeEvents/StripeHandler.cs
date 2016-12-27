@@ -25,7 +25,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
             get { return true; }
         }
 
-        public async void ProcessRequest(HttpContext context)
+        public void ProcessRequest(HttpContext context)
         {
             var json = new StreamReader(context.Request.InputStream).ReadToEnd();
             var html = string.Empty;
@@ -94,7 +94,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     _log.Info("Stripe Event: CustomerSubscriptionDeleted");
                     //Email notification of cancelation
                     stripeSubscription = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString());
-                    await CancelMembership(stripeSubscription);
+                    CancelMembership(stripeSubscription);
                     if (stripeSubscription.CustomerId.IsNullOrEmpty())
                     {
                         return;
@@ -107,7 +107,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     subCanceledModel.BaseUri = UrlHelpers.GetBaseUrl();
                     subCanceledModel.PlanName = stripeSubscription.StripePlan.Name;
                     viewData.Model = subCanceledModel;
-                    html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCreated.cshtml", controllerContext, viewData, tempData);
+                    html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCanceled.cshtml", controllerContext, viewData, tempData);
 
                     //Generate email
                     emailService.SendEmail(customer.Email, "Your subscription has been cancelled", html);
@@ -120,7 +120,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     //canacel if cancel at end of period set
                     if (stripeSubscription.CancelAtPeriodEnd)
                     {
-                        await CancelMembership(stripeSubscription);
+                        CancelMembership(stripeSubscription);
                         if (stripeSubscription.CustomerId.IsNullOrEmpty())
                         {
                             return;
@@ -133,7 +133,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                         sCanModel.BaseUri = UrlHelpers.GetBaseUrl();
                         sCanModel.PlanName = stripeSubscription.StripePlan.Name;
                         viewData.Model = sCanModel;
-                        html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCreated.cshtml", controllerContext, viewData, tempData);
+                        html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCanceled.cshtml", controllerContext, viewData, tempData);
 
                         //Generate email
                         emailService.SendEmail(customer.Email, "Your subscription has been cancelled", html);
@@ -142,7 +142,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     {
                         
                         //update subscription
-                        await AddOrUpdateMembership(stripeSubscription);
+                        AddOrUpdateMembership(stripeSubscription);
 
                         //TODO:Email notification of subscription change
                     }
@@ -208,7 +208,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     //Generate email
                     emailService.SendEmail(customer.Email, "Payment to Wells Operatic Society", html);
                     stripeSubscription = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey).Get(invoice.CustomerId, invoice.SubscriptionId);
-                    await AddOrUpdateMembership(stripeSubscription);
+                    AddOrUpdateMembership(stripeSubscription);
 
                     break;
                 case Stripe.StripeEvents.InvoiceUpdated: _log.Info("Stripe Event: InvoiceUpdated"); break;
@@ -227,7 +227,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
             }
         }
 
-        private async Task CancelMembership(StripeSubscription subscription)
+        private void CancelMembership(StripeSubscription subscription)
         {
             if (subscription == null)
             {
@@ -244,7 +244,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                 return;
             }
             membership.CancelAtEnd = true;
-            await dataManager.AddOrUpdateMembership(membership);
+            dataManager.AddOrUpdateMembership(membership);
         }
 
         private StripeCustomer GetCustomer(string stripeUserId)
@@ -261,7 +261,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
             }
         }
 
-        private async Task AddOrUpdateMembership(StripeSubscription subscription)
+        private void AddOrUpdateMembership(StripeSubscription subscription)
         {
             if (subscription == null)
             {
@@ -301,7 +301,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
             if (membership != null)
             {
                 membership.MembershipType = (MembershipType)membershipType;
-                await dataManager.AddOrUpdateMembership(membership);
+                dataManager.AddOrUpdateMembership(membership);
             }
             else
             {
@@ -314,7 +314,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     Member = member.Id,
                     StripeSubscriptionId = subscription.Id
                 };
-                await dataManager.AddOrUpdateMembership(m);
+                dataManager.AddOrUpdateMembership(m);
             }
         }
     }

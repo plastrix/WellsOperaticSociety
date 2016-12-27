@@ -1,0 +1,114 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ShowVouchersViewModel>
+@if (Model.FunctionId == 0)
+{
+    <div class="alert alert-danger">You have not selected a show to manage the vouchers for plase go back to the manage functions page and try again.</div>
+}
+else
+{
+    if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    using (Html.BeginUmbracoForm("SendVouchers", "AdminSurface"))
+    {
+        @Html.ValidationSummary()
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m=>m.FunctionId)
+        <div class="form-group">
+            <label>Show Member Vouchers</label>
+            @Html.TextAreaFor(m=>m.ShowMemberVouchers, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ShowMemberVouchers)
+        </div>
+        <div class="form-group">
+            <label>Member Vouchers</label>
+            @Html.TextAreaFor(m => m.MemberVouchers, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MemberVouchers)
+        </div>
+        <div class="form-group">
+            <label>Patron Vouchers</label>
+            @Html.TextAreaFor(m=>m.PatronVouchers, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PatronVouchers)
+        </div>
+        <div class="form-group">
+            <label>Date box office is available from</label>
+            @Html.TextBoxFor(m => m.BoxOfficeOpenDate, "{0:d}", new { @class = "form-control datePicker", type = "dateandtime" })
+            @Html.ValidationMessageFor(m => m.BoxOfficeOpenDate)
+        </div>
+        <div class="form-group">
+            <label>The box office link for the show dates eg https://thelittleboxoffice.com/wellslittletheatre/book/event/53336</label>
+            @Html.TextBoxFor(m => m.BookingUrl, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.BookingUrl)
+        </div>
+        <button class="btn btn-info btn-fill" type="submit">Send</button>
+            }
+
+    <h2>Show members</h2>
+    @(Model.ShowMembersCount)
+    if (Model.ShowMemberVoucherList != null && Model.ShowMemberVoucherList.Any())
+    {
+        <table class="table">
+            @foreach (var m in Model.ShowMemberVoucherList)
+            {
+                <tr>
+                    <td>@m.Member.Name</td>
+                    <td>@m.Member.GetContactEmail</td>
+                    <td>@m.Key</td>
+                    @*<td><button class="btn btn-info">Edit Voucher</button></td>*@
+                </tr>
+
+            }
+        </table>
+    }
+    <h2>Members</h2>
+    @(Model.MembersCount)
+    if (Model.MemberVoucherList != null && Model.MemberVoucherList.Any())
+    {
+        <table class="table">
+            @foreach (var m in Model.MemberVoucherList)
+            {
+                <tr>
+                    <td>@m.Member.Name</td>
+                    <td>@m.Member.GetContactEmail</td>
+                    <td>@m.Key</td>
+                    @*<td><button class="btn btn-info">Edit Voucher</button></td>*@
+                </tr>
+
+            }
+        </table>
+    }
+    <h2>Patrons</h2>
+    @(Model.PatronsCount)
+    if (Model.PatronVoucherList != null && Model.PatronVoucherList.Any())
+    {
+        <table class="table">
+            @foreach (var m in Model.PatronVoucherList)
+            {
+                <tr>
+                    <td>@m.Member.Name</td>
+                    <td>@m.Member.GetContactEmail</td>
+                    <td>@m.Key</td>
+                    @*<td><button class="btn btn-info">Edit Voucher</button></td>*@
+                </tr>
+
+            }
+        </table>
+    }
+}
+<script>
+    $(".datePicker").datepicker({ dateFormat: "dd/mm/yy" });
+    $.validator.addMethod('date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                }
+
+                var ok = true;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                }
+                catch (err) {
+                    ok = false;
+                }
+                return ok;
+            });
+</script>

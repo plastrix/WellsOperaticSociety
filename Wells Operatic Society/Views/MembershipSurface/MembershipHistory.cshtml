@@ -9,17 +9,16 @@
     }
     <table class="table table-hover">
         <thead>
-            <tr><th>Membership Id</th><th>Start</th><th>End</th><th>Membership Type</th><th>Subscription</th><th></th></tr>
+            <tr><th>Start</th><th>End</th><th>Membership Type</th><th></th></tr>
         </thead>
         <tbody>
             @foreach (var membership in Model)
                 {
                 <tr>
-                    <td>@membership.MembershipId</td>
                     <td>@membership.StartDate.ToShortDateString()</td>
                     <td>@membership.EndDate.ToShortDateString()</td>
                     <td>@membership.MembershipTypeName</td>
-                    <td>@membership.IsSubscription</td>
+                    @*<td>@membership.IsSubscription</td>*@
                     <td>
                         @if (membership.IsSubscription && membership.StripeSubscriptionId != null && membership.CancelAtEnd == false)
                     {

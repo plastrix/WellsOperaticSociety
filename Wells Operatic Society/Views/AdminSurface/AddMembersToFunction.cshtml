@@ -1,7 +1,7 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.AddMembersToFunctionViewModel>
 @if (Model.Function != null)
 {
-    <h2>@Model.Function.Name</h2>
+    <h2>@Model.Function.DisplayName</h2>
     <p class="alert alert-info">Just start typing and it will auto complete for you. But if nothing appears everything is ok it will still work.</p>
         @Html.Partial("AddMemberToFunctionForm", Model.NewMemberRolesInShow)
     if (Model.MostUsedGroups.Count > 0)

@@ -209,11 +209,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EmailStyling.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Emails\MembershipRenewalCommingUp.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MembershipRenewalCommingUp.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Emails\Payment.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -339,10 +334,6 @@
     <Content Include="Views\Emails\ContactUsEmail.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ContactUsEmail.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\Emails\MembershipRenewalCommingUp.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>MembershipRenewalCommingUp.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\Emails\ShowVouchers.cshtml">
       <Generator>RazorGenerator</Generator>

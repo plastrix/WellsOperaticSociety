@@ -7,15 +7,14 @@ using WellsOperaticSociety.Models.MemberModels;
 
 namespace WellsOperaticSociety.Web.Models
 {
-    public class ShowVouchersViewModel
+    public class ShowVouchersViewModel: ShowVouchersModel
     {
         public int ShowMembersCount { get; set; }
         public int MembersCount { get; set; }
         public int PatronsCount { get; set; }
-        public ShowVouchersModel ShowVouchers { get; set; }
-        public string ShowMemberVouchers { get; set; }
-        public string MemberVouchers { get; set; }
-        public string PatronVouchers { get; set; }
+        public List<Voucher> ShowMemberVoucherList { get; set; }
+        public List<Voucher> MemberVoucherList { get; set; }
+        public List<Voucher> PatronVoucherList { get; set; }
 
     }
 }

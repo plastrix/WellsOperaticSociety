@@ -41,6 +41,10 @@
 
     <!--  jQuery and Bootstrap core files    -->
     @Scripts.Render("~/jqueryAndBootstrapScripts")
+    <!--  Plugins -->
+    @Scripts.Render("~/Plugins")
+    <!--  Get Shit Done Kit PRO Core javascript 	 -->
+    @Scripts.Render("~/gsdCore")
     @RenderSection("scriptsHead", false)
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
@@ -78,10 +82,7 @@
 
         @Html.Partial("Footer")
     </div>
-    <!--  Plugins -->
-    @Scripts.Render("~/Plugins")
-    <!--  Get Shit Done Kit PRO Core javascript 	 -->
-    @Scripts.Render("~/gsdCore")
+
 
     <script type="text/javascript">
         var big_image;
