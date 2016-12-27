@@ -27,7 +27,8 @@ namespace WellsOperaticSociety.Web
             });
             app.UseHangfireServer();
 
-            RecurringJob.AddOrUpdate(() => WellsOperaticSociety.Web.ScheduledTasks.HangfireScheduledTasks.MembershipRenewalReminders(), Cron.Daily());
+            //TODO: Enable after 1st Jan
+            //RecurringJob.AddOrUpdate(() => WellsOperaticSociety.Web.ScheduledTasks.HangfireScheduledTasks.MembershipRenewalReminders(), Cron.Daily());
         }
     }
 }
