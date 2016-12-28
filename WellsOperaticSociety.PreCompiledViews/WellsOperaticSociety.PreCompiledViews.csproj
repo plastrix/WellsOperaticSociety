@@ -339,6 +339,7 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ShowVouchers.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Emails\SubscriptionUpdated.cshtml" />
     <None Include="Views\Reports\VehicleRegistrationReport.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>VehicleRegistrationReport.generated.cs</LastGenOutput>

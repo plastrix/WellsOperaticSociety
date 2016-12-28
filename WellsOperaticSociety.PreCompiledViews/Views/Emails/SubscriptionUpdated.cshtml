@@ -1,0 +1,21 @@
+﻿
+@model WellsOperaticSociety.Models.EmailModels.SubscriptionCanceled
+
+<html>
+<head>
+    @Html.Partial("~/Views/Emails/EmailStyling.cshtml")
+</head>
+<body>
+    @Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary { { "baseUri", Model.BaseUri } })
+    <p>
+        Your subscription for @Model.PlanName was recently updated.
+    </p>
+    <p>
+        If this was a mistake or was not carried out by you please contact us.
+    </p>
+    <p>
+        Wells Operatic Society
+    </p>
+    @Html.Partial("~/Views/Emails/EmailFooter.cshtml")
+</body>
+</html>

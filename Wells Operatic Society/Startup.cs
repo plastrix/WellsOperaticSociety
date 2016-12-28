@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.UI;
-using Hangfire;
+﻿using Hangfire;
 using Hangfire.Dashboard;
 using Microsoft.Owin;
 using Owin;
@@ -27,8 +21,7 @@ namespace WellsOperaticSociety.Web
             });
             app.UseHangfireServer();
 
-            //TODO: Enable after 1st Jan
-            //RecurringJob.AddOrUpdate(() => WellsOperaticSociety.Web.ScheduledTasks.HangfireScheduledTasks.MembershipRenewalReminders(), Cron.Daily());
+            RecurringJob.AddOrUpdate(() => ScheduledTasks.HangfireScheduledTasks.MembershipRenewalReminders(), Cron.Daily());
         }
     }
 }

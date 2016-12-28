@@ -283,7 +283,6 @@ namespace WellsOperaticSociety.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddMemberToFunction(MemberRolesInShow model)
         {
-            //TODO:Validation is not working
             if (ModelState.IsValid)
             {
                 var dm = new DataManager();
