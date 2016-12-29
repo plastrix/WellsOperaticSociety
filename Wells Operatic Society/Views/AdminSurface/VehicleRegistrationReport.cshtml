@@ -1,0 +1,105 @@
+﻿@using System.Web.Optimization
+@using WellsOperaticSociety.Models.ReportModels
+@inherits UmbracoViewPage<VehicleRgeistrationViewModel>
+@{
+    //TODO: ADD in page header for styling
+    
+    var breakPoint = 40;
+    if (Model.RegistrationList != null && Model.RegistrationList.Any())
+    {
+        var chunkCount = Model.RegistrationList.Count() / breakPoint;
+
+        if (Model.RegistrationList.Count % breakPoint > 0)
+        {
+            chunkCount++;
+        }
+
+        for (var i = 0; i < chunkCount; i++)
+        {
+            _subList.Add(Model.RegistrationList.Skip(i * breakPoint).Take(breakPoint).ToList());
+        }
+    }
+}
+@functions {
+    readonly List<List<VehicleRegistrationModel>> _subList = new List<List<VehicleRegistrationModel>>();
+    private string GetColumnWidth()
+    {
+        if (_subList != null)
+        {
+            if (_subList.Count >= 3)
+                return "col-sm-4";
+            if (_subList.Count == 2)
+                return "col-sm-6";
+        }
+        return "col-sm-12";
+    }
+}
+
+<html>
+<head>
+    @Styles.Render("~/cssFiles")
+
+    <!--     Fonts and icons     -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Grand+Hotel|Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href="~/Content/pe-icon-7-stroke.css" rel="stylesheet" />
+    <style type="text/css">
+        .title {
+            text-align: center;
+        }
+
+            .title p {
+                font-size: 0.8rem;
+                color: #a9a9a9;
+            }
+            td{font-size:14px; padding:5px !important;}
+    </style>
+    <!--  jQuery and Bootstrap core files    -->
+    @Scripts.Render("~/jqueryAndBootstrapScripts")
+
+
+</head>
+<body>
+    <div style="width: 100%; text-align: right;">
+        <img src="/Images/Logo-Black-250x42.png" />
+    </div>
+
+    <div class="title">
+        <h2>Vehicle Registrations</h2>
+        <p>As of @DateTime.Now.ToString("D")</p>
+    </div>
+    @if (_subList.Any())
+    {
+
+        foreach (var list in _subList)
+        {
+            <div class="@GetColumnWidth()">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Registration</th>
+                        <th>Owner</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var record in list)
+                    {
+                        <tr>
+                            <td>@record.Registration</td>
+                            <td>@record.Member.Name</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">No eligible vehicles have been registered yet</div>
+    }
+<script type="text/javascript">
+    window.print();
+</script>
+</body>
+</html>

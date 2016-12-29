@@ -3457,6 +3457,8 @@
     <Content Include="Views\MacroPartials\PictureCard.cshtml" />
     <Content Include="Views\MacroPartials\AdminManageShowVouchers.cshtml" />
     <Content Include="Views\AdminSurface\ManageVouchers.cshtml" />
+    <Content Include="Views\AdminSurface\VehicleRegistrationReport.cshtml" />
+    <Content Include="Views\AdminSurface\LongServiceReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3518,10 +3520,6 @@
     <ProjectReference Include="..\WellsOperaticSociety.Models\WellsOperaticSociety.Models.csproj">
       <Project>{08f29a53-bbc5-4cf2-8708-e889aa63e5bf}</Project>
       <Name>WellsOperaticSociety.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WellsOperaticSociety.PDFService\WellsOperaticSociety.PDFService.csproj">
-      <Project>{e60adb92-0864-453a-bfcc-a94351640d3a}</Project>
-      <Name>WellsOperaticSociety.PDFService</Name>
     </ProjectReference>
     <ProjectReference Include="..\WellsOperaticSociety.PreCompiledViews\WellsOperaticSociety.PreCompiledViews.csproj">
       <Project>{82c523b6-c3fb-4c9b-b05b-f3435591e47c}</Project>

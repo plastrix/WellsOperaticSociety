@@ -1,10 +1,22 @@
-﻿<div class="row">
-    <div class="col-sm-6">
-        <div>Gets a printable list of member registration numbers.</div>
-        <a href="@Url.Action("VehicleRegistrationReport", "AdminSurface")" class="btn btn-info btn-fill"><i class="fa fa-car"></i> Download Vehicle Registration List</a>
+﻿<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Vehicle registration list</h3>
+        </div>
+        <div class="panel-body">
+            <p>Print a list of active member registration numbers. That are pulled from the member record.</p>
+            <a href="@Url.Action("VehicleRegistrationReport", "AdminSurface")" class="btn btn-info btn-fill"><i class="fa fa-car"></i> Print</a>
+        </div>
     </div>
-    <div class="col-sm-6">
-        <div>Gets a printable list of all of the upcoming and overdue long service awards.</div>
-        <a href="@Url.Action("LongServiceReport", "AdminSurface")" class="btn btn-info btn-fill"><i class="pe-7s-medal"></i> Download long service awards</a>
+</div>
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Long service awards</h3>
+        </div>
+        <div class="panel-body">
+            <p>Print a list of all of the upcoming and overdue long service awards. These can be managed in the admin -> manage long service award section</p>
+            <a href="@Url.Action("LongServiceReport", "AdminSurface")" class="btn btn-info btn-fill"><i class="pe-7s-medal"></i> Print</a>
+        </div>
     </div>
 </div>

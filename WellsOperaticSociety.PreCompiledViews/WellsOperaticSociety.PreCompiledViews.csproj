@@ -249,11 +249,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReportHeader.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Reports\VehicleRegistrationReport.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>VehicleRegistrationReport.cshtml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -340,10 +335,6 @@
       <LastGenOutput>ShowVouchers.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\Emails\SubscriptionUpdated.cshtml" />
-    <None Include="Views\Reports\VehicleRegistrationReport.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>VehicleRegistrationReport.generated.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WellsOperaticSociety.Models\WellsOperaticSociety.Models.csproj">

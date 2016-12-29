@@ -16,7 +16,7 @@
     @Html.HiddenFor(m => m.Member.Id)
     <div class="form-group">
         @Html.LabelFor(m => m.Member.FirstName)
-        @Html.TextBoxFor(m => m.Member.FirstName, new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.FirstName) })
+        @Html.TextBoxFor(m => m.Member.FirstName, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.FirstName) })
         @Html.ValidationMessageFor(m => m.Member.FirstName)
     </div>
     <div class="form-group">
@@ -66,20 +66,13 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.VehicleRegistration2)
-        @Html.TextBoxFor(m => m.Member.VehicleRegistration2, new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.VehicleRegistration2)})
+        @Html.TextBoxFor(m => m.Member.VehicleRegistration2, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.VehicleRegistration2) })
         @Html.ValidationMessageFor(m => m.Member.VehicleRegistration2)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.ContactEmail)
         @Html.TextBoxFor(m => m.Member.ContactEmail, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.ContactEmail) })
         @Html.ValidationMessageFor(m => m.Member.ContactEmail)
-    </div>
-    <div class="form-group">
-        <label>
-            Deactivate the user
-            @Html.CheckBoxFor(m => m.Member.Deactivated, new { @class = "form-control" })
-        </label>
-        @Html.ValidationMessageFor(m => m.Member.Deactivated)
     </div>
     <div class="row">
         <div class="col-xs-4">Member of the general mailing list?</div>
@@ -99,11 +92,21 @@
             @Html.CheckBoxFor(m => m.IsSubscribedToMemberList)
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-sm-10">
-            <button type="submit" class="btn btn-default">Update Information</button>
-        </div>
+    <div class="row">
+
+            <div class="col-xs-4" style="color:#FF3B30">
+                <b>Deactivate the user?</b>
+            </div>
+            <div class="switch"
+                 data-on-label="<i class='fa fa-check'></i>"
+                 data-off-label="<i class='fa fa-times'></i>">
+                @Html.CheckBoxFor(m => m.Member.Deactivated, new { @class = "ct-red" })
+            </div>
+            @Html.ValidationMessageFor(m => m.Member.Deactivated)
     </div>
+        <div class="form-group">
+                <button type="submit" class="btn btn-default">Update Information</button>
+        </div>
 }
 
 <h2 class="section-title">Add new membership</h2>
@@ -115,51 +118,53 @@
 <h2 class="section-title">Manage Membership</h2>
 @if (Model.Memberships != null && Model.Memberships.Any())
 {
-    <table class="table table-hover">
-        <thead>
-            <tr><th>Membership Id</th><th>Start</th><th>End</th><th>Membership Type</th><th>Subscription</th><th></th></tr>
-        </thead>
-        <tbody>
-            @foreach (var membership in Model.Memberships)
-            {
-                <tr>
-                    <td>@membership.MembershipId</td>
-                    <td>@membership.StartDate.ToShortDateString()</td>
-                    <td>@membership.EndDate.ToShortDateString()</td>
-                    <td>@membership.MembershipTypeName</td>
-                    <td>@membership.IsSubscription</td>
-                    <td>
-                        @if (membership.IsSubscription)
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr><th class="hidden-xs">Membership Id</th><th>Start</th><th>End</th><th>Membership Type</th><th>Is Subscription</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var membership in Model.Memberships)
+                {
+                    <tr>
+                        <td class="hidden-xs">@membership.MembershipId</td>
+                        <td>@membership.StartDate.ToShortDateString()</td>
+                        <td>@membership.EndDate.ToShortDateString()</td>
+                        <td>@membership.MembershipTypeName</td>
+                        <td>@membership.IsSubscription</td>
+                        <td>
+                            @if (membership.IsSubscription)
                     {
                         if (membership.CancelAtEnd && membership.StripeSubscriptionId.IsNotNullOrEmpty())
                         {
-                                <button type="button" class="btn btn-default disabled">Canceling</button>
-                            }
-                            else
-                            {
-                                using (Html.BeginUmbracoForm("CancelSubscription", "AdminSurface"))
+                                    <button type="button" class="btn btn-default disabled">Canceling</button>
+                                }
+                                else
                                 {
-                                    @Html.HiddenFor(m => membership.StripeSubscriptionId)
-                                    @Html.HiddenFor(m => membership.Member)
-                                    <button type="submit" class="btn btn-warning btn-fill">Cancel subscription</button>
+                                    using (Html.BeginUmbracoForm("CancelSubscription", "AdminSurface"))
+                                    {
+                                        @Html.HiddenFor(m => membership.StripeSubscriptionId)
+                                        @Html.HiddenFor(m => membership.Member)
+                                        <button type="submit" class="btn btn-warning btn-fill">Cancel subscription</button>
+                                    }
                                 }
                             }
-                        }
-                        <br />
-                        @using (Html.BeginUmbracoForm("DeleteMembership", "AdminSurface"))
+                            <br />
+                            @using (Html.BeginUmbracoForm("DeleteMembership", "AdminSurface"))
                     {
-                            @Html.HiddenFor(m => membership.MembershipId)
-                            <button type="submit" class="btn btn-danger btn-fill">Delete</button>
-                            if (membership.IsSubscription)
-                            {
-                                <span>Deleting the record will not cancle the subscription</span>
+                                @Html.HiddenFor(m => membership.MembershipId)
+                        <button type="submit" class="btn btn-danger btn-fill">Delete</button>
+                                if (membership.IsSubscription)
+                                {
+                                    <div>Deleting the record will not cancel the subscription</div>
+                                }
                             }
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 else
 {

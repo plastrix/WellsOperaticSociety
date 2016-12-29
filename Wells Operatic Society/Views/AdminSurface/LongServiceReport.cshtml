@@ -1,0 +1,105 @@
+﻿@using System.Web.Optimization
+@using WellsOperaticSociety.Models.Enums
+@inherits UmbracoViewPage<WellsOperaticSociety.Models.ReportModels.LongServiceModel>
+@{
+    
+    var breakPoint = 40;
+    if (Model != null && Model.DueAwards.Any())
+    {
+        var chunkCount = Model.DueAwards.Count() / breakPoint;
+
+        if (Model.DueAwards.Count % breakPoint > 0)
+        {
+            chunkCount++;
+        }
+
+        for (var i = 0; i < chunkCount; i++)
+        {
+            _subList.Add(Model.DueAwards.Skip(i * breakPoint).Take(breakPoint).ToList());
+        }
+    }
+}
+@functions {
+    readonly List<List<WellsOperaticSociety.Models.MemberModels.LongServiceAward>> _subList = new List<List<WellsOperaticSociety.Models.MemberModels.LongServiceAward>>();
+    private string GetColumnWidth()
+    {
+        if (_subList != null)
+        {
+            if (_subList.Count >= 3)
+                return "col-sm-4";
+            if (_subList.Count == 2)
+                return "col-sm-6";
+        }
+        return "col-sm-12";
+    }
+}
+<html>
+<head>
+    @Styles.Render("~/cssFiles")
+
+    <!--     Fonts and icons     -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Grand+Hotel|Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href="~/Content/pe-icon-7-stroke.css" rel="stylesheet" />
+    <style type="text/css">
+        .title {
+            text-align: center;
+        }
+
+            .title p {
+                font-size: 0.8rem;
+                color: #a9a9a9;
+            }
+
+        td {
+            font-size: 14px;
+            padding: 5px !important;
+        }
+    </style>
+    <!--  jQuery and Bootstrap core files    -->
+    @Scripts.Render("~/jqueryAndBootstrapScripts")
+
+
+
+</head>
+<body>
+    <div style="width: 100%; text-align: right;">
+        <img src="/Images/Logo-Black-250x42.png" />
+    </div>
+
+    <div class="title">
+        <h2>Due Long Service Awards</h2>
+        <p>As of @DateTime.Now.ToString("D")</p>
+    </div>
+    @if (_subList.Any())
+    {
+        foreach (var list in _subList)
+        {
+            <div class="@GetColumnWidth()">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Award</th>
+                            <th>Member</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var award in list)
+                        {
+                            <tr>
+                                <td>@(WellsOperaticSociety.Utilities.EnumHelper<NodaLongServiceAward>.GetDisplayValue(award.Award)) </td>
+                                <td>@(award.MemberDetails != null ? award.MemberDetails.Name : string.Empty) </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    }
+    else
+    {
+        <div class="alert alert-info">No awards are due yet</div>
+    }
+</body>
+</html>

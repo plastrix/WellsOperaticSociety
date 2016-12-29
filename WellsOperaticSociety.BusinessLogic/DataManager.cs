@@ -276,7 +276,7 @@ namespace WellsOperaticSociety.BusinessLogic
                     .Select(m => new VehicleRegistrationModel() { Member = m, Registration = m.VehicleRegistration1 })
                     .ToList());
             regList.AddRange(membersWithReg.Where(m => m.VehicleRegistration2.IsNotNullOrEmpty())
-                    .Select(m => new VehicleRegistrationModel() { Member = m, Registration = m.VehicleRegistration1 })
+                    .Select(m => new VehicleRegistrationModel() { Member = m, Registration = m.VehicleRegistration2 })
                     .ToList());
             return regList.OrderBy(m => m.Registration).ToList();
         }
