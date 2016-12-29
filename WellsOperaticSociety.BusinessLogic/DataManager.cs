@@ -208,6 +208,16 @@ namespace WellsOperaticSociety.BusinessLogic
             return null;
         }
 
+        public void AddUserToRole(int userId, string role)
+        {
+            ApplicationContext.Current.Services.MemberService.AssignRole(userId, role);
+        }
+
+        public void RemoveUserFromRole(int userId, string role)
+        {
+            ApplicationContext.Current.Services.MemberService.DissociateRole(userId, role);
+        }
+
         /// <summary>
         /// Gets member by stripeid
         /// </summary>

@@ -90,6 +90,9 @@ namespace WellsOperaticSociety.Web.Controllers
                 _log.Error("Error fetching mailchimp subscription information", ex);
             }
 
+            model.HasMemberRole = System.Web.Security.Roles.IsUserInRole(model.Member.Email, "Member");
+            model.HasEditorRole = System.Web.Security.Roles.IsUserInRole(model.Member.Email, "Editor");
+            model.HasCommitteeRole = System.Web.Security.Roles.IsUserInRole(model.Member.Email, "Committee Member");
             return PartialView("ManageMember",model);
 
         }
@@ -165,6 +168,32 @@ namespace WellsOperaticSociety.Web.Controllers
                                 dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.Membership, model.Member.Email,
                                     model.Member.FirstName, model.Member.LastName, true));
                         }
+                    }
+
+                    //Security
+                    if (model.HasMemberRole)
+                    {
+                        dm.AddUserToRole(model.Member.Id, "Member");
+                    }
+                    else
+                    {
+                        dm.RemoveUserFromRole(model.Member.Id, "Member");
+                    }
+                    if (model.HasEditorRole)
+                    {
+                        dm.AddUserToRole(model.Member.Id, "Editor");
+                    }
+                    else
+                    {
+                        dm.RemoveUserFromRole(model.Member.Id, "Editor");
+                    }
+                    if (model.HasCommitteeRole)
+                    {
+                        dm.AddUserToRole(model.Member.Id, "Committee Member");
+                    }
+                    else
+                    {
+                        dm.RemoveUserFromRole(model.Member.Id, "Committee Member");
                     }
                 }
                 catch (Exception ex)
