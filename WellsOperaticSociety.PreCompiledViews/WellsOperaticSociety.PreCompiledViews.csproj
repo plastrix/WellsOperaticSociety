@@ -239,16 +239,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SubscriptionCreated.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Reports\LongServiceReport.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LongServiceReport.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Reports\ReportHeader.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReportHeader.cshtml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -286,14 +276,6 @@
   <ItemGroup>
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
-    <Content Include="Views\Reports\ReportHeader.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>ReportHeader.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\Reports\LongServiceReport.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>LongServiceReport.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Views\Emails\ResetPassword.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ResetPassword.generated.cs</LastGenOutput>
