@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WellsOperaticSociety.Models.ReportModels
+namespace WellsOperaticSociety.Models.Enums
 {
-    public class ReportBase
+    public enum VoucherMember
     {
-        public string BaseUri { get; set; }
+        Member,
+        ShowMember,
+        Patron
     }
 }

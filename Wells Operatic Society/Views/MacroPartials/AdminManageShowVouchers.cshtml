@@ -1,0 +1,7 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    int funcId = 0;
+    int.TryParse(Request.QueryString["id"], out funcId);
+}
+@Html.Action("ManageVouchers","AdminSurface",new {id=funcId})

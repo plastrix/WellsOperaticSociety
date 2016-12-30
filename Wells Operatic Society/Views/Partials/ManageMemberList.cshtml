@@ -7,26 +7,28 @@
 <div>
     @if (Model != null && Model.Any())
     {
-        <table class="table table-hover">
-            <thead>
-                <tr><th>Member Id</th><th>Member Name</th><th>Member Email</th><th></th></tr>
-            </thead>
-            <tbody>
-                @foreach (var member in Model)
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr><th class="hidden-xs">Member Id</th><th>Member Name</th><th>Member Email</th><th></th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var member in Model)
                 {
-                    <tr>
-                        <td>@member.Id</td>
-                        <td>@member.Name</td>
-                        <td>@member.Email</td>
-                        @*//TODO:change this away from being a hard coded value*@
-                        <td><a href="@editMemberUrl?id=@member.Id" class="btn btn-default">Edit</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                        <tr>
+                            <td class="hidden-xs">@member.Id</td>
+                            <td>@member.Name</td>
+                            <td>@member.Email</td>
+                            @*//TODO:change this away from being a hard coded value*@
+                            <td><a href="@editMemberUrl?id=@member.Id" class="btn btn-default">Edit</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
     else
     {
-        <p>No Results</p>
+        <div class="alert alert-warning">Could not find the member you were looking for</div>
     }
 </div>

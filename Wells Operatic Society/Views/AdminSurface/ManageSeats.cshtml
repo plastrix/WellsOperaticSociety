@@ -1,41 +1,46 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageSeatsViewModel>
-
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
 <h2 class="section-title">Manage Seat Information</h2>
 @if (Model.Seats.Any())
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <td>Seat</td>
-                <td>Description</td>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                var index = 0;
-                foreach (var seat in Model.Seats)
-                {
-                    <tr>
-                        <td>@seat.SeatNumber</td>
-                        <td>@seat.Description </td>
-                        <td>
-                            @using (Html.BeginUmbracoForm("DeleteSeat", "AdminSurface"))
-                            {
-                            @Html.Hidden("seatId", Model.Seats[index].SeatId)
-                            <button class="alert alert-danger">Delete</button>
-                            }
-                        </td>
-                    </tr>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Seat</td>
+                    <td>Description</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var index = 0;
+                    foreach (var seat in Model.Seats)
+                    {
+                        <tr>
+                            <td>@seat.SeatNumber</td>
+                            <td>@seat.Description </td>
+                            <td>
+                                @using (Html.BeginUmbracoForm("DeleteSeat", "AdminSurface"))
+                                {
+                                    @Html.Hidden("seatId", Model.Seats[index].SeatId)
+                                    <button class="alert alert-danger">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 }
 else
 {
     <p class="alert alert-info">There are no seat descriptions logged yet</p>
 }
 <h2 class="section-title">Add seat information</h2>
-@Html.Partial("AddSeatForm",Model.NewSeat)
+@Html.Partial("AddSeatForm", Model.NewSeat)
 

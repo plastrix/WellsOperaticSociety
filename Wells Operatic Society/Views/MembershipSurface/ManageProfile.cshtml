@@ -1,67 +1,117 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Models.MemberModels.Member>
-
-@using (Html.BeginUmbracoForm("SubmitManageProfileForm", "MembershipSurface"))
+﻿@using WellsOperaticSociety.Web.Controllers
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageProfileViewModel>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@using (Html.BeginUmbracoForm<MembershipSurfaceController>("SubmitManageProfileForm", null, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    @Html.HiddenFor(m => m.Id)
-    @Html.ValidationSummary()
+    @Html.HiddenFor(m => m.Member.Id)
     <div class="form-group">
-        @Html.LabelFor(m => m.Name)
-        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Name) })
-        @Html.ValidationMessageFor(m => m.Name)
+        @Html.LabelFor(m => m.Member.FirstName, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Member.FirstName, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.FirstName) })
+            @Html.ValidationMessageFor(m => m.Member.FirstName)
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Email)
-        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Email) })
-        @Html.ValidationMessageFor(m => m.Email)
+        @Html.LabelFor(m => m.Member.LastName, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Member.LastName, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.LastName) })
+            @Html.ValidationMessageFor(m => m.Member.LastName)
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.TelephoneNumber)
-        @Html.TextBoxFor(m => m.TelephoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.TelephoneNumber) })
-        @Html.ValidationMessageFor(m => m.TelephoneNumber)
+        @Html.LabelFor(m => m.Member.Email, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Member.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.Email) })
+            @Html.ValidationMessageFor(m => m.Member.Email)
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.MobileNumber)
-        @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.MobileNumber) })
-        @Html.ValidationMessageFor(m => m.MobileNumber)
+        @Html.LabelFor(m => m.Member.TelephoneNumber, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Member.TelephoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.TelephoneNumber) })
+            @Html.ValidationMessageFor(m => m.Member.TelephoneNumber)
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.DateOfBirth)
-        @Html.TextBoxFor(m => m.DateOfBirth, "{0:d}", new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.DateOfBirth)})
-        @Html.ValidationMessageFor(m => m.DateOfBirth)
+        @Html.LabelFor(m => m.Member.MobileNumber, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Member.MobileNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.MobileNumber) })
+            @Html.ValidationMessageFor(m => m.Member.MobileNumber)
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.VehicleRegistration1)
-        @Html.TextBoxFor(m => m.VehicleRegistration1, new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.VehicleRegistration1) })
-        @Html.ValidationMessageFor(m => m.VehicleRegistration1)
+        @Html.LabelFor(m => m.Member.DateOfBirth, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Member.DateOfBirth, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.DateOfBirth) })
+            @Html.ValidationMessageFor(m => m.Member.DateOfBirth)
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.VehicleRegistration2)
-        @Html.TextBoxFor(m => m.VehicleRegistration2, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.VehicleRegistration2) })
-        @Html.ValidationMessageFor(m => m.VehicleRegistration2)
+        @Html.LabelFor(m => m.Member.VehicleRegistration1, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Member.VehicleRegistration1, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.VehicleRegistration1) })
+            @Html.ValidationMessageFor(m => m.Member.VehicleRegistration1)
+        </div>
     </div>
-    <button type="submit" class="btn btn-default">Update Information</button>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Member.VehicleRegistration2, new {@class = "control-label col-sm-2"})
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Member.VehicleRegistration2, new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.VehicleRegistration2)})
+            @Html.ValidationMessageFor(m => m.Member.VehicleRegistration2)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">Do you want to recieve emails from the general mailing list?</div>
+        <div class="switch"
+             data-on-label="<i class='fa fa-check'></i>"
+             data-off-label="<i class='fa fa-times'></i>">
+
+            @Html.CheckBoxFor(m => m.IsSubscribedToMailingList)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Do you want to recieve emails from our members mailing list?</div>
+        <div class="switch"
+             data-on-label="<i class='fa fa-check'></i>"
+             data-off-label="<i class='fa fa-times'></i>">
+
+            @Html.CheckBoxFor(m=>m.IsSubscribedToMemberList)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Update Information</button>
+        </div>
+    </div>
 }
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#DateOfBirth").datepicker({ dateFormat: "dd/mm/yy" });
-        //date work around
-        $.validator.addMethod('date',
-            function (value, element, params) {
-                if (this.optional(element)) {
-                    return true;
-                }
+    $(document)
+        .ready(function() {
+            $("#DateOfBirth").datepicker({ dateFormat: "dd/mm/yy" });
+            //date work around
+            $.validator.addMethod('date',
+                function(value, element, params) {
+                    if (this.optional(element)) {
+                        return true;
+                    }
 
-                var ok = true;
-                try {
-                    $.datepicker.parseDate('dd/mm/yy', value);
-                }
-                catch (err) {
-                    ok = false;
-                }
-                return ok;
-            });
-    });
+                    var ok = true;
+                    try {
+                        $.datepicker.parseDate('dd/mm/yy', value);
+                    } catch (err) {
+                        ok = false;
+                    }
+                    return ok;
+                });
+        });
 </script>
+
+
+

@@ -3,7 +3,10 @@
         var buttonText = Model.HasExistingSubscription ? "Change to this membership" : "Subscribe";
     }
 <div class="row">
-
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
     <div class="col-md-12" style="margin-bottom: 1.5em;">@Html.ValidationSummary(true)</div>
     <div class="col-md-4">
         <div class="card card-price">
@@ -62,9 +65,6 @@
                     </li>
                     <li>
                         <i class="fa fa-thumbs-up"></i> <b>Vote</b> in the AGM
-                    </li>
-                    <li>
-                        <i class="fa fa-car"></i> <b>Park</b> in the car park (£1 permit fee applies)
                     </li>
                     <li>
                         <i class="fa fa-comments"></i> <b>Help backstage</b> and show us your skills

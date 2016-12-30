@@ -12,5 +12,6 @@ namespace WellsOperaticSociety.DAL
         public DbSet<Seat> Seats { get; set; }
         public DbSet<LongServiceAward> LongServiceAwards { get; set; }
         public DbSet<AuthorisationToken> AuthorisationTokens { get; set; }
+        public DbSet<Voucher> Vouchers { get; set; }
     }
 }

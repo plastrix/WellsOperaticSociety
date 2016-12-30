@@ -30,9 +30,9 @@
 {
     foreach (var manual in documents)
     {
-        <div class="row">
-            <div class="col-sm-2"><div class="file-icon file-icon-xl" data-type="@GetDocumentExtension(manual)"></div></div>
-            <div class="col-sm-10">
+        <div class="row uploaded-document">
+            <div class="col-xs-2"><div class="file-icon file-icon-xl hidden-xs" data-type="@GetDocumentExtension(manual)"></div><div class="file-icon file-icon-lg visible-xs" data-type="@GetDocumentExtension(manual)"></div></div>
+            <div class="col-xs-10">
                 <a href="@GetDocumentUrl(manual)">
                     <h2>@manual.Name</h2>
                     <p>@Html.Raw(manual.GetPropertyValue<string>("description"))</p>

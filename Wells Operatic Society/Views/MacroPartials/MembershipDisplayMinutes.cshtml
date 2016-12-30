@@ -29,9 +29,9 @@
 {
     foreach (var minutes in documents)
     {
-        <div class="row">
-            <div class="col-sm-2"><div class="file-icon file-icon-xl" data-type="@GetDocumentExtension(minutes)"></div></div>
-            <div class="col-sm-10">
+        <div class="row uploaded-document">
+            <div class="col-xs-2"><div class="file-icon file-icon-xl hidden-xs" data-type="@GetDocumentExtension(minutes)"></div><div class="file-icon file-icon-lg visible-xs" data-type="@GetDocumentExtension(minutes)"></div></div>
+            <div class="col-xs-10">
                 <a href="@GetDocumentUrl(minutes)">
                     <h2>@minutes.Name</h2>
                     <p>@Html.Raw(minutes.GetPropertyValue<string>("description"))</p>

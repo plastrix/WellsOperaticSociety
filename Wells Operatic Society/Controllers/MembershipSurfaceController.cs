@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using log4net;
@@ -19,7 +20,7 @@ using Membership = WellsOperaticSociety.Models.MemberModels.Membership;
 
 namespace WellsOperaticSociety.Web.Controllers
 {
-    public class MembershipSurfaceController : SurfaceController
+    public class MembershipSurfaceController : SurfaceController, IRenderController
     {
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -131,38 +132,37 @@ namespace WellsOperaticSociety.Web.Controllers
 
         public ActionResult ManageProfile()
         {
-            var m = new Membership()
+            ManageProfileViewModel model = new ManageProfileViewModel();
+            model.Member = new Member(Members.GetCurrentMember());
+            DataManager dm = new DataManager();
+            try
             {
-                Member = Members.GetCurrentMemberId(),
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now,
-                MembershipType = (int)MembershipType.Ordinary
-            };
-
-            new DataManager().AddOrUpdateMembership(m);
-
-            var model = new Member(Members.GetCurrentMember());
+                model.IsSubscribedToMailingList = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.MailingList, model.Member.Email)).Result; 
+                model.IsSubscribedToMemberList = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.Membership, model.Member.Email)).Result;
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error fetching mailchimp subscription information", ex);
+            }
             return PartialView("ManageProfile", model);
-
-
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SubmitManageProfileForm(Member model)
+        public ActionResult SubmitManageProfileForm(ManageProfileViewModel model)
         {
             if (ModelState.IsValid)
             {
                 //No user id was passed in
-                if (model.Id == 0)
+                if (model.Member.Id == 0)
                 {
-                    //TODO:LogError
+                    _log.Error("No user id we submitted to the SubmitManageProfileForm on the Membership surface controller");
                     ModelState.AddModelError("", "We could not find a user with that id to update");
                     return CurrentUmbracoPage();
                 }
 
                 var memberService = Services.MemberService;
-                var member = memberService.GetById(model.Id);
+                var member = memberService.GetById(model.Member.Id);
                 //couldnt find member
                 if (member == null)
                 {
@@ -171,27 +171,66 @@ namespace WellsOperaticSociety.Web.Controllers
                     return CurrentUmbracoPage();
                 }
                 //update email if email is different
-                if (model.Email != member.Email)
+                if (model.Member.Email != member.Email)
                 {
                     //check if the new email already exists in the system
-                    if (memberService.GetByEmail(model.Email) != null)
+                    if (memberService.GetByEmail(model.Member.Email) != null)
                     {
                         ModelState.AddModelError("Email", "This email address already exists in the system and emails must be unique.");
                         return CurrentUmbracoPage();
                     }
-                    member.Username = model.Email;
-                    member.Email = model.Email;
                 }
+                try
+                {
+                    DataManager dm = new DataManager();
+                    dm.AddOrUpdateMember(model.Member);
+                    //mailing list subscribe
+                    if (model.IsSubscribedToMailingList)
+                        Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.MailingList, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName));
+                    else
+                    {
+                        var mailingListMember = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.MailingList, model.Member.Email)).Result;
+                        if (mailingListMember)
+                        {
+                            Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.MailingList, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName,true));
+                        }
+                    }
 
-                member.Name = model.Name;
-                member.SetValue("telephoneNumber", model.TelephoneNumber);
-                member.SetValue("mobileNumber", model.MobileNumber);
-                member.SetValue("dateOfBirth", model.DateOfBirth);
-                member.SetValue("vehicleRegistration1", model.VehicleRegistration1);
-                member.SetValue("vehicleRegistration2", model.VehicleRegistration2);
-                memberService.Save(member);
-                //TODO: Display success message
-                return RedirectToCurrentUmbracoPage();
+                    //members mailing list subscribe
+                    if (model.IsSubscribedToMailingList)
+                        Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.Membership, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName));
+                    else
+                    {
+                        var memberListMember = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.Membership, model.Member.Email)).Result;
+                        if (memberListMember)
+                        {
+                            Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.Membership, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName, true));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("There was an error updating a profile with the exception as follows",ex);
+                    ModelState.AddModelError("", "There was an error updating your profile. Give us a shout if this keeps happening and we will find out whats going on");
+
+                }
+                if (ModelState.IsValid)
+                {
+                    TempData["Message"] = "You have successfully updated your profile. Woohooo!";
+                    return RedirectToCurrentUmbracoPage();
+                }
             }
             return CurrentUmbracoPage();
         }
@@ -296,7 +335,7 @@ namespace WellsOperaticSociety.Web.Controllers
             }
             return CurrentUmbracoPage();
         }
-
+        [HttpPost]
         public ActionResult SubmitSubscribeToStripeSubscriptionForm(StripeSubscriptionCheckout model)
         {
             var loggedOnMember = Members.GetCurrentMember();
@@ -324,7 +363,8 @@ namespace WellsOperaticSociety.Web.Controllers
                         StripeSubscriptionUpdateOptions so = new StripeSubscriptionUpdateOptions();
                         so.PlanId = model.PlanId;
                         subscriptionService.Update(stripeUserId, subscription.Id, so);
-                        //TODO:success message
+                        TempData["SuccessMessage"] =
+                            "Congratulations! You have subscribed successfully. No more worrying about subs :)";
                         return RedirectToCurrentUmbracoPage();
                     }
                     else
@@ -339,7 +379,8 @@ namespace WellsOperaticSociety.Web.Controllers
                 else
                 {
                     StripeSubscription stripeSubscription = subscriptionService.Create(stripeUserId, model.PlanId);
-                    //TODO:success message
+                    TempData["SuccessMessage"] =
+                            "Congratulations! You have subscribed successfully. No more worrying about subs :)";
                     return RedirectToCurrentUmbracoPage();
                 }
             }
@@ -386,7 +427,6 @@ namespace WellsOperaticSociety.Web.Controllers
             else
             {
                 _log.Error($"The retrieved user had a null or empty stripe user id. The username is {member.Name}");
-                //TODO:Email admins
             }
             ModelState.AddModelError("",
                         "There was an error cancelling your subscription. Please try again. If the issue persists please contact us");
@@ -433,7 +473,7 @@ namespace WellsOperaticSociety.Web.Controllers
 
                 var custService = new StripeCustomerService(SensativeInformation.StripeKeys.SecretKey);
                 custService.Update(member.StripeUserId, custOptions);
-                //TODO: success message
+                TempData["SuccessMessage"] = "Congrats you have successfully updated your card details!";
                 return RedirectToCurrentUmbracoPage();
             }
             catch (StripeException e)

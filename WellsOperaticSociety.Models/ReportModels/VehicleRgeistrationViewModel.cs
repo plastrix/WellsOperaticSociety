@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WellsOperaticSociety.Models.ReportModels
 {
-    public class VehicleRgeistrationViewModel : ReportBase
+    public class VehicleRgeistrationViewModel
     {
         public List<VehicleRegistrationModel> RegistrationList { get; set; }
     }

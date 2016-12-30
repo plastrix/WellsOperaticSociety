@@ -104,6 +104,18 @@
       <HintPath>..\packages\Examine.0.1.69.0\lib\Examine.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Hangfire.Core, Version=1.6.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.6.6\lib\net45\Hangfire.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.Dashboard.Authorization, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Dashboard.Authorization.2.1.0\lib\net45\Hangfire.Dashboard.Authorization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.6.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.6.6\lib\net45\Hangfire.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -246,6 +258,10 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.9.1.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.9.1\lib\net45\RazorEngine.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Semver, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -753,6 +769,8 @@
     <Content Include="Config\backup\UrlRewriting.config.backup" />
     <Content Include="Config\backup\xsltExtensions.config.backup" />
     <Content Include="Images\manifest.json" />
+    <Content Include="MembershipRenwalEmailContent\MembershipRenewalCommingUp.cshtml" />
+    <Content Include="MembershipRenwalEmailContent\Web.config" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Properties\PublishProfiles\WellsOperaticSociety.pubxml" />
     <None Include="scripts\jquery-3.1.0.intellisense.js" />
@@ -3437,6 +3455,10 @@
     <Content Include="Views\MembershipSurface\ResetPasswordForm.cshtml" />
     <Content Include="Views\MacroPartials\ResetPassword.cshtml" />
     <Content Include="Views\MacroPartials\PictureCard.cshtml" />
+    <Content Include="Views\MacroPartials\AdminManageShowVouchers.cshtml" />
+    <Content Include="Views\AdminSurface\ManageVouchers.cshtml" />
+    <Content Include="Views\AdminSurface\VehicleRegistrationReport.cshtml" />
+    <Content Include="Views\AdminSurface\LongServiceReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3457,16 +3479,22 @@
     <Compile Include="Controllers\FunctionController.cs" />
     <Compile Include="Controllers\MainSurfaceController.cs" />
     <Compile Include="Controllers\MembershipSurfaceController.cs" />
+    <Compile Include="Controllers\StandardPageController.cs" />
+    <Compile Include="Helper\RenderActionInvokerAsync.cs" />
     <Compile Include="Models\AddMembersToFunctionViewModel.cs" />
     <Compile Include="Models\ManageLongServiceReportViewModel.cs" />
     <Compile Include="Models\ManageMembershipViewModel.cs" />
     <Compile Include="Models\ManageMemberViewModel.cs" />
+    <Compile Include="Models\ManageProfileViewModel.cs" />
     <Compile Include="Models\ManageSeatsViewModel.cs" />
     <Compile Include="Models\ManageSubscriptionViewModel.cs" />
     <Compile Include="Models\PreviousProductionsViewModel.cs" />
+    <Compile Include="Models\ShowVouchersViewModel.cs" />
     <Compile Include="Models\StripeCheckoutViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SensativeInformation\ReCaptchKeys.cs" />
+    <Compile Include="HangFire\ScheduledTasks.cs" />
+    <Compile Include="SensativeInformation\Keys.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="StripeEvents\StripeHandler.cs" />
     <Compile Include="UmbracoStartup.cs" />
   </ItemGroup>
@@ -3478,6 +3506,7 @@
     <Folder Include="App_Data\packages\created\" />
     <Folder Include="App_Data\TEMP\" />
     <Folder Include="Views\Function\" />
+    <Folder Include="Views\StandardPage\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WellsOperaticSociety.BusinessLogic\WellsOperaticSociety.BusinessLogic.csproj">
@@ -3491,10 +3520,6 @@
     <ProjectReference Include="..\WellsOperaticSociety.Models\WellsOperaticSociety.Models.csproj">
       <Project>{08f29a53-bbc5-4cf2-8708-e889aa63e5bf}</Project>
       <Name>WellsOperaticSociety.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WellsOperaticSociety.PDFService\WellsOperaticSociety.PDFService.csproj">
-      <Project>{e60adb92-0864-453a-bfcc-a94351640d3a}</Project>
-      <Name>WellsOperaticSociety.PDFService</Name>
     </ProjectReference>
     <ProjectReference Include="..\WellsOperaticSociety.PreCompiledViews\WellsOperaticSociety.PreCompiledViews.csproj">
       <Project>{82c523b6-c3fb-4c9b-b05b-f3435591e47c}</Project>

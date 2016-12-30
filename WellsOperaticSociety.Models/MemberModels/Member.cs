@@ -7,13 +7,20 @@ using System.Threading.Tasks;
 using Umbraco.Core.Models;
 using Zone.UmbracoMapper;
 using System.ComponentModel.DataAnnotations;
+using Umbraco.Core;
 
 namespace WellsOperaticSociety.Models.MemberModels
 {
     public class Member
     {
-        [Required(ErrorMessage = "Please enter a name")]
+        
         public string Name { get; set; }
+        [Required(ErrorMessage = "Please enter your first name")]
+        [DisplayName("First name")]
+        public string FirstName { get; set; }
+        [DisplayName("Last name")]
+        [Required(ErrorMessage = "Please enter your last name")]
+        public string LastName { get; set; }
         public int Id { get; set; }
         [DisplayName("Telephone number")]
         public string TelephoneNumber { get; set; }
@@ -42,6 +49,14 @@ namespace WellsOperaticSociety.Models.MemberModels
         public string VehicleRegistration2 { get; set; }
         [DisplayName("Previous years")]
         public int PreviousYears { get; set; }
+        [DisplayName("Contact Email")]
+        public string ContactEmail { get; set; }
+
+        public string GetContactEmail { get
+        {
+            return ContactEmail.IsNullOrWhiteSpace() ? Email : ContactEmail;
+        }
+        }
 
         public Member(IPublishedContent content)
         {

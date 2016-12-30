@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -10,6 +11,7 @@ using AutoMapper;
 using Stripe;
 using log4net;
 using WellsOperaticSociety.BusinessLogic;
+using WellsOperaticSociety.EmailService;
 using WellsOperaticSociety.Models.Enums;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Web.Controllers;
@@ -106,7 +108,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     subCanceledModel.BaseUri = UrlHelpers.GetBaseUrl();
                     subCanceledModel.PlanName = stripeSubscription.StripePlan.Name;
                     viewData.Model = subCanceledModel;
-                    html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCreated.cshtml", controllerContext, viewData, tempData);
+                    html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCanceled.cshtml", controllerContext, viewData, tempData);
 
                     //Generate email
                     emailService.SendEmail(customer.Email, "Your subscription has been cancelled", html);
@@ -132,7 +134,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                         sCanModel.BaseUri = UrlHelpers.GetBaseUrl();
                         sCanModel.PlanName = stripeSubscription.StripePlan.Name;
                         viewData.Model = sCanModel;
-                        html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCreated.cshtml", controllerContext, viewData, tempData);
+                        html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionCanceled.cshtml", controllerContext, viewData, tempData);
 
                         //Generate email
                         emailService.SendEmail(customer.Email, "Your subscription has been cancelled", html);
@@ -142,8 +144,15 @@ namespace WellsOperaticSociety.Web.StripeEvents
                         
                         //update subscription
                         AddOrUpdateMembership(stripeSubscription);
-
-                        //TODO:Email notification of subscription change
+                        customer = GetCustomer(stripeSubscription.CustomerId);
+                        if (customer == null)
+                            return;
+                        var sCanModel = new WellsOperaticSociety.Models.EmailModels.SubscriptionCanceled();
+                        sCanModel.BaseUri = UrlHelpers.GetBaseUrl();
+                        sCanModel.PlanName = stripeSubscription.StripePlan.Name;
+                        viewData.Model = sCanModel;
+                        html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/SubscriptionUpdated.cshtml", controllerContext, viewData, tempData);
+                        emailService.SendEmail(customer.Email, "Your subscription has been updated", html);
                     }
 
                     break;
@@ -231,15 +240,17 @@ namespace WellsOperaticSociety.Web.StripeEvents
             if (subscription == null)
             {
                 _log.Error($"Tried to cancel a membership but the subscription passed was null so could not work out which membership to cancel");
-                //TODO: send email to admins
+                EmailHelpers emailService = new EmailHelpers();
+                emailService.SendEmail("info@wellslittletheatre.com", "Error canceling membership from subscription", $"Tried to cancel a membership but the subscription passed was empty so could not work out which membership to cancel. You will need to investigate.");
                 return;
             }
             DataManager dataManager = new DataManager();
             var membership = dataManager.GetLatestMembership(subscription.Id);
             if (membership == null)
             {
-                _log.Error($"Tried to update a membership but could not find the membership with the subscription id {subscription.Id}");
-                //TODO: send email to admins
+                _log.Error($"Tried to update a membership to cancel it but could not find the membership with the subscription id {subscription.Id}");
+                EmailHelpers emailService = new EmailHelpers();
+                emailService.SendEmail("info@wellslittletheatre.com", "Error canceling membership from subscription", $"Tried to update a membership to cancel it but could not find the membership with the subscription id {subscription.Id}");
                 return;
             }
             membership.CancelAtEnd = true;
@@ -265,7 +276,8 @@ namespace WellsOperaticSociety.Web.StripeEvents
             if (subscription == null)
             {
                 _log.Error($"Tried to add or update a membership but the subscription passed was null");
-                //TODO: send email to admins
+                EmailHelpers emailService = new EmailHelpers();
+                emailService.SendEmail("info@wellslittletheatre.com", "Error creating or updating membership for user from subscription", $"Tried to add or update a membership but the subscription passed was empty. So we will need to explore to see if anything needs to be done.");
                 return;
             }
             DataManager dataManager = new DataManager();
@@ -273,7 +285,8 @@ namespace WellsOperaticSociety.Web.StripeEvents
             if (member == null)
             {
                 _log.Error($"Tried to create/update a membership but no member could be found with the stripe id of {subscription.CustomerId}");
-                //TODO: send email to admins
+                EmailHelpers emailService = new EmailHelpers();
+                emailService.SendEmail("info@wellslittletheatre.com", "Error creating or updating membership for user from subscription", $"Tried to create/update a membership but no member could be found with the stripe id of {subscription.CustomerId}");
                 return;
             }
 
@@ -281,14 +294,16 @@ namespace WellsOperaticSociety.Web.StripeEvents
             if (subscription.StripePlan == null)
             {
                 _log.Error($"Could not locate plan linked to subscription {subscription.Id}");
-                //TODO: send email to admins
+                EmailHelpers emailService = new EmailHelpers();
+                emailService.SendEmail("info@wellslittletheatre.com", "Error creating membership for user from subscription", $"Tried to create a membership but no stripeplan was associated with the subscription?!For {member.Name}");
                 return;
             }
             var membershipType = BusinessLogic.Convert.StripePlanToMembershipType(subscription.StripePlan.Id);
             if (membershipType == null)
             {
                 _log.Error($"Tried to create a membership but could not convert the plan to the membershiptype for {member.Name} and stripe plan {subscription.StripePlan.Name}");
-                //TODO: send email to admins
+                EmailHelpers emailService = new EmailHelpers();
+                emailService.SendEmail("info@wellslittletheatre.com","Error creating membership for user from subscription", $"Tried to create a membership but could not convert the plan to the membershiptype for {member.Name} and stripe plan {subscription.StripePlan.Name}");
                 return;
             }
             //if we already have a membership covering this subscription period update the plan

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -11,9 +12,14 @@ using Newtonsoft.Json;
 using Stripe;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
+using WellsOperaticSociety.EmailService;
+using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Models.AdminModels;
+using WellsOperaticSociety.Models.EmailModels;
+using WellsOperaticSociety.Models.Enums;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Models.ReportModels;
+using WellsOperaticSociety.Web.Helper;
 using WellsOperaticSociety.Web.Models;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 
@@ -22,6 +28,11 @@ namespace WellsOperaticSociety.Web.Controllers
     public class AdminSurfaceController : SurfaceController
     {
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public AdminSurfaceController()
+        {
+            this.ActionInvoker = new RenderActionInvokerAsync();
+        }
 
         public ActionResult ManageMembers(int? pageSize, int? row)
         {
@@ -40,8 +51,9 @@ namespace WellsOperaticSociety.Web.Controllers
             var member = Members.GetById(id);
             if (member == null)
             {
-                //TODO: report error to user
-                //TODO: log error
+                TempData["ErrorMessage"] =
+                    "The member you are looking for could not be found. Please try again but if it persists please give your handy IT people a shout :)";
+                _log.Error($"A member with the id of {id} could not be found in the admin surface controller ManageMember function");
                 return null;
             }
 
@@ -57,7 +69,7 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 var previous = curMemberships.OrderByDescending(m => m.EndDate).First();
                 startDate = previous.StartDate.AddYears(1);
-                endDate = startDate.AddYears(1);
+                endDate = startDate.AddYears(1).AddDays(-1);
             }
 
             model.NewMembership = new Membership()
@@ -68,6 +80,19 @@ namespace WellsOperaticSociety.Web.Controllers
                 IsSubscription = false
             };
 
+            try
+            {
+                model.IsSubscribedToMailingList = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.MailingList, model.Member.Email)).Result;
+                model.IsSubscribedToMemberList = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.Membership, model.Member.Email)).Result;
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error fetching mailchimp subscription information", ex);
+            }
+
+            model.HasMemberRole = System.Web.Security.Roles.IsUserInRole(model.Member.Email, "Member");
+            model.HasEditorRole = System.Web.Security.Roles.IsUserInRole(model.Member.Email, "Editor");
+            model.HasCommitteeRole = System.Web.Security.Roles.IsUserInRole(model.Member.Email, "Committee Member");
             return PartialView("ManageMember",model);
 
         }
@@ -80,7 +105,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 //No user id was passed in
                 if (model.Member.Id == 0)
                 {
-                    //TODO:LogError
+                    _log.Error("Trying to update a member on the admin form but no userId was posted back");
                     ModelState.AddModelError("","We could not find a user with that id to update");
                     return CurrentUmbracoPage();
                 }
@@ -90,7 +115,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 //couldnt find member
                 if (member == null)
                 {
-                    //TODO:LogError
+                    _log.Error($"Trying to update a member on the admin form but the member with id {model.Member.Id} could not be found");
                     ModelState.AddModelError("", "We could not find a user with that id to update");
                     return CurrentUmbracoPage();
                 }
@@ -103,24 +128,82 @@ namespace WellsOperaticSociety.Web.Controllers
                         ModelState.AddModelError("Email","This email address already exists in the system and emails must be unique.");
                         return CurrentUmbracoPage();
                     }
-                    member.Username = model.Member.Email;
-                    member.Email = model.Member.Email;
                 }
+                
+                try
+                {
+                    DataManager dm = new DataManager();
+                    dm.AddOrUpdateMember(model.Member,true);
+                    //mailing list subscribe
+                    if (model.IsSubscribedToMailingList)
+                        Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.MailingList, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName));
+                    else
+                    {
+                        var mailingListMember = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.MailingList, model.Member.Email)).Result;
+                        if (mailingListMember)
+                        {
+                            Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.MailingList, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName, true));
+                        }
+                    }
 
-                member.Name = model.Member.Name;
-                member.SetValue("telephoneNumber",model.Member.TelephoneNumber);
-                member.SetValue("mobileNumber", model.Member.MobileNumber);
-                member.SetValue("dateOfBirth", model.Member.DateOfBirth);
-                member.SetValue("dateAppliedForMembership", model.Member.DateAppliedForMembership);
-                member.SetValue("dateApprovedForMembership", model.Member.DateApprovedForMembership);
-                member.SetValue("dateDeclinedForMembership", model.Member.DateDeclinedForMembership);
-                member.SetValue("dateLifeMembershipGranted", model.Member.DateLifeMembershipGranted);
-                member.SetValue("stripeUserId", model.Member.StripeUserId);
-                member.SetValue("vehicleRegistration1", model.Member.VehicleRegistration1);
-                member.SetValue("vehicleRegistration2", model.Member.VehicleRegistration2);
-                member.SetValue("deactivated", model.Member.Deactivated);
-                memberService.Save(member);
-                //TODO: Display success message
+                    //members mailing list subscribe
+                    if (model.IsSubscribedToMailingList)
+                        Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.Membership, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName));
+                    else
+                    {
+                        var memberListMember = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.Membership, model.Member.Email)).Result;
+                        if (memberListMember)
+                        {
+                            Task.Run(
+                            () =>
+                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.Membership, model.Member.Email,
+                                    model.Member.FirstName, model.Member.LastName, true));
+                        }
+                    }
+
+                    //Security
+                    if (model.HasMemberRole)
+                    {
+                        dm.AddUserToRole(model.Member.Id, "Member");
+                    }
+                    else
+                    {
+                        dm.RemoveUserFromRole(model.Member.Id, "Member");
+                    }
+                    if (model.HasEditorRole)
+                    {
+                        dm.AddUserToRole(model.Member.Id, "Editor");
+                    }
+                    else
+                    {
+                        dm.RemoveUserFromRole(model.Member.Id, "Editor");
+                    }
+                    if (model.HasCommitteeRole)
+                    {
+                        dm.AddUserToRole(model.Member.Id, "Committee Member");
+                    }
+                    else
+                    {
+                        dm.RemoveUserFromRole(model.Member.Id, "Committee Member");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("There was an error updating a profile with the exception as follows", ex);
+                    ModelState.AddModelError("", "There was an error updating this profile. Give us a shout if this keeps happening and we will find out whats going on");
+                    return CurrentUmbracoPage();
+                }
+                TempData["SuccessMessage"] =
+                    $"Hurray!! Everything worked and you have update the profile for {model.Member.FirstName} {model.Member.LastName}";
                 return RedirectToCurrentUmbracoPage("?id=" +model.Member.Id);
             }
             return CurrentUmbracoPage();
@@ -140,8 +223,8 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 var dm = new DataManager();
                 dm.AddOrUpdateMembership(membership);
-                //TODO: Add success page
-                RedirectToCurrentUmbracoPage();
+                TempData["SuccessMessage"] = "You have successfully added a membership record to this user";
+                return RedirectToCurrentUmbracoPage(Request.QueryString);
             }
             return CurrentUmbracoPage();
         }
@@ -160,7 +243,7 @@ namespace WellsOperaticSociety.Web.Controllers
             var dm = new DataManager();
             dm.DeleteMembership(membershipId);
             TempData["SuccessMessage"] =
-                    $"You have successfully deleted the membership with id {membershipId}";
+                    $"You have successfully deleted the membership with id {membershipId} and removed them from the mailchimp Members list if they are not an active member any more";
             return RedirectToCurrentUmbracoPage(Request.QueryString);
         }
 
@@ -229,7 +312,6 @@ namespace WellsOperaticSociety.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddMemberToFunction(MemberRolesInShow model)
         {
-            //TODO:Validation is not working
             if (ModelState.IsValid)
             {
                 var dm = new DataManager();
@@ -245,7 +327,8 @@ namespace WellsOperaticSociety.Web.Controllers
         {
             var dm = new DataManager();
             dm.DeleteMemberRoleInFunction(memberRolesInShowId);
-            //TODO:Success message
+            TempData["SuccessMessage"] =
+                $"You have successfully managed to remove that role and person.... but I am too lazy to say who they were in the message. So just know I think you are doing a grand job!";
             return RedirectToCurrentUmbracoPage(Request.QueryString);
         }
 
@@ -287,7 +370,7 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 var dm = new DataManager();
                 dm.DeleteSeat(seatId);
-                //TODO:Success message
+                TempData["SuccessMessage"] = $"You have managed to remove that seat.... I hope you are having fun :)";
                 return RedirectToCurrentUmbracoPage();
             }
             return CurrentUmbracoPage();
@@ -301,26 +384,20 @@ namespace WellsOperaticSociety.Web.Controllers
                 var dm = new DataManager();
                 seat.SeatNumber = seat.SeatNumber.ToUpper();
                 dm.AddSeat(seat);
-                //TODO:Success message
+                TempData["SuccessMessage"] = $"You have added seat {seat.SeatNumber}. Time to open the Champaign.";
                 return RedirectToCurrentUmbracoPage();
             }
             return CurrentUmbracoPage();
         }
 
         [HttpGet]
-        public FileStreamResult VehicleRegistrationReport()
+        public ActionResult VehicleRegistrationReport()
         {
             var dm = new DataManager();
-            var pdfService = new PDFService.PdfWriter();
             var model = new VehicleRgeistrationViewModel();
-            model.BaseUri = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + System.Web.HttpContext.Current.Request.ApplicationPath.TrimEnd('/');
             model.RegistrationList = dm.GetVehicleRegistrations();
-            ViewData.Model = model;
-            var html = RazorHelpers.RenderRazorViewToString("~/Views/Reports/VehicleRegistrationReport.cshtml",
-                ControllerContext, ViewData, TempData);
-            var stream = pdfService.GenertatePdfFromHtml(html);
 
-            return File(stream, "application/pdf");
+            return PartialView(model);
         }
 
         public ActionResult ManageLongServiceAwards()
@@ -340,26 +417,144 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 var dm = new DataManager();
                 dm.AddOrUpdateLongServiceAward(longServiceAward);
+                TempData["SuccessMessage"] =
+                    $"You have awarded/hidden/revealed the {longServiceAward.Award} successfully. Jolly good show!";
+                return RedirectToCurrentUmbracoPage();
             }
-            //TODO: display any errors
-            return RedirectToCurrentUmbracoPage();
+            return CurrentUmbracoPage();
+
         }
 
         [HttpGet]
-        public FileStreamResult LongServiceReport()
+        public ActionResult LongServiceReport()
         {
             var dm = new DataManager();
-            var pdfService = new PDFService.PdfWriter();
             var model = new LongServiceModel();
-            var baseUri = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + System.Web.HttpContext.Current.Request.ApplicationPath.TrimEnd('/');
-            model.BaseUri = baseUri;
             model.DueAwards = dm.GetDueLongServiceAwards().Where(m=>m.Hide == false).ToList();
-            ViewData.Model = model;
-            var html = RazorHelpers.RenderRazorViewToString("~/Views/Reports/LongServiceReport.cshtml",
-                ControllerContext, ViewData, TempData);
-            var stream = pdfService.GenertatePdfFromHtml(html);
 
-            return File(stream, "application/pdf");
+
+            return PartialView(model);
+        }
+
+        public ActionResult ManageVouchers(int id)
+        {
+            ShowVouchersViewModel model;
+
+            if (id != 0)
+            {
+                var dm = new DataManager();
+                model = new ShowVouchersViewModel
+                {
+                    FunctionId = id,
+                    MemberVoucherList = dm.GetVouchersForShow(id, VoucherMember.Member),
+                    PatronVoucherList = dm.GetVouchersForShow(id, VoucherMember.Patron),
+                    ShowMemberVoucherList = dm.GetVouchersForShow(id, VoucherMember.ShowMember),
+                    BoxOfficeOpenDate = DateTime.Now
+                };
+                model.MembersCount = model.MemberVoucherList.Count();
+                model.PatronsCount = model.PatronVoucherList.Count();
+                model.ShowMembersCount = model.ShowMemberVoucherList.Count();
+            }
+            else
+            {
+                model = new ShowVouchersViewModel();
+            }
+
+            return PartialView("ManageVouchers", model);
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult SendVoucher(Voucher voucher,ste)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ShowVouchers.cshtml", ControllerContext,
+        //            ViewData, TempData);
+        //        EmailService.EmailHelpers emailsService = new EmailHelpers();
+        //        emailsService.SendEmail(mem.ShowMemberVoucherList[i].Member.GetContactEmail,
+        //            $"Pre booking for {mem.ShowMemberVoucherList[i].Function.DisplayName}", html);
+        //    }
+        //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendVouchers(ShowVouchersModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var dm = new DataManager();
+
+                if (model.ShowMemberVouchers.IsNotNullOrEmpty())
+                {
+                    var showMemberVouchers = dm.GetVouchersForShow(model.FunctionId, VoucherMember.ShowMember);
+                    var vouchers = model.ShowMemberVouchers.Split(',').ToList();
+                    if (vouchers.Count < showMemberVouchers.Count)
+                        ModelState.AddModelError("ShowMemberVouchers",
+                            $"You need at least {showMemberVouchers.Count} vouchers for the show member vouchers and you only suplied {vouchers.Count}");
+                    else
+                    {
+                        for (var i = 0; i < showMemberVouchers.Count; i++)
+                        {
+                            showMemberVouchers[i].Key = vouchers[i];
+                            //save
+                            dm.AddOrUpdateShowVoucher(vouchers[i], showMemberVouchers[i].MemberId, model.FunctionId);
+                            //Email vouchers
+                            dm.SendVoucherEmail(showMemberVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"), model.BookingUrl,
+                                ControllerContext, ViewData, TempData);
+                        }
+                    }
+                }
+
+                if (model.PatronVouchers.IsNotNullOrEmpty())
+                {
+                    var patronVouchers = dm.GetVouchersForShow(model.FunctionId, VoucherMember.Patron);
+                    var vouchers = model.PatronVouchers.Split(',').ToList();
+                    if (vouchers.Count < patronVouchers.Count)
+                        ModelState.AddModelError("PatronVouchers",
+                            $"You need at least {patronVouchers.Count} vouchers for the show member vouchers and you only suplied {vouchers.Count}");
+                    else
+                    {
+                        for (var i = 0; i < patronVouchers.Count; i++)
+                        {
+                            patronVouchers[i].Key = vouchers[i];
+                            //save
+                            dm.AddOrUpdateShowVoucher(vouchers[i], patronVouchers[i].MemberId, model.FunctionId);
+                            //Email vouchers
+                            dm.SendVoucherEmail(patronVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"), model.BookingUrl,
+                                ControllerContext, ViewData, TempData);
+                        }
+                    }
+                }
+
+                if (model.MemberVouchers.IsNotNullOrEmpty())
+                {
+                    var memberVouchers = dm.GetVouchersForShow(model.FunctionId, VoucherMember.Member);
+                    var vouchers = model.MemberVouchers.Split(',').ToList();
+                    if (vouchers.Count < memberVouchers.Count)
+                        ModelState.AddModelError("MemberVouchers",
+                            $"You need at least {memberVouchers.Count} vouchers for the show member vouchers and you only suplied {vouchers.Count}");
+                    else
+                    {
+                        for (var i = 0; i < memberVouchers.Count; i++)
+                        {
+                            memberVouchers[i].Key = vouchers[i];
+                            //save
+                            dm.AddOrUpdateShowVoucher(vouchers[i], memberVouchers[i].MemberId, model.FunctionId);
+                            //Email vouchers
+                            dm.SendVoucherEmail(memberVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"), model.BookingUrl,
+                                ControllerContext, ViewData, TempData);
+                        }
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    TempData["Success"] = "The vouchers are winging their way to our extremely lovely membership. Well done!";
+                }
+                return RedirectToCurrentUmbracoPage($"id={model.FunctionId}");
+            }
+            return CurrentUmbracoPage();
         }
     }
 }
