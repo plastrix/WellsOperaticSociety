@@ -15,6 +15,7 @@ namespace WellsOperaticSociety.Models.MemberModels
         [DataType(DataType.Password)]
         [MinLength(8,ErrorMessage = "Password must be at least 8 charachters long")]
         public string Password { get; set; }
+        [Display(Name = "Repeat Password")]
         [Required(ErrorMessage = "Please re-enter your password")]
         [DataType(DataType.Password)]
         [Compare("Password",ErrorMessage = "Passwords do not match")]
