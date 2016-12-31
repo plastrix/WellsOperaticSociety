@@ -735,7 +735,9 @@ namespace WellsOperaticSociety.BusinessLogic
             using (var db = new DataContext())
             {
                 var date = DateTime.UtcNow;
-                return db.Memberships.Any(m => m.Member == memberId && m.StartDate <= date && m.EndDate >= date);
+                var memberships = db.Memberships.Where(m=>m.Member == memberId).ToList();
+                return memberships.Any(m => m.StartDate.Date <= date.Date && m.EndDate.Date >= date.Date);
+
             }
         }
 
