@@ -208,7 +208,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     paymentModel.RecieptId = invoice.ReceiptNumber;
                     paymentModel.StartDate = invoice.PeriodStart.ToShortDateString();
                     paymentModel.EndDate = invoice.PeriodEnd.ToShortDateString();
-                    paymentModel.Amount = invoice.AmountDue.ToString("C");
+                    paymentModel.Amount = (invoice.AmountDue / 100m).ToString("N");
 
                     viewData.Model = paymentModel;
                     html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/Payment.cshtml", controllerContext, viewData, tempData);
@@ -324,7 +324,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     IsSubscription = true,
                     MembershipType = (MembershipType)membershipType,
                     StartDate = subscription.CurrentPeriodStart ?? DateTime.Now,
-                    EndDate = subscription.CurrentPeriodEnd ?? DateTime.Now.AddYears(1),
+                    EndDate = subscription.CurrentPeriodEnd?.AddDays(-1).Date ?? DateTime.Now.AddYears(1).AddDays(-1).Date,
                     Member = member.Id,
                     StripeSubscriptionId = subscription.Id
                 };
