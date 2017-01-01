@@ -239,6 +239,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SubscriptionCreated.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Emails\SubscriptionUpdated.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SubscriptionUpdated.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -316,7 +321,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ShowVouchers.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\Emails\SubscriptionUpdated.cshtml" />
+    <Content Include="Views\Emails\SubscriptionUpdated.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SubscriptionUpdated.generated.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WellsOperaticSociety.Models\WellsOperaticSociety.Models.csproj">
