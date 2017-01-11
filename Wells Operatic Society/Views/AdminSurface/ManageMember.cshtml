@@ -1,5 +1,12 @@
-﻿@using WellsOperaticSociety.Models.Enums
+﻿@using WellsOperaticSociety.BusinessLogic
+@using WellsOperaticSociety.Models.Enums
 @inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageMemberViewModel>
+@{
+    DataManager dm = new DataManager();
+    var listUrl = dm.GetEditMembersAdminNode().Url;
+}
+
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success">@TempData["SuccessMessage"]</div>
@@ -8,7 +15,11 @@
 {
     <div class="alert alert-warning">@TempData["ErrorMessage"]</div>
 }
-<h2 class="section-title">Update Member Information</h2>
+
+<a href="@listUrl" class="btn btn-fill">Back to manage members</a>
+<div class="row">
+    <h2 class="section-title">Update Member Information</h2>
+</div>
 @using (Html.BeginUmbracoForm("UpdateMember", "AdminSurface"))
 {
     @Html.AntiForgeryToken()
@@ -71,7 +82,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Member.ContactEmail)
-        @Html.TextBoxFor(m => m.Member.ContactEmail, new {@class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.ContactEmail)})
+        @Html.TextBoxFor(m => m.Member.ContactEmail, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.ContactEmail) })
         @Html.ValidationMessageFor(m => m.Member.ContactEmail)
     </div>
     <h2 class="section-title">Mailing Lists</h2>
@@ -96,7 +107,7 @@
     <h2 class="section-title">Security</h2>
     <div class="row">
         <div class="col-xs-4">
-            Member<br/>
+            Member<br />
             Has access to only the member section
         </div>
         <div class="switch"
@@ -107,7 +118,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-4">Editor<br/>
+        <div class="col-xs-4">
+            Editor<br />
             Has access to the manage content section
         </div>
         <div class="switch"
@@ -118,8 +130,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-4">Committee<br />
-            Has access to the admin section</div>
+        <div class="col-xs-4">
+            Committee<br />
+            Has access to the admin section
+        </div>
         <div class="switch"
              data-on-label="<i class='fa fa-check'></i>"
              data-off-label="<i class='fa fa-times'></i>">
@@ -129,76 +143,84 @@
     </div>
     <div class="row">
 
-            <div class="col-xs-4" style="color:#FF3B30">
-                <b>Deactivate the user?</b>
-            </div>
-            <div class="switch"
-                 data-on-label="<i class='fa fa-check'></i>"
-                 data-off-label="<i class='fa fa-times'></i>">
-                @Html.CheckBoxFor(m => m.Member.Deactivated, new { @class = "ct-red" })
-            </div>
-            @Html.ValidationMessageFor(m => m.Member.Deactivated)
-    </div>
-        <div class="form-group">
-                <button type="submit" class="btn btn-default">Update Information</button>
+        <div class="col-xs-4" style="color:#FF3B30">
+            <b>Deactivate the user?</b>
         </div>
+        <div class="switch"
+             data-on-label="<i class='fa fa-check'></i>"
+             data-off-label="<i class='fa fa-times'></i>">
+            @Html.CheckBoxFor(m => m.Member.Deactivated, new { @class = "ct-red" })
+        </div>
+        @Html.ValidationMessageFor(m => m.Member.Deactivated)
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Update Information</button>
+    </div>
 }
 
-<h2 class="section-title">Add new membership</h2>
+<a href="@listUrl" class="btn btn-fill">Back to manage members</a>
+<div class="row">
+    <h2 class="section-title col-xs-12">Add new membership</h2>
+</div>
 @using (Html.BeginUmbracoForm("AddMembership", "AdminSurface"))
 {
     @Html.Partial("AddMembershipForm", Model.NewMembership)
 }
-
-<h2 class="section-title">Manage Membership</h2>
+<br />
+<a href="@listUrl" class="btn btn-fill pull">Back to manage members</a>
+<div class="row">
+    <h2 class="section-title">Manage Membership</h2>
+</div>
 @if (Model.Memberships != null && Model.Memberships.Any())
 {
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr><th class="hidden-xs">Membership Id</th><th>Start</th><th>End</th><th>Membership Type</th><th>Is Subscription</th><th></th></tr>
-            </thead>
-            <tbody>
-                @foreach (var membership in Model.Memberships)
-                {
-                    <tr>
-                        <td class="hidden-xs">@membership.MembershipId</td>
-                        <td>@membership.StartDate.ToShortDateString()</td>
-                        <td>@membership.EndDate.ToShortDateString()</td>
-                        <td>@membership.MembershipTypeName</td>
-                        <td>@membership.IsSubscription</td>
-                        <td>
-                            @if (membership.IsSubscription)
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr><th class="hidden-xs">Membership Id</th><th>Start</th><th>End</th><th>Membership Type</th><th>Is Subscription</th><th></th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var membership in Model.Memberships)
                     {
-                        if (membership.CancelAtEnd && membership.StripeSubscriptionId.IsNotNullOrEmpty())
-                        {
-                                    <button type="button" class="btn btn-default disabled">Canceling</button>
-                                }
-                                else
+                        <tr>
+                            <td class="hidden-xs">@membership.MembershipId</td>
+                            <td>@membership.StartDate.ToShortDateString()</td>
+                            <td>@membership.EndDate.ToShortDateString()</td>
+                            <td>@membership.MembershipTypeName</td>
+                            <td>@membership.IsSubscription</td>
+                            <td>
+                                @if (membership.IsSubscription)
                                 {
-                                    using (Html.BeginUmbracoForm("CancelSubscription", "AdminSurface"))
+                                    if (membership.CancelAtEnd && membership.StripeSubscriptionId.IsNotNullOrEmpty())
                                     {
-                                        @Html.HiddenFor(m => membership.StripeSubscriptionId)
-                                        @Html.HiddenFor(m => membership.Member)
-                                        <button type="submit" class="btn btn-warning btn-fill">Cancel subscription</button>
+                                        <button type="button" class="btn btn-default disabled">Canceling</button>
+                                    }
+                                    else
+                                    {
+                                        using (Html.BeginUmbracoForm("CancelSubscription", "AdminSurface"))
+                                        {
+                                            @Html.HiddenFor(m => membership.StripeSubscriptionId)
+                                            @Html.HiddenFor(m => membership.Member)
+                                            <button type="submit" class="btn btn-warning btn-fill">Cancel subscription</button>
+                                        }
                                     }
                                 }
-                            }
-                            <br />
-                            @using (Html.BeginUmbracoForm("DeleteMembership", "AdminSurface"))
-                    {
-                                @Html.HiddenFor(m => membership.MembershipId)
-                        <button type="submit" class="btn btn-danger btn-fill">Delete</button>
-                                if (membership.IsSubscription)
+                                <br />
+                                @using (Html.BeginUmbracoForm("DeleteMembership", "AdminSurface"))
                                 {
-                                    <div>Deleting the record will not cancel the subscription</div>
+                                    @Html.HiddenFor(m => membership.MembershipId)
+                                    <button type="submit" class="btn btn-danger btn-fill">Delete</button>
+                                    if (membership.IsSubscription)
+                                    {
+                                        <div>Deleting the record will not cancel the subscription</div>
+                                    }
                                 }
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 }
 else

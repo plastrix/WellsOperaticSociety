@@ -65,10 +65,23 @@ namespace WellsOperaticSociety.BusinessLogic
             return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "memberSection");
         }
 
-        public IPublishedContent GetEditMemberAdminNode()
+        public IPublishedContent GetAdminNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);
-            return helper.TypedContent(1103);
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "admin");
+        }
+
+
+        public IPublishedContent GetEditMemberAdminNode()
+        {
+            var adminNode = GetAdminNode();
+            return adminNode.Children.SingleOrDefault(m=>m.DocumentTypeAlias == "manageMember");
+        }
+
+        public IPublishedContent GetEditMembersAdminNode()
+        {
+            var adminNode = GetAdminNode();
+            return adminNode.Children.SingleOrDefault(m => m.DocumentTypeAlias == "manageMembers");
         }
 
         public IPublishedContent GetManualsNode()
@@ -322,7 +335,19 @@ namespace WellsOperaticSociety.BusinessLogic
 
         public List<LongServiceAward> GetDueLongServiceAwards()
         {
-            var members = GetActiveMembers();
+            var mems = ApplicationContext.Current.Services.MemberService.GetAllMembers();
+            var members = new List<Member>();
+            var memberShipHelper = new Umbraco.Web.Security.MembershipHelper(Umbraco);
+            foreach (var m in mems)
+            {
+                var ipubcont = memberShipHelper.GetById(m.Id);
+                if (ipubcont != null)
+                {
+                    if(ipubcont.GetProperty("dateApprovedForMembership") != null)
+                    members.Add(new Member(ipubcont));
+                }
+            }
+            //GetActiveMembers(); 
             var previousAwards = GetAwardedLongServiceAwards();
             var unawrdedAwards = GetLongServiceAwards().Where(m => m.Awarded == false).ToList();
             var dueAwards = new List<LongServiceAward>();

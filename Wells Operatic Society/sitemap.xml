@@ -61,6 +61,12 @@
     <loc>https://localhost:44300/manage-members/</loc>
   </url>
   <url>
+    <loc>https://localhost:44300/manage-members/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-member/</loc>
+  </url>
+  <url>
     <loc>https://localhost:44300/manage-member/</loc>
   </url>
   <url>
