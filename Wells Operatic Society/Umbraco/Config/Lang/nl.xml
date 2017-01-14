@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <language alias="nl" intName="Dutch" localName="Nederlands" lcid="19" culture="nl-NL">
   <creator>
     <name>The Umbraco community</name>
@@ -36,12 +36,6 @@
     <key alias="translate">Vertalen</key>
     <key alias="update">Bijwerken</key>
     <key alias="defaultValue">Standaardwaarde</key>
-    <key alias="DeleteCMSImportAction">Delete</key>
-    <key alias="ExecuteCMSImportWizardAction">Execute</key>
-    <key alias="ScheduleCMSImportWizardAction">Schedule</key>
-    <key alias="StartCMSImportWizardAction">Import Data</key>
-    <key alias="StartCMSImportChildDefinitionAction">Create child definition</key>
-    <key alias="LastRunInfoAction">Scheduled task log</key>
   </area>
   <area alias="assignDomain">
     <key alias="permissionDenied">Permission denied.</key>
@@ -73,6 +67,7 @@
     <key alias="select">Selecteren</key>
     <key alias="selectCurrentFolder">Selecteer huidige map</key>
     <key alias="somethingElse">Doe iets anders</key>
+
     <key alias="bold">Vet</key>
     <key alias="deindent">Paragraaf uitspringen</key>
     <key alias="formFieldInsert">Voeg formulierveld in</key>
@@ -167,6 +162,7 @@
     <key alias="urls">Link naar het document</key>
     <key alias="memberof">Lid van groep(en)</key>
     <key alias="notmemberof">Geen lid van groep(en)</key>
+    
     <key alias="childItems" version="7.0">Kinderen</key>
     <key alias="target" version="7.0">Doel</key>
   </area>
@@ -178,7 +174,9 @@
     <key alias="chooseNode">Waar wil je de nieuwe %0% aanmaken?</key>
     <key alias="createUnder">Aanmaken onder</key>
     <key alias="updateData">Kies een type en een titel</key>
+
     <key alias="noDocumentTypes" version="7.0"><![CDATA[Er zijn geen toegestane ​​documenttypes beschikbaar. Je moet deze inschakelen in de Instellingen sectie onder <strong>"Documenttypes"</ strong>.]]></key>
+
     <key alias="noMediaTypes" version="7.0"><![CDATA[Er zijn geen toegestande mediatypes beschikbaar. Je moet deze in schakelen in de Instellingen sectie onder <strong>"Mediatypes"</strong>.]]></key>
   </area>
   <area alias="dashboard">
@@ -198,22 +196,27 @@
   </area>
   <area alias="bulk">
     <key alias="done">Done</key>
+
     <key alias="deletedItem">Deleted %0% item</key>
     <key alias="deletedItems">Deleted %0% items</key>
     <key alias="deletedItemOfItem">Deleted %0% out of %1% item</key>
     <key alias="deletedItemOfItems">Deleted %0% out of %1% items</key>
+
     <key alias="publishedItem">Published %0% item</key>
     <key alias="publishedItems">Published %0% items</key>
     <key alias="publishedItemOfItem">Published %0% out of %1% item</key>
     <key alias="publishedItemOfItems">Published %0% out of %1% items</key>
+
     <key alias="unpublishedItem">Unpublished %0% item</key>
     <key alias="unpublishedItems">Unpublished %0% items</key>
     <key alias="unpublishedItemOfItem">Unpublished %0% out of %1% item</key>
     <key alias="unpublishedItemOfItems">Unpublished %0% out of %1% items</key>
+
     <key alias="movedItem">Moved %0% item</key>
     <key alias="movedItems">Moved %0% items</key>
     <key alias="movedItemOfItem">Moved %0% out of %1% item</key>
     <key alias="movedItemOfItems">Moved %0% out of %1% items</key>
+
     <key alias="copiedItem">Copied %0% item</key>
     <key alias="copiedItems">Copied %0% items</key>
     <key alias="copiedItemOfItem">Copied %0% out of %1% item</key>
@@ -282,6 +285,7 @@
     <key alias="filter">Typ om te filteren...</key>
     <key alias="enterTags">Typ om tags toe te voegen (druk op enter na elke tag)...</key>
   </area>
+
   <area alias="editcontenttype">
     <key alias="allowAtRoot" version="7.2">Toestaan op root-niveau</key>
     <key alias="allowAtRootDesc" version="7.2">Wanneer aangevinkt dan mag dit document type aangemaakt worden op het root-niveau van content of media trees.</key>
@@ -427,8 +431,7 @@
     <key alias="showPageOnSend">Toon pagina bij versturen</key>
     <key alias="size">Formaat</key>
     <key alias="sort">Sorteren</key>
-    <key alias="submit">Submit</key>
-    <!-- TODO: Translate this -->
+    <key alias="submit">Submit</key> <!-- TODO: Translate this -->
     <key alias="type">Type</key>
     <key alias="typeToSearch">Type om te zoeken...</key>
     <key alias="up">Omhoog</key>
@@ -446,6 +449,7 @@
     <key alias="folder">Map</key>
     <key alias="reorder">Reorder</key>
     <key alias="reorderDone">I am done reordering</key>
+
     <key alias="searchResults">Zoekresultaten</key>
   </area>
   <area alias="graphicheadline">
@@ -540,8 +544,10 @@ Echter, Runway biedt een gemakkelijke basis om je snel op weg te helpen. Als je 
     <key alias="greeting4">Fijne donderdag</key>
     <key alias="greeting5">Fijne vrijdag</key>
     <key alias="greeting6">Fijne zaterdag</key>
+    
     <key alias="instruction">log hieronder in</key>
     <key alias="timeout">Sessie is verlopen</key>
+
     <key alias="bottomText"><![CDATA[<p style="text-align:right;">&copy; 2001 - %0% <br /><a href="http://umbraco.com" style="text-decoration: none" target="_blank">umbraco.com</a></p>]]></key>
   </area>
   <area alias="main">
@@ -666,9 +672,11 @@ Echter, Runway biedt een gemakkelijke basis om je snel op weg te helpen. Als je 
     <key alias="paSimpleHelp">Als je eenvoudige beveiliging wilt gebruiken met behulp van een enkele gebruikersnaam en wachtwoord</key>
   </area>
   <area alias="publish">
-    <key alias="contentPublishedFailedAwaitingRelease"><![CDATA[
+    <key alias="contentPublishedFailedAwaitingRelease">
+      <![CDATA[
       %0% kan niet worden gepubliceerd omdat het item is gepland voor release.
-    ]]></key>
+    ]]>
+    </key>
     <key alias="contentPublishedFailedInvalid"><![CDATA[
       %0% kan niet worden gepubliceerd, omdat de eigenschappen:%1% de validatieregels niet hebben doorstaan.
     ]]></key>
@@ -730,6 +738,7 @@ Echter, Runway biedt een gemakkelijke basis om je snel op weg te helpen. Als je 
     <key alias="translation">Vertaling</key>
     <key alias="users">Gebruikers</key>
     <key alias="contour" version="4.0">Umbraco Contour</key>
+
     <key alias="help" version="7.0">Help</key>
     <key alias="forms">Formulieren</key>
     <key alias="analytics">Analytics</key>
@@ -842,8 +851,10 @@ Echter, Runway biedt een gemakkelijke basis om je snel op weg te helpen. Als je 
     <key alias="addElement"><![CDATA[Klik om te starten op het <i class="icon icon-add blue"></i> teken onderaan en voeg je eerste item toe]]></key>
     <key alias="dropElement">Drop content</key>
     <key alias="settingsApplied">Settings applied</key>
+
     <key alias="contentNotAllowed">This content is not allowed here</key>
     <key alias="contentAllowed">This content is allowed here</key>
+
     <key alias="clickToEmbed">Klik om een item te embedden</key>
     <key alias="clickToInsertImage">Klik om een afbeelding in te voegen</key>
     <key alias="placeholderImageCaption">Afbeelding ondertitel...</key>
@@ -852,20 +863,27 @@ Echter, Runway biedt een gemakkelijke basis om je snel op weg te helpen. Als je 
     <key alias="gridLayoutsDetail">Lay-outs zijn het globale werkgebied voor de grid editor. Je hebt meestal maar één of twee verschillende lay-outs nodig</key>
     <key alias="addGridLayout">Een grid layout toevoegen</key>
     <key alias="addGridLayoutDetail">De lay-out aanpassen door de kolombreedte aan te passen en extra kolommen toe te voegen</key>
+
     <key alias="rowConfigurations">Rijconfiguratie</key>
     <key alias="rowConfigurationsDetail">Rijen zijn voorgedefinieerde cellen die horizontaal zijn gerangschikt</key>
     <key alias="addRowConfiguration">Een rijconfiguratie toevoegen</key>
     <key alias="addRowConfigurationDetail">De rijconfiguratie aanpassen door de breedte van de cel in te stellen en extra cellen toe te voegen</key>
+
     <key alias="columns">Kolommen</key>
     <key alias="columnsDetails">Het totaal aantal gecombineerde kolommen in de grid layout</key>
+
     <key alias="settings">Instellingen</key>
     <key alias="settingsDetails">Configureren welke instellingen de editors kunnen aanpassen</key>
+
+
     <key alias="styles">Styles</key>
     <key alias="stylesDetails">Configureren welke stijlen de editors kunnen aanpassen</key>
+
     <key alias="settingDialogDetails">De instellingen worden enkel bewaard indien de ingevoerde Json geldig is</key>
+
     <key alias="allowAllEditors">Alle editors toelaten</key>
     <key alias="allowAllRowConfigurations">Alle rijconfiguraties toelaten</key>
-  </area>
+</area>
   <area alias="templateEditor">
     <key alias="alternativeField">Alternatief veld</key>
     <key alias="alternativeText">Alternatieve tekst</key>
@@ -1013,6 +1031,7 @@ Om een vertalingstaak te sluiten, ga aub naar het detailoverzicht en klik op de 
     <key alias="userTypes">Gebruikerstypes</key>
     <key alias="writer">Auteur</key>
     <key alias="change">Wijzig</key>
+
     <key alias="yourProfile" version="7.0">Je profiel</key>
     <key alias="yourHistory" version="7.0">Je recente historie</key>
     <key alias="sessionExpires" version="7.0">Sessie verloopt over</key>

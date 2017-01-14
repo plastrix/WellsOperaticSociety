@@ -14,10 +14,16 @@ namespace WellsOperaticSociety.Web
                 "~/scripts/jquery.validate.min.js",
                 "~/scripts/jquery.validate.unobtrusive.min.js",
                 "~/scripts/jquery.unobtrusive-ajax.min.js",
-                "~/scripts/chartist.min.js"));
+                "~/scripts/chartist.min.js",
+                "~/scripts/datatables/jquery.dataTables.js",
+                "~/scripts/datatables/dataTables.bootstrap.js",
+                "~/scripts/datatables/dataTables.buttons.js",
+                "~/scripts/datatables/buttons.bootstrap.js",
+                "~/scripts/datatables/buttons.flash.js",
+                "~/scripts/datatables/buttons.html5.js"));
 
             bundles.Add(new ScriptBundle("~/Plugins").Include(
-                "~/scripts/gsdk-checkbox.js",
+                //"~/scripts/gsdk-checkbox.js",
                 "~/scripts/gsdk-morphing.js",
                 "~/scripts/gsdk-radio.js",
                 "~/scripts/gsdk-bootstrapswitch.js",
@@ -35,7 +41,9 @@ namespace WellsOperaticSociety.Web
                 "~/Content/bootstrap.min.css",
                 "~/Content/gsdk.css",
                 "~/Content/Site.css",
-                "~/Content/DocumentIcons.css"));
+                "~/Content/DocumentIcons.css",
+                "~/Content/DataTables/css/dataTables.bootstrap.css",
+                "~/Content/DataTables/css/buttons.bootstrap.css"));
 
             BundleTable.EnableOptimizations = false;
         }

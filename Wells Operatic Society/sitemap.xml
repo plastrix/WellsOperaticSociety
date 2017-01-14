@@ -61,12 +61,6 @@
     <loc>https://localhost:44300/manage-members/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/manage-members/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/manage-member/</loc>
-  </url>
-  <url>
     <loc>https://localhost:44300/manage-member/</loc>
   </url>
   <url>
@@ -77,6 +71,9 @@
   </url>
   <url>
     <loc>https://localhost:44300/manage-long-service/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/membership-report/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/function-list/</loc>

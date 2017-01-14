@@ -30,7 +30,7 @@ namespace WellsOperaticSociety.Models.MemberModels
         public DateTime? DateOfBirth { get; set; }
         [DisplayName("Date applied for membership")]
         public DateTime? DateAppliedForMembership { get; set; }
-        [DisplayName("Date approved for memberhsip")]
+        [DisplayName("Date approved for membership")]
         public DateTime? DateApprovedForMembership { get; set; }
         [DisplayName("Date declined for membership")]
         public DateTime? DateDeclinedForMembership { get; set; }
@@ -43,7 +43,7 @@ namespace WellsOperaticSociety.Models.MemberModels
         public string Email { get; set; }
         [DisplayName("Deactivate the user")]
         public bool Deactivated { get; set; }
-        [DisplayName("vehicle reg 1")]
+        [DisplayName("Vehicle reg 1")]
         public string VehicleRegistration1 { get; set; }
         [DisplayName("Vehicle reg 2")]
         public string VehicleRegistration2 { get; set; }

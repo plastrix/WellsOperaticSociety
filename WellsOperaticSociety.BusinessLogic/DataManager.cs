@@ -126,6 +126,12 @@ namespace WellsOperaticSociety.BusinessLogic
             return root.Children.Single(m => m.DocumentTypeAlias == "manageVouchers");
         }
 
+        public IPublishedContent GetMembershipReportNode()
+        {
+            var root = GetAdminNode();
+            return root.Children.Single(m => m.DocumentTypeAlias == "membershipReport");
+        }
+
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
         {
             var funcListNode = GetFunctionListNode();
@@ -263,7 +269,9 @@ namespace WellsOperaticSociety.BusinessLogic
         public List<Member> GetActiveMembers()
         {
             var key = "ActiveMembers";
-            var activeMembers = HttpContext.Current.Session[key] as List<Member>;
+            List<Member> activeMembers = null;
+            if(HttpContext.Current !=null && HttpContext.Current.Session!=null)
+                activeMembers = HttpContext.Current.Session[key] as List<Member>;
             if (activeMembers == null)
             {
                 var helper = new UmbracoHelper(Umbraco);
@@ -282,10 +290,47 @@ namespace WellsOperaticSociety.BusinessLogic
                         activeMembers.Add(m);
                     }
                 }
-                HttpContext.Current.Session[key] = activeMembers;
+                if (HttpContext.Current != null && HttpContext.Current.Session != null)
+                    HttpContext.Current.Session[key] = activeMembers;
             }
             return activeMembers;
         }
+
+
+        /// <summary>
+        /// Returns a list of expired members that do not have a valid Membership record
+        /// </summary>
+        /// <returns></returns>
+        public List<Member> GetExpiredMembers()
+        {
+            var key = "ExpiredMembers";
+            List<Member> expiredMembers = null;
+            if (HttpContext.Current!= null && HttpContext.Current.Session != null)
+                expiredMembers = HttpContext.Current.Session[key] as List<Member>;
+            if (expiredMembers == null)
+            {
+                var helper = new UmbracoHelper(Umbraco);
+                var members = ApplicationContext.Current.Services.MemberService.GetAllMembers()
+                    .Select(m => new Member(helper.TypedMember(m.Id)))
+                    .Where(m => m.Deactivated == false)
+                    .ToList();
+
+                var currentMemberships = GetCurrentMemberships();
+                expiredMembers = new List<Member>();
+                foreach (var member in members)
+                {
+                    var m = currentMemberships.SingleOrDefault(x => x.Member == member.Id);
+                    if (m == null)
+                    {
+                        expiredMembers.Add(member);
+                    }
+                }
+                if (HttpContext.Current != null && HttpContext.Current.Session != null)
+                    HttpContext.Current.Session[key] = expiredMembers;
+            }
+            return expiredMembers;
+        }
+
 
         /// <summary>
         /// Returns all vehicle registrations for active members
@@ -479,6 +524,65 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
+        public List<MembershipReportModel> GetMembershipReportData(MembershipReportFilterModel filter)
+        {
+            if (filter == null)
+            {
+                return null;
+            }
+
+            List<MembershipReportModel> data = new List<MembershipReportModel>();
+            if (filter.MembershipStatus != null && filter.MembershipStatus.Any())
+            {
+                foreach (var m in filter.MembershipStatus)
+                {
+                    if (m == "1")
+                    {
+                        //active members
+                        data.AddRange(GetActiveMembershipsForReport());
+                    }
+                    if (m == "2")
+                    {
+                        //expired members
+                        data.AddRange(GetExpiredMembershipsForReport());
+                    }
+                }
+            }
+            else
+            {
+                //return entire membership
+                data.AddRange(GetActiveMembershipsForReport());
+                data.AddRange(GetExpiredMembershipsForReport());
+            }
+            if (filter.MembershipType != null && filter.MembershipType.Any())
+            {
+                List<MembershipReportModel> d =new SupportClass.EquatableList<MembershipReportModel>();
+                foreach (var m in filter.MembershipType)
+                {
+                    d.AddRange(data.Where(n=>n.LatestMembershipType == m));
+                }
+                return d;
+            }
+            return data;
+
+        }
+
+        private List<MembershipReportModel> GetExpiredMembershipsForReport()
+        {
+            //inactive members
+            var members = GetExpiredMembers().Select(n => new MembershipReportModel() { MemberId = n.Id, Email = n.Email, FirstName = n.FirstName, LastName = n.LastName, FullName = n.Name }).ToList();
+            members.ForEach(n => n.LatestMembershipType = GetLatestMembership(n.MemberId)?.MembershipType);
+            return members;
+        }
+
+        private List<MembershipReportModel> GetActiveMembershipsForReport()
+        {
+            //active members
+            var members = GetActiveMembers().Select(n => new MembershipReportModel { MemberId = n.Id, Email = n.Email, FirstName = n.FirstName, LastName = n.LastName, FullName = n.Name}).ToList();
+            members.ForEach(n => n.LatestMembershipType = GetLatestMembership(n.MemberId)?.MembershipType);
+            return members;
+        }
+
         #region DataContext
         public List<Membership> GetMembershipsForUser(int memberId)
         {
@@ -637,7 +741,7 @@ namespace WellsOperaticSociety.BusinessLogic
             {
                 var key = "CurrentMemberships";
                 List<Membership> memberships = null;
-                if (HttpContext.Current != null)
+                if (HttpContext.Current != null && HttpContext.Current.Session!=null)
                     memberships = HttpContext.Current.Session[key] as List<Membership>;
 
                 if (memberships == null)
@@ -648,7 +752,7 @@ namespace WellsOperaticSociety.BusinessLogic
                             .Select(m => m.FirstOrDefault())
                             .ToList();
 
-                    if (HttpContext.Current != null)
+                    if (HttpContext.Current != null && HttpContext.Current.Session != null)
                         HttpContext.Current.Session[key] = memberships;
                 }
 
@@ -682,7 +786,15 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             using (var db = new DataContext())
             {
-                return db.Memberships.OrderByDescending(m => m.StartDate).SingleOrDefault(m => m.StripeSubscriptionId == stripeSubscriptionId);
+                return db.Memberships.OrderByDescending(m => m.StartDate).FirstOrDefault(m => m.StripeSubscriptionId == stripeSubscriptionId);
+            }
+        }
+
+        public Membership GetLatestMembership(int userId)
+        {
+            using (var db = new DataContext())
+            {
+                return db.Memberships.OrderByDescending(m => m.StartDate).FirstOrDefault(m => m.Member == userId);
             }
         }
 
@@ -840,7 +952,7 @@ namespace WellsOperaticSociety.BusinessLogic
                         }
                     }
                     break;
-                    case VoucherMember.Member:
+                    case VoucherMember.Patron:
                     foreach (var member in memberships.Where(m => m.MembershipType == MembershipType.Patron))
                     {
                         var voucher = vouchers.SingleOrDefault(m => m.MemberId == member.Member);
@@ -865,7 +977,7 @@ namespace WellsOperaticSociety.BusinessLogic
                         }
                     }
                     break;
-                    case VoucherMember.Patron:
+                    case VoucherMember.Member:
                     foreach (var member in memberships.Where(m => m.MembershipType != MembershipType.Patron && membersInshow.All(n => n.MemberId != m.Member)))
                     {
                         var voucher = vouchers.SingleOrDefault(m => m.MemberId == member.Member);

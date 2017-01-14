@@ -13,7 +13,10 @@
         document.LoadHtml(data);
 
         var acceptableTags = new String[] {  };
-
+        if (document.DocumentNode == null)
+        {
+            return string.Empty;
+        }
         var nodes = new Queue<HtmlNode>(document.DocumentNode.SelectNodes("./*|./text()"));
         while (nodes.Count > 0)
         {

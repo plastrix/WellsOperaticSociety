@@ -63,34 +63,28 @@
         var attrs = new List<string>();
         JObject cfg = contentItem.config;
 
-        if (cfg != null)
-        {
-            var hasClass = false;
+        if(cfg != null)
             foreach (JProperty property in cfg.Properties())
             {
-
-                if (property.Name == "class")
-                {
-                    attrs.Add(property.Name + "=\"section " + property.Value.ToString() + "\"");
-                    hasClass = true;
-                }
-                attrs.Add(property.Name + "=\"" + property.Value.ToString() + "\"");
+                var propertyValue = HttpUtility.HtmlAttributeEncode(property.Value.ToString());
+                attrs.Add(property.Name + "=\"" + propertyValue + "\"");
             }
-            if (!hasClass)
-            {
-                attrs.Add("class=\"section\"");
-            }
-        }
-
+        
         JObject style = contentItem.styles;
 
         if (style != null) {
             var cssVals = new List<string>();
             foreach (JProperty property in style.Properties())
-                cssVals.Add(property.Name + ":" + property.Value.ToString() + ";");
+            {
+                var propertyValue = property.Value.ToString();
+                if (string.IsNullOrWhiteSpace(propertyValue) == false)
+                {
+                    cssVals.Add(property.Name + ":" + propertyValue + ";");
+                }
+            }
 
             if (cssVals.Any())
-                attrs.Add("style=\"" + string.Join(" ", cssVals) + "\"");
+                attrs.Add("style=\"" + HttpUtility.HtmlAttributeEncode(string.Join(" ", cssVals)) + "\"");
         }
 
         return new MvcHtmlString(string.Join(" ", attrs));
