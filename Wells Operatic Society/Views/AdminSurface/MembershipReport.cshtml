@@ -1,0 +1,143 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.MembershipReportViewModel>
+
+<div class="row membership-filter">
+    <div class="panel panel-default">
+        <div class="panel-heading">Filters</div>
+        <div class="panel-body">
+
+            <div class="col-md-4">
+                <h5>Membership state</h5>
+                <label>
+                    <input type="checkbox"
+                           name="MemberStatus"
+                           data-toggle="checkbox"
+                           value="1" /> Active
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           name="MemberStatus"
+                           data-toggle="checkbox"
+                           value="2" /> Inactive
+                </label>
+            </div>
+            <div class="col-md-8">
+                <h5>Membership type</h5>
+                <label>
+                    <input type="checkbox"
+                           name="MemberType"
+                           data-toggle="checkbox"
+                           value="Ordinary" /> Ordinary
+                </label>
+                <label>
+                    <input type="checkbox"
+                           name="MemberType"
+                           data-toggle="checkbox"
+                           value="Social" /> Social
+                </label>
+                <label>
+                    <input type="checkbox"
+                           name="MemberType"
+                           data-toggle="checkbox"
+                           value="Patron" /> Patron
+                </label>
+                <label>
+                    <input type="checkbox"
+                           name="MemberType"
+                           data-toggle="checkbox"
+                           value="Associate" /> Associate
+                </label>
+                <label>
+                    <input type="checkbox"
+                           name="MemberType"
+                           data-toggle="checkbox"
+                           value="Child" /> Child
+                </label>
+                <label>
+                    <input type="checkbox"
+                           name="MemberType"
+                           data-toggle="checkbox"
+                           value="Life" /> Life
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="results" class="row">
+    @*<p class="alert alert-info">Select your search criteria above</p>*@
+    <div class="table-responsive">
+        <table class="change-meal-table table table-striped table-bordered" id="membership-table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var membershipStatusCheckboxes = new Array();
+    var membershipTypeCheckboxes = new Array();
+
+    $(document).ready(function () {
+
+        updateCheckboxLists();
+
+        var table = $("#membership-table").DataTable({
+            "processing": true,
+            "serverSide": true,
+            "orderMulti": false,
+            dom: "<'row'<'col-xs-offset-6 col-xs-6 text-right'B>>" +
+                "<'row'<'col-xs-6'l><'col-xs-6'f>>" +
+                "<'row'<'col-xs-12'tr>>" +
+                "<'row'<'col-xs-5'i><'col-xs-7'p>>",
+            buttons: [
+                'copy', 'csv'
+            ],
+            "ajax": {
+                "url": "/Umbraco/Surface/AdminSurface/MembershipReportData",
+                "type": "POST",
+                "data": function (d) {
+                    d.membershiptStatus = membershipStatusCheckboxes;
+                    d.membershipType = membershipTypeCheckboxes;
+                },
+                "autoWidth": false
+            },
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "language": {
+                "paginate": {
+                    "first":      "First",
+                    "last":       "Last",
+                    "next":       ">",
+                    "previous":   "<"
+                }
+            }
+        });
+
+        $("select[name=membership-table_length]").removeClass("input-sm");
+
+        $('.membership-filter input').change(function () {
+            updateCheckboxLists();
+            table.draw();
+        });
+    });
+
+    function updateCheckboxLists() {
+        membershipStatusCheckboxes = [];
+        membershipTypeCheckboxes = [];
+        $("input[name=MemberStatus]:checked").each(function () {
+            membershipStatusCheckboxes.push($(this).val());
+        });
+
+        $("input[name=MemberType]:checked").each(function () {
+            membershipTypeCheckboxes.push($(this).val());
+        });
+    }
+
+</script>

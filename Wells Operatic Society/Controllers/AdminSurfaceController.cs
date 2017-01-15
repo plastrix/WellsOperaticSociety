@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using DataTables.AspNet.Core;
+using DataTables.AspNet.Mvc5;
 using log4net;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Stripe;
+using umbraco.cms.businesslogic.packager;
 using Umbraco.Web.Mvc;
 using WellsOperaticSociety.BusinessLogic;
 using WellsOperaticSociety.EmailService;
@@ -22,6 +25,7 @@ using WellsOperaticSociety.Models.ReportModels;
 using WellsOperaticSociety.Web.Helper;
 using WellsOperaticSociety.Web.Models;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
+using SortDirection = DataTables.AspNet.Core.SortDirection;
 
 namespace WellsOperaticSociety.Web.Controllers
 {
@@ -41,7 +45,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 Members = Services.MemberService.GetAllMembers().Take(50)
             };
 
-            return PartialView("ManageMembership",model);
+            return PartialView("ManageMembership", model);
         }
 
         public ActionResult ManageMember(int id)
@@ -53,7 +57,8 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 TempData["ErrorMessage"] =
                     "The member you are looking for could not be found. Please try again but if it persists please give your handy IT people a shout :)";
-                _log.Error($"A member with the id of {id} could not be found in the admin surface controller ManageMember function");
+                _log.Error(
+                    $"A member with the id of {id} could not be found in the admin surface controller ManageMember function");
                 return null;
             }
 
@@ -65,7 +70,7 @@ namespace WellsOperaticSociety.Web.Controllers
             var curMemberships = dm.GetMembershipsForUser(id);
             var startDate = DateTime.Now;
             var endDate = DateTime.Now.AddYears(1);
-            if (curMemberships !=null && curMemberships.Count>0)
+            if (curMemberships != null && curMemberships.Count > 0)
             {
                 var previous = curMemberships.OrderByDescending(m => m.EndDate).First();
                 startDate = previous.StartDate.AddYears(1);
@@ -82,8 +87,12 @@ namespace WellsOperaticSociety.Web.Controllers
 
             try
             {
-                model.IsSubscribedToMailingList = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.MailingList, model.Member.Email)).Result;
-                model.IsSubscribedToMemberList = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.Membership, model.Member.Email)).Result;
+                model.IsSubscribedToMailingList =
+                    Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.MailingList, model.Member.Email))
+                        .Result;
+                model.IsSubscribedToMemberList =
+                    Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.Membership, model.Member.Email))
+                        .Result;
             }
             catch (Exception ex)
             {
@@ -93,9 +102,10 @@ namespace WellsOperaticSociety.Web.Controllers
             model.HasMemberRole = System.Web.Security.Roles.IsUserInRole(model.Member.Email, "Member");
             model.HasEditorRole = System.Web.Security.Roles.IsUserInRole(model.Member.Email, "Editor");
             model.HasCommitteeRole = System.Web.Security.Roles.IsUserInRole(model.Member.Email, "Committee Member");
-            return PartialView("ManageMember",model);
+            return PartialView("ManageMember", model);
 
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateMember(ManageMemberViewModel model)
@@ -106,7 +116,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 if (model.Member.Id == 0)
                 {
                     _log.Error("Trying to update a member on the admin form but no userId was posted back");
-                    ModelState.AddModelError("","We could not find a user with that id to update");
+                    ModelState.AddModelError("", "We could not find a user with that id to update");
                     return CurrentUmbracoPage();
                 }
 
@@ -115,7 +125,8 @@ namespace WellsOperaticSociety.Web.Controllers
                 //couldnt find member
                 if (member == null)
                 {
-                    _log.Error($"Trying to update a member on the admin form but the member with id {model.Member.Id} could not be found");
+                    _log.Error(
+                        $"Trying to update a member on the admin form but the member with id {model.Member.Id} could not be found");
                     ModelState.AddModelError("", "We could not find a user with that id to update");
                     return CurrentUmbracoPage();
                 }
@@ -125,15 +136,16 @@ namespace WellsOperaticSociety.Web.Controllers
                     //check if the new email already exists in the system
                     if (memberService.GetByEmail(model.Member.Email) != null)
                     {
-                        ModelState.AddModelError("Email","This email address already exists in the system and emails must be unique.");
+                        ModelState.AddModelError("Email",
+                            "This email address already exists in the system and emails must be unique.");
                         return CurrentUmbracoPage();
                     }
                 }
-                
+
                 try
                 {
                     DataManager dm = new DataManager();
-                    dm.AddOrUpdateMember(model.Member,true);
+                    dm.AddOrUpdateMember(model.Member, true);
                     //mailing list subscribe
                     if (model.IsSubscribedToMailingList)
                         Task.Run(
@@ -142,13 +154,17 @@ namespace WellsOperaticSociety.Web.Controllers
                                     model.Member.FirstName, model.Member.LastName));
                     else
                     {
-                        var mailingListMember = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.MailingList, model.Member.Email)).Result;
+                        var mailingListMember =
+                            Task.Run(
+                                () =>
+                                    dm.IsUserSubscribedToMailChimpList(MailChimpListIds.MailingList, model.Member.Email))
+                                .Result;
                         if (mailingListMember)
                         {
                             Task.Run(
-                            () =>
-                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.MailingList, model.Member.Email,
-                                    model.Member.FirstName, model.Member.LastName, true));
+                                () =>
+                                    dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.MailingList, model.Member.Email,
+                                        model.Member.FirstName, model.Member.LastName, true));
                         }
                     }
 
@@ -160,13 +176,17 @@ namespace WellsOperaticSociety.Web.Controllers
                                     model.Member.FirstName, model.Member.LastName));
                     else
                     {
-                        var memberListMember = Task.Run(() => dm.IsUserSubscribedToMailChimpList(MailChimpListIds.Membership, model.Member.Email)).Result;
+                        var memberListMember =
+                            Task.Run(
+                                () =>
+                                    dm.IsUserSubscribedToMailChimpList(MailChimpListIds.Membership, model.Member.Email))
+                                .Result;
                         if (memberListMember)
                         {
                             Task.Run(
-                            () =>
-                                dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.Membership, model.Member.Email,
-                                    model.Member.FirstName, model.Member.LastName, true));
+                                () =>
+                                    dm.AddOrUpdateUserToMailChimpList(MailChimpListIds.Membership, model.Member.Email,
+                                        model.Member.FirstName, model.Member.LastName, true));
                         }
                     }
 
@@ -199,20 +219,24 @@ namespace WellsOperaticSociety.Web.Controllers
                 catch (Exception ex)
                 {
                     _log.Error("There was an error updating a profile with the exception as follows", ex);
-                    ModelState.AddModelError("", "There was an error updating this profile. Give us a shout if this keeps happening and we will find out whats going on");
+                    ModelState.AddModelError("",
+                        "There was an error updating this profile. Give us a shout if this keeps happening and we will find out whats going on");
                     return CurrentUmbracoPage();
                 }
                 TempData["SuccessMessage"] =
                     $"Hurray!! Everything worked and you have update the profile for {model.Member.FirstName} {model.Member.LastName}";
-                return RedirectToCurrentUmbracoPage("?id=" +model.Member.Id);
+                return RedirectToCurrentUmbracoPage("?id=" + model.Member.Id);
             }
             return CurrentUmbracoPage();
         }
 
         public PartialViewResult MemberSearch(string search)
         {
-            var model = Services.MemberService.GetAllMembers().Where(m=>m.Email.ToLower().Contains(search.ToLower()) || m.Name.ToLower().Contains(search.ToLower()));
-            return PartialView("ManageMemberList",model);
+            var model =
+                Services.MemberService.GetAllMembers()
+                    .Where(
+                        m => m.Email.ToLower().Contains(search.ToLower()) || m.Name.ToLower().Contains(search.ToLower()));
+            return PartialView("ManageMemberList", model);
         }
 
         [HttpPost]
@@ -233,7 +257,7 @@ namespace WellsOperaticSociety.Web.Controllers
         public ActionResult DeleteMembership()
         {
             int membershipId;
-            
+
             if (!int.TryParse(Request.Form["membership.MembershipId"], out membershipId))
             {
                 TempData["ErrorMessage"] =
@@ -243,7 +267,7 @@ namespace WellsOperaticSociety.Web.Controllers
             var dm = new DataManager();
             dm.DeleteMembership(membershipId);
             TempData["SuccessMessage"] =
-                    $"You have successfully deleted the membership with id {membershipId} and removed them from the mailchimp Members list if they are not an active member any more";
+                $"You have successfully deleted the membership with id {membershipId} and removed them from the mailchimp Members list if they are not an active member any more";
             return RedirectToCurrentUmbracoPage(Request.QueryString);
         }
 
@@ -254,14 +278,14 @@ namespace WellsOperaticSociety.Web.Controllers
             if (!int.TryParse(Request.Form["membership.Member"], out memberId))
             {
                 TempData["ErrorMessage"] =
-                   "There was an error whilst canceling the subscription. Try again or contact the system else who might be in the know.... not Nick though as he is probably busy!";
+                    "There was an error whilst canceling the subscription. Try again or contact the system else who might be in the know.... not Nick though as he is probably busy!";
 
                 return RedirectToCurrentUmbracoPage(Request.QueryString);
             }
-            if (Request.Form["membership.StripeSubscriptionId"]==null)
+            if (Request.Form["membership.StripeSubscriptionId"] == null)
             {
                 TempData["ErrorMessage"] =
-                   "There was an error whilst canceling the subscription. Try again or contact the system else who might be in the know.... not Nick though as he is probably busy!";
+                    "There was an error whilst canceling the subscription. Try again or contact the system else who might be in the know.... not Nick though as he is probably busy!";
 
                 return RedirectToCurrentUmbracoPage(Request.QueryString);
             }
@@ -270,7 +294,7 @@ namespace WellsOperaticSociety.Web.Controllers
             if (m.StripeUserId.IsNullOrEmpty())
             {
                 TempData["ErrorMessage"] =
-                   "There was an error whilst canceling the subscription. Try again or contact the system else who might be in the know.... not Nick though as he is probably busy!";
+                    "There was an error whilst canceling the subscription. Try again or contact the system else who might be in the know.... not Nick though as he is probably busy!";
 
                 return RedirectToCurrentUmbracoPage(Request.QueryString);
             }
@@ -284,19 +308,19 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 _log.Error($"Admin tried to cancel subscription but stripe returned the error: {e.Message}");
                 TempData["ErrorMessage"] =
-                   $"There was an error whilst canceling the subscription. The service retrurned the error {e.Message}";
+                    $"There was an error whilst canceling the subscription. The service retrurned the error {e.Message}";
 
                 return RedirectToCurrentUmbracoPage(Request.QueryString);
             }
             TempData["SuccessMessage"] =
-                    $"You have successfully deleted the subsctipn with id {subscriptionId}. This can take a few seconds to take effect.";
+                $"You have successfully deleted the subsctipn with id {subscriptionId}. This can take a few seconds to take effect.";
             return RedirectToCurrentUmbracoPage(Request.QueryString);
         }
 
         public ActionResult AddMembersToFunction(int functionId)
         {
             var dm = new DataManager();
-            
+
             var model = new AddMembersToFunctionViewModel();
             model.Function = dm.GetFunction(functionId);
             model.MemberRolesInShows = dm.GetMemberRolesInFunction(functionId);
@@ -305,7 +329,7 @@ namespace WellsOperaticSociety.Web.Controllers
             if (TempData["LastGroup"] != null)
                 model.NewMemberRolesInShow.Group = TempData["LastGroup"].ToString();
 
-            return PartialView("AddMembersToFunction",model);
+            return PartialView("AddMembersToFunction", model);
         }
 
         [HttpPost]
@@ -336,7 +360,7 @@ namespace WellsOperaticSociety.Web.Controllers
         {
             var dm = new DataManager();
             var results = dm.GetRoleSuggestions(term);
-            return Json(results,JsonRequestBehavior.AllowGet);
+            return Json(results, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetGroupSuggestions(string term)
@@ -363,6 +387,7 @@ namespace WellsOperaticSociety.Web.Controllers
             model.NewSeat = new Seat();
             return PartialView("ManageSeats", model);
         }
+
         [HttpPost]
         public ActionResult DeleteSeat(int seatId)
         {
@@ -375,6 +400,7 @@ namespace WellsOperaticSociety.Web.Controllers
             }
             return CurrentUmbracoPage();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddSeat(Seat seat)
@@ -407,7 +433,7 @@ namespace WellsOperaticSociety.Web.Controllers
             model.DueAwards = dm.GetDueLongServiceAwards();
             model.AlreadyPresentedAwards = dm.GetAwardedLongServiceAwards();
 
-            return PartialView("ManageLongServiceAwards",model);
+            return PartialView("ManageLongServiceAwards", model);
         }
 
         [HttpPost]
@@ -430,7 +456,7 @@ namespace WellsOperaticSociety.Web.Controllers
         {
             var dm = new DataManager();
             var model = new LongServiceModel();
-            model.DueAwards = dm.GetDueLongServiceAwards().Where(m=>m.Hide == false).ToList();
+            model.DueAwards = dm.GetDueLongServiceAwards().Where(m => m.Hide == false).ToList();
 
 
             return PartialView(model);
@@ -500,7 +526,8 @@ namespace WellsOperaticSociety.Web.Controllers
                             //save
                             dm.AddOrUpdateShowVoucher(vouchers[i], showMemberVouchers[i].MemberId, model.FunctionId);
                             //Email vouchers
-                            dm.SendVoucherEmail(showMemberVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"), model.BookingUrl,
+                            dm.SendVoucherEmail(showMemberVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"),
+                                model.BookingUrl,
                                 ControllerContext, ViewData, TempData);
                         }
                     }
@@ -521,7 +548,8 @@ namespace WellsOperaticSociety.Web.Controllers
                             //save
                             dm.AddOrUpdateShowVoucher(vouchers[i], patronVouchers[i].MemberId, model.FunctionId);
                             //Email vouchers
-                            dm.SendVoucherEmail(patronVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"), model.BookingUrl,
+                            dm.SendVoucherEmail(patronVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"),
+                                model.BookingUrl,
                                 ControllerContext, ViewData, TempData);
                         }
                     }
@@ -542,7 +570,8 @@ namespace WellsOperaticSociety.Web.Controllers
                             //save
                             dm.AddOrUpdateShowVoucher(vouchers[i], memberVouchers[i].MemberId, model.FunctionId);
                             //Email vouchers
-                            dm.SendVoucherEmail(memberVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"), model.BookingUrl,
+                            dm.SendVoucherEmail(memberVouchers[i], model.BoxOfficeOpenDate.ToString("dd/MM/yyyy"),
+                                model.BookingUrl,
                                 ControllerContext, ViewData, TempData);
                         }
                     }
@@ -550,11 +579,94 @@ namespace WellsOperaticSociety.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    TempData["Success"] = "The vouchers are winging their way to our extremely lovely membership. Well done!";
+                    TempData["Success"] =
+                        "The vouchers are winging their way to our extremely lovely membership. Well done!";
                 }
                 return RedirectToCurrentUmbracoPage($"id={model.FunctionId}");
             }
             return CurrentUmbracoPage();
+        }
+
+        public
+    ActionResult MembershipReport()
+        {
+            var model = new MembershipReportViewModel();
+            return PartialView("MembershipReport", model);
+        }
+
+        [HttpPost]
+        public ActionResult MembershipReportData([ModelBinder(typeof(ModelBinder))]IDataTablesRequest request, List<string> membershiptStatus, List<MembershipType> membershipType)
+        {
+            DataManager dm = new DataManager();
+
+            var filter = new MembershipReportFilterModel()
+            {
+                MembershipStatus = membershiptStatus,
+                MembershipType = membershipType
+            };
+
+
+            var list = dm.GetMembershipReportData(filter);
+
+
+            var filteredList = list;
+            //search box
+            if (request.Search.Value.IsNotNullOrEmpty())
+            {
+                var searchTerm = request.Search.Value;
+                filteredList = filteredList.Where(n => n.Email.ToLower().Contains(searchTerm.ToLower())|| n.FullName.ToLower().Contains(searchTerm.ToLower())).ToList();
+            }
+
+            //column order
+            if (request.Columns.Any(n => n.Sort != null))
+            {
+                var column = request.Columns.First(m => m.Sort != null).Field;
+                var direction = request.Columns.First(m => m.Sort != null).Sort.Direction;
+                if (column == "0")
+                {
+                    if(direction == SortDirection.Ascending)
+                        filteredList = filteredList.OrderBy(n => n.FirstName).ToList();
+                    else
+                        filteredList = filteredList.OrderByDescending(n => n.FirstName).ToList();
+                }
+                if (column == "1")
+                {
+                    if (direction == SortDirection.Ascending)
+                        filteredList = filteredList.OrderBy(n => n.LastName).ToList();
+                    else
+                        filteredList = filteredList.OrderByDescending(n => n.LastName).ToList();
+                }
+                if (column == "2")
+                {
+                    if (direction == SortDirection.Ascending)
+                        filteredList = filteredList.OrderBy(n => n.FullName).ToList();
+                    else
+                        filteredList = filteredList.OrderByDescending(n => n.FullName).ToList();
+                }
+                if (column == "3")
+                {
+                    if (direction == SortDirection.Ascending)
+                        filteredList = filteredList.OrderBy(n => n.Email).ToList();
+                    else
+                        filteredList = filteredList.OrderByDescending(n => n.Email).ToList();
+                }
+            }
+
+            var data = new List<List<string>>();
+
+            foreach (var m in filteredList)
+            {
+                var row = new List<string>();
+                row.Add(m.FirstName);
+                row.Add(m.LastName);
+                row.Add(m.FullName);
+                row.Add(m.Email);
+
+                data.Add(row);
+            }
+            var dataPage =  request.Length != -1 ? data.Skip(request.Start).Take(request.Length).ToList() : data;
+            var response = DataTablesResponse.Create(request, list.Count, data.Count, dataPage);
+            return new DataTablesJsonResult(response);
         }
     }
 }
