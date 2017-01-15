@@ -13,11 +13,16 @@
         document.LoadHtml(data);
 
         var acceptableTags = new String[] {  };
-        if (document.DocumentNode == null)
+        Queue<HtmlNode> nodes;
+        try
+        {
+            nodes = new Queue<HtmlNode>(document.DocumentNode.SelectNodes("./*|./text()"));
+        }
+        catch
         {
             return string.Empty;
         }
-        var nodes = new Queue<HtmlNode>(document.DocumentNode.SelectNodes("./*|./text()"));
+
         while (nodes.Count > 0)
         {
             var node = nodes.Dequeue();
@@ -73,8 +78,11 @@
     <!--Facebook Open Graph Tags-->
     <meta property="og:url" content="@Umbraco.TypedContent(Model.Id).UrlWithDomain()"/>
     <meta property="og:title" content="@Model.DisplayName"/>
-    <meta property="og:description" content="@RemoveTags(Model.ShortDescription)" />
-    <meta property="og:image" content="@WellsOperaticSociety.BusinessLogic.UrlHelpers.GetBaseUrl()@Umbraco.TypedMedia(Model.Image).Url"/>
+    <meta property="og:description" content="@RemoveTags(Model.ShortDescription)"/>
+    @if (Model.Image != 0)
+    {
+        <meta property="og:image" content="@WellsOperaticSociety.BusinessLogic.UrlHelpers.GetBaseUrl()@Umbraco.TypedMedia(Model.Image).Url"/>
+    }
     <meta property="og:locale" content="en_GB" />
 
     <title>@Model.DisplayName</title>
