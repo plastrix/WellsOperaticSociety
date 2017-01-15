@@ -815,6 +815,7 @@
     <Content Include="Images\favicon-32x32.png" />
     <Content Include="Images\favicon-96x96.png" />
     <Content Include="Images\favicon.ico" />
+    <Content Include="Images\gsdk\mask.png" />
     <Content Include="Images\Logo-Black-250x42.png" />
     <Content Include="Images\Logo-White-250x42.png" />
     <Content Include="Images\ms-icon-144x144.png" />

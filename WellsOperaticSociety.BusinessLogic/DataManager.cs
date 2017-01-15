@@ -241,7 +241,7 @@ namespace WellsOperaticSociety.BusinessLogic
         /// Gets member by stripeid
         /// </summary>
         /// <returns></returns>
-        public Member GetActiveMember(string stripeUserId)
+        public Member GetMember(string stripeUserId)
         {
             var helper = new UmbracoHelper(Umbraco);
             var member = ApplicationContext.Current.Services.MemberService
@@ -253,7 +253,7 @@ namespace WellsOperaticSociety.BusinessLogic
         }
 
         /// <summary>
-        /// Gets member by stripeid
+        /// Gets member by id
         /// </summary>
         /// <returns></returns>
         public Member GetMember(int memberId)
@@ -331,6 +331,16 @@ namespace WellsOperaticSociety.BusinessLogic
             return expiredMembers;
         }
 
+        /// <summary>
+        /// Returns a list of all active and expired members
+        /// </summary>
+        /// <returns></returns>
+        public List<Member> GetAllMembers()
+        {
+            List<Member> allMembers = GetActiveMembers();
+            allMembers.AddRange(GetExpiredMembers());
+            return allMembers;
+        }
 
         /// <summary>
         /// Returns all vehicle registrations for active members
@@ -380,43 +390,48 @@ namespace WellsOperaticSociety.BusinessLogic
 
         public List<LongServiceAward> GetDueLongServiceAwards()
         {
-            var mems = ApplicationContext.Current.Services.MemberService.GetAllMembers();
-            var members = new List<Member>();
-            var memberShipHelper = new Umbraco.Web.Security.MembershipHelper(Umbraco);
-            foreach (var m in mems)
-            {
-                var ipubcont = memberShipHelper.GetById(m.Id);
-                if (ipubcont != null)
-                {
-                    if(ipubcont.GetProperty("dateApprovedForMembership") != null)
-                    members.Add(new Member(ipubcont));
-                }
-            }
-            //GetActiveMembers(); 
+            //gettting all members
+            var members = GetAllMembers();
+
+
+
             var previousAwards = GetAwardedLongServiceAwards();
             var unawrdedAwards = GetLongServiceAwards().Where(m => m.Awarded == false).ToList();
             var dueAwards = new List<LongServiceAward>();
             foreach (var member in members)
             {
-                int startYear;
                 int currentYear = DateTime.UtcNow.Year;
                 if (member.DateApprovedForMembership == null)
                     continue;
-                startYear = ((DateTime)member.DateApprovedForMembership).Year;
+                var startYear = ((DateTime)member.DateApprovedForMembership).Year;
                 var membersMemberships = GetMembershipsForUser(member.Id);
 
                 var activeYears = member.PreviousYears;
 
+                var previousShowsForMember = GetPreviousFunctionsForMember(member.Id);
+
                 for (int i = startYear; i < currentYear; i++)
                 {
-
+                    //if they have a valid membership for that year
                     if (membersMemberships.Any(m => m.StartDate.Year == i))
-                        activeYears++;
+                    {
+                        //We dont have any information before 2006 of who was in which show so we give a free pass before 2006
+                        if (i < 2006)
+                        {
+                            activeYears ++;
+                        }
+                        //if they had participated in a show that year
+                        if (previousShowsForMember.Any(m => m.StartDate.Year == i || m.EndDate.Year == i))
+                        {
+                            //counts as a year towards noda award
+                            activeYears++;
+                        }
+                    }
                 }
 
                 int tmp = activeYears / 5;
 
-
+                //We subtract two here as the noda awards start at 10 years so we skip the first two sets
                 for (int x = 0; x <= tmp - 2; x++)
                 {
                     if (x > (int)Enum.GetValues(typeof(NodaLongServiceAward)).Cast<NodaLongServiceAward>().Max())
@@ -757,7 +772,6 @@ namespace WellsOperaticSociety.BusinessLogic
                 }
 
                 return memberships;
-                //return db.MemberRolesInShows.Where(m => m.Role.ToLower().Contains(query.ToLower())).GroupBy(m => new { m.Role }).Select(m => m.FirstOrDefault().Role).ToList();
             }
         }
 

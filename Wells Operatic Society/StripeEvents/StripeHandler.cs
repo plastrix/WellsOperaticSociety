@@ -281,7 +281,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                 return;
             }
             DataManager dataManager = new DataManager();
-            var member = dataManager.GetActiveMember(subscription.CustomerId);
+            var member = dataManager.GetMember(subscription.CustomerId);
             if (member == null)
             {
                 _log.Error($"Tried to create/update a membership but no member could be found with the stripe id of {subscription.CustomerId}");
