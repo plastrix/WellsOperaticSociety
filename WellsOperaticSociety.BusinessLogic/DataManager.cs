@@ -761,8 +761,7 @@ namespace WellsOperaticSociety.BusinessLogic
 
                 if (memberships == null)
                 {
-                    memberships =
-                        db.Memberships.Where(m => m.StartDate <= DateTime.UtcNow && m.EndDate >= DateTime.UtcNow)
+                    memberships = db.Memberships.Where(m => DbFunctions.TruncateTime(m.StartDate) <= DbFunctions.TruncateTime(DateTime.UtcNow) && DbFunctions.TruncateTime(m.EndDate) >= DbFunctions.TruncateTime(DateTime.UtcNow))
                             .GroupBy(m => new { m.Member })
                             .Select(m => m.FirstOrDefault())
                             .ToList();

@@ -3,14 +3,17 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using log4net;
-using WellsOperaticSociety.BusinessLogic;
-using WellsOperaticSociety.Models.EmailModels;
 using RazorEngine;
 using RazorEngine.Templating;
 using Stripe;
+using Umbraco.Web;
+using WellsOperaticSociety.BusinessLogic;
 using WellsOperaticSociety.EmailService;
+using WellsOperaticSociety.Models.EmailModels;
+using WellsOperaticSociety.Models.Enums;
+using WellsOperaticSociety.Models.MemberModels;
 
-namespace WellsOperaticSociety.Web.ScheduledTasks
+namespace WellsOperaticSociety.Web.HangFire
 {
     public static class HangfireScheduledTasks
     {
@@ -69,6 +72,28 @@ namespace WellsOperaticSociety.Web.ScheduledTasks
 
                     EmailHelpers emailService = new EmailHelpers();
                     emailService.SendEmail(member.GetContactEmail,"Membership renewal is comming up!",html);
+                }
+            }
+        }
+
+        public static void RenewLifeMembers()
+        {
+            DataManager dm = new DataManager();
+            var memberships = dm.GetCurrentMemberships();
+            foreach (var m in memberships)
+            {
+                if (m.MembershipType == MembershipType.Life && m.EndDate.Date == DateTime.UtcNow.Date)
+                {
+                    //create new membership for user
+                    var newMembership = new Membership();
+                    newMembership.Member = m.Member;
+                    newMembership.MembershipType = MembershipType.Life;
+                    newMembership.IsSubscription = false;
+                    newMembership.StartDate = m.StartDate.AddYears(1);
+                    newMembership.EndDate = m.EndDate.AddYears(1);
+
+                    dm.AddOrUpdateMembership(newMembership);
+
                 }
             }
         }
