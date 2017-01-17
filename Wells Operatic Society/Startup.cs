@@ -3,6 +3,8 @@ using Hangfire.Dashboard;
 using Microsoft.Owin;
 using Owin;
 using Umbraco.Web;
+using WellsOperaticSociety.Web.HangFire;
+
 [assembly: OwinStartup(typeof(WellsOperaticSociety.Web.Startup))]
 namespace WellsOperaticSociety.Web
 {
@@ -21,7 +23,8 @@ namespace WellsOperaticSociety.Web
             });
             app.UseHangfireServer();
 
-            RecurringJob.AddOrUpdate(() => ScheduledTasks.HangfireScheduledTasks.MembershipRenewalReminders(), Cron.Daily());
+            RecurringJob.AddOrUpdate(() => HangfireScheduledTasks.MembershipRenewalReminders(), Cron.Daily());
+            RecurringJob.AddOrUpdate(() => HangfireScheduledTasks.RenewLifeMembers(), Cron.Daily());
         }
     }
 }
