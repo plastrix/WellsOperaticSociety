@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -392,8 +395,11 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             //gettting all members
             var members = GetAllMembers();
-
-
+            //get all memberships
+            var memberships = GetAllMemberMemberships();
+            //get all previous shows by member
+            var previousShowsByMember = GetAllPreviousFunctionsByMember();
+            //create
 
             var previousAwards = GetAwardedLongServiceAwards();
             var unawrdedAwards = GetLongServiceAwards().Where(m => m.Awarded == false).ToList();
@@ -404,24 +410,23 @@ namespace WellsOperaticSociety.BusinessLogic
                 if (member.DateApprovedForMembership == null)
                     continue;
                 var startYear = ((DateTime)member.DateApprovedForMembership).Year;
-                var membersMemberships = GetMembershipsForUser(member.Id);
+                //var membersMemberships = GetMembershipsForUser(member.Id);
 
                 var activeYears = member.PreviousYears;
-
-                var previousShowsForMember = GetPreviousFunctionsForMember(member.Id);
 
                 for (int i = startYear; i < currentYear; i++)
                 {
                     //if they have a valid membership for that year
-                    if (membersMemberships.Any(m => m.StartDate.Year == i))
+                    if (memberships.ContainsKey(member.Id) && memberships[member.Id].Contains(i))
                     {
                         //We dont have any information before 2006 of who was in which show so we give a free pass before 2006
                         if (i < 2006)
                         {
                             activeYears ++;
+                            continue;
                         }
                         //if they had participated in a show that year
-                        if (previousShowsForMember.Any(m => m.StartDate.Year == i || m.EndDate.Year == i))
+                        if (previousShowsByMember.ContainsKey(member.Id) && previousShowsByMember[member.Id].Contains(i))
                         {
                             //counts as a year towards noda award
                             activeYears++;
@@ -607,6 +612,28 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
+        private Dictionary<int,List<int>> GetAllMemberMemberships()
+        {
+            using (var db = new DataContext())
+            {
+                var memberships = db.Memberships.ToList();
+                var data = new Dictionary<int,List<int>>();
+                foreach (var membership in memberships)
+                {
+                    if (!data.ContainsKey(membership.Member))
+                    {
+                        data.Add(membership.Member, new List<int>() {membership.StartDate.Year, membership.EndDate.Year});
+                    }
+                    else
+                    {
+                        data[membership.Member].Add(membership.StartDate.Year);
+                        data[membership.Member].Add(membership.EndDate.Year);
+                    }
+                }
+                return data;
+            }
+        }
+
         public void AddOrUpdateMembership(Membership membership)
         {
             using (var db = new DataContext())
@@ -747,6 +774,38 @@ namespace WellsOperaticSociety.BusinessLogic
             {
                 var memberRolesInShows = db.MemberRolesInShows.Where(m => m.MemberId == memberId);
                 return GetFunctions(memberRolesInShows.Select(m => m.FunctionId).ToList());
+            }
+        }
+
+        private Dictionary<int, List<int>> GetAllPreviousFunctionsByMember()
+        {
+            //Get all memberotfunction roles
+            using (var db = new DataContext())
+            {
+                var rolesInFunctions = db.MemberRolesInShows.ToList();
+
+                var functionIds = rolesInFunctions.Select(n => n.FunctionId).ToList();
+                var functions = GetFunctions(functionIds);
+
+                var data = new Dictionary<int,List<int>>();
+                foreach (var memberRolesInShow in rolesInFunctions)
+                {
+                    if (memberRolesInShow.MemberId == null)
+                        continue;
+                    var func = functions.SingleOrDefault(n => n.Id == memberRolesInShow.FunctionId);
+                    if(func == null)
+                        continue;
+
+                    var memberId = (int) memberRolesInShow.MemberId;
+                    if (!data.ContainsKey(memberId))
+                    {
+                        data.Add(memberId, new List<int>());
+                    }
+
+                    data[memberId].Add(func.StartDate.Year);
+                    data[memberId].Add(func.EndDate.Year);
+                }
+                return data;
             }
         }
 
@@ -1111,6 +1170,7 @@ namespace WellsOperaticSociety.BusinessLogic
                 GetPublishedNodes(item.Children, list, getExcluded);
             }
         }
+
         public static List<string> GetSitemapExcludedDocumentTypes()
         {
             return new List<string> { };//"Truth", "Poll", "PollItem", "PollFolder" };

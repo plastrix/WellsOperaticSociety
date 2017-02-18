@@ -71,8 +71,8 @@ WriteLiteral("        ");
             
             #line default
             #line hidden
-WriteLiteral(" has raised a query throught the contact us form. The information is listed below" +
-":\r\n    </p>\r\n    <p>\r\n        Name: ");
+WriteLiteral(" has raised a query through the contact us form. The information is listed below:" +
+"\r\n    </p>\r\n    <p>\r\n        Name: ");
 
             
             #line 13 "..\..\Views\Emails\ContactUsEmail.cshtml"

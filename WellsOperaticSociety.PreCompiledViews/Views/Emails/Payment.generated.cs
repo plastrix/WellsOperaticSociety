@@ -61,8 +61,8 @@ Write(Html.Partial("~/Views/Emails/EmailHeader.cshtml", new ViewDataDictionary {
             #line default
             #line hidden
 WriteLiteral("\r\n    <p>\r\n        This is your receipt for your membership subscription,\r\n    </" +
-"p>\r\n    <p>\r\n        ======================================\r\n        RECEIPT #: " +
-"");
+"p>\r\n    <p>\r\n        ======================================<br/>\r\n        RECEIP" +
+"T #: ");
 
             
             #line 14 "..\..\Views\Emails\Payment.cshtml"
@@ -71,7 +71,7 @@ WriteLiteral("\r\n    <p>\r\n        This is your receipt for your membership su
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n");
+WriteLiteral("<br />\r\n        <br />\r\n");
 
 WriteLiteral("        ");
 
@@ -82,16 +82,7 @@ WriteLiteral("        ");
             
             #line default
             #line hidden
-WriteLiteral(" to ");
-
-            
-            #line 16 "..\..\Views\Emails\Payment.cshtml"
-                       Write(Model.EndDate);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n\r\n        Total: £");
+WriteLiteral("<br />\r\n        <br />\r\n        Total: £");
 
             
             #line 18 "..\..\Views\Emails\Payment.cshtml"
@@ -100,13 +91,13 @@ WriteLiteral("\r\n\r\n        Total: £");
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n        If you have any questions, please contactus.\r\n    </p>\r\n    <p>\r\n    " +
-"    Wells Operatic Society\r\n    </p>\r\n");
+WriteLiteral("<br />\r\n        <br />\r\n        If you have any questions, please contact us.\r\n  " +
+"      <br />\r\n    </p>\r\n    <p>\r\n        Wells Operatic Society\r\n    </p>\r\n");
 
 WriteLiteral("    ");
 
             
-            #line 25 "..\..\Views\Emails\Payment.cshtml"
+            #line 26 "..\..\Views\Emails\Payment.cshtml"
 Write(Html.Partial("~/Views/Emails/EmailFooter.cshtml"));
 
             
