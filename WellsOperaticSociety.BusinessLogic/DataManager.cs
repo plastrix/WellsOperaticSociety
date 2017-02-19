@@ -78,7 +78,7 @@ namespace WellsOperaticSociety.BusinessLogic
         public IPublishedContent GetEditMemberAdminNode()
         {
             var adminNode = GetAdminNode();
-            return adminNode.Children.SingleOrDefault(m=>m.DocumentTypeAlias == "manageMember");
+            return adminNode.Children.SingleOrDefault(m => m.DocumentTypeAlias == "manageMember");
         }
 
         public IPublishedContent GetEditMembersAdminNode()
@@ -175,7 +175,7 @@ namespace WellsOperaticSociety.BusinessLogic
             return GetMinuetsNode().Children().ToList();
         }
 
-        public void AddOrUpdateMember(Member member,bool isAdmin=false)
+        public void AddOrUpdateMember(Member member, bool isAdmin = false)
         {
             var memberService = ApplicationContext.Current.Services.MemberService;
             var umbMember = memberService.GetById(member.Id);
@@ -185,7 +185,7 @@ namespace WellsOperaticSociety.BusinessLogic
                 if (umbMember == null)
                 {
                     //creating a new member
-                    umbMember = memberService.CreateMember(member.Email, member.Email, name,"member");
+                    umbMember = memberService.CreateMember(member.Email, member.Email, name, "member");
                 }
                 umbMember.Username = member.Email;
                 umbMember.Email = member.Email;
@@ -211,9 +211,9 @@ namespace WellsOperaticSociety.BusinessLogic
 
                 memberService.Save(umbMember);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _log.Error($"There was an error adding or updating a member with the email {member.Email}",ex);
+                _log.Error($"There was an error adding or updating a member with the email {member.Email}", ex);
             }
         }
 
@@ -271,31 +271,24 @@ namespace WellsOperaticSociety.BusinessLogic
         /// <returns></returns>
         public List<Member> GetActiveMembers()
         {
-            var key = "ActiveMembers";
             List<Member> activeMembers = null;
-            if(HttpContext.Current !=null && HttpContext.Current.Session!=null)
-                activeMembers = HttpContext.Current.Session[key] as List<Member>;
-            if (activeMembers == null)
-            {
-                var helper = new UmbracoHelper(Umbraco);
-                var members = ApplicationContext.Current.Services.MemberService.GetAllMembers()
-                    .Select(m => new Member(helper.TypedMember(m.Id)))
-                    .Where(m => m.Deactivated == false)
-                    .ToList();
+            var helper = new UmbracoHelper(Umbraco);
+            var members = ApplicationContext.Current.Services.MemberService.GetAllMembers()
+                .Select(m => new Member(helper.TypedMember(m.Id)))
+                .Where(m => m.Deactivated == false)
+                .ToList();
 
-                var currentMemberships = GetCurrentMemberships();
-                activeMembers = new List<Member>();
-                foreach (var membership in currentMemberships)
+            var currentMemberships = GetCurrentMemberships();
+            activeMembers = new List<Member>();
+            foreach (var membership in currentMemberships)
+            {
+                var m = members.SingleOrDefault(x => x.Id == membership.Member);
+                if (m != null)
                 {
-                    var m = members.SingleOrDefault(x => x.Id == membership.Member);
-                    if (m != null)
-                    {
-                        activeMembers.Add(m);
-                    }
+                    activeMembers.Add(m);
                 }
-                if (HttpContext.Current != null && HttpContext.Current.Session != null)
-                    HttpContext.Current.Session[key] = activeMembers;
             }
+            
             return activeMembers;
         }
 
@@ -306,31 +299,26 @@ namespace WellsOperaticSociety.BusinessLogic
         /// <returns></returns>
         public List<Member> GetExpiredMembers()
         {
-            var key = "ExpiredMembers";
-            List<Member> expiredMembers = null;
-            if (HttpContext.Current!= null && HttpContext.Current.Session != null)
-                expiredMembers = HttpContext.Current.Session[key] as List<Member>;
-            if (expiredMembers == null)
-            {
-                var helper = new UmbracoHelper(Umbraco);
-                var members = ApplicationContext.Current.Services.MemberService.GetAllMembers()
-                    .Select(m => new Member(helper.TypedMember(m.Id)))
-                    .Where(m => m.Deactivated == false)
-                    .ToList();
 
-                var currentMemberships = GetCurrentMemberships();
-                expiredMembers = new List<Member>();
-                foreach (var member in members)
+            List<Member> expiredMembers = null;
+
+            var helper = new UmbracoHelper(Umbraco);
+            var members = ApplicationContext.Current.Services.MemberService.GetAllMembers()
+                .Select(m => new Member(helper.TypedMember(m.Id)))
+                .Where(m => m.Deactivated == false)
+                .ToList();
+
+            var currentMemberships = GetCurrentMemberships();
+            expiredMembers = new List<Member>();
+            foreach (var member in members)
+            {
+                var m = currentMemberships.SingleOrDefault(x => x.Member == member.Id);
+                if (m == null)
                 {
-                    var m = currentMemberships.SingleOrDefault(x => x.Member == member.Id);
-                    if (m == null)
-                    {
-                        expiredMembers.Add(member);
-                    }
+                    expiredMembers.Add(member);
                 }
-                if (HttpContext.Current != null && HttpContext.Current.Session != null)
-                    HttpContext.Current.Session[key] = expiredMembers;
             }
+
             return expiredMembers;
         }
 
@@ -422,7 +410,7 @@ namespace WellsOperaticSociety.BusinessLogic
                         //We dont have any information before 2006 of who was in which show so we give a free pass before 2006
                         if (i < 2006)
                         {
-                            activeYears ++;
+                            activeYears++;
                             continue;
                         }
                         //if they had participated in a show that year
@@ -484,7 +472,7 @@ namespace WellsOperaticSociety.BusinessLogic
             }
             catch (MailChimpException e)
             {
-                _log.Error($"There was an error adding a user to a MailChimp list with list id {listId} and email {emailToAdd}",e);
+                _log.Error($"There was an error adding a user to a MailChimp list with list id {listId} and email {emailToAdd}", e);
             }
         }
 
@@ -507,24 +495,24 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public async Task<bool> IsUserSubscribedToMailChimpList(string listId,string emailAddress)
+        public async Task<bool> IsUserSubscribedToMailChimpList(string listId, string emailAddress)
         {
             try
             {
-                
+
                 IMailChimpManager mailChimpManager = new MailChimpManager(SensativeInformation.MailChimpKeys.MailChimpApiKey);
                 return await mailChimpManager.Members.ExistsAsync(listId, emailAddress).ConfigureAwait(false);
             }
             catch (MailChimpException ex)
             {
-                
+
                 _log.Error(ex.Message);
             }
             return false;
 
         }
 
-        public async Task AddOrUpdateUserToMailChimpList(string listId, string emailAddress,string firstName, string lastName,bool unsubscribe = false)
+        public async Task AddOrUpdateUserToMailChimpList(string listId, string emailAddress, string firstName, string lastName, bool unsubscribe = false)
         {
             var status = unsubscribe ? Status.Unsubscribed : Status.Subscribed;
 
@@ -532,10 +520,10 @@ namespace WellsOperaticSociety.BusinessLogic
             {
 
                 IMailChimpManager mailChimpManager = new MailChimpManager(SensativeInformation.MailChimpKeys.MailChimpApiKey);
-                var member = new MailChimp.Net.Models.Member() {EmailAddress = emailAddress, Status = status };
-                member.MergeFields.Add("FNAME",firstName);
-                member.MergeFields.Add("LNAME",lastName);
-                await mailChimpManager.Members.AddOrUpdateAsync(listId,member);
+                var member = new MailChimp.Net.Models.Member() { EmailAddress = emailAddress, Status = status };
+                member.MergeFields.Add("FNAME", firstName);
+                member.MergeFields.Add("LNAME", lastName);
+                await mailChimpManager.Members.AddOrUpdateAsync(listId, member);
             }
             catch (MailChimpException ex)
             {
@@ -576,10 +564,10 @@ namespace WellsOperaticSociety.BusinessLogic
             }
             if (filter.MembershipType != null && filter.MembershipType.Any())
             {
-                List<MembershipReportModel> d =new SupportClass.EquatableList<MembershipReportModel>();
+                List<MembershipReportModel> d = new SupportClass.EquatableList<MembershipReportModel>();
                 foreach (var m in filter.MembershipType)
                 {
-                    d.AddRange(data.Where(n=>n.LatestMembershipType == m));
+                    d.AddRange(data.Where(n => n.LatestMembershipType == m));
                 }
                 return d;
             }
@@ -591,14 +579,17 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             //inactive members
             var members = GetExpiredMembers().Select(n => new MembershipReportModel() { MemberId = n.Id, Email = n.Email, FirstName = n.FirstName, LastName = n.LastName, FullName = n.Name }).ToList();
-            members.ForEach(n => n.LatestMembershipType = GetLatestMembership(n.MemberId)?.MembershipType);
+            //get all latestMemberships
+            var latestMemberships = GetLatestMemberships();
+
+            members.ForEach(n => n.LatestMembershipType = latestMemberships.SingleOrDefault(m => m.Member == n.MemberId)?.MembershipType);
             return members;
         }
 
         private List<MembershipReportModel> GetActiveMembershipsForReport()
         {
             //active members
-            var members = GetActiveMembers().Select(n => new MembershipReportModel { MemberId = n.Id, Email = n.Email, FirstName = n.FirstName, LastName = n.LastName, FullName = n.Name}).ToList();
+            var members = GetActiveMembers().Select(n => new MembershipReportModel { MemberId = n.Id, Email = n.Email, FirstName = n.FirstName, LastName = n.LastName, FullName = n.Name }).ToList();
             members.ForEach(n => n.LatestMembershipType = GetLatestMembership(n.MemberId)?.MembershipType);
             return members;
         }
@@ -612,17 +603,17 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        private Dictionary<int,List<int>> GetAllMemberMemberships()
+        private Dictionary<int, List<int>> GetAllMemberMemberships()
         {
             using (var db = new DataContext())
             {
                 var memberships = db.Memberships.ToList();
-                var data = new Dictionary<int,List<int>>();
+                var data = new Dictionary<int, List<int>>();
                 foreach (var membership in memberships)
                 {
                     if (!data.ContainsKey(membership.Member))
                     {
-                        data.Add(membership.Member, new List<int>() {membership.StartDate.Year, membership.EndDate.Year});
+                        data.Add(membership.Member, new List<int>() { membership.StartDate.Year, membership.EndDate.Year });
                     }
                     else
                     {
@@ -787,16 +778,16 @@ namespace WellsOperaticSociety.BusinessLogic
                 var functionIds = rolesInFunctions.Select(n => n.FunctionId).ToList();
                 var functions = GetFunctions(functionIds);
 
-                var data = new Dictionary<int,List<int>>();
+                var data = new Dictionary<int, List<int>>();
                 foreach (var memberRolesInShow in rolesInFunctions)
                 {
                     if (memberRolesInShow.MemberId == null)
                         continue;
                     var func = functions.SingleOrDefault(n => n.Id == memberRolesInShow.FunctionId);
-                    if(func == null)
+                    if (func == null)
                         continue;
 
-                    var memberId = (int) memberRolesInShow.MemberId;
+                    var memberId = (int)memberRolesInShow.MemberId;
                     if (!data.ContainsKey(memberId))
                     {
                         data.Add(memberId, new List<int>());
@@ -815,7 +806,7 @@ namespace WellsOperaticSociety.BusinessLogic
             {
                 var key = "CurrentMemberships";
                 List<Membership> memberships = null;
-                if (HttpContext.Current != null && HttpContext.Current.Session!=null)
+                if (HttpContext.Current != null && HttpContext.Current.Session != null)
                     memberships = HttpContext.Current.Session[key] as List<Membership>;
 
                 if (memberships == null)
@@ -867,6 +858,24 @@ namespace WellsOperaticSociety.BusinessLogic
             using (var db = new DataContext())
             {
                 return db.Memberships.OrderByDescending(m => m.StartDate).FirstOrDefault(m => m.Member == userId);
+            }
+        }
+
+        public List<Membership> GetLatestMemberships()
+        {
+            using (var db = new DataContext())
+            {
+                return (from m in db.Memberships
+                        orderby m.StartDate descending
+                        group m by m.Member
+                    into grp
+                        let latestMembershipPerMember = grp.Max(n => n.StartDate)
+                        from m in grp
+                        where m.StartDate == latestMembershipPerMember
+                        select m).ToList();
+
+
+                //db.Memberships.OrderByDescending(m => m.StartDate).GroupBy(n => n.Member).Select(m => m.).ToList();
             }
         }
 
@@ -944,7 +953,7 @@ namespace WellsOperaticSociety.BusinessLogic
             using (var db = new DataContext())
             {
                 var date = DateTime.UtcNow;
-                var memberships = db.Memberships.Where(m=>m.Member == memberId).ToList();
+                var memberships = db.Memberships.Where(m => m.Member == memberId).ToList();
                 return memberships.Any(m => m.StartDate.Date <= date.Date && m.EndDate.Date >= date.Date);
 
             }
@@ -1024,7 +1033,7 @@ namespace WellsOperaticSociety.BusinessLogic
                         }
                     }
                     break;
-                    case VoucherMember.Patron:
+                case VoucherMember.Patron:
                     foreach (var member in memberships.Where(m => m.MembershipType == MembershipType.Patron))
                     {
                         var voucher = vouchers.SingleOrDefault(m => m.MemberId == member.Member);
@@ -1049,7 +1058,7 @@ namespace WellsOperaticSociety.BusinessLogic
                         }
                     }
                     break;
-                    case VoucherMember.Member:
+                case VoucherMember.Member:
                     foreach (var member in memberships.Where(m => m.MembershipType != MembershipType.Patron && membersInshow.All(n => n.MemberId != m.Member)))
                     {
                         var voucher = vouchers.SingleOrDefault(m => m.MemberId == member.Member);
