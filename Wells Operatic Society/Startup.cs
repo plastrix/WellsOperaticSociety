@@ -13,8 +13,6 @@ namespace WellsOperaticSociety.Web
         public override void Configuration(IAppBuilder app)
         {
             base.Configuration(app);
-            //TODO:Remove
-            HibernatingRhinos.Profiler.Appender.EntityFramework.EntityFrameworkProfiler.Initialize();
             var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DataContext"].ConnectionString;
             GlobalConfiguration.Configuration.UseSqlServerStorage(connectionString);
 
