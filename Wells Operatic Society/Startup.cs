@@ -13,7 +13,6 @@ namespace WellsOperaticSociety.Web
         public override void Configuration(IAppBuilder app)
         {
             base.Configuration(app);
-
             var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DataContext"].ConnectionString;
             GlobalConfiguration.Configuration.UseSqlServerStorage(connectionString);
 

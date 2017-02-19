@@ -324,7 +324,7 @@ namespace WellsOperaticSociety.Web.Controllers
             var model = new AddMembersToFunctionViewModel();
             model.Function = dm.GetFunction(functionId);
             model.MemberRolesInShows = dm.GetMemberRolesInFunction(functionId);
-            model.NewMemberRolesInShow = new MemberRolesInShow() {FunctionId = functionId};
+            model.NewMemberRolesInShow = new MemberRolesInShow() { FunctionId = functionId };
             model.MostUsedGroups = dm.GetMostUsedRoles(10);
             if (TempData["LastGroup"] != null)
                 model.NewMemberRolesInShow.Group = TempData["LastGroup"].ToString();
@@ -587,8 +587,7 @@ namespace WellsOperaticSociety.Web.Controllers
             return CurrentUmbracoPage();
         }
 
-        public
-    ActionResult MembershipReport()
+        public ActionResult MembershipReport()
         {
             var model = new MembershipReportViewModel();
             return PartialView("MembershipReport", model);
@@ -614,7 +613,7 @@ namespace WellsOperaticSociety.Web.Controllers
             if (request.Search.Value.IsNotNullOrEmpty())
             {
                 var searchTerm = request.Search.Value;
-                filteredList = filteredList.Where(n => n.Email.ToLower().Contains(searchTerm.ToLower())|| n.FullName.ToLower().Contains(searchTerm.ToLower())).ToList();
+                filteredList = filteredList.Where(n => n.Email.ToLower().Contains(searchTerm.ToLower()) || n.FullName.ToLower().Contains(searchTerm.ToLower())).ToList();
             }
 
             //column order
@@ -624,7 +623,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 var direction = request.Columns.First(m => m.Sort != null).Sort.Direction;
                 if (column == "0")
                 {
-                    if(direction == SortDirection.Ascending)
+                    if (direction == SortDirection.Ascending)
                         filteredList = filteredList.OrderBy(n => n.FirstName).ToList();
                     else
                         filteredList = filteredList.OrderByDescending(n => n.FirstName).ToList();
@@ -664,7 +663,7 @@ namespace WellsOperaticSociety.Web.Controllers
 
                 data.Add(row);
             }
-            var dataPage =  request.Length != -1 ? data.Skip(request.Start).Take(request.Length).ToList() : data;
+            var dataPage = request.Length != -1 ? data.Skip(request.Start).Take(request.Length).ToList() : data;
             var response = DataTablesResponse.Create(request, list.Count, data.Count, dataPage);
             return new DataTablesJsonResult(response);
         }
