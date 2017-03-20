@@ -3,8 +3,8 @@
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 @{
     var dm = new DataManager();
-    //TODO:change this to be user specific and for all previous shows
-    var pastFunctions = dm.GetPreviousFunctionsForMember(Members.GetCurrentMemberId());
+    var userId = Request.Params["uid"] != null ? int.Parse(Request.Params["uid"]) : Members.GetCurrentMemberId();
+    var pastFunctions = dm.GetPreviousFunctionsForMember(userId);
     int year = 0;
 }
 

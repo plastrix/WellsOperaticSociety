@@ -68,6 +68,12 @@ namespace WellsOperaticSociety.BusinessLogic
             return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "memberSection");
         }
 
+        public IPublishedContent GetPreviousShowsNode()
+        {
+            var membersNode = GetMembersNode();
+            return membersNode.Children.SingleOrDefault(m => m.DocumentTypeAlias == "previousShows");
+        }
+
         public IPublishedContent GetAdminNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);

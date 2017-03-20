@@ -43,6 +43,9 @@
     <loc>https://localhost:44300/previous-shows/</loc>
   </url>
   <url>
+    <loc>https://localhost:44300/previous-shows/</loc>
+  </url>
+  <url>
     <loc>https://localhost:44300/manage-cards/</loc>
   </url>
   <url>

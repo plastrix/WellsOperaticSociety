@@ -3,6 +3,7 @@
 @{
     var dm = new DataManager();
     var editMemberUrl = dm.GetEditMemberAdminNode().Url;
+    var previousShowsUrl = dm.GetPreviousShowsNode().Url;
     }
 <div>
     @if (Model != null && Model.Any())
@@ -20,7 +21,7 @@
                             <td>@member.Name</td>
                             <td>@member.Email</td>
                             @*//TODO:change this away from being a hard coded value*@
-                            <td><a href="@editMemberUrl?id=@member.Id" class="btn btn-default">Edit</a></td>
+                            <td><a href="@editMemberUrl?id=@member.Id" class="btn btn-default">Edit</a> <a href="@previousShowsUrl?uid=@member.Id" class="btn btn-info">View Shows</a></td>
                         </tr>
                     }
                 </tbody>
