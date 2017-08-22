@@ -1,24 +1,7 @@
 ﻿@using System.Globalization
-@using WellsOperaticSociety.Models
-@inherits Umbraco.Web.Mvc.UmbracoViewPage<List<WellsOperaticSociety.Models.Function>>
-
-@functions
-{
-    readonly Random _rnd = new Random();
-    private string GetImage(Function function)
-    {
-        return function.Image == 0 ? "" : Umbraco.TypedMedia(function.Image).GetCropUrl();
-    }
-    private string GetRandomBackgroundColour()
-    {
-        string[] colours = { "#d2691e", "#a52a2a", "#008080", "#00bfff" };
-
-        var selection = _rnd.Next(0, colours.Length);
-
-        return colours[selection];
-
-    }
-}
+@using WellsOperaticSociety.Models.UmbracoModels
+@using WellsOperaticSociety.Web.Helper
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<List<WellsOperaticSociety.Models.UmbracoModels.Function>>
 
 @if (Model.Count > 0)
 {
@@ -28,8 +11,8 @@
             <div class="card card-horizontal">
                 <div class="row">
                     <div class="col-sm-5">
-                        <div style="background:@GetRandomBackgroundColour() url('@GetImage(func)'); background-position: center center; background-size: cover;" class="image">
-                            <img style="display: none;" src="@GetImage(func)" alt="@func.DisplayName">
+                        <div style="background:@ViewHelpers.GetRandomBackgroundColour() url('@ViewHelpers.GetImage(func)'); background-position: center center; background-size: cover;" class="image">
+                            <img style="display: none;" src="@ViewHelpers.GetImage(func)" alt="@func.DisplayName">
                             <div class="filter">
                                 <a href="@func.Url" class="btn btn-neutral btn-round btn-fill"><i class="fa fa-heart"></i>Read more</a>
                             </div>

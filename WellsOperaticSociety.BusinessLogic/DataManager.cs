@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -21,18 +17,18 @@ using MailChimp.Net.Interfaces;
 using MailChimp.Net.Models;
 using Umbraco.Core;
 using Umbraco.Core.Models;
-using Umbraco.Core.Security;
 using Umbraco.Web;
-using WellsOperaticSociety.Models;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.DAL;
 using WellsOperaticSociety.EmailService;
+using WellsOperaticSociety.Models.UmbracoModels;
 using WellsOperaticSociety.Models.AdminModels;
 using WellsOperaticSociety.Models.EmailModels;
 using WellsOperaticSociety.Models.Enums;
 using WellsOperaticSociety.Models.ReportModels;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 using Task = System.Threading.Tasks.Task;
+using WellsOperaticSociety.Models;
 
 namespace WellsOperaticSociety.BusinessLogic
 {
@@ -601,7 +597,7 @@ namespace WellsOperaticSociety.BusinessLogic
         }
 
         #region DataContext
-        public List<Membership> GetMembershipsForUser(int memberId)
+        public List<Models.MemberModels.Membership> GetMembershipsForUser(int memberId)
         {
             using (var db = new DataContext())
             {
@@ -631,7 +627,7 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public void AddOrUpdateMembership(Membership membership)
+        public void AddOrUpdateMembership(Models.MemberModels.Membership membership)
         {
             using (var db = new DataContext())
             {
@@ -789,7 +785,7 @@ namespace WellsOperaticSociety.BusinessLogic
                 {
                     if (memberRolesInShow.MemberId == null)
                         continue;
-                    var func = functions.SingleOrDefault(n => n.Id == memberRolesInShow.FunctionId);
+                    Function func = null;// functions.SingleOrDefault(n => n.Id == memberRolesInShow.FunctionId);
                     if (func == null)
                         continue;
 
@@ -806,14 +802,14 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public List<Membership> GetCurrentMemberships()
+        public List<Models.MemberModels.Membership> GetCurrentMemberships()
         {
             using (var db = new DataContext())
             {
                 var key = "CurrentMemberships";
-                List<Membership> memberships = null;
+                List<Models.MemberModels.Membership> memberships = null;
                 if (HttpContext.Current != null && HttpContext.Current.Session != null)
-                    memberships = HttpContext.Current.Session[key] as List<Membership>;
+                    memberships = HttpContext.Current.Session[key] as List<Models.MemberModels.Membership>;
 
                 if (memberships == null)
                 {
@@ -851,7 +847,7 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public Membership GetLatestMembership(string stripeSubscriptionId)
+        public Models.MemberModels.Membership GetLatestMembership(string stripeSubscriptionId)
         {
             using (var db = new DataContext())
             {
@@ -859,7 +855,7 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public Membership GetLatestMembership(int userId)
+        public Models.MemberModels.Membership GetLatestMembership(int userId)
         {
             using (var db = new DataContext())
             {
@@ -867,7 +863,7 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
-        public List<Membership> GetLatestMemberships()
+        public List<Models.MemberModels.Membership> GetLatestMemberships()
         {
             using (var db = new DataContext())
             {

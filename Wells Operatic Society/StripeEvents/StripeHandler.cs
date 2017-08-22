@@ -228,8 +228,6 @@ namespace WellsOperaticSociety.Web.StripeEvents
                 case Stripe.StripeEvents.RecipientDeleted: _log.Info("Stripe Event: RecipientDeleted"); break;
                 case Stripe.StripeEvents.RecipientUpdated: _log.Info("Stripe Event: RecipientUpdated"); break;
                 case Stripe.StripeEvents.TransferCreated: _log.Info("Stripe Event: TransferCreated"); break;
-                case Stripe.StripeEvents.TransferFailed: _log.Info("Stripe Event: TransferFailed"); break;
-                case Stripe.StripeEvents.TransferPaid: _log.Info("Stripe Event: TransferPaid"); break;
                 case Stripe.StripeEvents.TransferReversed: _log.Info("Stripe Event: TransferReversed"); break;
                 case Stripe.StripeEvents.TransferUpdated: _log.Info("Stripe Event: TransferUpdated"); break;
             }

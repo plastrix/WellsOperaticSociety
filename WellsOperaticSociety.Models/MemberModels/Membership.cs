@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models;
-using Zone.UmbracoMapper;
 using System.ComponentModel.DataAnnotations;
 using WellsOperaticSociety.Models.Enums;
 

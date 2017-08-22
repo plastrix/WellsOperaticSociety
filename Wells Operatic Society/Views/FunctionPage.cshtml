@@ -1,7 +1,7 @@
 ﻿@using System.Web.Optimization
 @using HtmlAgilityPack
 @using WellsOperaticSociety.BusinessLogic
-@inherits UmbracoViewPage<WellsOperaticSociety.Models.Function>
+@inherits UmbracoViewPage<WellsOperaticSociety.Models.UmbracoModels.Function>
 @{
     Layout = null;
 }
@@ -78,10 +78,10 @@
     <!--Facebook Open Graph Tags-->
     <meta property="og:url" content="@Umbraco.TypedContent(Model.Id).UrlWithDomain()"/>
     <meta property="og:title" content="@Model.DisplayName"/>
-    <meta property="og:description" content="@RemoveTags(Model.ShortDescription)"/>
-    @if (Model.Image != 0)
+    <meta property="og:description" content="@RemoveTags(Model.ShortDescription.ToString())"/>
+    @if (Model.Image.IsNotNullOrEmpty())
     {
-        <meta property="og:image" content="@WellsOperaticSociety.BusinessLogic.UrlHelpers.GetBaseUrl()@Umbraco.TypedMedia(Model.Image).Url"/>
+        <meta property="og:image" content="@WellsOperaticSociety.BusinessLogic.UrlHelpers.GetBaseUrl()@Model.Image.First().Url"/>
     }
     <meta property="og:locale" content="en_GB" />
 
@@ -141,7 +141,7 @@
         </div>
     </div>
 
-    @if (Model.GalleryImages != null && Model.GalleryImages.Count > 0)
+    @if (Model.GalleryImages.IsNotNullOrEmpty())
     {
         <div class="section section-gray">
             <div class="container">
@@ -151,8 +151,8 @@
                         var index = 1;
                         foreach (var img in Model.GalleryImages)
                         {
-                            <img alt="@Model.DisplayName @index" src="@Umbraco.TypedMedia(img).Url"
-                                 data-image="@Umbraco.TypedMedia(img).Url"
+                            <img alt="@Model.DisplayName @index" src="img.Url"
+                                 data-image="@img.Url"
                                  data-description="@Model.DisplayName @index">
                             index++;
                         }

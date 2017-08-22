@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models;
-using Zone.UmbracoMapper;
 using System.ComponentModel.DataAnnotations;
 using Umbraco.Core;
 
@@ -60,8 +59,8 @@ namespace WellsOperaticSociety.Models.MemberModels
 
         public Member(IPublishedContent content)
         {
-            UmbracoMapper mapper = new UmbracoMapper();
-            mapper.Map(content, this);
+            //UmbracoMapper mapper = new UmbracoMapper();
+            //mapper.Map(content, this);
         }
 
         public Member() { }

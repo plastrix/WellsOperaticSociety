@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Build.Framework;
 using WellsOperaticSociety.Models.MemberModels;
+using WellsOperaticSociety.Models.UmbracoModels;
 
 namespace WellsOperaticSociety.Models.AdminModels
 {
@@ -22,7 +18,7 @@ namespace WellsOperaticSociety.Models.AdminModels
         [Required]
         public string Key { get; set; }
         [NotMapped]
-        public Member Member { get; set; }
+        public Models.MemberModels.Member Member { get; set; }
         [NotMapped]
         public Function Function { get; set; }
     }

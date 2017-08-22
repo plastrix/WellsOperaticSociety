@@ -1,34 +1,38 @@
 ﻿using System;
 using System.Configuration;
-using SendGrid;
-using SendGrid.Helpers.Mail;
-using System.Threading.Tasks;
+using System.Net.Mail;
+using System.Reflection;
+using log4net;
 
 namespace WellsOperaticSociety.EmailService
 {
-    public class EmailHelpers
-    {
-        public void SendEmail(string toEmail, string subject ,string body, string fromEmail=null, string fromName = null)
-        {
-            bool sendEmails = ConfigurationManager.AppSettings["SendEmails"] != null && bool.Parse(ConfigurationManager.AppSettings["SendEmails"]);
-            if (sendEmails)
-            {
-                var apiKey = SensativeInformation.Keys.SendGridApiKey;
-                var sg = new SendGridAPIClient(apiKey);
+	public class EmailHelpers
+	{
+		public void SendEmail(string toEmail, string subject, string body, string fromEmail = null, string fromName = null)
+		{
+			try
+			{
+				var defaultEmail = ConfigurationManager.AppSettings["DefaultEmailAddress"];
+				var defaultEmailName = ConfigurationManager.AppSettings["DefaultEmailAddressName"];
+				var fromEmailAddress = fromEmail.IsNotNullOrEmpty() ? fromEmail : defaultEmail;
+				var fromEmailAddressDisplayName = fromName.IsNotNullOrEmpty() ? fromName : defaultEmailName;
+				MailMessage mailMsg = new MailMessage();
+				mailMsg.To.Add(toEmail);
+				mailMsg.From = new MailAddress(fromEmailAddress, fromEmailAddressDisplayName);
+				mailMsg.Subject = subject;
 
-                var defaultEmail = ConfigurationManager.AppSettings["DefaultEmailAddress"];
-                var defaultEmailName = ConfigurationManager.AppSettings["DefaultEmailAddressName"];
+				mailMsg.IsBodyHtml = true;
+				mailMsg.Body = body;
 
-                Email from = new Email();
-                from.Address = fromEmail.IsNotNullOrEmpty() ? fromEmail : defaultEmail;
-                from.Name = fromName.IsNotNullOrEmpty() ? fromName : defaultEmailName;
+				SmtpClient smtpClient = new SmtpClient();
+				smtpClient.Send(mailMsg);
+			}
+			catch (Exception e)
+			{
 
-                Email to = new Email(toEmail);
-                Content content = new Content("text/html", body);
-                Mail mail = new Mail(from, subject, to, content);
-
-                var response = sg.client.mail.send.post(requestBody: mail.Get());
-            }
-        }
-    }
+				ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+				_log.Error("There was an error whilst trying to send an email", e);
+			}
+		}
+	}
 }
