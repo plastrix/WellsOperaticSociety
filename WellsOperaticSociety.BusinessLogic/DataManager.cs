@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -631,7 +629,11 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             using (var db = new DataContext())
             {
-                db.Memberships.AddOrUpdate(membership);
+                if(db.Memberships.Contains(membership))
+                    db.Memberships.Update(membership);
+                else
+                    db.Memberships.Add(membership);
+
                 db.SaveChanges();
             }
             var memberService = ApplicationContext.Current.Services.MemberService;
@@ -813,7 +815,7 @@ namespace WellsOperaticSociety.BusinessLogic
 
                 if (memberships == null)
                 {
-                    memberships = db.Memberships.Where(m => DbFunctions.TruncateTime(m.StartDate) <= DbFunctions.TruncateTime(DateTime.UtcNow) && DbFunctions.TruncateTime(m.EndDate) >= DbFunctions.TruncateTime(DateTime.UtcNow))
+                    memberships = db.Memberships.Where(m => m.StartDate.Date <= DateTime.UtcNow.Date && m.EndDate.Date >= DateTime.UtcNow.Date)
                             .GroupBy(m => new { m.Member })
                             .Select(m => m.FirstOrDefault())
                             .ToList();
@@ -842,7 +844,11 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             using (var db = new DataContext())
             {
-                db.LongServiceAwards.AddOrUpdate(longServiceAward);
+                if (db.LongServiceAwards.Contains(longServiceAward))
+                    db.LongServiceAwards.Update(longServiceAward);
+                else
+                    db.LongServiceAwards.Add(longServiceAward);
+
                 db.SaveChanges();
             }
         }
@@ -1099,7 +1105,10 @@ namespace WellsOperaticSociety.BusinessLogic
 
                 voucher.Key = key;
 
-                db.Vouchers.AddOrUpdate(voucher);
+                if (db.Vouchers.Contains(voucher))
+                    db.Vouchers.Update(voucher);
+                else
+                    db.Vouchers.Add(voucher);
                 db.SaveChanges();
             }
         }

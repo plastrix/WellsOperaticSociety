@@ -1,4 +1,4 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
 using WellsOperaticSociety.Models.AdminModels;
 using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Models.ServiceModels;
@@ -13,5 +13,10 @@ namespace WellsOperaticSociety.DAL
         public DbSet<LongServiceAward> LongServiceAwards { get; set; }
         public DbSet<AuthorisationToken> AuthorisationTokens { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(System.Configuration.ConfigurationManager.ConnectionStrings["DataContext"].ConnectionString);
+        }
     }
 }

@@ -267,10 +267,4 @@
       <delete assembly="umbraco" type="PartialViewMacroTasks" />
     </tasks>
   </nodeType>
-  <nodeType alias="cmsimport-savedItem">
-    <header>CMSImport</header>
-    <tasks>
-      <delete assembly="CMSImportLibrary" type="Umbraco.Tasks.DeleteTask" />
-    </tasks>
-  </nodeType>
 </createUI>
