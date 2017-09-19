@@ -1,6 +1,5 @@
-﻿@using System.Drawing
-@using WellsOperaticSociety.BusinessLogic
-@using WellsOperaticSociety.Models
+﻿@using WellsOperaticSociety.BusinessLogic
+@using WellsOperaticSociety.Models.UmbracoModels
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 
 @{
@@ -13,8 +12,8 @@
 
     private string GetImage(Function function)
     {
-        if (function.Image != 0)
-            return Umbraco.TypedMedia(function.Image).GetCropUrl();
+        if (function.Image != null && function.Image.Any())
+            return function.Image.First().GetCropUrl();
         return string.Empty;
     }
 

@@ -108,10 +108,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext.cs" />
+    <Compile Include="Migrations\20170823164906_ef-core-init.cs" />
+    <Compile Include="Migrations\20170823164906_ef-core-init.designer.cs">
+      <DependentUpon>20170823164906_ef-core-init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

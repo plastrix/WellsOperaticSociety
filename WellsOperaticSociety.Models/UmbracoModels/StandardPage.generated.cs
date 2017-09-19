@@ -55,7 +55,7 @@ namespace WellsOperaticSociety.Models.UmbracoModels
 		}
 
 		///<summary>
-		/// Hero Image
+		/// Hero Image: Recommended size 1980 X 872. This will allow it to scale for mobiles or larger screens.
 		///</summary>
 		[ImplementPropertyType("heroImage")]
 		public IEnumerable<IPublishedContent> HeroImage

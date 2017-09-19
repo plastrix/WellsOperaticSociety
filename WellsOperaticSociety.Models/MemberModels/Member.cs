@@ -12,7 +12,7 @@ namespace WellsOperaticSociety.Models.MemberModels
 {
     public class Member
     {
-        
+
         public string Name { get; set; }
         [Required(ErrorMessage = "Please enter your first name")]
         [DisplayName("First name")]
@@ -51,19 +51,37 @@ namespace WellsOperaticSociety.Models.MemberModels
         [DisplayName("Contact Email")]
         public string ContactEmail { get; set; }
 
-        public string GetContactEmail { get
+        public string GetContactEmail
         {
-            return ContactEmail.IsNullOrWhiteSpace() ? Email : ContactEmail;
-        }
+            get
+            {
+                return ContactEmail.IsNullOrWhiteSpace() ? Email : ContactEmail;
+            }
         }
 
-        public Member(IPublishedContent content)
+        public Member(IPublishedContent memberNode)
         {
-            //UmbracoMapper mapper = new UmbracoMapper();
-            //mapper.Map(content, this);
+            var member = new UmbracoModels.Member(memberNode);
+            Name = member.Name;
+            Id = member.Id;
+            FirstName = member.FirstName;
+            LastName = member.LastName;
+            TelephoneNumber = member.TelephoneNumber;
+            MobileNumber = member.MobileNumber;
+            DateOfBirth = member.DateOfBirth;
+            DateAppliedForMembership = member.DateAppliedForMembership;
+            DateApprovedForMembership = member.DateApprovedForMembership;
+            DateDeclinedForMembership = member.DateDeclinedForMembership;
+            DateLifeMembershipGranted = member.DateLifeMembershipGranted;
+            StripeUserId = member.StripeUserId;
+            Email = memberNode.GetProperty("Email").Value as string;
+            Deactivated = member.Deactivated;
+            VehicleRegistration1 = member.VehicleRegistration1;
+            VehicleRegistration2 = member.VehicleRegistration2;
+            PreviousYears = member.PreviousYears;
+            ContactEmail = member.ContactEmail;
         }
 
         public Member() { }
-
     }
 }

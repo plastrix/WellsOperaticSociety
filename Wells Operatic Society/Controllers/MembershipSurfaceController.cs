@@ -272,9 +272,10 @@ namespace WellsOperaticSociety.Web.Controllers
                     model.HasExistingSubscription = false;
                     //Get plan status
                     var subscriptionService = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
-                    var subs = subscriptionService.List(stripeAccountId);
-                    var stripeSubscriptions = subs as StripeSubscription[] ?? subs.ToArray();
-                    if (subs != null && stripeSubscriptions.Any())
+                    var listOption = new StripeSubscriptionListOptions { CustomerId = stripeAccountId };
+                    var stripeSubscriptions = subscriptionService.List(listOption);
+
+                    if (stripeSubscriptions != null && stripeSubscriptions.Any())
                     {
                         model.IsOrdinaryMember = stripeSubscriptions.Any(m => m.StripePlan.Id == StaticIdentifiers.OrdinaryMemberPlanId && m.Status == StripeSubscriptionStatuses.Active);
                         model.IsSocialMember = stripeSubscriptions.Any(m => m.StripePlan.Id == StaticIdentifiers.SocialMemberPlanId && m.Status == StripeSubscriptionStatuses.Active);
@@ -349,20 +350,21 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 //Add subscription
                 var subscriptionService = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
-                var subs = subscriptionService.List(stripeUserId);
-                var stripeSubscriptions = subs as StripeSubscription[] ?? subs.ToArray();
+                var listOptions = new StripeSubscriptionListOptions { CustomerId = stripeUserId };
+                var stripeSubscriptions = subscriptionService.List(listOptions);
                 var update = stripeSubscriptions.Any(m => m.Status == StripeSubscriptionStatuses.Active);
 
-                //ifexistingsubscripton update else create a new subscription
+                //if existingsubscripton update else create a new subscription
                 if (update)
                 {
                     var subscription =
                         stripeSubscriptions.FirstOrDefault(m => m.Status == StripeSubscriptionStatuses.Active);
                     if (subscription != null)
                     {
-                        StripeSubscriptionUpdateOptions so = new StripeSubscriptionUpdateOptions();
+                        StripeSubscriptionUpdateOptions so = new StripeSubscriptionUpdateOptions { PlanId = model.PlanId };
                         so.PlanId = model.PlanId;
-                        subscriptionService.Update(stripeUserId, subscription.Id, so);
+
+                        subscriptionService.Update(subscription.Id, so);
                         TempData["SuccessMessage"] =
                             "Congratulations! You have subscribed successfully. No more worrying about subs :)";
                         return RedirectToCurrentUmbracoPage();
@@ -413,8 +415,7 @@ namespace WellsOperaticSociety.Web.Controllers
                 try
                 {
                     var subscriptionService = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
-                    StripeSubscription stripeSubscription = subscriptionService.Cancel(member.StripeUserId, subscriptionId,
-                        true);
+                    StripeSubscription stripeSubscription = subscriptionService.Cancel(subscriptionId, true);
                     TempData["CancelMessage"] =
                         "You have successfully canceled your membership subscription. It can take five minutes to process.";
                     return RedirectToCurrentUmbracoPage();

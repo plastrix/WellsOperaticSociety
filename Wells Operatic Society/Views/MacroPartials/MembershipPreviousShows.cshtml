@@ -1,5 +1,5 @@
 ﻿@using WellsOperaticSociety.BusinessLogic
-@using WellsOperaticSociety.Models
+@using WellsOperaticSociety.Models.UmbracoModels
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 @{
     var dm = new DataManager();
@@ -575,9 +575,9 @@ else
     readonly Random _rnd = new Random();
     private string GetImage(Function function)
     {
-        if (function.Image != 0)
+        if (function.Image != null && function.Image.Any())
         {
-            return Umbraco.TypedMedia(function.Image).GetCropUrl();
+            return function.Image.First().GetCropUrl();
         }
 
         //TODO:add default image

@@ -9,15 +9,11 @@ using WellsOperaticSociety.Models.MemberModels;
 namespace WellsOperaticSociety.Models.UmbracoModels
 {
     public partial class Function
-
     {
         [ImplementPropertyType("showName")]
-        public string DisplayName { get { return this.GetPropertyValue<string>("showName") ?? this.Name; } }
+        public string DisplayName { get { return this.GetPropertyValue<string>("showName") ?? Name; } }
 
-        //[ImplementPropertyType("galleryImages")]
-        //public List<int> GalleryImages { get { return this.GetPropertyValue<string>("galleryImages").Split(',').Select(int.Parse).ToList(); } }
-
-        public List<MemberRolesInShow> MemberRoles { get; set; }
+        public List<MemberRolesInShow> MemberRoles { get ; set; }
 
     }
 }

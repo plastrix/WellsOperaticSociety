@@ -1,7 +1,9 @@
 ﻿using Hangfire;
+using Hangfire.Annotations;
 using Hangfire.Dashboard;
 using Microsoft.Owin;
 using Owin;
+using System.Web;
 using Umbraco.Web;
 using WellsOperaticSociety.Web.HangFire;
 
@@ -16,14 +18,26 @@ namespace WellsOperaticSociety.Web
             var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DataContext"].ConnectionString;
             GlobalConfiguration.Configuration.UseSqlServerStorage(connectionString);
 
-            app.UseHangfireDashboard("/hangfire",new DashboardOptions()
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions()
             {
-                AuthorizationFilters = new [] {new AuthorizationFilter {Roles = "Committee Member" } }
+                Authorization = new[] { new AuthorizationFilter() }
+                //AuthorizationFilters = new[] { new AuthorizationFilter { Roles = "Committee Member" } };
             });
             app.UseHangfireServer();
 
             RecurringJob.AddOrUpdate(() => HangfireScheduledTasks.MembershipRenewalReminders(), Cron.Daily());
             RecurringJob.AddOrUpdate(() => HangfireScheduledTasks.RenewLifeMembers(), Cron.Daily());
+        }
+        private class AuthorizationFilter : IDashboardAuthorizationFilter
+        {
+            public bool Authorize(DashboardContext context)
+            {
+                var httpContext = HttpContext.Current;
+
+                if (httpContext == null || httpContext.User == null) return false;
+
+                return httpContext.User.IsInRole("Committee Member");
+            }
         }
     }
 }

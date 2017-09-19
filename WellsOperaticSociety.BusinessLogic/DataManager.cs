@@ -271,7 +271,6 @@ namespace WellsOperaticSociety.BusinessLogic
         /// <returns></returns>
         public List<Member> GetActiveMembers()
         {
-            List<Member> activeMembers = null;
             var helper = new UmbracoHelper(Umbraco);
             var members = ApplicationContext.Current.Services.MemberService.GetAllMembers()
                 .Select(m => new Member(helper.TypedMember(m.Id)))
@@ -279,7 +278,7 @@ namespace WellsOperaticSociety.BusinessLogic
                 .ToList();
 
             var currentMemberships = GetCurrentMemberships();
-            activeMembers = new List<Member>();
+            var activeMembers = new List<Member>();
             foreach (var membership in currentMemberships)
             {
                 var m = members.SingleOrDefault(x => x.Id == membership.Member);
@@ -369,8 +368,7 @@ namespace WellsOperaticSociety.BusinessLogic
                 var html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/ShowVouchers.cshtml", controllerContext,
                     viewData, tempData);
                 EmailService.EmailHelpers emailsService = new EmailHelpers();
-                emailsService.SendEmail(voucher.Member.GetContactEmail,
-                    $"Pre booking for {voucher.Function.DisplayName}", html);
+                emailsService.SendEmail(voucher.Member.GetContactEmail, $"Pre booking for {voucher.Function.DisplayName}", html);
             }
         }
 
@@ -469,6 +467,7 @@ namespace WellsOperaticSociety.BusinessLogic
             catch (MailChimpNotFoundException e)
             {
                 //Could not remove from list as they did not exist
+                _log.Error($"Could not find the mailchimp user with email {emailToAdd}", e);
             }
             catch (MailChimpException e)
             {
@@ -487,7 +486,8 @@ namespace WellsOperaticSociety.BusinessLogic
             }
             catch (MailChimpNotFoundException e)
             {
-                //Could not remove from list as they did not exist
+                //Could not find the user to remove them
+                _log.Error($"Could not find the mailchimp user with email {emailToRemove}", e);
             }
             catch (MailChimpException e)
             {
@@ -787,7 +787,7 @@ namespace WellsOperaticSociety.BusinessLogic
                 {
                     if (memberRolesInShow.MemberId == null)
                         continue;
-                    Function func = null;// functions.SingleOrDefault(n => n.Id == memberRolesInShow.FunctionId);
+                    Function func = functions.SingleOrDefault(n => n.Id == memberRolesInShow.FunctionId);
                     if (func == null)
                         continue;
 
@@ -844,7 +844,7 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             using (var db = new DataContext())
             {
-                if (db.LongServiceAwards.Contains(longServiceAward))
+                if (db.LongServiceAwards.Any(m=>m.LongServiceAwardId == longServiceAward.LongServiceAwardId))
                     db.LongServiceAwards.Update(longServiceAward);
                 else
                     db.LongServiceAwards.Add(longServiceAward);

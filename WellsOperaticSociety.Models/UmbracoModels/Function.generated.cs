@@ -118,7 +118,7 @@ namespace WellsOperaticSociety.Models.UmbracoModels
 		}
 
 		///<summary>
-		/// Image
+		/// Image: The image used in the cards on the whats on and previous production menus. Recomended size is 685x685 but will stretch to fit. on the widest setting it will be 685px wide. There is a guide to the thumbnail size as it is complicated as it renders for different screen sizes. Search for it in the manuals.
 		///</summary>
 		[ImplementPropertyType("image")]
 		public IEnumerable<IPublishedContent> Image

@@ -302,7 +302,7 @@ namespace WellsOperaticSociety.Web.Controllers
             {
                 StripeSubscriptionService service =
                     new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
-                service.Cancel(m.StripeUserId, subscriptionId, true);
+                service.Cancel(subscriptionId, true);
             }
             catch (StripeException e)
             {

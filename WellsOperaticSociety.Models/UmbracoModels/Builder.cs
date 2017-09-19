@@ -1,4 +1,4 @@
 ﻿using Umbraco.ModelsBuilder;
 
 
-[assembly: IgnoreContentType("member")]
+[assembly: IgnoreContentType("document")]

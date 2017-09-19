@@ -49,7 +49,7 @@ namespace WellsOperaticSociety.Web.HangFire
                         {
                             if (member.StripeUserId != null)
                             {
-                                var subscription = subscriptionService.Get(member.StripeUserId, m.StripeSubscriptionId);
+                                var subscription = subscriptionService.Get(m.StripeSubscriptionId);
                                 price = (subscription.StripePlan.Amount/100m).ToString("N");
                             }
                         }

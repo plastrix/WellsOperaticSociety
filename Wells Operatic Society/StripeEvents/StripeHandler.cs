@@ -215,7 +215,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
 
                     //Generate email
                     emailService.SendEmail(customer.Email, "Payment to Wells Operatic Society", html);
-                    stripeSubscription = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey).Get(invoice.CustomerId, invoice.SubscriptionId);
+                    stripeSubscription = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey).Get(invoice.SubscriptionId);
                     AddOrUpdateMembership(stripeSubscription);
 
                     break;
