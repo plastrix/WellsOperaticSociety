@@ -4,6 +4,12 @@
     <loc>https://localhost:44300/</loc>
   </url>
   <url>
+    <loc>https://localhost:44300/join-wells-little-theatre/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/the-history-of-wells-little-theatre/</loc>
+  </url>
+  <url>
     <loc>https://localhost:44300/whats-on/</loc>
   </url>
   <url>
@@ -13,13 +19,7 @@
     <loc>https://localhost:44300/contact-us/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/data-transfer/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/privacy-policy/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/login/</loc>
+    <loc>https://localhost:44300/find-us/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/manage-account/</loc>
@@ -28,10 +28,70 @@
     <loc>https://localhost:44300/manage-membership/</loc>
   </url>
   <url>
+    <loc>https://localhost:44300/previous-shows/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manage-cards/</loc>
+  </url>
+  <url>
     <loc>https://localhost:44300/manuals/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/manuals/auditorium-signs/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/wells-operatic-society-rules/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/waste-transfer-note-recyclable/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/waste-transfer-note/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/stage-lighting-information/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/adjudicators-protocol/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/producers-handbook/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/theatre-paint-colours/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/membership-application-form/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/how-to-close-up-the-building/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/child-protection-procedure/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/child-protecion-policy/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/till-utility-software-manual-380m/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/till-operation-and-program-manual-390m/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/bar-prices-members/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/bar-prices-public/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/till-operation-manula/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/function-image-template/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/manuals/logo/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/minutes/</loc>
@@ -40,43 +100,28 @@
     <loc>https://localhost:44300/minutes/minutes-feb-2016/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/previous-shows/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/previous-shows/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/manage-cards/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/content/</loc>
-  </url>
-  <url>
     <loc>https://localhost:44300/manage-functions/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/add-member-to-function/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/manage-show-vouchers/</loc>
+    <loc>https://localhost:44300/manage-box-office-times/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/manage-members/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/manage-member/</loc>
-  </url>
-  <url>
-    <loc>https://localhost:44300/seats/</loc>
+    <loc>https://localhost:44300/manage-long-service/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/reports/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/manage-long-service/</loc>
+    <loc>https://localhost:44300/seats/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/membership-report/</loc>
+    <loc>https://localhost:44300/manage-member/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/function-list/</loc>
@@ -922,7 +967,7 @@
     <loc>https://localhost:44300/hearts-and-flowers/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/jack-and-the-bean-stalk/</loc>
+    <loc>https://localhost:44300/jack-and-the-beanstalk-1/</loc>
   </url>
   <url>
     <loc>https://localhost:44300/a-midsummer-nights-dream/</loc>
@@ -937,12 +982,63 @@
     <loc>https://localhost:44300/second-soprano/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/search/</loc>
+    <loc>https://localhost:44300/our-house/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/find-us/</loc>
+    <loc>https://localhost:44300/our-house-introduction/</loc>
   </url>
   <url>
-    <loc>https://localhost:44300/forgot-password/</loc>
+    <loc>https://localhost:44300/march-play-read-through/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/two-one-act-plays-2017/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/annual-dinner-dance-2017/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/agm-2017/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/under-milk-wood-bovts/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/alf-the-highwayman/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/family-storytelling-owbeon/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/red-stories-owbeon/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/rex-the-king-owbeon/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/comedy-festival/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/long-paws-comedy-oct-15th/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/the-crucible/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/panto-introduction-and-auditions/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/the-three-musketeers/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/avalonian-free-state-choir/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/mooney-stories-presents-plop/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/privacy-policy/</loc>
+  </url>
+  <url>
+    <loc>https://localhost:44300/terms-and-conditions/</loc>
   </url>
 </urlset>

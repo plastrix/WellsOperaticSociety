@@ -1,4 +1,5 @@
 ﻿@using WellsOperaticSociety.BusinessLogic
+@using WellsOperaticSociety.Models.UmbracoModels
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 
 @{
@@ -8,21 +9,19 @@
 }
 @functions
 {
-    private string GetDocumentUrl(IPublishedContent content)
+    private string GetDocumentUrl(Document document)
     {
-        var id = content.GetPropertyValue<int>("document");
-        if (id == 0)
+        if (document == null || !document.DocumentFile.Any())
             return string.Empty;
-        return Umbraco.TypedMedia(id).Url;
+        return document.DocumentFile.First().Url;
     }
-    private string GetDocumentExtension(IPublishedContent content)
+    private string GetDocumentExtension(Document document)
     {
-        var id = content.GetPropertyValue<int>("document");
-        if (id == 0)
+        if (document == null || !document.DocumentFile.Any())
             return string.Empty;
-        string extension = Umbraco.TypedMedia(id).GetProperty("umbracoExtension").Value.ToString();
-        return extension;
 
+        string extension = document.DocumentFile.First().GetProperty("umbracoExtension").Value.ToString();
+        return extension;
     }
 }
 @if (documents.Any())

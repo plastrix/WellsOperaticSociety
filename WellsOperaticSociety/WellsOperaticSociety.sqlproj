@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>WellsOperaticSociety</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{86e950ab-c87d-4a16-9a03-d9eb188add0f}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>WellsOperaticSociety</RootNamespace>
+    <AssemblyName>WellsOperaticSociety</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="HangFire\" />
+    <Folder Include="HangFire\Tables\" />
+    <Folder Include="Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\__MigrationHistory.sql" />
+    <Build Include="dbo\Tables\AuthorisationTokens.sql" />
+    <Build Include="dbo\Tables\cmsContent.sql" />
+    <Build Include="dbo\Tables\cmsContentType.sql" />
+    <Build Include="dbo\Tables\cmsContentType2ContentType.sql" />
+    <Build Include="dbo\Tables\cmsContentTypeAllowedContentType.sql" />
+    <Build Include="dbo\Tables\cmsContentVersion.sql" />
+    <Build Include="dbo\Tables\cmsContentXml.sql" />
+    <Build Include="dbo\Tables\cmsDataType.sql" />
+    <Build Include="dbo\Tables\cmsDataTypePreValues.sql" />
+    <Build Include="dbo\Tables\cmsDictionary.sql" />
+    <Build Include="dbo\Tables\cmsDocument.sql" />
+    <Build Include="dbo\Tables\cmsDocumentType.sql" />
+    <Build Include="dbo\Tables\CMSImportMediaRelation.sql" />
+    <Build Include="dbo\Tables\CMSImportRelation.sql" />
+    <Build Include="dbo\Tables\CMSImportScheduledItems.sql" />
+    <Build Include="dbo\Tables\CMSImportScheduledTask.sql" />
+    <Build Include="dbo\Tables\CMSImportState.sql" />
+    <Build Include="dbo\Tables\cmsLanguageText.sql" />
+    <Build Include="HangFire\Tables\Job.sql" />
+    <Build Include="dbo\Tables\cmsMacro.sql" />
+    <Build Include="HangFire\Tables\State.sql" />
+    <Build Include="dbo\Tables\cmsMacroProperty.sql" />
+    <Build Include="dbo\Tables\cmsMember.sql" />
+    <Build Include="HangFire\Tables\JobParameter.sql" />
+    <Build Include="dbo\Tables\cmsMember2MemberGroup.sql" />
+    <Build Include="HangFire\Tables\JobQueue.sql" />
+    <Build Include="dbo\Tables\cmsMemberType.sql" />
+    <Build Include="dbo\Tables\cmsPreviewXml.sql" />
+    <Build Include="dbo\Tables\cmsPropertyData.sql" />
+    <Build Include="HangFire\Tables\List.sql" />
+    <Build Include="dbo\Tables\cmsPropertyType.sql" />
+    <Build Include="HangFire\Tables\Set.sql" />
+    <Build Include="dbo\Tables\cmsPropertyTypeGroup.sql" />
+    <Build Include="dbo\Tables\cmsTagRelationship.sql" />
+    <Build Include="HangFire\Tables\Counter.sql" />
+    <Build Include="dbo\Tables\cmsTags.sql" />
+    <Build Include="HangFire\Tables\Hash.sql" />
+    <Build Include="dbo\Tables\cmsTask.sql" />
+    <Build Include="HangFire\Tables\AggregatedCounter.sql" />
+    <Build Include="dbo\Tables\cmsTaskType.sql" />
+    <Build Include="dbo\Tables\cmsTemplate.sql" />
+    <Build Include="dbo\Tables\Vouchers.sql" />
+    <Build Include="dbo\Tables\LongServiceAwards.sql" />
+    <Build Include="dbo\Tables\MemberRolesInShows.sql" />
+    <Build Include="dbo\Tables\Memberships.sql" />
+    <Build Include="dbo\Tables\umbracoLock.sql" />
+    <Build Include="dbo\Tables\Seats.sql" />
+    <Build Include="dbo\Tables\umbracoAccess.sql" />
+    <Build Include="dbo\Tables\umbracoAccessRule.sql" />
+    <Build Include="dbo\Tables\umbracoCacheInstruction.sql" />
+    <Build Include="dbo\Tables\umbracoDomains.sql" />
+    <Build Include="dbo\Tables\umbracoExternalLogin.sql" />
+    <Build Include="dbo\Tables\umbracoLanguage.sql" />
+    <Build Include="dbo\Tables\umbracoLog.sql" />
+    <Build Include="dbo\Tables\umbracoMigration.sql" />
+    <Build Include="dbo\Tables\umbracoUserGroup.sql" />
+    <Build Include="dbo\Tables\umbracoNode.sql" />
+    <Build Include="dbo\Tables\umbracoRedirectUrl.sql" />
+    <Build Include="dbo\Tables\umbracoRelation.sql" />
+    <Build Include="dbo\Tables\umbracoUser2UserGroup.sql" />
+    <Build Include="dbo\Tables\umbracoRelationType.sql" />
+    <Build Include="dbo\Tables\umbracoServer.sql" />
+    <Build Include="dbo\Tables\umbracoUserGroup2App.sql" />
+    <Build Include="dbo\Tables\umbracoUser.sql" />
+    <Build Include="dbo\Tables\umbracoUserGroup2NodePermission.sql" />
+    <Build Include="dbo\Tables\umbracoUser2NodeNotify.sql" />
+    <Build Include="dbo\Tables\umbracoUserStartNode.sql" />
+    <Build Include="dbo\Tables\BoxOfficeTime.sql" />
+    <Build Include="HangFire\Tables\AggregatedCounter_1.sql" />
+    <Build Include="HangFire\Tables\Hash_1.sql" />
+    <Build Include="HangFire\Tables\Counter_1.sql" />
+    <Build Include="HangFire\Tables\Set_1.sql" />
+    <Build Include="HangFire\Tables\List_1.sql" />
+    <Build Include="HangFire\Tables\Server.sql" />
+    <Build Include="HangFire\Tables\JobQueue_1.sql" />
+    <Build Include="HangFire\Tables\JobParameter_1.sql" />
+    <Build Include="HangFire\Tables\State_1.sql" />
+    <Build Include="HangFire\Tables\Job_1.sql" />
+    <Build Include="HangFire\Tables\Schema.sql" />
+    <Build Include="Security\HangFire.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="Security\littletheatre.sql" />
+    <Build Include="Security\gd_execprocs.sql" />
+    <Build Include="Security\tempuser.sql" />
+    <Build Include="Security\littletheatre_1.sql" />
+    <Build Include="Security\IIS APPPOOL_test.sql" />
+  </ItemGroup>
+</Project>

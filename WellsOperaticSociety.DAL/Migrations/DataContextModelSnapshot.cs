@@ -133,6 +133,24 @@ namespace WellsOperaticSociety.DAL.Migrations
 
                     b.ToTable("AuthorisationTokens");
                 });
+
+            modelBuilder.Entity("WellsOperaticSociety.Models.StandardModels.BoxOfficeTime", b =>
+                {
+                    b.Property<int>("BoxOfficeTimeId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("ClosingTime");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Message");
+
+                    b.Property<DateTime>("OpeningTime");
+
+                    b.HasKey("BoxOfficeTimeId");
+
+                    b.ToTable("BoxOfficeTimes");
+                });
 #pragma warning restore 612, 618
         }
     }

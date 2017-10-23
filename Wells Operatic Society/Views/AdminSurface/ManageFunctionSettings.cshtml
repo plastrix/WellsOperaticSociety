@@ -1,0 +1,63 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Models.AdminModels.FunctionSettingsModel>
+
+@if(TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+@using (Html.BeginUmbracoForm("UpdateFunctionSettings", "AdminSurface"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.FunctionId)
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsAvailableOnline)
+        @Html.CheckBoxFor(m => m.IsAvailableOnline, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.IsAvailableOnline) })
+        @Html.ValidationMessageFor(m => m.IsAvailableOnline)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsAvailableOnlineFrom)
+        @Html.TextBoxFor(m => m.IsAvailableOnlineFrom,"{0:d}", new { @class = "form-control datePicker", placeholder = Html.DisplayNameFor(n => n.IsAvailableOnlineFrom) })
+        @Html.ValidationMessageFor(m => m.IsAvailableOnlineFrom)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsAvailableFromBoxOffice)
+        @Html.CheckBoxFor(m => m.IsAvailableFromBoxOffice, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.IsAvailableFromBoxOffice) })
+        @Html.ValidationMessageFor(m => m.IsAvailableFromBoxOffice)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsAvailableFromBoxOfficeFrom)
+        @Html.TextBoxFor(m => m.IsAvailableFromBoxOfficeFrom,"{0:d}", new { @class = "form-control datePicker", placeholder = Html.DisplayNameFor(n => n.IsAvailableFromBoxOfficeFrom) })
+        @Html.ValidationMessageFor(m => m.IsAvailableFromBoxOfficeFrom)
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Save Settings</button>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $(".datePicker").datepicker({ dateFormat: "dd/mm/yy" });
+        //date work around
+        $.validator.addMethod('date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                }
+
+                var ok = true;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                }
+                catch (err) {
+                    ok = false;
+                }
+                return ok;
+            });
+    });
+</script>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\UmbracoCms.7.7.0\build\UmbracoCms.props" Condition="Exists('..\packages\UmbracoCms.7.7.0\build\UmbracoCms.props')" />
+  <Import Project="..\packages\UmbracoCms.7.7.1\build\UmbracoCms.props" Condition="Exists('..\packages\UmbracoCms.7.7.1\build\UmbracoCms.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -62,9 +62,9 @@
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="businesslogic, Version=1.0.6470.38240, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="businesslogic, Version=1.0.6471.23331, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\businesslogic.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\businesslogic.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ClientDependency.Core, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -77,14 +77,14 @@
       <HintPath>..\packages\ClientDependency-Mvc5.1.8.0.0\lib\net45\ClientDependency.Core.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="cms, Version=1.0.6470.38240, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="cms, Version=1.0.6471.23332, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\cms.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\cms.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="controls, Version=1.0.6470.38241, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="controls, Version=1.0.6471.23333, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\controls.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\controls.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CookComputing.XmlRpcV2, Version=2.5.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
@@ -132,14 +132,14 @@
       <HintPath>..\packages\ImageProcessor.Web.4.8.3\lib\net45\ImageProcessor.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="interfaces, Version=1.0.6470.38233, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="interfaces, Version=1.0.6471.23324, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\interfaces.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\log4net.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Log4Net.Async, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
@@ -187,7 +187,7 @@
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.1559.20655, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\Microsoft.ApplicationBlocks.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -319,9 +319,9 @@
       <HintPath>..\packages\semver.1.1.2\lib\net451\Semver.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SQLCE4Umbraco, Version=1.0.6470.38241, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SQLCE4Umbraco, Version=1.0.6471.23333, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\SQLCE4Umbraco.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\SQLCE4Umbraco.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Stripe.net, Version=10.4.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -341,12 +341,12 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\System.Data.SqlServerCe.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\System.Data.SqlServerCe.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\System.Data.SqlServerCe.Entity.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\System.Data.SqlServerCe.Entity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -432,32 +432,32 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TidyNet, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\TidyNet.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\TidyNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="umbraco, Version=1.0.6470.38242, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="umbraco, Version=1.0.6471.23334, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\umbraco.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\umbraco.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Umbraco.Core, Version=1.0.6470.38234, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Umbraco.Core, Version=1.0.6471.23325, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\Umbraco.Core.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\Umbraco.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="umbraco.DataLayer, Version=1.0.6470.38239, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="umbraco.DataLayer, Version=1.0.6471.23331, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\umbraco.DataLayer.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\umbraco.DataLayer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="umbraco.editorControls, Version=1.0.6470.38247, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="umbraco.editorControls, Version=1.0.6471.23338, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\umbraco.editorControls.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\umbraco.editorControls.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="umbraco.MacroEngines, Version=1.0.6470.38247, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="umbraco.MacroEngines, Version=1.0.6471.23339, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\umbraco.MacroEngines.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\umbraco.MacroEngines.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Umbraco.ModelsBuilder">
@@ -468,19 +468,19 @@
       <HintPath>..\packages\Umbraco.ModelsBuilder.Api.3.0.6\lib\Umbraco.ModelsBuilder.Api.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="umbraco.providers, Version=1.0.6470.38241, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="umbraco.providers, Version=1.0.6471.23333, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\umbraco.providers.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\umbraco.providers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Umbraco.Web.UI, Version=1.0.6470.38248, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Umbraco.Web.UI, Version=1.0.6471.23340, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\Umbraco.Web.UI.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\Umbraco.Web.UI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="UmbracoExamine, Version=0.7.0.38241, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="UmbracoExamine, Version=0.7.0.23332, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.7.7.0\lib\net45\UmbracoExamine.dll</HintPath>
+      <HintPath>..\packages\UmbracoCms.Core.7.7.1\lib\net45\UmbracoExamine.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="UrlRewritingNet.UrlRewriter, Version=2.0.7.0, Culture=neutral, processorArchitecture=MSIL">
@@ -729,6 +729,18 @@
     <Content Include="Content\DataTables\css\responsive.jqueryui.min.css" />
     <Content Include="Content\DataTables\css\responsive.semanticui.css" />
     <Content Include="Content\DataTables\css\responsive.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\rowGroup.bootstrap.css" />
+    <Content Include="Content\DataTables\css\rowGroup.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\rowGroup.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\rowGroup.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\rowGroup.dataTables.css" />
+    <Content Include="Content\DataTables\css\rowGroup.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\rowGroup.foundation.css" />
+    <Content Include="Content\DataTables\css\rowGroup.foundation.min.css" />
+    <Content Include="Content\DataTables\css\rowGroup.jqueryui.css" />
+    <Content Include="Content\DataTables\css\rowGroup.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\rowGroup.semanticui.css" />
+    <Content Include="Content\DataTables\css\rowGroup.semanticui.min.css" />
     <Content Include="Content\DataTables\css\rowReorder.bootstrap.css" />
     <Content Include="Content\DataTables\css\rowReorder.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\rowReorder.bootstrap4.css" />
@@ -942,12 +954,9 @@
     <Content Include="Config\imageprocessor\security.config" />
     <Content Include="Config\imageprocessor\processing.config" />
     <Content Include="Config\imageprocessor\cache.config" />
-    <Content Include="Content\DataTables\css\semanticui.scss" />
-    <Content Include="Content\DataTables\css\mixins.scss" />
-    <Content Include="Content\DataTables\css\common.scss" />
+    <Content Include="Config\trees.config" />
     <Content Include="Media\Web.config" />
     <Content Include="Config\umbracoSettings.config" />
-    <Content Include="Config\trees.config" />
     <Content Include="Config\tinyMceConfig.config" />
     <Content Include="Config\scripting.config" />
     <Content Include="Config\metablogConfig.config" />
@@ -962,6 +971,9 @@
     <Content Include="Config\BaseRestExtensions.config" />
     <Content Include="Config\applications.config" />
     <Content Include="Config\404handlers.config" />
+    <Content Include="Content\DataTables\css\semanticui.scss" />
+    <Content Include="Content\DataTables\css\mixins.scss" />
+    <Content Include="Content\DataTables\css\common.scss" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Properties\PublishProfiles\WellsOperaticSociety.pubxml" />
@@ -1026,6 +1038,8 @@
     <Content Include="scripts\DataTables\dataTables.material.min.js" />
     <Content Include="scripts\DataTables\dataTables.responsive.js" />
     <Content Include="scripts\DataTables\dataTables.responsive.min.js" />
+    <Content Include="scripts\DataTables\dataTables.rowGroup.js" />
+    <Content Include="scripts\DataTables\dataTables.rowGroup.min.js" />
     <Content Include="scripts\DataTables\dataTables.rowReorder.js" />
     <Content Include="scripts\DataTables\dataTables.rowReorder.min.js" />
     <Content Include="scripts\DataTables\dataTables.scroller.js" />
@@ -1072,6 +1086,10 @@
     <Content Include="scripts\jquery.validate.unobtrusive.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\moment-with-locales.js" />
+    <Content Include="scripts\moment-with-locales.min.js" />
+    <Content Include="scripts\moment.js" />
+    <Content Include="scripts\moment.min.js" />
     <Content Include="scripts\ug-theme-tiles.js" />
     <Content Include="scripts\unitegallery.min.js" />
     <Content Include="Umbraco\Actions\delete.aspx" />
@@ -3694,7 +3712,6 @@
     <Content Include="Views\AdminSurface\ManageSeats.cshtml" />
     <Content Include="Views\Partials\AddSeatForm.cshtml" />
     <Content Include="Views\MacroPartials\AdminManageSeats.cshtml" />
-    <Content Include="Views\MacroPartials\DataTransfer.cshtml" />
     <Content Include="Views\MacroPartials\MembershipPreviousShows.cshtml" />
     <Content Include="Views\MacroPartials\ContactCard.cshtml" />
     <Content Include="Views\MembershipSurface\MembershipHistory.cshtml" />
@@ -3731,6 +3748,113 @@
     <Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap2.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap2-Fluid.cshtml" />
+    <Content Include="Views\MacroPartials\BoxOfficeInformation.cshtml" />
+    <Content Include="Views\AdminSurface\ManageFunctionSettings.cshtml" />
+    <Content Include="Views\MacroPartials\AdminManageFunctionSettings.cshtml" />
+    <Content Include="Views\MacroPartials\AdminManageBoxOfficeTimes.cshtml" />
+    <Content Include="Views\AdminSurface\ManageBoxOfficeTimes.cshtml" />
+    <Content Include="Views\Partials\AddBoxOfficeTimeForm.cshtml" />
+    <Content Include="uSync\data\DataType\alert-types\AlertTypes.config" />
+    <Content Include="uSync\data\DataType\approved-color\ApprovedColor.config" />
+    <Content Include="uSync\data\DataType\checkbox-list\CheckboxList.config" />
+    <Content Include="uSync\data\DataType\content-picker\ContentPicker.config" />
+    <Content Include="uSync\data\DataType\date-picker-with-time\DatePickerWithTime.config" />
+    <Content Include="uSync\data\DataType\date-picker\DatePicker.config" />
+    <Content Include="uSync\data\DataType\datetime-nullable\DateTimeNullable.config" />
+    <Content Include="uSync\data\DataType\dropdown-multiple\DropdownMultiple.config" />
+    <Content Include="uSync\data\DataType\dropdown\Dropdown.config" />
+    <Content Include="uSync\data\DataType\font-awesome-icons-dropdown\FontAwesomeIconsDropdown.config" />
+    <Content Include="uSync\data\DataType\function-image-cropper\FunctionImageCropper.config" />
+    <Content Include="uSync\data\DataType\function-type-dropdown-list\FunctionTypeDropdownList.config" />
+    <Content Include="uSync\data\DataType\image-cropper\ImageCropper.config" />
+    <Content Include="uSync\data\DataType\label\Label.config" />
+    <Content Include="uSync\data\DataType\list-view-content\ListViewContent.config" />
+    <Content Include="uSync\data\DataType\list-view-functions\ListViewFunctions.config" />
+    <Content Include="uSync\data\DataType\list-view-media\ListViewMedia.config" />
+    <Content Include="uSync\data\DataType\list-view-members\ListViewMembers.config" />
+    <Content Include="uSync\data\DataType\media-picker\MediaPicker.config" />
+    <Content Include="uSync\data\DataType\member-picker\MemberPicker.config" />
+    <Content Include="uSync\data\DataType\membership-types-dropdown-list\MembershipTypesDropdownList.config" />
+    <Content Include="uSync\data\DataType\multiple-media-picker\MultipleMediaPicker.config" />
+    <Content Include="uSync\data\DataType\numeric\Numeric.config" />
+    <Content Include="uSync\data\DataType\radiobox\Radiobox.config" />
+    <Content Include="uSync\data\DataType\related-links\RelatedLinks.config" />
+    <Content Include="uSync\data\DataType\richtext-editor\RichtextEditor.config" />
+    <Content Include="uSync\data\DataType\standard-grid-layout\StandardGridLayout.config" />
+    <Content Include="uSync\data\DataType\tags\Tags.config" />
+    <Content Include="uSync\data\DataType\textarea\Textarea.config" />
+    <Content Include="uSync\data\DataType\textstring\Textstring.config" />
+    <Content Include="uSync\data\DataType\true-false\Truefalse.config" />
+    <Content Include="uSync\data\DataType\upload\Upload.config" />
+    <Content Include="uSync\data\DocumentType\document\def.config" />
+    <Content Include="uSync\data\DocumentType\functions\def.config" />
+    <Content Include="uSync\data\DocumentType\functions\function\def.config" />
+    <Content Include="uSync\data\DocumentType\memberships\def.config" />
+    <Content Include="uSync\data\DocumentType\memberships\membership\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\admin\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\editorsection\add-member-to-function\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\editorsection\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\editorsection\manage-function-settings\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\editorsection\manage-vouchers\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\login\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\membersection\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\standard-page\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\standard-page\forgot-password\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\standard-page\manage-members\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\standard-page\manage-member\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\standard-page\manuals\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\standard-page\membership-report\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\standard-page\minutes\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\standard-page\previous-shows\def.config" />
+    <Content Include="uSync\data\DocumentType\shared\standard-page\reset-password\def.config" />
+    <Content Include="uSync\data\Languages\EnglishUnitedKingdom.config" />
+    <Content Include="uSync\data\macro\AdminAddMembersToFunction.config" />
+    <Content Include="uSync\data\macro\AdminManageBoxOfficeTimes.config" />
+    <Content Include="uSync\data\macro\AdminManageFunctions.config" />
+    <Content Include="uSync\data\macro\AdminManageFunctionSettings.config" />
+    <Content Include="uSync\data\macro\AdminManageLongServiceAwards.config" />
+    <Content Include="uSync\data\macro\AdminManageMember.config" />
+    <Content Include="uSync\data\macro\AdminManageMembers.config" />
+    <Content Include="uSync\data\macro\AdminManageSeats.config" />
+    <Content Include="uSync\data\macro\AdminManageVouchers.config" />
+    <Content Include="uSync\data\macro\AdminMembershipReport.config" />
+    <Content Include="uSync\data\macro\AdminReports.config" />
+    <Content Include="uSync\data\macro\BoxOfficeInformation.config" />
+    <Content Include="uSync\data\macro\ContactCard.config" />
+    <Content Include="uSync\data\macro\ContactUsForm.config" />
+    <Content Include="uSync\data\macro\DataTransferDelete.config" />
+    <Content Include="uSync\data\macro\ForgotPassword.config" />
+    <Content Include="uSync\data\macro\FunctionCards.config" />
+    <Content Include="uSync\data\macro\GoogleMap.config" />
+    <Content Include="uSync\data\macro\LoginStatus.config" />
+    <Content Include="uSync\data\macro\MailChimpNewsletterSignupClassic.config" />
+    <Content Include="uSync\data\macro\MailChimpNewsletterSignupHorizontal.config" />
+    <Content Include="uSync\data\macro\MembershipDisplayManuals.config" />
+    <Content Include="uSync\data\macro\MembershipDisplayMinutes.config" />
+    <Content Include="uSync\data\macro\MembershipHistory.config" />
+    <Content Include="uSync\data\macro\MembershipManageCards.config" />
+    <Content Include="uSync\data\macro\MembershipManageProfile.config" />
+    <Content Include="uSync\data\macro\MembershipManageSubscription.config" />
+    <Content Include="uSync\data\macro\MembershipPreviousShowsTimeline.config" />
+    <Content Include="uSync\data\macro\PictureCard.config" />
+    <Content Include="uSync\data\macro\PreviousProductions.config" />
+    <Content Include="uSync\data\macro\ResetPassword.config" />
+    <Content Include="uSync\data\macro\Search.config" />
+    <Content Include="uSync\data\macro\Sitemap.config" />
+    <Content Include="uSync\data\macro\Spacer.config" />
+    <Content Include="uSync\data\macro\SubscriptionForm.config" />
+    <Content Include="uSync\data\macro\WhatsOn.config" />
+    <Content Include="uSync\data\MediaType\file\def.config" />
+    <Content Include="uSync\data\MediaType\folder\def.config" />
+    <Content Include="uSync\data\MediaType\image\def.config" />
+    <Content Include="uSync\data\Template\404notfound\NotFound.config" />
+    <Content Include="uSync\data\Template\admin\Admin.config" />
+    <Content Include="uSync\data\Template\functionpage\FunctionPage.config" />
+    <Content Include="uSync\data\Template\login\Login.config" />
+    <Content Include="uSync\data\Template\membersection\MemberSection.config" />
+    <Content Include="uSync\data\Template\shared\Shared.config" />
+    <Content Include="uSync\data\Template\standardpage\StandardPage.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3753,6 +3877,7 @@
     <Compile Include="Helper\RenderActionInvokerAsync.cs" />
     <Compile Include="Helper\ViewHelpers.cs" />
     <Compile Include="Models\AddMembersToFunctionViewModel.cs" />
+    <Compile Include="Models\ManageBoxOfficeTimesViewModel.cs" />
     <Compile Include="Models\ManageLongServiceReportViewModel.cs" />
     <Compile Include="Models\ManageMembershipViewModel.cs" />
     <Compile Include="Models\ManageMemberViewModel.cs" />
@@ -3794,6 +3919,10 @@
       <Project>{08f29a53-bbc5-4cf2-8708-e889aa63e5bf}</Project>
       <Name>WellsOperaticSociety.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WellsOperaticSociety.PreCompiledViews\WellsOperaticSociety.PreCompiledViews.csproj">
+      <Project>{82c523b6-c3fb-4c9b-b05b-f3435591e47c}</Project>
+      <Name>WellsOperaticSociety.PreCompiledViews</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WellsOperaticSociety.Utilities\WellsOperaticSociety.Utilities.csproj">
       <Project>{52d4aa38-1a40-4406-9570-1225786a6f2f}</Project>
       <Name>WellsOperaticSociety.Utilities</Name>
@@ -3834,10 +3963,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\packages\UmbracoCms.7.7.0\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.7.0\build\UmbracoCms.props'))" />
-    <Error Condition="!Exists('..\packages\UmbracoCms.7.7.0\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.7.0\build\UmbracoCms.targets'))" />
+    <Error Condition="!Exists('..\packages\UmbracoCms.7.7.1\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.7.1\build\UmbracoCms.props'))" />
+    <Error Condition="!Exists('..\packages\UmbracoCms.7.7.1\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.7.1\build\UmbracoCms.targets'))" />
   </Target>
-  <Import Project="..\packages\UmbracoCms.7.7.0\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.7.0\build\UmbracoCms.targets')" />
+  <Import Project="..\packages\UmbracoCms.7.7.1\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.7.1\build\UmbracoCms.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

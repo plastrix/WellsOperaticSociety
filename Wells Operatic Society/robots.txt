@@ -1,9 +1,17 @@
 User-agent: *
 Disallow: /members/
+Disallow: /content/
+Disallow: /manage-function-vouchers/
+Disallow: /manage-function-settings/
 Disallow: /admin/
+Disallow: /membership-report/
 Disallow: /sitemap/
 Disallow: /404/
+Disallow: /search/
+Disallow: /login/
+Disallow: /forgot-password/
 Disallow: /reset-password/
+Disallow: /data-protection/
 Disallow: /umbraco/
 Disallow: /search/
 Sitemap: https://localhost:44300/sitemap.xml

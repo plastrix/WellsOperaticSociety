@@ -85,7 +85,7 @@
                     @foreach (var record in list)
                     {
                         <tr>
-                            <td>@record.Registration</td>
+                            <td>@record.Registration.ToUpper()</td>
                             <td>@record.Member.Name</td>
                         </tr>
                     }

@@ -112,6 +112,14 @@
     <Compile Include="Migrations\20170823164906_ef-core-init.designer.cs">
       <DependentUpon>20170823164906_ef-core-init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20170922140006_AddBoxOfficeTimes.cs" />
+    <Compile Include="Migrations\20170922140006_AddBoxOfficeTimes.designer.cs">
+      <DependentUpon>20170922140006_AddBoxOfficeTimes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20170922142030_BoxOfficeTimes-rename.cs" />
+    <Compile Include="Migrations\20170922142030_BoxOfficeTimes-rename.designer.cs">
+      <DependentUpon>20170922142030_BoxOfficeTimes-rename.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

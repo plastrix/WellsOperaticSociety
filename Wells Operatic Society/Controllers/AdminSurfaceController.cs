@@ -26,6 +26,7 @@ using WellsOperaticSociety.Web.Helper;
 using WellsOperaticSociety.Web.Models;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 using SortDirection = DataTables.AspNet.Core.SortDirection;
+using WellsOperaticSociety.Models.StandardModels;
 
 namespace WellsOperaticSociety.Web.Controllers
 {
@@ -666,6 +667,76 @@ namespace WellsOperaticSociety.Web.Controllers
             var dataPage = request.Length != -1 ? data.Skip(request.Start).Take(request.Length).ToList() : data;
             var response = DataTablesResponse.Create(request, list.Count, data.Count, dataPage);
             return new DataTablesJsonResult(response);
+        }
+
+        public ActionResult ManageFunctionSettings(int id)
+        {
+            DataManager dm = new DataManager();
+
+            var model = dm.GetFunctionSettings(id);
+
+            return PartialView("ManageFunctionSettings",model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateFunctionSettings(FunctionSettingsModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                DataManager dm = new DataManager();
+                var success = dm.UpdateFunctionSettings(model);
+                if (success)
+                {
+                    TempData["Message"] = "You have successfully update the settings. Pat yourself on the back for a job well done.";
+                    return RedirectToCurrentUmbracoPage($"id={model.FunctionId}");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "There was an error updating the settings. Let your poor website administrator know and buy them some chocolate in advance!";
+                }
+            }
+
+            return CurrentUmbracoPage();
+        }
+
+        public ActionResult ManageBoxOfficeTimes()
+        {
+            DataManager dm = new DataManager();
+            var model = new ManageBoxOfficeTimesViewModel();
+            model.BoxOfficeTime = new BoxOfficeTime();
+            model.BoxOfficeTimesList = dm.GetStillCurrentBoxOfficeOpeningTimes();
+            return PartialView("ManageBoxOfficeTimes",model);
+        }
+
+        [HttpPost]
+        public JsonResult AddBoxofficeTime(BoxOfficeTime model)
+        {
+            if (ModelState.IsValid)
+            {
+                DataManager dm = new DataManager();
+                var AddedEntity = dm.AddBoxOfficeTime(model);
+                if (AddedEntity != null)
+                {
+                    return Json(AddedEntity);
+                }
+            }
+            return Json("Error");
+        }
+
+        [HttpPost]
+        public JsonResult RemoveBoxofficeTime(int boxOfficeTimeId)
+        {
+            if (ModelState.IsValid)
+            {
+                DataManager dm = new DataManager();
+                var success = dm.RemoveBoxOfficeTime(boxOfficeTimeId);
+                if (success)
+                {
+                    return Json(new{ success = true });
+                }
+            }
+            return Json(new { success = false });
         }
     }
 }

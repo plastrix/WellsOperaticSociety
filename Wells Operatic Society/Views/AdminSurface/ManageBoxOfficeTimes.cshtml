@@ -1,0 +1,87 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<WellsOperaticSociety.Web.Models.ManageBoxOfficeTimesViewModel>
+
+@Html.Partial("AddBoxOfficeTimeForm",Model.BoxOfficeTime)
+<table class="table" id="dateTable">
+    <thead>
+        <tr>
+            <th>Date</th><th>Opening Time</th><th>Closing Time</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BoxOfficeTimesList)
+        {
+            <tr>
+                <td>@item.Date.ToString("D")</td><td>@item.OpeningTime.ToString(@"hh\:mm")</td><td>@item.ClosingTime.ToString(@"hh\:mm")</td><td><button class="remove-item" data-id="@item.BoxOfficeTimeId">Delete</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#dateTable").DataTable(
+            {
+                "paging": false,
+                "searching": false,
+                "order": [[0, 'asc'], [1, 'asc'], [2, 'asc']],
+                "columnDefs": [
+                    { "orderable": false, "targets": 3 }
+                ]
+            });
+    });
+    $(document).on('click', '.remove-item', function () {
+        let itemId = $(this).data('id');
+        var target = $(this);
+        $.ajax({
+            url: "@Url.Action("RemoveBoxofficeTime", "AdminSurface",null,Request.Url.Scheme)",
+            dataType: "json",
+            data: { boxOfficeTimeId: itemId },
+            method: "POST"
+        }).done(function (response) {
+            if (response.success) {
+                let t = $("#dateTable").DataTable();
+                t.row($(target).closest('tr')).remove().draw(false);
+            } else {
+                alert("An error occured!");
+            }
+        }).fail(function () {
+            alert("error");
+        });
+    });
+    function OnSuccess(response) {
+        var date = JSON.parse(JSON.stringify(response.Date), dateTimeRetriever);
+        var formattedDate = moment(date).format("DD MMMM YYYY");
+        var openingTime = JSON.parse(JSON.stringify(response.OpeningTime.Hours), timeRetriever);
+        var closingTime = JSON.parse(JSON.stringify(response.ClosingTime.Hours), timeRetriever);
+        let t = $("#dateTable").DataTable();
+        t.row.add([formattedDate, openingTime, closingTime, "<button class=\"remove-item\" data-id=\"" + response.BoxOfficeTimeId+"\">Delete</button>"]).draw(false);
+        //$("#DateList").append("<li>" + date + "</li>");
+    }
+
+    function OnFailure(response) {
+        alert(response);
+    }
+
+    function dateTimeRetriever(key, value) {
+        var a;
+        if (typeof value === 'string') {
+            a = /\/Date\((\d*)\)\//.exec(value);
+            if (a) {
+                return new Date(+a[1]);
+            }
+        }
+        return value;
+    }
+
+    function timeRetriever(key, value) {
+        var hours = ("0" + value).slice(-2);
+
+        var mins = "00";
+        //if (value.Minutes.length == 1) {
+        //    hours = '0' + value.Minutes;
+        //} else {
+        //    hours = value.Minutes;
+        //}
+        return hours + ':' + mins;
+    }
+</script>

@@ -15,5 +15,7 @@ namespace WellsOperaticSociety.Models.UmbracoModels
 
         public List<MemberRolesInShow> MemberRoles { get ; set; }
 
+
+
     }
 }

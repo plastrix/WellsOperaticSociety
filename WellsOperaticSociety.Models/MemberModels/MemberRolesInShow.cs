@@ -7,15 +7,15 @@ namespace WellsOperaticSociety.Models.MemberModels
     {
         public int MemberRolesInShowId { get; set; }
         [Display(Name = "Member")]
-        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "You must select a valid member")]
+        [Required(ErrorMessage = "You must select a valid member")]
         [Microsoft.Build.Framework.Required]
         public int? MemberId { get; set; }
-        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "You must supply a group")]
+        [Required(ErrorMessage = "You must supply a group")]
         [Microsoft.Build.Framework.Required]
         public string Group { get; set; }
         [Microsoft.Build.Framework.Required]
         public string Role { get; set; }
-        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "There is no function assigned. So we cannot add the user to the function")]
+        [Required(ErrorMessage = "There is no function assigned. So we cannot add the user to the function")]
         [Microsoft.Build.Framework.Required]
         public int FunctionId { get; set; }
         [NotMapped]

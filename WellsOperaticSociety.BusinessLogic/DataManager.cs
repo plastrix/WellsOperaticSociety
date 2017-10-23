@@ -27,6 +27,7 @@ using WellsOperaticSociety.Models.ReportModels;
 using Member = WellsOperaticSociety.Models.MemberModels.Member;
 using Task = System.Threading.Tasks.Task;
 using WellsOperaticSociety.Models;
+using WellsOperaticSociety.Models.StandardModels;
 
 namespace WellsOperaticSociety.BusinessLogic
 {
@@ -47,92 +48,98 @@ namespace WellsOperaticSociety.BusinessLogic
         public IPublishedContent GetFunctionListNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);
-            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "functions");
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == Functions.ModelTypeAlias);
         }
 
         public IPublishedContent GetLoginNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);
-            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "login");
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == Login.ModelTypeAlias);
         }
 
         public IPublishedContent GetMembersNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);
-            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "memberSection");
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == MemberSection.ModelTypeAlias);
         }
 
         public IPublishedContent GetPreviousShowsNode()
         {
             var membersNode = GetMembersNode();
-            return membersNode.Children.SingleOrDefault(m => m.DocumentTypeAlias == "previousShows");
+            return membersNode.Children.SingleOrDefault(m => m.DocumentTypeAlias == PreviousShows.ModelTypeAlias);
         }
 
         public IPublishedContent GetAdminNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);
-            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "admin");
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == Admin.ModelTypeAlias);
         }
 
 
         public IPublishedContent GetEditMemberAdminNode()
         {
             var adminNode = GetAdminNode();
-            return adminNode.Children.SingleOrDefault(m => m.DocumentTypeAlias == "manageMember");
+            return adminNode.Children.SingleOrDefault(m => m.DocumentTypeAlias == ManageMember.ModelTypeAlias);
         }
 
         public IPublishedContent GetEditMembersAdminNode()
         {
             var adminNode = GetAdminNode();
-            return adminNode.Children.SingleOrDefault(m => m.DocumentTypeAlias == "manageMembers");
+            return adminNode.Children.SingleOrDefault(m => m.DocumentTypeAlias == ManageMembers.ModelTypeAlias);
         }
 
         public IPublishedContent GetManualsNode()
         {
             var membersNode = GetMembersNode();
-            return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == "manuals");
+            return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == Manuals.ModelTypeAlias);
         }
 
         public IPublishedContent GetMinuetsNode()
         {
             var membersNode = GetMembersNode();
-            return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == "minutes");
+            return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == Minutes.ModelTypeAlias);
         }
 
         public IPublishedContent GetForgotPasswordNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);
-            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "forgotPassword");
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == Models.UmbracoModels.ForgotPassword.ModelTypeAlias);
         }
 
         public IPublishedContent GetResetPasswordNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);
-            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "resetPassword");
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == Models.UmbracoModels.ResetPassword.ModelTypeAlias);
         }
 
         public IPublishedContent GetEditorSectionNode()
         {
             UmbracoHelper helper = new UmbracoHelper(Umbraco);
-            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == "editorSection");
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == EditorSection.ModelTypeAlias);
         }
 
         public IPublishedContent GetAddMemberToFunctionNode()
         {
             var root = GetEditorSectionNode();
-            return root.Children.Single(m => m.DocumentTypeAlias == "addMemberToFunction");
+            return root.Children.Single(m => m.DocumentTypeAlias == AddMemberToFunction.ModelTypeAlias);
         }
 
         public IPublishedContent GetManageVouchersNode()
         {
             var root = GetEditorSectionNode();
-            return root.Children.Single(m => m.DocumentTypeAlias == "manageVouchers");
+            return root.Children.Single(m => m.DocumentTypeAlias == ManageVouchers.ModelTypeAlias);
         }
 
         public IPublishedContent GetMembershipReportNode()
         {
             var root = GetAdminNode();
-            return root.Children.Single(m => m.DocumentTypeAlias == "membershipReport");
+            return root.Children.Single(m => m.DocumentTypeAlias == MembershipReport.ModelTypeAlias);
+        }
+
+        public ManageFunctionSettings GetManageFunctionSettingsNode()
+        {
+            var root = GetEditorSectionNode();
+            return new ManageFunctionSettings(root.Children.Single(m => m.DocumentTypeAlias == ManageFunctionSettings.ModelTypeAlias));
         }
 
         public List<Function> GetUpcomingFunctions(int pageSize, int rowIndex)
@@ -165,14 +172,14 @@ namespace WellsOperaticSociety.BusinessLogic
             return funcListNode.Children.Count(n => n.GetPropertyValue<DateTime>("endDate").Date < DateTime.Now.Date && !n.GetPropertyValue<bool>("doNotShowInPastProductions"));
         }
 
-        public IList<IPublishedContent> GetManuals()
+        public IList<Document> GetManuals()
         {
-            return GetManualsNode().Children().ToList();
+            return GetManualsNode().Children().Select(x=>new Document(x)).ToList();
         }
 
-        public IList<IPublishedContent> GetMinuets()
+        public IList<Document> GetMinuets()
         {
-            return GetMinuetsNode().Children().ToList();
+            return GetMinuetsNode().Children().Select(x => new Document(x)).ToList();
         }
 
         public void AddOrUpdateMember(Member member, bool isAdmin = false)
@@ -575,6 +582,30 @@ namespace WellsOperaticSociety.BusinessLogic
 
         }
 
+        public bool UpdateFunctionSettings(FunctionSettingsModel model)
+        {
+            var function = ApplicationContext.Current.Services.ContentService.GetById(model.FunctionId);
+
+            if (function == null)
+            {
+                _log.Error($"Tried to update function with id {model.FunctionId} but it could not be found");
+                return false;
+            }
+            function.SetValue("ticketsAvailableOnline", model.IsAvailableOnline);
+            function.SetValue("ticketsAvailableOnlineFrom", model.IsAvailableOnlineFrom);
+            function.SetValue("ticketsAvailableFromTheBoxOfficeInPerson", model.IsAvailableFromBoxOffice);
+            function.SetValue("ticketsAvailableFromTheBoxOfficeFrom", model.IsAvailableFromBoxOfficeFrom);
+
+            var attempt = ApplicationContext.Current.Services.ContentService.SaveAndPublishWithStatus(function);
+
+            if(!attempt.Success)
+            {
+                _log.Error($"Attempt to updat function with id {model.FunctionId} failed with the result of {attempt.Result}");
+                return false;
+            }
+            return true;
+        }
+
         private List<MembershipReportModel> GetExpiredMembershipsForReport()
         {
             //inactive members
@@ -593,6 +624,8 @@ namespace WellsOperaticSociety.BusinessLogic
             members.ForEach(n => n.LatestMembershipType = GetLatestMembership(n.MemberId)?.MembershipType);
             return members;
         }
+
+
 
         #region DataContext
         public List<Models.MemberModels.Membership> GetMembershipsForUser(int memberId)
@@ -629,10 +662,16 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             using (var db = new DataContext())
             {
-                if(db.Memberships.Contains(membership))
+
+                if (db.Memberships.Any(m=>m.MembershipId == membership.MembershipId))
+                {
                     db.Memberships.Update(membership);
+                }
                 else
+                {
                     db.Memberships.Add(membership);
+                }
+                    
 
                 db.SaveChanges();
             }
@@ -1113,6 +1152,109 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
+        public BoxOfficeModel GetBoxOfficeFunctionInformation()
+        {
+            var boxOfficeModel = new BoxOfficeModel()
+            {
+                OpeningTimes = GetBoxOfficeOpeningTimes(),
+                FunctionsAvailable = GetAvailableFunctionsWithBoxOfficeAccess()
+            };
+
+            return boxOfficeModel;
+        }
+
+        public List<BoxOfficeTime> GetStillCurrentBoxOfficeOpeningTimes()
+        {
+            using (var db = new DataContext())
+            {
+                return db.BoxOfficeTimes.Where(m=>m.Date>=DateTime.UtcNow.Date).ToList();
+            }
+        }
+
+        private List<BoxOfficeTime> GetBoxOfficeOpeningTimes()
+        {
+            using (var db = new DataContext())
+            {
+                return db.BoxOfficeTimes.ToList();
+            }
+        }
+
+        private IEnumerable<Function> GetAvailableFunctionsWithBoxOfficeAccess()
+        {
+            var listOfCurrnetShowsWithBoxOffice = GetUpcomingFunctions(100, 0).Where(m => (m.TicketsAvailableFromTheBoxOfficeInPerson && (m.TicketsAvailableFromTheBoxOfficeFrom == null || m.TicketsAvailableFromTheBoxOfficeFrom <= DateTime.UtcNow)) ||
+                                                                                        (m.TicketsAvailableOnline && (m.TicketsAvailableOnlineFrom == null || m.TicketsAvailableOnlineFrom <= DateTime.UtcNow))
+                                                                                    );
+            return listOfCurrnetShowsWithBoxOffice;
+        }
+
+        public FunctionSettingsModel GetFunctionSettings(int id)
+        {
+            var model = new FunctionSettingsModel();
+            if (id == 0)
+            {
+                return model;
+            }
+            UmbracoHelper helper = new UmbracoHelper(Umbraco);
+
+            var function = new Function(helper.TypedContent(id));
+
+            if(function== null)
+            {
+                return model;
+            }
+
+            model.IsAvailableOnline = function.TicketsAvailableOnline;
+            model.IsAvailableOnlineFrom = function.TicketsAvailableOnlineFrom;
+            model.IsAvailableFromBoxOffice = function.TicketsAvailableFromTheBoxOfficeInPerson;
+            model.IsAvailableFromBoxOfficeFrom = function.TicketsAvailableFromTheBoxOfficeFrom;
+            model.FunctionId = id;
+
+            return model;
+        }
+        [HttpPost]
+        public BoxOfficeTime AddBoxOfficeTime(BoxOfficeTime entry)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var response = db.BoxOfficeTimes.Add(entry);
+                    db.SaveChanges();
+                    return response.Entity;
+                }
+            }
+            catch(Exception e)
+            {
+                _log.Error($"Error adding box office time entry", e);
+                return null;
+            }
+
+        }
+        [HttpPost]
+        public bool RemoveBoxOfficeTime(int id)
+        {
+            try
+            {
+                using (var db = new DataContext())
+                {
+                    var entity = db.BoxOfficeTimes.SingleOrDefault(m=>m.BoxOfficeTimeId == id);
+                    if (entity == null)
+                    {
+                        return true;
+                    }
+
+                    db.BoxOfficeTimes.Remove(entity);
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                _log.Error($"Error removing box office time entry", e);
+                return false;
+            }
+
+        }
         #endregion
 
         #region Robot and siitemap fuinctions

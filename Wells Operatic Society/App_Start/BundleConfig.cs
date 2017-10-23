@@ -29,7 +29,8 @@ namespace WellsOperaticSociety.Web
                 "~/scripts/gsdk-bootstrapswitch.js",
                 "~/scripts/bootstrap-select.js",
                 //"~/scripts/bootstrap-datepicker.js",
-                "~/scripts/jquery.tagsinput.js"));
+                "~/scripts/jquery.tagsinput.js",
+                "~/scripts/moment.min.js"));
 
             bundles.Add(new ScriptBundle("~/gsdCore").Include(
                 "~/scripts/get-shit-done.js"));

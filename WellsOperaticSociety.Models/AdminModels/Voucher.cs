@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Build.Framework;
-using WellsOperaticSociety.Models.MemberModels;
 using WellsOperaticSociety.Models.UmbracoModels;
 
 namespace WellsOperaticSociety.Models.AdminModels
@@ -18,7 +17,7 @@ namespace WellsOperaticSociety.Models.AdminModels
         [Required]
         public string Key { get; set; }
         [NotMapped]
-        public Models.MemberModels.Member Member { get; set; }
+        public MemberModels.Member Member { get; set; }
         [NotMapped]
         public Function Function { get; set; }
     }

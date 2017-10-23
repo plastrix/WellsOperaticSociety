@@ -1,0 +1,29 @@
+﻿@model WellsOperaticSociety.Models.StandardModels.BoxOfficeTime
+
+@using (Ajax.BeginForm("AddBoxOfficeTime", "AdminSurface", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess",
+    OnFailure = "OnFailure"
+}))
+{
+    <h1>Add date form</h1>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Date)
+        @Html.TextBoxFor(m => m.Date, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Date) })
+        @Html.ValidationMessageFor(m => m.Date)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.OpeningTime)
+        @Html.TextBoxFor(m => m.OpeningTime, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.OpeningTime) })
+        @Html.ValidationMessageFor(m => m.OpeningTime)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ClosingTime)
+        @Html.TextBoxFor(m => m.ClosingTime, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.ClosingTime) })
+        @Html.ValidationMessageFor(m => m.ClosingTime)
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Add</button>
+    </div>
+}

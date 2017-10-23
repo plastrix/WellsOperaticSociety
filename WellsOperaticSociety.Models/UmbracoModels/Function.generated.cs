@@ -161,5 +161,41 @@ namespace WellsOperaticSociety.Models.UmbracoModels
 		{
 			get { return this.GetPropertyValue<DateTime>("startDate"); }
 		}
+
+		///<summary>
+		/// Tickets available from the box office from: The date the tickets will be available from the box office. If it is not filled in and the Tickets available from the box office is checked it will assume that they are already available.
+		///</summary>
+		[ImplementPropertyType("ticketsAvailableFromTheBoxOfficeFrom")]
+		public System.Nullable<DateTime> TicketsAvailableFromTheBoxOfficeFrom
+		{
+			get { return this.GetPropertyValue<System.Nullable<DateTime>>("ticketsAvailableFromTheBoxOfficeFrom"); }
+		}
+
+		///<summary>
+		/// Tickets available from the box office in person: Are tickets being sold in the physical box office? If this is checked then this will show up in the list of shows the physical box office is serving.
+		///</summary>
+		[ImplementPropertyType("ticketsAvailableFromTheBoxOfficeInPerson")]
+		public bool TicketsAvailableFromTheBoxOfficeInPerson
+		{
+			get { return this.GetPropertyValue<bool>("ticketsAvailableFromTheBoxOfficeInPerson"); }
+		}
+
+		///<summary>
+		/// Tickets available online: Are tickets being sold online? If this is selected then it will show up in the list of shows the online box office is serving.
+		///</summary>
+		[ImplementPropertyType("ticketsAvailableOnline")]
+		public bool TicketsAvailableOnline
+		{
+			get { return this.GetPropertyValue<bool>("ticketsAvailableOnline"); }
+		}
+
+		///<summary>
+		/// Tickets available online from: The date the tickets will be available online from. If it is not filled in and the Tickets available online box is checked it will assume that they are already available.
+		///</summary>
+		[ImplementPropertyType("ticketsAvailableOnlineFrom")]
+		public System.Nullable<DateTime> TicketsAvailableOnlineFrom
+		{
+			get { return this.GetPropertyValue<System.Nullable<DateTime>>("ticketsAvailableOnlineFrom"); }
+		}
 	}
 }
