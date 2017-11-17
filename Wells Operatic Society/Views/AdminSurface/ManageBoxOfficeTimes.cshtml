@@ -4,14 +4,14 @@
 <table class="table" id="dateTable">
     <thead>
         <tr>
-            <th>Date</th><th>Opening Time</th><th>Closing Time</th><th></th>
+            <th>Date</th><th>Opening Time</th><th>Closing Time</th><th>Message</th><th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.BoxOfficeTimesList)
         {
             <tr>
-                <td>@item.Date.ToString("D")</td><td>@item.OpeningTime.ToString(@"hh\:mm")</td><td>@item.ClosingTime.ToString(@"hh\:mm")</td><td><button class="remove-item" data-id="@item.BoxOfficeTimeId">Delete</button></td>
+                <td>@item.Date.ToString("dd MMM yyyy")</td><td>@item.OpeningTime.ToString(@"hh\:mm")</td><td>@item.ClosingTime.ToString(@"hh\:mm")</td><td>@item.Message</td><td><button class="remove-item" data-id="@item.BoxOfficeTimeId">Delete</button></td>
             </tr>
         }
     </tbody>
@@ -19,13 +19,15 @@
 
 <script>
     $(document).ready(function () {
+        $.fn.dataTable.moment('DD MMM YYYY');
         $("#dateTable").DataTable(
             {
                 "paging": false,
                 "searching": false,
-                "order": [[0, 'asc'], [1, 'asc'], [2, 'asc']],
-                "columnDefs": [
-                    { "orderable": false, "targets": 3 }
+                "order": [[0, 'asc'], [1, 'asc']],
+                "colomnDefs": [
+                    { "targets": 0, "type": "datetime-moment" },
+                    { "targets": [2,3,4], "orderable": false }
                 ]
             });
     });
@@ -49,12 +51,13 @@
         });
     });
     function OnSuccess(response) {
-        var date = JSON.parse(JSON.stringify(response.Date), dateTimeRetriever);
-        var formattedDate = moment(date).format("DD MMMM YYYY");
-        var openingTime = JSON.parse(JSON.stringify(response.OpeningTime.Hours), timeRetriever);
-        var closingTime = JSON.parse(JSON.stringify(response.ClosingTime.Hours), timeRetriever);
+        let date = JSON.parse(JSON.stringify(response.Date), dateTimeRetriever);
+        let formattedDate = moment(date).format("DD MMM YYYY");
+        let openingTime = timeRetriever(response.OpeningTime.Hours, response.OpeningTime.Minutes);
+        let closingTime = timeRetriever(response.ClosingTime.Hours, response.ClosingTime.Minutes);
+        let message = response.Message;
         let t = $("#dateTable").DataTable();
-        t.row.add([formattedDate, openingTime, closingTime, "<button class=\"remove-item\" data-id=\"" + response.BoxOfficeTimeId+"\">Delete</button>"]).draw(false);
+        t.row.add([formattedDate, openingTime, closingTime, message, "<button class=\"remove-item\" data-id=\"" + response.BoxOfficeTimeId+"\">Delete</button>"]).draw(false);
         //$("#DateList").append("<li>" + date + "</li>");
     }
 
@@ -73,15 +76,9 @@
         return value;
     }
 
-    function timeRetriever(key, value) {
-        var hours = ("0" + value).slice(-2);
-
-        var mins = "00";
-        //if (value.Minutes.length == 1) {
-        //    hours = '0' + value.Minutes;
-        //} else {
-        //    hours = value.Minutes;
-        //}
+    function timeRetriever(hour, min) {
+        var hours = ("0" + hour).slice(-2);
+        var mins = ("0" + min).slice(-2);
         return hours + ':' + mins;
     }
 </script>

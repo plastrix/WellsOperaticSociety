@@ -1,7 +1,7 @@
 ﻿html {
     font-size: 100%;
-        /* Full height */
-    height: 100%; 
+    /* Full height */
+    height: 100%;
 }
 
 .parallax {
@@ -16,17 +16,16 @@
     background-position: center center;
 }
 
-.parallax .parallax-image {
-    width: 100%;
-    overflow: hidden;
-    position: absolute;
-}
+    .parallax .parallax-image {
+        width: 100%;
+        overflow: hidden;
+        position: absolute;
+    }
 
-.parallax .parallax-image img {
-    width: 100%;
-    position: relative;
-
-}
+        .parallax .parallax-image img {
+            width: 100%;
+            position: relative;
+        }
 
 @media (max-width: 768px) {
     .parallax .parallax-image {
@@ -35,10 +34,10 @@
         overflow: hidden;
     }
 
-    .parallax .parallax-image img {
-        height: 100%;
-        width: auto;
-    }
+        .parallax .parallax-image img {
+            height: 100%;
+            width: auto;
+        }
 }
 
 footer {
@@ -65,15 +64,15 @@ footer {
 }
 
 .section-title {
-  font-weight: 300;
-  display: inline-block;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #CCCCCC;
-  color: #999;
+    font-weight: 300;
+    display: inline-block;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #CCCCCC;
+    color: #999;
 }
 
 .section-dark {
-  background-color: #222;
+    background-color: #222;
 }
 
 .navbar-brand {
@@ -104,8 +103,8 @@ h2 .subtitle,
 h3 .subtitle,
 h4 .subtitle,
 h5 .subtitle {
-  display: block;
-  font-family: 'Grand Hotel',cursive;
+    display: block;
+    font-family: 'Grand Hotel',cursive;
 }
 
 body > .navbar-collapse ul {
@@ -123,9 +122,73 @@ body > .navbar-collapse ul {
 .section-no-padding-bottom {
     padding: 30px 0 0 !important;
 }
+
 .btn .fa {
-    margin-right:0.5rem;
+    margin-right: 0.5rem;
 }
+
 .uploaded-document {
     padding-bottom: 1em;
+}
+
+#boxOffice-times .date-entry {
+    border-top: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
+    margin-bottom:10px;
+    width:100%;
+    display:table;
+}
+
+    #boxOffice-times .date-entry .day-wrapper {
+        width: 60px;
+        display: table-cell;
+        text-align: center;
+        padding: 5px 0;
+        border-left: 5px solid #cccccc;
+        color: #888888;
+    }
+
+#boxOffice-times .date-entry .day-wrapper .day {
+    width:100%;
+    display:block;
+    font-size: 1.1rem;
+    font-weight:bold;
+
+}
+
+    #boxOffice-times .date-entry .day-wrapper .date {
+        width: 100%;
+        display: block;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    #boxOffice-times .date-entry .month-year-time-wrapper {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 1.2rem;
+        padding-left: 10px;
+        color: #888888
+    }
+        #boxOffice-times .date-entry .month-year-time-wrapper .message {
+            display: block;
+            font-size: 0.8rem;
+            background-color: #e3f7fc;
+            color: #555;
+            padding: 5px;
+            border: 1px solid #8ed9f6;
+            border-radius: 2px;
+        }
+
+        #boxOffice-times .date-entry .month-year-time-wrapper .time {
+            margin-left:10px;
+        }
+
+#boxOffice-no-dates {
+    font-size: 1rem;
+    color: #999;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.23);
+    padding:10px;
+    border-radius:5px;
+    border:1px solid #aaaaaa;
 }

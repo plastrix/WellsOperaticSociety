@@ -315,6 +315,7 @@
     <Compile Include="UmbracoModels\Manuals.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
     </Compile>
+    <Compile Include="UmbracoModels\Member.cs" />
     <Compile Include="UmbracoModels\Member.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
     </Compile>

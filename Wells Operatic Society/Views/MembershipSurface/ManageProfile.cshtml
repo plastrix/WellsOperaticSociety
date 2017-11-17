@@ -94,7 +94,7 @@
 <script type="text/javascript">
     $(document)
         .ready(function() {
-            $("#DateOfBirth").datepicker({ dateFormat: "dd/mm/yy" });
+            $("#@Html.IdFor(m=>m.Member.DateOfBirth)").datepicker({ dateFormat: "dd/mm/yy" });
             //date work around
             $.validator.addMethod('date',
                 function(value, element, params) {

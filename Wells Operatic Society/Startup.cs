@@ -2,7 +2,9 @@
 using Hangfire.Annotations;
 using Hangfire.Dashboard;
 using Microsoft.Owin;
+using Newtonsoft.Json;
 using Owin;
+using System.Collections.Generic;
 using System.Web;
 using Umbraco.Web;
 using WellsOperaticSociety.Web.HangFire;

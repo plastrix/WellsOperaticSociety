@@ -1156,7 +1156,7 @@ namespace WellsOperaticSociety.BusinessLogic
         {
             var boxOfficeModel = new BoxOfficeModel()
             {
-                OpeningTimes = GetBoxOfficeOpeningTimes(),
+                OpeningTimes = GetStillCurrentBoxOfficeOpeningTimes(),
                 FunctionsAvailable = GetAvailableFunctionsWithBoxOfficeAccess()
             };
 

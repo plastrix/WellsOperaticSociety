@@ -1,34 +1,54 @@
 ﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
-@{ 
+@{
     var dataManager = new WellsOperaticSociety.BusinessLogic.DataManager(Umbraco.UmbracoContext);
 
     var model = dataManager.GetBoxOfficeFunctionInformation();
+    var sortedList = model.OpeningTimes.OrderBy(m => m.Date).ThenBy(m => m.OpeningTime);
+    var midpoint = (int)Math.Ceiling((decimal)sortedList.Count() / 2);
+    var openingTimesList1 = sortedList.Take(midpoint).ToList();
+    var openingTimesList2 = sortedList.Skip(midpoint).ToList();
 }
-
-<h1>Box Office Information</h1>
-@if(model.OpeningTimes != null && model.OpeningTimes.Any())
+@helper BoxofficeTimeRow(WellsOperaticSociety.Models.StandardModels.BoxOfficeTime entry)
 {
-    <ul>
-    @foreach (var instance in model.OpeningTimes)
-    {
-        <li>@instance.Date.Date : @instance.OpeningTime.TimeOfDay : @instance.ClosingTime.TimeOfDay : @instance.Message</li>
-    }
-    </ul>
-}else{
-    <div class="alert alert-danger">The box office doesn't currently have any opening times</div>
+var message = entry.Message.IsNotNullOrEmpty() ? "<span class=\"message\">" + entry.Message + "</span>" : string.Empty;
+
+    <div class="col-md-6">
+        <div class="date-entry">
+        <div class="day-wrapper"><span class="day">@entry.Date.ToString("ddd")</span><span class="date">@entry.Date.Day</span></div> 
+            <div class="month-year-time-wrapper"><span class="date">@entry.Date.Date.ToString("MMM")</span><span class="time">@entry.OpeningTime.ToString(@"hh\:mm") - @entry.ClosingTime.ToString(@"hh\:mm")</span>@Html.Raw(message)</div>
+        </div>
+    </div>
 }
-
-<h1>Current Shows</h1>
-@if (model.FunctionsAvailable != null && model.FunctionsAvailable.Any())
+@if (model.OpeningTimes != null && model.OpeningTimes.Any())
 {
-    <ul>
-        @foreach (var function in model.FunctionsAvailable)
+    <div id="boxOffice-times">
+        @for (int i = 0; i < openingTimesList1.Count; i++)
         {
-            <li>@function.DisplayName : @function.TicketsAvailableOnline : @function.TicketsAvailableOnlineFrom : @function.TicketsAvailableFromTheBoxOfficeInPerson : @function.TicketsAvailableFromTheBoxOfficeFrom</li>
+            @BoxofficeTimeRow(openingTimesList1[i])
+            if (openingTimesList2.Count > i)
+            {
+                @BoxofficeTimeRow(openingTimesList2[i])
+            }
         }
-    </ul>
+    </div>
+
 }
 else
 {
-    <div class="alert alert-danger">The box office doesn't currently have any opening times</div>
+    <div id="boxOffice-no-dates">We do not have anyone scheduled to man the box office at the moment. Keep checking back to find out when we will be opening the floodgates.</div>
 }
+
+@*<h2><span class="section-title">Current Shows</span></h2>
+    @if (model.FunctionsAvailable != null && model.FunctionsAvailable.Any())
+    {
+        <ul>
+            @foreach (var function in model.FunctionsAvailable)
+            {
+                <li>@function.DisplayName : @function.TicketsAvailableOnline : @function.TicketsAvailableOnlineFrom : @function.TicketsAvailableFromTheBoxOfficeInPerson : @function.TicketsAvailableFromTheBoxOfficeFrom</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="alert alert-danger">The box office doesn't currently have any opening times</div>
+    }*@

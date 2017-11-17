@@ -705,6 +705,7 @@ namespace WellsOperaticSociety.Web.Controllers
             DataManager dm = new DataManager();
             var model = new ManageBoxOfficeTimesViewModel();
             model.BoxOfficeTime = new BoxOfficeTime();
+            model.BoxOfficeTime.Date = DateTime.Now;
             model.BoxOfficeTimesList = dm.GetStillCurrentBoxOfficeOpeningTimes();
             return PartialView("ManageBoxOfficeTimes",model);
         }

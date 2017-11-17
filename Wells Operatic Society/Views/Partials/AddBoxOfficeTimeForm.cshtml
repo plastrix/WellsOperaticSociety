@@ -10,7 +10,7 @@
     <h1>Add date form</h1>
     <div class="form-group">
         @Html.LabelFor(m => m.Date)
-        @Html.TextBoxFor(m => m.Date, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Date) })
+        @Html.TextBoxFor(m => m.Date, "{0:d}", new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Date) })
         @Html.ValidationMessageFor(m => m.Date)
     </div>
     <div class="form-group">
@@ -24,6 +24,55 @@
         @Html.ValidationMessageFor(m => m.ClosingTime)
     </div>
     <div class="form-group">
+        @Html.LabelFor(m => m.Message)
+        @Html.TextBoxFor(m => m.Message, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Message) })
+        @Html.ValidationMessageFor(m => m.Message)
+    </div>
+    <div class="form-group">
         <button type="submit" class="btn btn-default">Add</button>
     </div>
 }
+
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(m=>m.Date)").datepicker({ dateFormat: "dd/mm/yy" });
+
+        $("#@Html.IdFor(m=>m.OpeningTime)").timepicker({
+            step: 15,
+            show2400: true,
+            timeFormat: 'H:i',
+            'forceRoundTime': true
+        });
+
+        $("#@Html.IdFor(m=>m.ClosingTime)").timepicker({
+            step: 15,
+            show2400: true,
+            timeFormat: 'H:i',
+            'forceRoundTime': true
+        });
+
+        $("#@Html.IdFor(m=>m.OpeningTime)").timepicker('setTime', new Date());
+        $("#@Html.IdFor(m=>m.ClosingTime)").timepicker('setTime', new Date().addHours(2));
+
+        //date work around
+        $.validator.addMethod('date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                }
+
+                var ok = true;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                }
+                catch (err) {
+                    ok = false;
+                }
+                return ok;
+            });
+    });
+    Date.prototype.addHours = function (h) {
+        this.setHours(this.getHours() + h);
+        return this;
+    }
+</script>

@@ -20,7 +20,8 @@ namespace WellsOperaticSociety.Web
                 "~/scripts/datatables/dataTables.buttons.js",
                 "~/scripts/datatables/buttons.bootstrap.js",
                 "~/scripts/datatables/buttons.flash.js",
-                "~/scripts/datatables/buttons.html5.js"));
+                "~/scripts/datatables/buttons.html5.js",
+                "~/scripts/jquery.timepicker.min.js"));
 
             bundles.Add(new ScriptBundle("~/Plugins").Include(
                 //"~/scripts/gsdk-checkbox.js",
@@ -30,7 +31,8 @@ namespace WellsOperaticSociety.Web
                 "~/scripts/bootstrap-select.js",
                 //"~/scripts/bootstrap-datepicker.js",
                 "~/scripts/jquery.tagsinput.js",
-                "~/scripts/moment.min.js"));
+                "~/scripts/moment.min.js",
+                "~/scripts/datatables/dataTables.dateTime-moment.js"));
 
             bundles.Add(new ScriptBundle("~/gsdCore").Include(
                 "~/scripts/get-shit-done.js"));
@@ -44,7 +46,8 @@ namespace WellsOperaticSociety.Web
                 "~/Content/Site.css",
                 "~/Content/DocumentIcons.css",
                 "~/Content/DataTables/css/dataTables.bootstrap.css",
-                "~/Content/DataTables/css/buttons.bootstrap.css"));
+                "~/Content/DataTables/css/buttons.bootstrap.css",
+                "~/Content/jquery.timepicker.min.css"));
 
             BundleTable.EnableOptimizations = false;
         }

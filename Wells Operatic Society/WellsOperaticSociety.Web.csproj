@@ -787,6 +787,7 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\DocumentIcons.css" />
     <Content Include="Content\gsdk.css" />
+    <Content Include="Content\jquery.timepicker.min.css" />
     <Content Include="Content\normalize.css" />
     <Content Include="Content\pe-icon-7-stroke.css" />
     <Content Include="Content\Site.css" />
@@ -1024,6 +1025,7 @@
     <Content Include="scripts\DataTables\dataTables.buttons.min.js" />
     <Content Include="scripts\DataTables\dataTables.colReorder.js" />
     <Content Include="scripts\DataTables\dataTables.colReorder.min.js" />
+    <Content Include="scripts\DataTables\dataTables.dateTime-moment.js" />
     <Content Include="scripts\DataTables\dataTables.fixedColumns.js" />
     <Content Include="scripts\DataTables\dataTables.fixedColumns.min.js" />
     <Content Include="scripts\DataTables\dataTables.fixedHeader.js" />
@@ -1079,6 +1081,7 @@
     <Content Include="scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="scripts\jquery-3.1.0.min.map" />
     <None Include="scripts\jquery.validate-vsdoc.js" />
+    <Content Include="scripts\jquery.timepicker.min.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\jquery.validate.js" />
