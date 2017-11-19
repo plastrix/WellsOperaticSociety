@@ -120,6 +120,10 @@
     <Compile Include="Migrations\20170922142030_BoxOfficeTimes-rename.designer.cs">
       <DependentUpon>20170922142030_BoxOfficeTimes-rename.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20171119200448_BoxOfficeFieldTypes.cs" />
+    <Compile Include="Migrations\20171119200448_BoxOfficeFieldTypes.designer.cs">
+      <DependentUpon>20171119200448_BoxOfficeFieldTypes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
