@@ -34,9 +34,21 @@
                 <h4 class="modal-title">Select a member</h4>
             </div>
             <div class="modal-body">
-                <div>Just start typing and it will search for a member! You can enter their name or email. The first seach will take a while!</div>
+                <div>Just start typing and it will search for a member! You can enter their name or email. You need at least two characters!</div>
                 <div class="form-group">
                     @Html.TextBox("MemberAutoComlete", null, new {@class = "form-control", placeholder = "Start typing ..."})
+                    <div class="loading-wrapper" style="display:none;">
+                        <div class="lds-css ng-scope">
+                            <div style="width:100%;height:100%" class="lds-dual-ring">
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                     <div id="autoCompleteError" class="alert alert-danger" style="display: none;">Nothing was returned! <br/>The member might not exist or might not have a valid membership.</div>
                     @Html.Hidden("MemberAutoComleteId")
                 </div>
@@ -70,14 +82,18 @@
                     $('#MemberAutoComleteId').val(ui.item.value);
                     return false;
                 },
-                response: function(event, ui) {
-                    console.log(ui.content.length);
+                search: function (event, ui) {
+                    $(".loading-wrapper").show();
+                    $(".ui-autocomplete").hide();
+                    $("#autoCompleteError").hide();
+                },
+                response: function (event, ui) {
+                    $(".loading-wrapper").hide();
                     if (ui.content.length == 0) {
                         $("#autoCompleteError").show();
                     } else {
                         $("#autoCompleteError").hide();
                     }
-
                 }
             });
         $("#memberSelectModal")
@@ -85,6 +101,8 @@
                 function(e) {
                     $("#MemberAutoComlete").val('');
                     $("#MemberAutoComleteId").val('');
+                    $(".loading-wrapper").hide();
+                    $("#autoCompleteError").hide();
                 });
         $('#myModal').on('shown.bs.modal', function () {
             $('#MemberAutoComlete').focus();

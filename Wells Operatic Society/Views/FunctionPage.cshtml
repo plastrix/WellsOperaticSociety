@@ -48,7 +48,6 @@
 
         return document.DocumentNode.InnerHtml;
     }
-
 }
 
 <!doctype html>
@@ -141,7 +140,7 @@
         </div>
     </div>
 
-    @if (Model.GalleryImages.IsNotNullOrEmpty())
+    @if (Model.GalleryImages != null && Model.GalleryImages.Any())
     {
         <div class="section section-gray">
             <div class="container">
@@ -151,7 +150,7 @@
                         var index = 1;
                         foreach (var img in Model.GalleryImages)
                         {
-                            <img alt="@Model.DisplayName @index" src="img.Url"
+                            <img alt="@Model.DisplayName @index" src="@img.Url"
                                  data-image="@img.Url"
                                  data-description="@Model.DisplayName @index">
                             index++;

@@ -12,6 +12,12 @@ using WellsOperaticSociety.EmailService;
 using WellsOperaticSociety.Models.EmailModels;
 using WellsOperaticSociety.Models.Enums;
 using WellsOperaticSociety.Models.MemberModels;
+using Umbraco.Core;
+using System.Web;
+using System.Web.Hosting;
+using Umbraco.Web.Security;
+using Umbraco.Core.Configuration;
+using Umbraco.Web.Routing;
 
 namespace WellsOperaticSociety.Web.HangFire
 {
@@ -21,14 +27,17 @@ namespace WellsOperaticSociety.Web.HangFire
 
         public static void MembershipRenewalReminders()
         {
-            DataManager dm = new DataManager();
+            var httpContext = new HttpContextWrapper(HttpContext.Current ?? new HttpContext(new SimpleWorkerRequest("temp.aspx", "", new StringWriter())));
+
+            var context = UmbracoContext.EnsureContext(httpContext,ApplicationContext.Current,new WebSecurity(httpContext, ApplicationContext.Current),UmbracoConfig.For.UmbracoSettings(),UrlProviderResolver.Current.Providers,false);
+
+            DataManager dm = new DataManager(context);
             var members = dm.GetCurrentMemberships();
 
 
             var model = new MembershipRenewal();
             model.BaseUri = "https://www.wellslittletheatre.com";
             var subscriptionService = new StripeSubscriptionService(SensativeInformation.StripeKeys.SecretKey);
-            var dataManager = new DataManager();
             string price = string.Empty;
 
             //send reminder a week before
@@ -40,14 +49,14 @@ namespace WellsOperaticSociety.Web.HangFire
                             n.EndDate.Date == DateTime.UtcNow.Date.AddMonths(-1) ||
                             n.EndDate.Date == DateTime.UtcNow.Date.AddDays(-7)).ToList())
             {
-                var member = dataManager.GetMember(m.Member);
+                var member = dm.GetMember(m.Member);
                 if (member != null)
                 {
                     if (m.IsSubscription && m.StripeSubscriptionId != null)
                     {
                         try
                         {
-                            if (member.StripeUserId != null)
+                            if (member.StripeUserId.IsNotNullOrEmpty())
                             {
                                 var subscription = subscriptionService.Get(m.StripeSubscriptionId);
                                 price = (subscription.StripePlan.Amount/100m).ToString("N");
@@ -78,7 +87,13 @@ namespace WellsOperaticSociety.Web.HangFire
 
         public static void RenewLifeMembers()
         {
-            DataManager dm = new DataManager();
+
+            var httpContext = new HttpContextWrapper(HttpContext.Current ?? new HttpContext(new SimpleWorkerRequest("temp.aspx", "", new StringWriter())));
+
+            var context = UmbracoContext.EnsureContext(httpContext, ApplicationContext.Current, new WebSecurity(httpContext, ApplicationContext.Current), UmbracoConfig.For.UmbracoSettings(), UrlProviderResolver.Current.Providers, false);
+
+
+            DataManager dm = new DataManager(context);
             var memberships = dm.GetCurrentMemberships();
             foreach (var m in memberships)
             {
