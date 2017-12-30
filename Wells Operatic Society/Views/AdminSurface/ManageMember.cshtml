@@ -25,6 +25,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     @Html.HiddenFor(m => m.Member.Id)
+    @Html.HiddenFor(m=>m.Member.StripeUserId)
     <div class="form-group">
         @Html.LabelFor(m => m.Member.FirstName)
         @Html.TextBoxFor(m => m.Member.FirstName, new { @class = "form-control", placeholder = Html.DisplayNameFor(n => n.Member.FirstName) })
@@ -189,7 +190,7 @@
                             <td>@membership.MembershipTypeName</td>
                             <td>@membership.IsSubscription</td>
                             <td>
-                                @if (membership.IsSubscription)
+                                @if (membership.IsSubscription && membership.IsCurrentSubscription)
                                 {
                                     if (membership.CancelAtEnd && membership.StripeSubscriptionId.IsNotNullOrEmpty())
                                     {
@@ -210,7 +211,7 @@
                                 {
                                     @Html.HiddenFor(m => membership.MembershipId)
                                     <button type="submit" class="btn btn-danger btn-fill">Delete</button>
-                                    if (membership.IsSubscription)
+                                    if (membership.IsSubscription && membership.IsCurrentSubscription)
                                     {
                                         <div>Deleting the record will not cancel the subscription</div>
                                     }

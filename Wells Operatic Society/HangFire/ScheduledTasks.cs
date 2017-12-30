@@ -80,7 +80,8 @@ namespace WellsOperaticSociety.Web.HangFire
                         model);
 
                     EmailHelpers emailService = new EmailHelpers();
-                    emailService.SendEmail(member.GetContactEmail,"Membership renewal is comming up!",html);
+                    emailService.SendEmail(member.GetContactEmail,"Membership renewal is coming up!",html);
+                    Log.Info($"Renewal reminder sent to {member.Name}");
                 }
             }
         }

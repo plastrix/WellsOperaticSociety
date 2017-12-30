@@ -180,7 +180,7 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     paymentFailedModel.ReceiptId = i.ReceiptNumber;
                     paymentFailedModel.StartDate = i.PeriodStart.ToShortDateString();
                     paymentFailedModel.EndDate = i.PeriodEnd.ToShortDateString();
-                    paymentFailedModel.Amount = i.AmountDue.ToString("C");
+                    paymentFailedModel.Amount = (i.AmountDue/100).ToString("C");
 
                     viewData.Model = paymentFailedModel;
                     html = RazorHelpers.RenderRazorViewToString("~/Views/Emails/PaymentFailed.cshtml", controllerContext, viewData, tempData);
@@ -304,19 +304,22 @@ namespace WellsOperaticSociety.Web.StripeEvents
                 emailService.SendEmail("info@wellslittletheatre.com","Error creating membership for user from subscription", $"Tried to create a membership but could not convert the plan to the membershiptype for {member.Name} and stripe plan {subscription.StripePlan.Name}");
                 return;
             }
+            
+            var memberships = dataManager.GetMembershipsForUser(member.Id).Where(m => m.StripeSubscriptionId == subscription.Id);
+            var currentMembership = memberships.FirstOrDefault(m => m.IsCurrentSubscription);
+            var membershipAlreadyCoveringPeriod = memberships.FirstOrDefault(m => m.StartDate <= (subscription.CurrentPeriodStart ?? DateTime.Now.Date) && m.EndDate >= (subscription.CurrentPeriodEnd ?? DateTime.Now.Date));
             //if we already have a membership covering this subscription period update the plan
-            var membership =
-                    dataManager
-                        .GetMembershipsForUser(member.Id)
-                        .FirstOrDefault(m => m.StripeSubscriptionId == subscription.Id && m.StartDate <= (subscription.CurrentPeriodStart ?? DateTime.Now.Date) && m.EndDate >= (subscription.CurrentPeriodEnd ?? DateTime.Now.Date));
-
-            if (membership != null)
+            if (membershipAlreadyCoveringPeriod != null)
             {
-                membership.MembershipType = (MembershipType)membershipType;
-                dataManager.AddOrUpdateMembership(membership);
+                membershipAlreadyCoveringPeriod.MembershipType = (MembershipType)membershipType;
+                dataManager.AddOrUpdateMembership(membershipAlreadyCoveringPeriod);
             }
             else
             {
+                if(currentMembership != null)
+                {
+                    currentMembership.IsCurrentSubscription = false;
+                }
                 Membership m = new Membership
                 {
                     IsSubscription = true,
@@ -324,7 +327,8 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     StartDate = subscription.CurrentPeriodStart ?? DateTime.Now,
                     EndDate = subscription.CurrentPeriodEnd?.AddDays(-1).Date ?? DateTime.Now.AddYears(1).AddDays(-1).Date,
                     Member = member.Id,
-                    StripeSubscriptionId = subscription.Id
+                    StripeSubscriptionId = subscription.Id,
+                    IsCurrentSubscription = true
                 };
                 dataManager.AddOrUpdateMembership(m);
             }

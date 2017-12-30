@@ -20,7 +20,7 @@
                     <td>@membership.MembershipTypeName</td>
                     @*<td>@membership.IsSubscription</td>*@
                     <td>
-                        @if (membership.IsSubscription && membership.StripeSubscriptionId != null && membership.CancelAtEnd == false)
+                        @if (membership.IsSubscription && membership.StripeSubscriptionId != null && membership.CancelAtEnd == false && membership.IsCurrentSubscription)
                     {
                         using (Html.BeginUmbracoForm("CancelSubscription", "MembershipSurface"))
                         {

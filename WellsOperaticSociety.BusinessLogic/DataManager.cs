@@ -96,8 +96,8 @@ namespace WellsOperaticSociety.BusinessLogic
 
         public IPublishedContent GetMinuetsNode()
         {
-            var membersNode = GetMembersNode();
-            return membersNode.Children().SingleOrDefault(m => m.DocumentTypeAlias == Minutes.ModelTypeAlias);
+            UmbracoHelper helper = new UmbracoHelper(Umbraco);
+            return helper.TypedContentAtRoot().Single(m => m.DocumentTypeAlias == Minutes.ModelTypeAlias);
         }
 
         public IPublishedContent GetForgotPasswordNode()
