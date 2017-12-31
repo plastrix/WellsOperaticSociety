@@ -124,6 +124,10 @@
     <Compile Include="Migrations\20171119200448_BoxOfficeFieldTypes.designer.cs">
       <DependentUpon>20171119200448_BoxOfficeFieldTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20171230223334_SubscriptionFix.cs" />
+    <Compile Include="Migrations\20171230223334_SubscriptionFix.designer.cs">
+      <DependentUpon>20171230223334_SubscriptionFix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
