@@ -9,27 +9,29 @@
     var openingTimesList2 = sortedList.Skip(midpoint).ToList();
 }
 @helper BoxofficeTimeRow(WellsOperaticSociety.Models.StandardModels.BoxOfficeTime entry)
-{
-var message = entry.Message.IsNotNullOrEmpty() ? "<span class=\"message\">" + entry.Message + "</span>" : string.Empty;
+    {
+        var message = entry.Message.IsNotNullOrEmpty() ? "<span class=\"message\">" + entry.Message + "</span>" : string.Empty;
 
-    <div class="col-md-6">
         <div class="date-entry">
-        <div class="day-wrapper"><span class="day">@entry.Date.ToString("ddd")</span><span class="date">@entry.Date.Day</span></div> 
+            <div class="day-wrapper"><span class="day">@entry.Date.ToString("ddd")</span><span class="date">@entry.Date.Day</span></div>
             <div class="month-year-time-wrapper"><span class="date">@entry.Date.Date.ToString("MMM")</span><span class="time">@entry.OpeningTime.ToString(@"hh\:mm") - @entry.ClosingTime.ToString(@"hh\:mm")</span>@Html.Raw(message)</div>
         </div>
-    </div>
 }
 @if (model.OpeningTimes != null && model.OpeningTimes.Any())
 {
     <div id="boxOffice-times">
-        @for (int i = 0; i < openingTimesList1.Count; i++)
-        {
-            @BoxofficeTimeRow(openingTimesList1[i])
-            if (openingTimesList2.Count > i)
+        <div class="col-md-6">
+            @foreach (var info in openingTimesList1)
             {
-                @BoxofficeTimeRow(openingTimesList2[i])
+                @BoxofficeTimeRow(info)
             }
-        }
+        </div>
+        <div class="col-md-6">
+            @foreach (var info in openingTimesList2)
+            {
+                @BoxofficeTimeRow(info)
+            }
+        </div>
     </div>
 
 }
