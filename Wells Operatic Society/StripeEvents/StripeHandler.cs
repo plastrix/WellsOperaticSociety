@@ -307,7 +307,11 @@ namespace WellsOperaticSociety.Web.StripeEvents
             
             var memberships = dataManager.GetMembershipsForUser(member.Id).Where(m => m.StripeSubscriptionId == subscription.Id);
             var currentMembership = memberships.FirstOrDefault(m => m.IsCurrentSubscription);
-            var membershipAlreadyCoveringPeriod = memberships.FirstOrDefault(m => m.StartDate <= (subscription.CurrentPeriodStart ?? DateTime.Now.Date) && m.EndDate >= (subscription.CurrentPeriodEnd ?? DateTime.Now.Date));
+
+            var startDate = subscription.CurrentPeriodStart != null ? subscription.CurrentPeriodStart.Value.Date : DateTime.Now.Date;
+            var endDate = subscription.CurrentPeriodEnd != null ? subscription.CurrentPeriodEnd.Value.Date.AddDays(-1).Date : DateTime.Now.Date.AddYears(1).AddDays(-1).Date;
+
+            var membershipAlreadyCoveringPeriod = memberships.FirstOrDefault(m => m.StartDate.Date <= startDate && m.EndDate.Date >= endDate);
             //if we already have a membership covering this subscription period update the plan
             if (membershipAlreadyCoveringPeriod != null)
             {
@@ -319,13 +323,14 @@ namespace WellsOperaticSociety.Web.StripeEvents
                 if(currentMembership != null)
                 {
                     currentMembership.IsCurrentSubscription = false;
+                    dataManager.AddOrUpdateMembership(currentMembership);
                 }
                 Membership m = new Membership
                 {
                     IsSubscription = true,
                     MembershipType = (MembershipType)membershipType,
-                    StartDate = subscription.CurrentPeriodStart ?? DateTime.Now,
-                    EndDate = subscription.CurrentPeriodEnd?.AddDays(-1).Date ?? DateTime.Now.AddYears(1).AddDays(-1).Date,
+                    StartDate = startDate.Date,
+                    EndDate = endDate.Date,
                     Member = member.Id,
                     StripeSubscriptionId = subscription.Id,
                     IsCurrentSubscription = true
