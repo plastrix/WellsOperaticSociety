@@ -658,6 +658,19 @@ namespace WellsOperaticSociety.BusinessLogic
             }
         }
 
+        public void DeleteCurrentMembership(string stripeSubscriptionId)
+        {
+            using (var db = new DataContext())
+            {
+                var membership = db.Memberships.Where(m => m.StripeSubscriptionId == stripeSubscriptionId && m.IsCurrentSubscription == true).SingleOrDefault();
+                if (membership != null)
+                {
+                    db.Memberships.Remove(membership);
+                    db.SaveChanges();
+                }
+            }
+        }
+
         public void AddOrUpdateMembership(Models.MemberModels.Membership membership)
         {
             using (var db = new DataContext())

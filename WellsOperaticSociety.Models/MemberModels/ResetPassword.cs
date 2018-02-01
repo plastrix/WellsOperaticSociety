@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace WellsOperaticSociety.Models.MemberModels
 {
@@ -14,11 +15,13 @@ namespace WellsOperaticSociety.Models.MemberModels
         [Required(ErrorMessage = "Please enter a password")]
         [DataType(DataType.Password)]
         [MinLength(8,ErrorMessage = "Password must be at least 8 charachters long")]
+        [AllowHtml]
         public string Password { get; set; }
         [Display(Name = "Repeat Password")]
         [Required(ErrorMessage = "Please re-enter your password")]
         [DataType(DataType.Password)]
-        [Compare("Password",ErrorMessage = "Passwords do not match")]
+        [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage = "Passwords do not match")]
+        [AllowHtml]
         public string RepeatePassword { get; set; }
     }
 }

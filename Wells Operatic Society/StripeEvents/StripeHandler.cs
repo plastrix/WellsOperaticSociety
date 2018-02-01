@@ -118,8 +118,16 @@ namespace WellsOperaticSociety.Web.StripeEvents
                     _log.Info("Stripe Event: CustomerSubscriptionUpdated");
 
                     stripeSubscription = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString());
+                    //clear out memberships as active membership update gets sent through before payment is attempted to be taken
+                    //so have to clear out subscriptions if payment fails.
+                    if(stripeSubscription.Status == StripeSubscriptionStatuses.Canceled ||
+                        stripeSubscription.Status == StripeSubscriptionStatuses.Unpaid ||
+                        stripeSubscription.Status == StripeSubscriptionStatuses.PastDue)
+                    {
+                        DeleteMembership(stripeSubscription);
+                    }
                     //canacel if cancel at end of period set
-                    if (stripeSubscription.CancelAtPeriodEnd)
+                    else if (stripeSubscription.CancelAtPeriodEnd)
                     {
                         CancelMembership(stripeSubscription);
                         if (stripeSubscription.CustomerId.IsNullOrEmpty())
@@ -266,6 +274,29 @@ namespace WellsOperaticSociety.Web.StripeEvents
             {
                 _log.Error("There was an error retrieving the user from stripe. " + e.Message);
                 return null;
+            }
+        }
+
+        private void DeleteMembership(StripeSubscription subscription)
+        {
+            if (subscription == null)
+            {
+                _log.Error($"Tried to delete a membership but the subscription passed was null");
+                EmailHelpers emailService = new EmailHelpers();
+                emailService.SendEmail("info@wellslittletheatre.com", "Error deleting membership for user from subscription", $"Tried to delete a membership but the subscription passed was empty. So we will need to explore to see if anything needs to be done.");
+                return;
+            }
+            DataManager dataManager = new DataManager();
+            try
+            {
+                dataManager.DeleteCurrentMembership(subscription.Id);
+            }
+            catch(Exception e)
+            {
+                _log.Error($"Tried to delete a membership an error was thrown for the customer {subscription.CustomerId}",e);
+                EmailHelpers emailService = new EmailHelpers();
+                emailService.SendEmail("info@wellslittletheatre.com", "Error deleting a membership for user from subscription", $"Tried to delete a membership but an error was thrown. The message was {e.Message}");
+                return;
             }
         }
 
