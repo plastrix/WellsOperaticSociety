@@ -46,6 +46,7 @@ namespace WellsOperaticSociety.Web.HangFire
                     members.Where(
                         n =>
                             (n.IsSubscription == false || (n.IsSubscription && n.CancelAtEnd == false)) &&
+                            n.MembershipType != MembershipType.Life &&
                             n.EndDate.Date == DateTime.UtcNow.Date.AddMonths(-1) ||
                             n.EndDate.Date == DateTime.UtcNow.Date.AddDays(-7)).ToList())
             {
