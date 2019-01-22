@@ -18,7 +18,6 @@ namespace WellsOperaticSociety.EmailService
 				var fromEmailAddressDisplayName = fromName.IsNotNullOrEmpty() ? fromName : defaultEmailName;
 				MailMessage mailMsg = new MailMessage();
 				mailMsg.To.Add(toEmail);
-                mailMsg.Bcc.Add("info@wellslittletheatre.com");
 				mailMsg.From = new MailAddress(fromEmailAddress, fromEmailAddressDisplayName);
 				mailMsg.Subject = subject;
 
